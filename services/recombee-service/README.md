@@ -1,4 +1,10 @@
 
+
+# application.properties
+recombee.apiKey=your_recombee_api_key_here
+recombee.baseUrl=https://api.recombee.com
+
+
 ## Design Phase
 
 ### Objectives of the Recombee Sidecar:
