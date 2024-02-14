@@ -1,4 +1,4 @@
-package Events_MicroService;
+package org.ucalgary.events_microservice.Entity;
 
 public class Date {
     private int day;
