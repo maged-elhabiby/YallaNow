@@ -30,8 +30,18 @@ public class RecombeeClientImpl implements RecombeeClient {
     }
 
     @Override
-    public void deleteItem(String itemId) {
+    public void updateItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException {
+        response = client.send( new );
+    }
+
+    @Override
+    public void deleteItem(String itemId) throws R{
         response = client.send(new DeleteItem(itemId));
+    }
+
+    @Override
+    public Map<String, Object> getItem(String itemId) throws RecombeeClientException {
+        
     }
 
     private void handleResponseException(ResponseException e) {

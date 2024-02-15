@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/YallaNow.iml" filepath="$PROJECT_DIR$/.idea/YallaNow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/recombee-service/src/main/java/com/yallanow/testf/testf.iml" filepath="$PROJECT_DIR$/services/recombee-service/src/main/java/com/yallanow/testf/testf.iml" />
     </modules>
   </component>
 </project>
