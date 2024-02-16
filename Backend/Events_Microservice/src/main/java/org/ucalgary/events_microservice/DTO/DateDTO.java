@@ -1,11 +1,11 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_microservice.DTO;
 
-public class Date {
+public class DateDTO {
     private int day;
     private int month;
     private int year;
 
-    public Date(int day, int month, int year) {
+    public DateDTO(int day, int month, int year) {
         if (day < 1 || day > 31) {
             throw new IllegalArgumentException("Invalid day");
         }

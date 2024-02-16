@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_microservice.DTO;
 
 public enum EventStatus {
     Scheduled,

@@ -1,10 +1,10 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_microservice.DTO;
 
-public class Participant {
+public class ParticipantDTO {
     private int userid;
     private ParticipantStatus ParticipantStatus;
 
-    public Participant(int userid, ParticipantStatus ParticipantStatus) {
+    public ParticipantDTO(int userid, ParticipantStatus ParticipantStatus) {
         this.userid = userid;
         this.ParticipantStatus = ParticipantStatus;
     }

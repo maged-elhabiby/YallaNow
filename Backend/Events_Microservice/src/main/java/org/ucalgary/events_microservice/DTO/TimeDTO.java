@@ -1,11 +1,11 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_microservice.DTO;
 
-public class Time {
+public class TimeDTO {
     private int hour;
     private int minute;
     private int second;
 
-    public Time(int hour, int minute) {
+    public TimeDTO(int hour, int minute) {
         this.hour = hour;
         this.minute = minute;
         this.second = 0;

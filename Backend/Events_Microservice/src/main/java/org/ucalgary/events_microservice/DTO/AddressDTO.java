@@ -1,12 +1,12 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_microservice.DTO;
 
-public class Address {
+public class AddressDTO {
     private int street;
     private String city;
     private String province;
     private String country;
 
-    public Address(int street, String city, String province, String country) {
+    public AddressDTO(int street, String city, String province, String country) {
         this.street = street;
         this.city = city;
         this.province = province;
