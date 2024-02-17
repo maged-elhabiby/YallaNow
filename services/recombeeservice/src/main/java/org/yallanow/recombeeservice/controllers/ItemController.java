@@ -24,35 +24,34 @@ public class ItemsController {
     // Add a new item to Recombee
     @PostMapping
     public ResponseEntity<Item> addItem(@RequestBody Item item) {
-        Item createdItem = itemService.addItem(item);
+
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
 
     // Remove an item from Recombee
     @DeleteMapping("/{itemId}")
     public ResponseEntity<Void> deleteItem(@PathVariable String itemId) {
-        itemService.deleteItem(itemId);
+
         return ResponseEntity.noContent().build();
     }
 
     // Retrieve a list of items from Recombee
     @GetMapping
     public ResponseEntity<List<Item>> listItems() {
-        List<Item> items = itemService.listItems();
+
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     // Set properties for an item in Recombee
     @PostMapping("/{itemId}/values")
     public ResponseEntity<Void> setItemValues(@PathVariable String itemId, @RequestBody Map<String, Object> values) {
-        itemService.setItemValues(itemId, values);
+
         return ResponseEntity.ok().build();
     }
 
     // Retrieve property values of an item from Recombee
     @GetMapping("/{itemId}/values")
     public ResponseEntity<Map<String, Object>> getItemValues(@PathVariable String itemId) {
-        Map<String, Object> itemValues = itemService.getItemValues(itemId);
         return ResponseEntity.ok(itemValues);
     }
 }

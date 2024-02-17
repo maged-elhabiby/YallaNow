@@ -74,7 +74,4 @@ public class ValidatorUtil {
             default -> false; // Unknown type
         };
     }
-
-
-
 }
