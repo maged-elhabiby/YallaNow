@@ -8,8 +8,9 @@ public class ParticipantDTO {
 
     public ParticipantDTO() {}
 
-    public ParticipantDTO(int userid, ParticipantStatus ParticipantStatus) {
+    public ParticipantDTO(int userid,int event_id ,ParticipantStatus ParticipantStatus) {
         this.userid = userid;
+        this.eventid = event_id;
         this.ParticipantStatus = ParticipantStatus;
     }
 
