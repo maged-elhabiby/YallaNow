@@ -6,7 +6,6 @@ import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.Service.EventService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +28,17 @@ public class EventsController {
         return ResponseEntity.ok(events);
     }   
 
-    // @GetMapping("/GetEvent/{eventID}")
-    // public void retrieveEvent(@PathVariable int eventID) {
-    //     EventService.getEvent(eventID);
-    // }
+    @GetMapping("/GetEvent/{eventID}")
+    public ResponseEntity<?> retrieveEvent(@PathVariable int eventID) {
+        EventsEntity events = eventService.getEvent(eventID);
+        return ResponseEntity.ok(events);
+    }
 
-    // @PostMapping("/UpdateEvent")
-    // public void updateEvent(@RequestBody EventDTO eventID) {
-    //     EventService.createEvent(eventID);
-    // }
+    @PostMapping("/UpdateEvent")
+    public ResponseEntity<?> updateEvent(@RequestBody EventDTO event) {
+        EventsEntity events = eventService.updateEvent(event);
+        return ResponseEntity.ok(events);
+    }
 
     // @DeleteMapping("/DeleteEvent")
     // public void deleteEvent(@RequestBody int event) {

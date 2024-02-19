@@ -13,13 +13,30 @@ public class EventDTO {
     private TimeDTO eventStartTime;
     private TimeDTO eventEndTime;
     private EventStatus status;
-    private ArrayList<ParticipantDTO> participants;
     private int poll;
     private int capacity;
     
+    public EventDTO(){
+    }
+
+    public EventDTO(int eventID, int groupID, String eventTitle, String eventDescription, AddressDTO location, LocalDate eventDate,
+        TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status, int poll, int capacity) {
+        this.eventID = eventID;
+        this.groupID = groupID;
+        this.eventTitle = eventTitle;
+        this.eventDescription = eventDescription;
+        this.location = location;
+        this.eventDate = eventDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
+        this.status = status;
+        this.poll = poll;
+        this.capacity = capacity;
+    }
+
     // Below is an Event
     public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, LocalDate eventDate,
-        TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status) {
+        TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status, int poll, int capacity) {
 
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -29,58 +46,11 @@ public class EventDTO {
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.status = status;
-    }
-
-    public EventDTO(){
-        
-    }
-
-    // Below is an Event with a capacity
-    public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, 
-        TimeDTO eventStartTime, TimeDTO eventEndTime, EventStatus status,int capacity, ArrayList<ParticipantDTO> participants) {
-
-        this.groupID = groupID;
-        this.eventTitle = eventTitle;
-        this.eventDescription = eventDescription;
-        this.location = location;
-        this.eventStartTime = eventStartTime;
-        this.eventEndTime = eventEndTime;
-        this.status = status;
-        this.capacity = capacity;
-        this.participants = participants;
-    }
-
-    // Below is a Suggested Event
-    public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, 
-        TimeDTO eventStartTime, TimeDTO eventEndTime, EventStatus status, ArrayList<ParticipantDTO> participants, int poll) {
-
-        this.groupID = groupID;
-        this.eventTitle = eventTitle;
-        this.eventDescription = eventDescription;
-        this.location = location;
-        this.eventStartTime = eventStartTime;
-        this.eventEndTime = eventEndTime;
-        this.status = status;
-        this.participants = participants;
-        this.poll = poll;
-    }
-
-    // Below is a Suggested event with a capacity
-    public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, 
-        TimeDTO eventStartTime, TimeDTO eventEndTime, EventStatus status, ArrayList<ParticipantDTO> participants, int poll, int capacity) {
-
-        this.groupID = groupID;
-        this.eventTitle = eventTitle;
-        this.eventDescription = eventDescription;
-        this.location = location;
-        this.eventStartTime = eventStartTime;
-        this.eventEndTime = eventEndTime;
-        this.status = status;
-        this.participants = participants;
         this.poll = poll;
         this.capacity = capacity;
     }
 
+    
     // Getters
     public final int getAddressID() {return location.getAddressID();}
     public final int getStartTimeID() {return eventStartTime.getTimeID();}
@@ -94,7 +64,6 @@ public class EventDTO {
     public final TimeDTO getEventStartTime() {return eventStartTime;}
     public final TimeDTO getEventEndTime() {return eventEndTime;}
     public final EventStatus getStatus() {return status;}
-    public final ArrayList<ParticipantDTO> getParticipants() {return participants;}
     public final int getPoll() {return poll;}
     public final int getCapacity() {return capacity;}
 
@@ -107,7 +76,6 @@ public class EventDTO {
     public void setEventStartTime(final TimeDTO eventStartTime) {this.eventStartTime = eventStartTime;}
     public void setEventEndTime(final TimeDTO eventEndTime) {this.eventEndTime = eventEndTime;}
     public void setStatus(final EventStatus status) {this.status = status;}
-    public void setParticipants(final ArrayList<ParticipantDTO> participants) {this.participants = participants;}
     public void setPoll(final int poll) {this.poll = poll;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
 

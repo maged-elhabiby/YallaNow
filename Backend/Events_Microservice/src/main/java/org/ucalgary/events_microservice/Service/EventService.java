@@ -2,14 +2,14 @@ package org.ucalgary.events_microservice.Service;
 
 
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.Entity.TimeEntity;
-import org.ucalgary.events_microservice.Repository.AddressRepository;
 import org.ucalgary.events_microservice.Repository.EventRepository;
-import org.ucalgary.events_microservice.Repository.TimeRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -17,22 +17,22 @@ import jakarta.transaction.Transactional;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final AddressRepository addressRepository;
-    private final TimeRepository timeRepository;
+    private final TimeService timeService;
+    private final AddressService addressService;
 
-    public EventService(EventRepository eventRepository, AddressRepository AddressRepository, TimeRepository TimeRepository) {
+    public EventService(EventRepository eventRepository, AddressService addressService, TimeService timeService) {
         this.eventRepository = eventRepository;
-        this.addressRepository = AddressRepository;
-        this.timeRepository = TimeRepository;
+        this.timeService = timeService;
+        this.addressService = addressService;
     }
 
     @SuppressWarnings("null")
     @Transactional
     public EventsEntity createEvent(EventDTO event) {
         
-        AddressEntity address = createAddress(event);
-        TimeEntity startTime = createStartTime(event);
-        TimeEntity endTime = createEndTime(event);
+        AddressEntity address = addressService.createAddress(event);
+        TimeEntity startTime = timeService.createStartTime(event);
+        TimeEntity endTime = timeService.createEndTime(event);
 
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
@@ -49,49 +49,43 @@ public class EventService {
     }
 
     @Transactional
-    public AddressEntity createAddress(EventDTO event){
-        AddressEntity newAddress = new AddressEntity(event.getAddressID(),
-                                                     event.getLocation().getStreet(),
-                                                     event.getLocation().getCity(),
-                                                     event.getLocation().getProvince(),
-                                                     event.getLocation().getCountry());
-        return addressRepository.save(newAddress);
+    public EventsEntity updateEvent(EventDTO updatedEvent) {
+        EventsEntity oldEvent = null;
+        try {
+            oldEvent = getEvent(updatedEvent.getEventID());
+            if (oldEvent == null) {
+                throw new IllegalStateException("Event" + updatedEvent.getEventID() + "does not exist");
+            }
+        } catch (IllegalStateException e) {
+            return createEvent(updatedEvent);
+        }
+        
+        AddressEntity newAddress = addressService.updateAddress(updatedEvent);
+        TimeEntity newStartTime = timeService.updateStartTime(updatedEvent);
+        TimeEntity newEndTime = timeService.updateEndTime(updatedEvent);
+
+        oldEvent.setGroupId(updatedEvent.getGroupID());
+        oldEvent.setEventTitle(updatedEvent.getEventTitle());
+        oldEvent.setEventDescription(updatedEvent.getEventDescription());
+        oldEvent.setLocationId(newAddress.getAddressId());
+        oldEvent.setEventDate(updatedEvent.getEventDate());
+        oldEvent.setEventStartTimeId(newStartTime.getTimeID());
+        oldEvent.setEventEndTimeId(newEndTime.getTimeID());
+        oldEvent.setStatus(updatedEvent.getStatus());
+        oldEvent.setPoll(updatedEvent.getPoll());
+        oldEvent.setCapacity(updatedEvent.getCapacity());
+
+        return eventRepository.save(oldEvent);
     }
 
-    @Transactional
-    public TimeEntity createStartTime(EventDTO event){
-        TimeEntity newTime = new TimeEntity(event.getStartTimeID(),
-                                           event.getEventStartTime().getHour(),
-                                           event.getEventStartTime().getMinute());        
-        return timeRepository.save(newTime);
+    public EventsEntity getEvent(int event) {
+        Optional<EventsEntity> optionalEvent = eventRepository.findEventByEventId(event);
+        if (optionalEvent.isPresent()) {
+            return optionalEvent.get();
+        } else {
+            return null;
+        }
     }
-
-    @Transactional
-    public TimeEntity createEndTime(EventDTO event){
-        TimeEntity newTime = new TimeEntity(event.getEndTimeID(),
-                                event.getEventEndTime().getHour(),
-                                event.getEventEndTime().getMinute());
-        return timeRepository.save(newTime);
-    }
-
-    // @Transactional
-    // public void updateEvent(EventDTO updatedEvent) {
-    //     int eventID = updatedEvent.getEventID();
-    //     if (eventRepository.existsById(eventID)) {
-    //         eventRepository.save(updatedEvent);
-    //     } else {
-    //         throw new IllegalStateException("Event" + eventID +  "does not exist");
-    //     }
-    // }
-
-    // public static EventDTO getEvent(int event) {
-    //     Optional<EventDTO> optionalEvent = eventRepository.findColumnByEventID(event);
-    //     if (optionalEvent.isPresent()) {
-    //         return optionalEvent.get();
-    //     } else {
-    //         return null;
-    //     }
-    // }
 
     // public static void deleteEvent(int eventID) {
     //     if (eventRepository.existsById(eventID)){

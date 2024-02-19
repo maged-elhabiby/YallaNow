@@ -38,17 +38,20 @@ public class ParticipantEntity {
     public ParticipantEntity() {
     }
 
-    public ParticipantEntity(Integer userId, ParticipantStatus participantStatus) {
+    public ParticipantEntity(Integer userId, ParticipantStatus participantStatus, EventsEntity event) {
         this.userId = userId;
         this.participantStatus = participantStatus;
+        this.event = event;
     }
 
     // Getters and setters
     public Integer getParticipantId() {return participantId;}
     public Integer getUserId() {return userId;}
     public ParticipantStatus getParticipantStatus() {return participantStatus;}
+    public EventsEntity getEvent() {return event;}
 
     public void setParticipantId(Integer participantId) {this.participantId = participantId;}
     public void setUserId(Integer userId) {this.userId = userId;}
     public void setParticipantStatus(ParticipantStatus participantStatus) {this.participantStatus = participantStatus;}
+    public void setEvent(EventsEntity event) {this.event = event;}
 }
