@@ -1,43 +1,54 @@
 package org.ucalgary.events_microservice.Entity;
 
+import org.ucalgary.events_microservice.DTO.ParticipantStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 
 @Entity
-@Table(name = "event_participants")
-public class participantEntity {
+@Table(name = "participant")
+public class ParticipantEntity {
+
+    // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private int eventID;
-
-    @Column(name = "event_id")
-    private int groupID;
+    @Column(name = "participant_id")
+    private Integer participantId;
     @Column(name = "user_id")
-    private int participantID;
-    @Column(name = "status")
-    private String participantStatus;
-    
-    public participantEntity() {
+    private Integer userId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "participant_status")
+    private ParticipantStatus participantStatus;
+
+    // RelationShips
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private EventsEntity event;
+
+    // Constructors
+    public ParticipantEntity() {
     }
 
-    public participantEntity(int groupID, int participantID, String participantStatus) {
-        this.groupID = groupID;
-        this.participantID = participantID;
+    public ParticipantEntity(Integer userId, ParticipantStatus participantStatus) {
+        this.userId = userId;
         this.participantStatus = participantStatus;
     }
 
-    public int getEventID() {return eventID;}
-    public int getGroupID() {return groupID;}
-    public int getParticipantID() {return participantID;}
-    public String getParticipantStatus() {return participantStatus;}
+    // Getters and setters
+    public Integer getParticipantId() {return participantId;}
+    public Integer getUserId() {return userId;}
+    public ParticipantStatus getParticipantStatus() {return participantStatus;}
 
-    public void setGroupID(int groupID) {this.groupID = groupID;}
-    public void setParticipantID(int participantID) {this.participantID = participantID;}
-    public void setParticipantStatus(String participantStatus) {this.participantStatus = participantStatus;}
-
+    public void setParticipantId(Integer participantId) {this.participantId = participantId;}
+    public void setUserId(Integer userId) {this.userId = userId;}
+    public void setParticipantStatus(ParticipantStatus participantStatus) {this.participantStatus = participantStatus;}
 }

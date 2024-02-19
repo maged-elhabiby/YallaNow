@@ -1,10 +1,13 @@
 package org.ucalgary.events_microservice.DTO;
 
 public class AddressDTO {
+    private int addressID;
     private int street;
     private String city;
     private String province;
     private String country;
+
+    public AddressDTO() {}
 
     public AddressDTO(int street, String city, String province, String country) {
         this.street = street;
@@ -12,7 +15,7 @@ public class AddressDTO {
         this.province = province;
         this.country = country;
     }
-
+    public int getAddressID() {return addressID;}
     public int getStreet() {return street;}
     public String getCity() {return city;}
     public String getProvince() {return province;}

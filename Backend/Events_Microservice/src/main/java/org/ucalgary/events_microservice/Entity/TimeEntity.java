@@ -8,53 +8,34 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "time_db")
+@Table(name = "time")
 public class TimeEntity {
 
+    // Attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "time_id")
     private Integer timeId;
-
     @Column(name = "hour")
     private Integer hour;
-
     @Column(name = "minute")
     private Integer minute;
 
-    @Column(name = "second")
-    private Integer second;
-
-    // Getters and setters
-    public Integer getTimeId() {
-        return timeId;
+    // Constructors
+    public TimeEntity() {
     }
 
-    public void setTimeId(Integer timeId) {
-        this.timeId = timeId;
-    }
-
-    public Integer getHour() {
-        return hour;
-    }
-
-    public void setHour(Integer hour) {
+    public TimeEntity(Integer timeID, Integer hour, Integer minute) {
+        this.timeId = timeID;
         this.hour = hour;
-    }
-
-    public Integer getMinute() {
-        return minute;
-    }
-
-    public void setMinute(Integer minute) {
         this.minute = minute;
     }
 
-    public Integer getSecond() {
-        return second;
-    }
+    // Getters and setters
+    public Integer getTimeID() {return timeId;}
+    public Integer getHour() {return hour;}
+    public Integer getMinute() {return minute;}
 
-    public void setSecond(Integer second) {
-        this.second = second;
-    }
+    public void setHour(Integer hour) {this.hour = hour;}
+    public void setMinute(Integer minute) {this.minute = minute;}
 }

@@ -16,7 +16,7 @@ public class EventDTO {
     private ArrayList<ParticipantDTO> participants;
     private int poll;
     private int capacity;
-
+    
     // Below is an Event
     public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, LocalDate eventDate,
         TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status) {
@@ -29,6 +29,10 @@ public class EventDTO {
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.status = status;
+    }
+
+    public EventDTO(){
+        
     }
 
     // Below is an Event with a capacity
@@ -78,6 +82,9 @@ public class EventDTO {
     }
 
     // Getters
+    public final int getAddressID() {return location.getAddressID();}
+    public final int getStartTimeID() {return eventStartTime.getTimeID();}
+    public final int getEndTimeID() {return eventEndTime.getTimeID();}
     public final int getEventID() {return eventID;}
     public final int getGroupID() {return groupID;}
     public final String getEventTitle() {return eventTitle;}

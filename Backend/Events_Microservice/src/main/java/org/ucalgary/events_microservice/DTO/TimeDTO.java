@@ -1,16 +1,18 @@
 package org.ucalgary.events_microservice.DTO;
 
 public class TimeDTO {
+    private int timeID;
     private int hour;
     private int minute;
-    private int second;
 
+    public TimeDTO() {}
+    
     public TimeDTO(int hour, int minute) {
         this.hour = hour;
         this.minute = minute;
-        this.second = 0;
     }
 
+    public int getTimeID() {return timeID;}
     public int getHour() {return hour;}
     public int getMinute() {return minute;}
 
@@ -20,6 +22,6 @@ public class TimeDTO {
 
     @Override
     public String toString() {
-        return String.format("%02d:%02d:%02d", hour, minute, second);
+        return String.format("%02d:%02d", hour, minute);
     }
 }

@@ -1,15 +1,19 @@
 package org.ucalgary.events_microservice.DTO;
 
 public class ParticipantDTO {
+    private int participantID;
     private int userid;
     private int eventid;
     private ParticipantStatus ParticipantStatus;
+
+    public ParticipantDTO() {}
 
     public ParticipantDTO(int userid, ParticipantStatus ParticipantStatus) {
         this.userid = userid;
         this.ParticipantStatus = ParticipantStatus;
     }
 
+    public int getParticipantID() {return participantID;}
     public int getUserid() {return userid;}
     public int getEventid() {return eventid;}
     public ParticipantStatus getParticipantStatus() {return ParticipantStatus;}
