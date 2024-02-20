@@ -14,6 +14,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 
+/**
+ * ParticipantEntity, Used to Create and Store ParticipantEntity Objects in MySQL Database
+ */
 @Entity
 @Table(name = "participant")
 public class ParticipantEntity {

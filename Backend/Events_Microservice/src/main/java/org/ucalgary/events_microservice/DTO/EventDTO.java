@@ -1,9 +1,9 @@
 package org.ucalgary.events_microservice.DTO;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class EventDTO {
+    // Attributes
     private int eventID;
     private int groupID;
     private String eventTitle;
@@ -13,14 +13,17 @@ public class EventDTO {
     private TimeDTO eventStartTime;
     private TimeDTO eventEndTime;
     private EventStatus status;
-    private int poll;
+    private int count;
     private int capacity;
     
-    public EventDTO(){
-    }
+    // Constructors
+    public EventDTO(){}
 
-    public EventDTO(int eventID, int groupID, String eventTitle, String eventDescription, AddressDTO location, LocalDate eventDate,
-        TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status, int poll, int capacity) {
+    public EventDTO(int eventID, int groupID, 
+                    String eventTitle, String eventDescription, 
+                    AddressDTO location, LocalDate eventDate,
+                    TimeDTO eventStartTime, TimeDTO eventEndTime,
+                    EventStatus status, int count, int capacity) {
         this.eventID = eventID;
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -30,13 +33,15 @@ public class EventDTO {
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.status = status;
-        this.poll = poll;
+        this.count = count;
         this.capacity = capacity;
     }
 
-    // Below is an Event
-    public EventDTO(int groupID, String eventTitle, String eventDescription, AddressDTO location, LocalDate eventDate,
-        TimeDTO eventStartTime, TimeDTO eventEndTime,EventStatus status, int poll, int capacity) {
+    public EventDTO(int groupID, String eventTitle, 
+                    String eventDescription, AddressDTO location, 
+                    LocalDate eventDate, TimeDTO eventStartTime, 
+                    TimeDTO eventEndTime,EventStatus status, 
+                    int count, int capacity) {
 
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -46,7 +51,7 @@ public class EventDTO {
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.status = status;
-        this.poll = poll;
+        this.count = count;
         this.capacity = capacity;
     }
 
@@ -64,7 +69,7 @@ public class EventDTO {
     public final TimeDTO getEventStartTime() {return eventStartTime;}
     public final TimeDTO getEventEndTime() {return eventEndTime;}
     public final EventStatus getStatus() {return status;}
-    public final int getPoll() {return poll;}
+    public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
 
     // Setters
@@ -76,8 +81,6 @@ public class EventDTO {
     public void setEventStartTime(final TimeDTO eventStartTime) {this.eventStartTime = eventStartTime;}
     public void setEventEndTime(final TimeDTO eventEndTime) {this.eventEndTime = eventEndTime;}
     public void setStatus(final EventStatus status) {this.status = status;}
-    public void setPoll(final int poll) {this.poll = poll;}
+    public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
-
-    
 }

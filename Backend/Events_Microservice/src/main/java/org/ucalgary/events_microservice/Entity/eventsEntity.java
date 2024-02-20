@@ -19,6 +19,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+/**
+ * EventsEntity, Used to Create and Store EventsEntity Objects in MySQL Database
+ */
 @Entity
 @Table(name = "event_table")
 public class EventsEntity {
@@ -44,8 +47,8 @@ public class EventsEntity {
     private Integer eventEndTimeId;
     @Enumerated(EnumType.STRING)
     private EventStatus status;
-    @Column(name = "poll")
-    private Integer poll;
+    @Column(name = "count")
+    private Integer count;
     @Column(name = "capacity")
     private Integer capacity;
 
@@ -69,7 +72,11 @@ public class EventsEntity {
     public EventsEntity() {
     }
 
-    public EventsEntity(Integer eventId, Integer groupId, String eventTitle, String eventDescription, Integer locationId, LocalDate eventDate, Integer eventStartTimeId, Integer eventEndTimeId, EventStatus status, Integer poll, Integer capacity) {
+    public EventsEntity(Integer eventId, Integer groupId, 
+                        String eventTitle, String eventDescription, 
+                        Integer locationId, LocalDate eventDate, 
+                        Integer eventStartTimeId, Integer eventEndTimeId, 
+                        EventStatus status, Integer count, Integer capacity) {
         this.eventId = eventId;
         this.groupId = groupId;
         this.eventTitle = eventTitle;
@@ -79,7 +86,7 @@ public class EventsEntity {
         this.eventStartTimeId = eventStartTimeId;
         this.eventEndTimeId = eventEndTimeId;
         this.status = status;
-        this.poll = poll;
+        this.count = count;
         this.capacity = capacity;
     }
 
@@ -93,7 +100,7 @@ public class EventsEntity {
     public Integer getEventStartTimeId() {return eventStartTimeId;}
     public Integer getEventEndTimeId() {return eventEndTimeId;}
     public EventStatus getStatus() {return status;}
-    public Integer getPoll() {return poll;}
+    public Integer getCount() {return count;}
     public Integer getCapacity() {return capacity;}
 
     public void setEventId(Integer eventId) {this.eventId = eventId;}
@@ -105,8 +112,7 @@ public class EventsEntity {
     public void setEventStartTimeId(Integer eventStartTimeId) {this.eventStartTimeId = eventStartTimeId;}
     public void setEventEndTimeId(Integer eventEndTimeId) {this.eventEndTimeId = eventEndTimeId;}
     public void setStatus(EventStatus status) {this.status = status;}
-    public void setPoll(Integer poll) {this.poll = poll;}
+    public void setCount(Integer count) {this.count = count;}
     public void setCapacity(Integer capacity) {this.capacity = capacity;}
-
 }
 

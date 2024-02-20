@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * AddressEntity, Used to Create and Store AddressEntity Objects in MySQL Database
+ */
 @Entity
 @Table(name = "address")
 public class AddressEntity {
@@ -29,8 +32,8 @@ public class AddressEntity {
     public AddressEntity() {
     }
 
-    public AddressEntity(Integer addreddID, Integer street, String city, String province, String country) {
-        this.addressId = addreddID;
+    public AddressEntity(Integer addressId, Integer street, String city, String province, String country) {
+        this.addressId = addressId;
         this.street = street;
         this.city = city;
         this.province = province;

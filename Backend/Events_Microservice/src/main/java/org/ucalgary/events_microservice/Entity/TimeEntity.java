@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * TimeEntity, Used to Create and Store TimeEntity Objects in MySQL Database
+ */
 @Entity
 @Table(name = "time")
 public class TimeEntity {
