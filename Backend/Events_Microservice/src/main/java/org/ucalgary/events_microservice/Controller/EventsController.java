@@ -49,10 +49,10 @@ public class EventsController {
     }
 
     /**
-     * Get all Availble events i.e. any event that is schedulled and in the future
+     * Get all Available events i.e. any event that is scheduled and in the future
      * @return Response Entity with the list of events
      */
-    @PostMapping("/AllAvailbleEvents")
+    @PostMapping("/AllAvailableEvents")
     public ResponseEntity<?> getAllAvailableEvents() {
         List<EventsEntity> events = eventService.getAllAvailableEvents(); // getAllAvailableEvents(entity);
         return ResponseEntity.ok(events);

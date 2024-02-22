@@ -59,6 +59,12 @@ public class ParticipantController {
         return ResponseEntity.ok(participants);
     }
 
+    @GetMapping("/GetParticipantStatus/{userId}/{eventId}")
+    public ResponseEntity<?> getParticipantStatus(@PathVariable int userId, @PathVariable int eventId) {
+        String status = participantService.getParticipantStatus(userId, eventId).toString();
+        return ResponseEntity.ok(status);
+    }
+
     /**
      * Update a participant
      * @param participant

@@ -63,18 +63,20 @@ public class ParticipantService {
     }
 
     /**
-     * Retrieves a participant entity by its ID.
-     * @param participantID The ID of the participant to retrieve.
-     * @return The participant entity.
-     * @throws EntityNotFoundException if the participant with the given ID does not exist.
+     * Retrieves the status of a participant for an event.
+     * @param userId The ID of the user to retrieve the status for.
+     * @param eventId The ID of the event to retrieve the status for.
+     * @return The status of the participant for the event.
+     * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public ParticipantEntity getParticipantByID(int participantID){
-        Optional<ParticipantEntity> participant = participantRepository.findParticipantByParticipantId(participantID);
+    public ParticipantStatus getParticipantStatus(int userId, int eventId) {
+        Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userId, eventId);
         if (participant.isPresent()) {
-            return participant.get();
+            return participant.get().getParticipantStatus();
         } else {
-            throw new EntityNotFoundException("Participant with ID" + participantID + "does not exist");
+            throw new EntityNotFoundException("Participant with ID" + userId + 
+                                "did not sign up for Event with ID " + eventId);
         }
     }
 
@@ -90,8 +92,7 @@ public class ParticipantService {
         return participantEntities.stream().map(participant -> { // Map the participant entities to a list of event and status data
             EventsEntity event = participant.getEvent();
             ParticipantStatus status = participant.getParticipantStatus();
-            Map<String, Object> eventData = Map.of("event", event, "status", status);
-            return eventData;
+            return Map.of("event", event, "status", status);
         }).collect(Collectors.toList());
     }
 
@@ -103,7 +104,7 @@ public class ParticipantService {
     @Transactional
     public ArrayList<ParticipantEntity> getAllEventParticipants(int eventID) {
         Optional<ArrayList<ParticipantEntity>> optionalParticipants = participantRepository.findAllByEvent_EventId(eventID);
-        return optionalParticipants.get();
+        return optionalParticipants.orElseGet(ArrayList::new);
     }
 
     /**
@@ -114,10 +115,7 @@ public class ParticipantService {
     @Transactional
     public List<Map<Integer, String>> getAllParticipantsForEvent(EventDTO event) {
         ArrayList<ParticipantEntity> participants = getAllEventParticipants(event.getEventID());
-        return participants.stream().map(participant -> {
-            Map<Integer, String> participantData = Map.of(participant.getUserId(), participant.getParticipantStatus().toString());
-            return participantData;
-        }).collect(Collectors.toList());
+        return participants.stream().map(participant -> Map.of(participant.getUserId(), participant.getParticipantStatus().toString())).collect(Collectors.toList());
     }
 
     /**
@@ -125,6 +123,7 @@ public class ParticipantService {
      * @param eventID The ID of the event to retrieve participant count for.
      * @return The count of participants attending the event.
      */
+    @Transactional
     public int getParticipantCount(int eventID) {
         int count = 0;
         ArrayList<ParticipantEntity> participants = getAllEventParticipants(eventID);
@@ -144,28 +143,22 @@ public class ParticipantService {
      */
     @Transactional
     public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant) {
-        Optional<ParticipantEntity> newParticipant = participantRepository.findByUserIdAndEvent_EventId(oldParticipant.getUserid(), 
-                                                                                                    oldParticipant.getEventid());
+        Optional<ParticipantEntity> optionalParticipant = participantRepository.findByUserIdAndEvent_EventId(
+                oldParticipant.getUserid(),
+                oldParticipant.getEventid()
+        );
 
-        ParticipantEntity participant = newParticipant.get();
-        
-        if (participant == null) {
-            return addParticipantToEvent(oldParticipant); // If the participant does not exist, create a new one
-        }
+        return optionalParticipant.map(participant -> {
+            // Update event count based on participant status changes
+            ParticipantStatus newStatus = oldParticipant.getParticipantStatus();
+            updateEventCount(participant.getEvent(), participant.getParticipantStatus(), newStatus);
 
-        ParticipantStatus newStatus = oldParticipant.getParticipantStatus();
-
-        // Update event count based on participant status changes
-        updateEventCount(participant.getEvent(), 
-                        participant.getParticipantStatus(), 
-                        newStatus);
-
-        // Update participant fields
-        participant.setUserId(oldParticipant.getUserid());
-        participant.setParticipantStatus(newStatus);
-
-        return participantRepository.save(participant);
+            // Update participant fields
+            participant.setParticipantStatus(newStatus);
+            return participantRepository.save(participant);
+        }).orElseGet(() -> addParticipantToEvent(oldParticipant));
     }
+
 
     /**
      * Deletes a participant from an event.
@@ -173,17 +166,19 @@ public class ParticipantService {
      * @param eventID The ID of the event from which to delete the participant.
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
-    @SuppressWarnings("null")
     @Transactional
     public void deleteParticipant(int userID, int eventID) {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userID, eventID);
 
-        if(participant == null){
-            throw new EntityNotFoundException("Participant with user ID " + userID + " and event ID " + eventID + " does not exist");
-        }
-        participantRepository.deleteById(participant.get().getParticipantId());
-    }     
-    
+        participant.ifPresentOrElse(
+                p -> participantRepository.deleteById(p.getParticipantId()),
+                () -> {
+                    throw new EntityNotFoundException("Participant with user ID " + userID + " and event ID " + eventID + " does not exist");
+                }
+        );
+    }
+
+
     /**
      * Updates the count of participants for an event based on status changes.
      * @param event The event for which to update the count.
@@ -191,7 +186,6 @@ public class ParticipantService {
      * @param newStatus The new status of the participant.
      * @throws IllegalStateException if the event has reached its capacity.
      */
-    @SuppressWarnings("null")
     private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus) {
         if (newStatus != oldStatus) { // If the status has changed
 

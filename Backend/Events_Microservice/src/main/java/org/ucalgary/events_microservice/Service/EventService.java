@@ -71,7 +71,7 @@ public class EventService {
      */
     @Transactional
     public EventsEntity updateEvent(EventDTO updatedEvent) {
-        EventsEntity oldEvent = null;
+        EventsEntity oldEvent;
         try {
             oldEvent = getEvent(updatedEvent.getEventID()); // Check if the event exists
             if (oldEvent == null) {
@@ -109,12 +109,12 @@ public class EventService {
      * @return The event entity.
      * @throws EntityNotFoundException if the event with the given ID does not exist.
      */
-    public EventsEntity getEvent(int event) {
-        Optional<EventsEntity> optionalEvent = eventRepository.findEventByEventId(event); // Check if the event exists
+    public EventsEntity getEvent(int eventID) {
+        Optional<EventsEntity> optionalEvent = eventRepository.findEventByEventId(eventID); // Check if the event exists
         if (optionalEvent.isPresent()) {
             return optionalEvent.get(); // Return the event
         } else {
-            throw new EntityNotFoundException("Event with ID " + event + " does not exist");
+            throw new EntityNotFoundException("Event with ID " + eventID + " does not exist");
         }
     }
 
@@ -126,7 +126,7 @@ public class EventService {
     @Transactional
     public ArrayList<EventsEntity> getEventsByGroup(int groupID) {
         Optional<ArrayList<EventsEntity>> optionalEvents = eventRepository.findEventsByGroupId(groupID); // Check if there are any events in a certain group
-        return optionalEvents.get();
+        return optionalEvents.orElse(null);
     }
 
     /**
@@ -138,7 +138,7 @@ public class EventService {
         List<EventsEntity> events = eventRepository.findAll();
 
         events.removeIf(event -> event.getStatus() != EventStatus.Scheduled || event.getEventDate().isBefore(LocalDate.now()));
-        return events; // Return all All Events that are Scheduled and that are not in the past.
+        return events; // Return all Events that are Scheduled and that are not in the past.
     }
 
     /**
@@ -174,12 +174,9 @@ public class EventService {
         if(event.getCapacity() < 0) { // Check if the event capacity is negative
             return false;
         }
-        if(event.getStatus() != EventStatus.Scheduled &&  // Check if the event status is invalid
-            event.getStatus() != EventStatus.Cancelled &&
-            event.getStatus() != EventStatus.Completed &&
-            event.getStatus() != EventStatus.Suggested){    
-            return false;
-        }
-        return true;
+        return event.getStatus() == EventStatus.Scheduled ||  // Check if the event status is invalid
+                event.getStatus() == EventStatus.Cancelled ||
+                event.getStatus() == EventStatus.Completed ||
+                event.getStatus() == EventStatus.Suggested;
     }
 }
