@@ -40,9 +40,7 @@ public class EventService {
      */
     @Transactional
     public EventsEntity createEvent(EventDTO event) {
-        if(!checkEvent(event)) {
-            throw new IllegalStateException("Invalid event"); // Invalid event
-        }
+        checkEvent(event); // Check if the event is valid
 
         AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
         TimeEntity startTime = timeService.createStartTime(event);  // Add the Start Time to the DataBase
@@ -81,9 +79,7 @@ public class EventService {
             return createEvent(updatedEvent); // If the event does not exist, create it
         }
 
-        if(!checkEvent(updatedEvent)) {
-            throw new IllegalStateException("Invalid event"); // Invalid Updated event
-        }
+        checkEvent(updatedEvent); // Check if the event is valid
         
         AddressEntity newAddress = addressService.updateAddress(updatedEvent); // Update the Address in the DataBase
         TimeEntity newStartTime = timeService.updateStartTime(updatedEvent); // Update the Start Time in the DataBase
@@ -163,20 +159,16 @@ public class EventService {
      * @param event The event DTO to validate.
      * @return true if the event is valid, false otherwise.
      */
-    public Boolean checkEvent(EventDTO event) {
+    public void checkEvent(EventDTO event) {
         LocalDate today = LocalDate.now();
         if (event.getEventDate().isBefore(today)) { // Check if the event is in the past
-            return false;
+            throw new IllegalArgumentException("You can't make an event in the past");
         }
         if (event.getEventStartTime().isAfter(event.getEventEndTime())) { // Check if the event start time is after the end time
-            return false;
+            throw new IllegalArgumentException("Start time can't be after end time");
         } 
         if(event.getCapacity() < 0) { // Check if the event capacity is negative
-            return false;
+            throw new IllegalArgumentException("Capacity can't be negative");
         }
-        return event.getStatus() == EventStatus.Scheduled ||  // Check if the event status is invalid
-                event.getStatus() == EventStatus.Cancelled ||
-                event.getStatus() == EventStatus.Completed ||
-                event.getStatus() == EventStatus.Suggested;
     }
 }

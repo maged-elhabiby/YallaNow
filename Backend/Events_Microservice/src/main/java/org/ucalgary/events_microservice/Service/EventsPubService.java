@@ -47,7 +47,11 @@ public class EventsPubService {
             for (EventsEntity event : eventsList) {
                 String jsonMessage = objectMapper.writeValueAsString(event); // Convert the event to a JSON string.
                 ByteString data = ByteString.copyFromUtf8(jsonMessage); // Convert the JSON string to a ByteString.
-                PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build(); // Create a PubsubMessage using the ByteString.
+
+                PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                                                            .setData(data)
+                                                            .putAttributes("operationType","GET")
+                                                            .build(); // Create a PubsubMessage using the ByteString.
 
                 ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage); // Publish the message to the Pub/Sub.
                 messageIds.add(messageIdFuture);
