@@ -1,8 +1,8 @@
-package main.java.org.ucalgary.images_microservice.Service;
+package org.ucalgary.images_microservice.Service;
 
-import main.java.org.ucalgary.images_microservice.Entity.Image;
-import main.java.org.ucalgary.images_microservice.Repository.ImageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ucalgary.images_microservice.DTO.ImageDTO;
+import org.ucalgary.images_microservice.Entity.ImageEntity;
+import org.ucalgary.images_microservice.Repository.ImageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,33 +12,40 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    @Autowired
     public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
 
-    public Image addImage(String imageLink) {
-        Image image = new Image(imageLink);
+    public ImageEntity addImage(ImageDTO imageDTO) {
+        ImageEntity image = new ImageEntity(imageDTO.getImageLink());
         return imageRepository.save(image);
     }
 
-    public Image getImage(int imageId) {
-        Optional<Image> optionalImage = imageRepository.findById(imageId);
+    public ImageEntity getImage(int imageId) {
+        Optional<ImageEntity> optionalImage = imageRepository.findById(imageId);
         return optionalImage.orElse(null);
     }
 
-    public Image updateImage(int imageId, String newImageLink) {
-        Optional<Image> optionalImage = imageRepository.findById(imageId);
+    public ImageEntity updateImage(int imageId, String newImageLink) {
+        Optional<ImageEntity> optionalImage = imageRepository.findById(imageId);
         if (optionalImage.isPresent()) {
-            Image image = optionalImage.get();
+            ImageEntity image = optionalImage.get();
             image.setImageLink(newImageLink);
             return imageRepository.save(image);
+        } else {
+            throw new IllegalArgumentException("Image not found");
         }
-        return null;
-    }
+    }    
 
     public void deleteImage(int imageId) {
-        imageRepository.deleteById(imageId);
+        Optional<ImageEntity> optionalImage = imageRepository.findById(imageId);
+        if (optionalImage.isPresent()) {
+            ImageEntity image = optionalImage.get();
+            imageRepository.delete(image);
+        }
+        else {
+            throw new IllegalArgumentException("Image not found");
+        }
     }
     
 }

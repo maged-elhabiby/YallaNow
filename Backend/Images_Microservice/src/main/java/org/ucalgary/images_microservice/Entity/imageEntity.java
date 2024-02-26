@@ -1,31 +1,31 @@
-package main.java.org.ucalgary.images_microservice.Entity;
+package org.ucalgary.images_microservice.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 
 @Entity
-public class Image {
+public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int imageId;
-    private String imageLink;
+    private int image_id;
+    private String image_link;
 
-    protected Image() {}
+    protected ImageEntity() {}
 
-    public Image(String imageLink) {
-        this.imageLink = imageLink;
+    public ImageEntity(String image_link) {
+        this.image_link = image_link;
     }
 
-    public Image(int imageId, String imageLink) {
-        this.imageId = imageId;
-        this.imageLink = imageLink;
+    public ImageEntity(int image_id, String image_link) {
+        this.image_id = image_id;
+        this.image_link = image_link;
     }
 
-    public int getImageId() {return imageId;}
-    public String getImageLink() {return imageLink;}
+    public int getImageId() {return image_id;}
+    public String getImageLink() {return image_link;}
 
-    public void setImageId(int imageId) {this.imageId = imageId;}
-    public void setImageLink(String imageLink) {this.imageLink = imageLink;}
+    public void setImageId(int image_id) {this.image_id = image_id;}
+    public void setImageLink(String image_link) {this.image_link = image_link;}
 }

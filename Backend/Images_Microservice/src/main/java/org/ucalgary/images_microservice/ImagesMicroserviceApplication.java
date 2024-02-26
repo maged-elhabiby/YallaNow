@@ -1,4 +1,4 @@
-package ucalgary.images_microservice;
+package org.ucalgary.images_microservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

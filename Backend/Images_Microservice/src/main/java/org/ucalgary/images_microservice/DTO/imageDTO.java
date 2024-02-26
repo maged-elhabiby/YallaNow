@@ -1,19 +1,19 @@
-package main.java.org.ucalgary.images_microservice.DTO;
+package org.ucalgary.images_microservice.DTO;
 
 
-public class imageDTO {
+public class ImageDTO {
     private int imageId;
     private String imageLink;
     
-    private imageDTO() {
+    private ImageDTO() {
     }
 
-    public imageDTO(int imageId, String imageLink) {
+    public ImageDTO(int imageId, String imageLink) {
         this.imageId = imageId;
         this.imageLink = imageLink;
     }
 
-    public imageDTO(String imageLink) {
+    public ImageDTO(String imageLink) {
         this.imageLink = imageLink;
     }
 
