@@ -24,13 +24,13 @@ public class ParticipantDTO {
     }
 
     // Getters and setters
-    public int getParticipantID() {return participantID;}
-    public int getUserid() {return userid;}
-    public int getEventid() {return eventid;}
-    public ParticipantStatus getParticipantStatus() {return ParticipantStatus;}
+    public final  int getParticipantID() {return participantID;}
+    public final  int getUserid() {return userid;}
+    public final  int getEventid() {return eventid;}
+    public final ParticipantStatus getParticipantStatus() {return ParticipantStatus;}
 
-    public void setUserid(int userid) {this.userid = userid;}
-    public void setEventid(int eventid) {this.eventid = eventid;}
-    public void setParticipantStatus(ParticipantStatus ParticipantStatus) {this.ParticipantStatus = ParticipantStatus;}
+    public void setUserid(final int userid) {this.userid = userid;}
+    public void setEventid(final int eventid) {this.eventid = eventid;}
+    public void setParticipantStatus(final ParticipantStatus ParticipantStatus) {this.ParticipantStatus = ParticipantStatus;}
 
 }

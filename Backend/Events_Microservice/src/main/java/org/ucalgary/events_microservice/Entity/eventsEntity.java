@@ -51,6 +51,8 @@ public class EventsEntity {
     private Integer count;
     @Column(name = "capacity")
     private Integer capacity;
+    @Column(name = "image_id")
+    private Integer imageId;
 
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)
@@ -76,7 +78,7 @@ public class EventsEntity {
                         String eventTitle, String eventDescription, 
                         Integer locationId, LocalDate eventDate, 
                         Integer eventStartTimeId, Integer eventEndTimeId, 
-                        EventStatus status, Integer count, Integer capacity) {
+                        EventStatus status, Integer count, Integer capacity, Integer imageId) {
         this.eventId = eventId;
         this.groupId = groupId;
         this.eventTitle = eventTitle;
@@ -88,6 +90,7 @@ public class EventsEntity {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
+        this.imageId = imageId;
     }
 
     // Getters and setters
@@ -102,6 +105,7 @@ public class EventsEntity {
     public EventStatus getStatus() {return status;}
     public Integer getCount() {return count;}
     public Integer getCapacity() {return capacity;}
+    public Integer getImageId() {return imageId;}
 
     public void setEventId(Integer eventId) {this.eventId = eventId;}
     public void setGroupId(Integer groupId) {this.groupId = groupId;}
@@ -114,5 +118,6 @@ public class EventsEntity {
     public void setStatus(EventStatus status) {this.status = status;}
     public void setCount(Integer count) {this.count = count;}
     public void setCapacity(Integer capacity) {this.capacity = capacity;}
+    public void setImageId(Integer imageId) {this.imageId = imageId;}
 }
 

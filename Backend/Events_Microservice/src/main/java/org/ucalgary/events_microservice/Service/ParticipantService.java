@@ -40,7 +40,7 @@ public class ParticipantService {
     public ParticipantEntity addParticipantToEvent(ParticipantDTO user) {
         Optional<ParticipantEntity> checkDup = participantRepository.findByUserIdAndEvent_EventId(user.getUserid(), user.getEventid());
         if (checkDup.isPresent()) {
-            updateParticipant(user);
+            return updateParticipant(user);
         }
 
         // Retrieve the event

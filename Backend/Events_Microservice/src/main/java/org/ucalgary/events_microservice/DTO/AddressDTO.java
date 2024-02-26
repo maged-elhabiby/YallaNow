@@ -28,16 +28,16 @@ public class AddressDTO {
     }
 
     // Getters and setters
-    public int getAddressID() {return addressID;}
-    public int getStreet() {return street;}
-    public String getCity() {return city;}
-    public String getProvince() {return province;}
-    public String getCountry() {return country;}
+    public final int getAddressID() {return addressID;}
+    public final int getStreet() {return street;}
+    public final String getCity() {return city;}
+    public final String getProvince() {return province;}
+    public final String getCountry() {return country;}
 
-    public void setStreet(int street) {this.street = street;}
-    public void setCity(String city) {this.city = city;}
-    public void setProvince(String province) {this.province = province;}
-    public void setCountry(String country) {this.country = country;}
+    public void setStreet(final int street) {this.street = street;}
+    public void setCity(final String city) {this.city = city;}
+    public void setProvince(final String province) {this.province = province;}
+    public void setCountry(final String country) {this.country = country;}
 
     // Override Methods
     @Override

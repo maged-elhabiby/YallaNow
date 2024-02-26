@@ -56,7 +56,8 @@ public class EventService {
                                                 endTime.getTimeID(),
                                                 event.getStatus(), 
                                                 event.getCount(),
-                                                event.getCapacity());
+                                                event.getCapacity(),
+                                                event.getImageID());
         return eventRepository.save(newEvent); // Add the Event to the DataBase
     }
 
@@ -95,6 +96,7 @@ public class EventService {
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
+        oldEvent.setImageId(updatedEvent.getImageID());
 
         return eventRepository.save(oldEvent); // Update the Event in the DataBase
     }

@@ -15,6 +15,7 @@ public class EventDTO {
     private EventStatus status;
     private int count;
     private int capacity;
+    private int imageID;
     
     // Constructors
     public EventDTO(){}
@@ -23,7 +24,7 @@ public class EventDTO {
                     String eventTitle, String eventDescription, 
                     AddressDTO location, LocalDate eventDate,
                     TimeDTO eventStartTime, TimeDTO eventEndTime,
-                    EventStatus status, int count, int capacity) {
+                    EventStatus status, int count, int capacity, int imageID) {
         this.eventID = eventID;
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -35,13 +36,14 @@ public class EventDTO {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
+        this.imageID = imageID;
     }
 
     public EventDTO(int groupID, String eventTitle, 
                     String eventDescription, AddressDTO location, 
                     LocalDate eventDate, TimeDTO eventStartTime, 
                     TimeDTO eventEndTime,EventStatus status, 
-                    int count, int capacity) {
+                    int count, int capacity, int imageID) {
 
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -53,13 +55,10 @@ public class EventDTO {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
+        this.imageID = imageID;
     }
 
-    
     // Getters
-    public final int getAddressID() {return location.getAddressID();}
-    public final int getStartTimeID() {return eventStartTime.getTimeID();}
-    public final int getEndTimeID() {return eventEndTime.getTimeID();}
     public final int getEventID() {return eventID;}
     public final int getGroupID() {return groupID;}
     public final String getEventTitle() {return eventTitle;}
@@ -71,6 +70,10 @@ public class EventDTO {
     public final EventStatus getStatus() {return status;}
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
+    public final int getAddressID() {return location.getAddressID();}
+    public final int getStartTimeID() {return eventStartTime.getTimeID();}
+    public final int getEndTimeID() {return eventEndTime.getTimeID();}
+    public final int getImageID() {return imageID;}
 
     // Setters
     public void setGroupID(final int groupID) {this.groupID = groupID;}
@@ -83,4 +86,5 @@ public class EventDTO {
     public void setStatus(final EventStatus status) {this.status = status;}
     public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
+    public void setImageID(final int imageID) {this.imageID = imageID;}
 }

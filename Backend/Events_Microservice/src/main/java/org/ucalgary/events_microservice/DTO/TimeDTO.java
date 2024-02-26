@@ -23,12 +23,12 @@ public class TimeDTO {
     }
 
     // Getters and setters
-    public int getTimeID() {return timeID;}
-    public int getHour() {return hour;}
-    public int getMinute() {return minute;}
+    public final int getTimeID() {return timeID;}
+    public final int getHour() {return hour;}
+    public final int getMinute() {return minute;}
 
-    public void setHour(int hour) {this.hour = hour;}
-    public void setMinute(int minute) {this.minute = minute;}
+    public void setHour(final int hour) {this.hour = hour;}
+    public void setMinute(final int minute) {this.minute = minute;}
 
 
     // Override Methods
