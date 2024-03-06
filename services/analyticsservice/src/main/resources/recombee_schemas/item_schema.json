@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-01/schema#",
+  "title": "Item",
+  "type": "object",
+  "properties": {
+    "itemId": {
+      "type": "string"
+    },
+    "groupId": {
+      "type": "string"
+    },
+    "groupName": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "location": {
+      "type": "string"
+    },
+    "eventType": {
+      "type": "string"
+    },
+    "attendeeCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["itemId", "title", "startTime", "endTime", "eventType", "attendeeCount"]
+}
