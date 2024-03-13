@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
+import MainPage from './components/MainPage';
 
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
         <div>
         <Router>
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<MainPage />} />
             </Routes>
         </Router>
         </div>
