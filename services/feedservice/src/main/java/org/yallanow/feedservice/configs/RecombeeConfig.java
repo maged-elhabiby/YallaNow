@@ -11,7 +11,6 @@ public class RecombeeConfig {
     private String secretToken;
     private Region region;
     private boolean cascadeCreate;
-
     public String getDatabaseId() {
         return databaseId;
     }
@@ -43,4 +42,5 @@ public class RecombeeConfig {
     public void setCascadeCreate(boolean cascadeCreate) {
         this.cascadeCreate = cascadeCreate;
     }
+
 }

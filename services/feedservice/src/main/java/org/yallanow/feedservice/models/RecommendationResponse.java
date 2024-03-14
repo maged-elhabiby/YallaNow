@@ -7,7 +7,6 @@ public class RecommendationResponse {
     private String userId = null;
     private String itemId = null;
     private String recommId = null;
-    private boolean newUserCreated = false;
     private List<Recommendation> recommendations;
 
     // Getters and setters
@@ -43,11 +42,4 @@ public class RecommendationResponse {
         this.itemId = itemId;
     }
 
-    public boolean isNewUserCreated() {
-        return newUserCreated;
-    }
-
-    public void setNewUserCreated(boolean newUserCreated) {
-        this.newUserCreated = newUserCreated;
-    }
 }
