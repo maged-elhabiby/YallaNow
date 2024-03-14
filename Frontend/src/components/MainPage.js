@@ -3,10 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import '../App.css';
 import '../output.css';
 import eventData from './exampleResponse.json';
+import { Dropdown } from 'flowbite-react';
 
 function MainPage() {
-    const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const navigate = useNavigate();
 
   // Function to sort events based on the selected sort option
   const sortEvents = (events) => {
@@ -25,38 +27,69 @@ function MainPage() {
     }
   };
 
-  // Filter and sort events based on search term and sort option
   const filteredEvents = sortEvents(
-    eventData.events.filter((event) =>
-      event.eventName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    eventData.events.filter((event) => {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      const lowerCaseEventName = event.eventName.toLowerCase();
+      const lowerCaseLocation = event.location.toLowerCase();
+      const lowerCaseGroup = event.group.toLowerCase();
+      const eventDate = new Date(event.date);
+  
+      switch (sortBy) {
+        case "name":
+          return lowerCaseEventName.includes(lowerCaseSearchTerm);
+        case "location":
+          return lowerCaseLocation.includes(lowerCaseSearchTerm);
+        case "group":
+          return lowerCaseGroup.includes(lowerCaseSearchTerm);
+        case "date":
+          return eventDate.toLocaleDateString().includes(lowerCaseSearchTerm);
+        default:
+          return true; 
+      }
+    })
   );
 
   return (
-    <div>
-        <div className="nav">
-            <Link to="/Login">Login</Link>
+    <body class ="bg-gray-100 h-screen">
+      <nav class="flex justify-between items-center bg-white py-8 px-6 mb-4">
+        <div class="flex items-center space-x-4">
+          <Dropdown label="Dropdown button" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+            <Dropdown.Item>My Events</Dropdown.Item>
+            <Dropdown.Item>Chat</Dropdown.Item>
+            <Dropdown.Item>My Events</Dropdown.Item>
+          </Dropdown>
         </div>
+        <div class="flex items-center">
+          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300">YallaNow</p>
+        </div>
+        <div>
+          <button class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick = {() => navigate('/Login')}>
+            Login
+          </button>
+        </div>
+      </nav>
 
-      <h1>Event List</h1>
-      <div>
+      <div class = "flex items-center mb-4 justify-center">
         <input
+          class="px-4 py-2 border rounded-md w-2/5"
           type="text"
-          placeholder="Search by event name"
+          placeholder="Search Events"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value="">Sort by</option>
-          <option value="name">Name</option>
-          <option value="location">Location</option>
-          <option value="group">Group</option>
-          <option value="date">Date and Time</option>
-        </select>
+        <div class="flex items-center">
+          <select value={sortBy} class="px-4 py-2 border rounded-md" onChange={(e) => setSortBy(e.target.value)}>
+            <option value="date">Date</option>
+            <option value="name">Name</option>
+            <option value="location">Location</option>
+            <option value="group">Group</option>
+          </select>
+        </div>
       </div>
-      <div className="event-list">
+      <div className="event-list" class = "flex flex-wrap ">
         {filteredEvents.map((event) => (
-          <div key={event.eventID} className="event-card">
+          <div key={event.eventID} className="event-card" class = "bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1">
             <strong>{event.eventName}</strong>
             <p>Group: {event.group}</p>
             <p>Date: {event.eventDate}</p>
@@ -65,7 +98,7 @@ function MainPage() {
           </div>
         ))}
       </div>
-    </div>
+    </body>
   );
 }
 
