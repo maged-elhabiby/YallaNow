@@ -1,5 +1,7 @@
 package org.yallanow.feedservice.client;
 
+import com.recombee.api_client.api_requests.*;
+import com.recombee.api_client.bindings.RecommendationResponse;
 import org.yallanow.feedservice.exceptions.RecombeeClientException;
 
 import java.util.Map;
@@ -24,24 +26,20 @@ public interface RecombeeClientInterface {
     // Working with the idea of eventual consistency...
 
 
-    Map<String, Object> recommendItemsToUser() throws RecombeeClientException;
+    RecommendationResponse recommendItemsToUser(String userId, long count, String scenario) throws RecombeeClientException;
 
-    Map<String, Object> recommendItemsToItems() throws RecombeeClientException;
+    RecommendationResponse recommendItemsToItem(String itemId, String targetItemId, long count, String scenario) throws RecombeeClientException;
 
-    Map<String, Object> recommendNextItems() throws RecombeeClientException;
+    RecommendationResponse recommendNextItems(String recommId, long count) throws RecombeeClientException;
 
-    Map<String, Object> recommendItemSegmentsToUser() throws RecombeeClientException;
+    RecommendationResponse recommendItemSegmentsToUser(String userId, long count, String scenario) throws RecombeeClientException;
 
-    Map<String, Object> recommendItemSegmentsToItem() throws RecombeeClientException;
+    RecommendationResponse recommendItemSegmentsToItem(String itemId, String targetUserId, long count, String scenario) throws RecombeeClientException;
 
-    // Map<String, Object> recommendItemSegmentsToItemSegments() throws RecombeeClientException;
+    RecommendationResponse recommendUsersToUser(String userId, long count, String scenario) throws RecombeeClientException;
 
-    Map<String, Object> recommendUsersToUser() throws RecombeeClientException;
+    RecommendationResponse searchItems(String userId, String searchQuery, long count, String scenario) throws RecombeeClientException;
 
-    // Map<String, Object> recommendUsersToItem() throws  RecombeeClientException;
-
-    Map<String, Object> searchItems() throws RecombeeClientException;
-
-    Map<String, Object> searchItemSegments() throws RecombeeClientException;
+    RecommendationResponse searchItemSegments(String userId, String searchQuery, long count, String scenario) throws RecombeeClientException;
 
 }

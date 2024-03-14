@@ -1,4 +1,4 @@
-package org.yallanow.feedservice.config;
+package org.yallanow.feedservice.configs;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,7 @@ public class RecombeeConfig {
     private String databaseId;
     private String secretToken;
     private Region region;
+    private boolean cascadeCreate;
 
     public String getDatabaseId() {
         return databaseId;
@@ -33,5 +34,13 @@ public class RecombeeConfig {
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public boolean getCascadeCreate() {
+        return cascadeCreate;
+    }
+
+    public void setCascadeCreate(boolean cascadeCreate) {
+        this.cascadeCreate = cascadeCreate;
     }
 }
