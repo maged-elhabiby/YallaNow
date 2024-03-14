@@ -37,7 +37,11 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
         try {
             return client.send(new RecommendItemsToUser(userId, count)
                     .setScenario(scenario)
-                    .setCascadeCreate(cascadeCreate));
+                    .setCascadeCreate(cascadeCreate)
+                    .setReturnProperties(true)
+
+            );
+
         } catch (ApiException e) {
             handleGenericApiException(e);
         }

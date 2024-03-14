@@ -15,6 +15,7 @@ public class RecombeeUtil {
         for (com.recombee.api_client.bindings.Recommendation recombeeRecommendation : recombeeResponse.getRecomms()) {
             Recommendation recommendation = new Recommendation();
             recommendation.setId(recombeeRecommendation.getId());
+            recommendation.setProperties(recombeeRecommendation.getValues());
 
             recommendations.add(recommendation);
         }

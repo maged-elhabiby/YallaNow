@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.yallanow.feedservice.utils.ConfigLoader;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.yallanow.feedservice.utils.RecombeeUtil.convertToRecommendationResponse;
 
