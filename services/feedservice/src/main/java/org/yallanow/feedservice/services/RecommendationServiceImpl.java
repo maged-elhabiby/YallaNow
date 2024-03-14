@@ -22,12 +22,13 @@ import static org.yallanow.feedservice.utils.RecombeeUtil.convertToRecommendatio
 public class RecommendationServiceImpl implements RecommendationService {
 
     private static final Logger logger = LoggerFactory.getLogger(RecommendationServiceImpl.class);
-    RecommendationConfig config = ConfigLoader.loadConfig("resources/recommendation-config.json");
+    private final RecommendationConfig recommendationConfig;
     private final RecombeeClientInterface recombeeClient;
 
     @Autowired
     RecommendationServiceImpl(RecombeeClientImpl recombeeClient) throws IOException {
         this.recombeeClient = recombeeClient;
+        this.recommendationConfig = ConfigLoader.loadConfig("recommendation-config.json");
     }
 
     @Override
@@ -45,7 +46,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemsToUser(RecommendationRequest request) throws RecommendationException {
-        if (!config.getRecommendationScenarios().get("ItemsToUser").contains(request.getScenario())) {
+        if (!recommendationConfig.getRecommendationScenarios().get("ItemsToUser").contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type ItemsToUser", 422);
         }
         if (request.getCount() <= 0) {
@@ -77,7 +78,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemsToItem(RecommendationRequest request) throws RecommendationException {
-        if (!config.getRecommendationScenarios().get("ItemsToItem").contains(request.getScenario())) {
+        if (!recommendationConfig.getRecommendationScenarios().get("ItemsToItem").contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type ItemsToItem", 422);
         }
 
@@ -109,7 +110,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemSegmentsToUser(RecommendationRequest request) throws RecommendationException {
-        if (!config.getRecommendationScenarios().get("ItemSegmentsToUser").contains(request.getScenario())) {
+        if (!recommendationConfig.getRecommendationScenarios().get("ItemSegmentsToUser").contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type ItemSegmentsToUser", 422);
         }
 
@@ -118,7 +119,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemSegmentsToItem(RecommendationRequest request) throws RecommendationException {
-        if (!config.getRecommendationScenarios().get("ItemSegmentsToItem").contains(request.getScenario())) {
+        if (!recommendationConfig.getRecommendationScenarios().get("ItemSegmentsToItem").contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type ItemSegmentsToItem", 422);
         }
 
@@ -127,7 +128,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendUsersToUser(RecommendationRequest request) throws RecommendationException {
-        if (!config.getRecommendationScenarios().get("UsersToUser").contains(request.getScenario())) {
+        if (!recommendationConfig.getRecommendationScenarios().get("UsersToUser").contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type UsersToUser", 422);
         }
 

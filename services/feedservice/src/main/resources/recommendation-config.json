@@ -1,8 +1,28 @@
 {
-  "ItemsToUser": ["popular", "for-you"],
-  "ItemsToItem": ["SCENARIO_C", "SCENARIO_D"],
-  "NextItems": ["SCENARIO_E", "SCENARIO_F"],
-  "ItemSegmentsToUser": ["SCENARIO_G", "SCENARIO_H"],
-  "ItemSegmentsToItem": ["SCENARIO_I", "SCENARIO_J"],
-  "UsersToUser": ["SCENARIO_K", "SCENARIO_L"]
+  "recommendationScenarios": {
+    "ItemSegmentsToItem": [
+      "SCENARIO_I",
+      "SCENARIO_J"
+    ],
+    "ItemSegmentsToUser": [
+      "SCENARIO_G",
+      "SCENARIO_H"
+    ],
+    "ItemsToItem": [
+      "SCENARIO_C",
+      "SCENARIO_D"
+    ],
+    "ItemsToUser": [
+      "popular",
+      "for-you"
+    ],
+    "NextItems": [
+      "SCENARIO_E",
+      "SCENARIO_F"
+    ],
+    "UsersToUser": [
+      "SCENARIO_K",
+      "SCENARIO_L"
+    ]
+  }
 }
