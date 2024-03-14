@@ -1,6 +1,7 @@
 package org.yallanow.feedservice.controllers;
 
 import org.yallanow.feedservice.exceptions.RecommendationException;
+import org.yallanow.feedservice.models.Recommendation;
 import org.yallanow.feedservice.models.RecommendationRequest;
 import org.yallanow.feedservice.models.RecommendationResponse;
 import org.yallanow.feedservice.services.RecommendationService;
@@ -28,7 +29,7 @@ public class RecommendationsController {
         } catch (RecommendationException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Internal server error");
+            return ResponseEntity.status(500).body("Internal server error: " + e.getMessage());
         }
     }
 

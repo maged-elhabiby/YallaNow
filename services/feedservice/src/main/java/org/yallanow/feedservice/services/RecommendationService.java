@@ -20,4 +20,8 @@ public interface RecommendationService {
 
     public RecommendationResponse recommendUsersToUser(RecommendationRequest request) throws RecommendationException;
 
+    public RecommendationResponse searchItems(RecommendationRequest request) throws RecommendationException;
+
+    public RecommendationResponse searchItemSegments(RecommendationRequest request) throws RecommendationException;
+
 }

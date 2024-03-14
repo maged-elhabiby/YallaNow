@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.yallanow.feedservice.utils.ConfigLoader;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.yallanow.feedservice.utils.RecombeeUtil.convertToRecommendationResponse;
 
@@ -41,15 +40,15 @@ public class RecommendationServiceImpl implements RecommendationService {
             case ItemSegmentsToUser -> recommendItemSegmentsToUser(request);
             case ItemSegmentsToItem -> recommendItemSegmentsToItem(request);
             case UsersToUser -> recommendUsersToUser(request);
+            case SearchItems -> searchItems(request);
+            case SearchItemSegments -> searchItemSegments(request);
             default -> throw new RecommendationException("Unprocessable entity: invalid recommendation type", 422);
         };
     }
 
     @Override
     public RecommendationResponse recommendItemsToUser(RecommendationRequest request) throws RecommendationException {
-        if (!recommendationConfig.getRecommendationScenarios().get("ItemsToUser").contains(request.getScenario())) {
-            throw new RecommendationException("Invalid scenario for recommendation type ItemsToUser", 422);
-        }
+        validateScenario("ItemsToUser", request);
         if (request.getCount() <= 0) {
             throw new RecommendationException("Unprocessable entity: count must be greater than 0.", 422);
         }
@@ -79,9 +78,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemsToItem(RecommendationRequest request) throws RecommendationException {
-        if (!recommendationConfig.getRecommendationScenarios().get("ItemsToItem").contains(request.getScenario())) {
-            throw new RecommendationException("Invalid scenario for recommendation type ItemsToItem", 422);
-        }
+        validateScenario("ItemsToItem", request);
 
         throw new RecommendationException("Not implemented", 501);
     }
@@ -111,29 +108,72 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResponse recommendItemSegmentsToUser(RecommendationRequest request) throws RecommendationException {
-        if (!recommendationConfig.getRecommendationScenarios().get("ItemSegmentsToUser").contains(request.getScenario())) {
-            throw new RecommendationException("Invalid scenario for recommendation type ItemSegmentsToUser", 422);
-        }
+        validateScenario("ItemSegmentsToUser", request);
 
         throw new RecommendationException("Not implemented", 501);
     }
 
     @Override
     public RecommendationResponse recommendItemSegmentsToItem(RecommendationRequest request) throws RecommendationException {
-        if (!recommendationConfig.getRecommendationScenarios().get("ItemSegmentsToItem").contains(request.getScenario())) {
-            throw new RecommendationException("Invalid scenario for recommendation type ItemSegmentsToItem", 422);
-        }
+        validateScenario("ItemSegmentsToItem", request);
 
         throw new RecommendationException("Not implemented", 501);
     }
 
     @Override
     public RecommendationResponse recommendUsersToUser(RecommendationRequest request) throws RecommendationException {
-        if (!recommendationConfig.getRecommendationScenarios().get("UsersToUser").contains(request.getScenario())) {
-            throw new RecommendationException("Invalid scenario for recommendation type UsersToUser", 422);
-        }
+        validateScenario("UsersToUser", request);
 
         throw new RecommendationException("Not implemented", 501);
+    }
+
+    @Override
+    public RecommendationResponse searchItems(RecommendationRequest request) throws RecommendationException {
+        validateScenario("SearchItems", request);
+        validateSearchRequest(request);
+
+        try {
+            // Get recommendations from Recombee
+            com.recombee.api_client.bindings.RecommendationResponse recombeeResponse = recombeeClient.searchItems(
+                    request.getUserId(), request.getSearchQuery(), request.getCount(), request.getScenario()
+            );
+
+            // Convert Recombee response to RecommendationResponse
+            RecommendationResponse response = convertToRecommendationResponse(recombeeResponse);
+
+            // Set additional information in the response
+            response.setUserId(request.getUserId());
+
+            return response;
+        } catch (RecombeeClientException e) {
+            logger.error("Error getting search item recommendations", e);
+            throw new RecommendationException("Internal server error: recombeeClientException", e, 500);
+        }
+    }
+
+    @Override
+    public RecommendationResponse searchItemSegments(RecommendationRequest request) throws RecommendationException {
+        validateScenario("SearchItemSegments", request);
+        validateSearchRequest(request);
+
+        throw new RecommendationException("Not implemented", 501);
+    }
+
+    private void validateScenario(String recommendationType, RecommendationRequest request) throws RecommendationException {
+        if (!recommendationConfig.getRecommendationScenarios().get(recommendationType).contains(request.getScenario())) {
+            throw new RecommendationException("Invalid scenario for recommendation type " + recommendationType, 422);
+        }
+    }
+    private void validateSearchRequest(RecommendationRequest request) throws RecommendationException {
+        if (request.getCount() <= 0) {
+            throw new RecommendationException("Unprocessable entity: count must be greater than 0.", 422);
+        }
+        if (request.getUserId() == null) {
+            throw new RecommendationException("Unprocessable entity: userId must be defined.", 422);
+        }
+        if (request.getSearchQuery() == null) {
+            throw new RecommendationException("Unprocessable entity: searchQuery must be defined.", 422);
+        }
     }
 
 }

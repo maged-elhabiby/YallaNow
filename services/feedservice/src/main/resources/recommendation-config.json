@@ -23,6 +23,12 @@
     "UsersToUser": [
       "SCENARIO_K",
       "SCENARIO_L"
+    ],
+    "SearchItems": [
+      "search-items-default"
+    ],
+    "SearchItemSegments": [
+      "default"
     ]
   }
 }
