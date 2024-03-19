@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import '../App.css';
 import '../output.css';
 import eventData from './exampleResponse.json';
-import { Dropdown } from 'flowbite-react';
+import { Dropdown, Carousel } from 'flowbite-react';
 
 function MainPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,7 +61,7 @@ function MainPage() {
           </Dropdown>
         </div>
         <div class="flex items-center">
-          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300">YallaNow</p>
+          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300 mr-40">YallaNow</p>
         </div>
         <div>
           <button class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick = {() => navigate('/Login')}>
@@ -69,6 +69,18 @@ function MainPage() {
           </button>
         </div>
       </nav>
+
+      <div class="items-center justify-center flex mb-4 ">
+        <div class="h-56 sm:h-64 xl:h-80 2xl:h-96 w-2/5">
+          <Carousel slideInterval={5000} pauseOnHover>
+            <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
+            <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
+            <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
+            <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
+            <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
+          </Carousel>
+        </div>
+      </div>
 
       <div class = "flex items-center mb-4 justify-center">
         <input
