@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import MainPage from './components/MainPage';
+import SingleEvent from './components/SingleEvent';
 
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/Login" element={<Login />} />
+                <Route path="/event/" element={<SingleEvent />}/>
             </Routes>
         </Router>
         </div>

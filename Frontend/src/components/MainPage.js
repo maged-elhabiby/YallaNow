@@ -52,7 +52,7 @@ function MainPage() {
 
   return (
     <body class ="bg-gray-100 h-screen">
-      <nav class="flex justify-between items-center bg-white py-8 px-6 mb-4">
+      <nav class="flex justify-between items-center bg-white py-8 px-6 mb-4 border-b border-gray-300">
         <div class="flex items-center space-x-4">
           <Dropdown label="Dropdown button" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
             <Dropdown.Item>My Events</Dropdown.Item>
@@ -61,7 +61,7 @@ function MainPage() {
           </Dropdown>
         </div>
         <div class="flex items-center">
-          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300 mr-40">YallaNow</p>
+          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300 mr-40" onClick = {() => navigate('/')}>YallaNow</p>
         </div>
         <div>
           <button class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick = {() => navigate('/Login')}>
@@ -101,7 +101,9 @@ function MainPage() {
       </div>
       <div className="event-list" class = "flex flex-wrap ">
         {filteredEvents.map((event) => (
-          <div key={event.eventID} className="event-card" class = "bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1">
+          <div key={event.eventID} className="event-card" class = "bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
+          
+            onClick = {() => navigate("event/",{ state: { event: event} })}>
             <strong>{event.eventName}</strong>
             <p>Group: {event.group}</p>
             <p>Date: {event.eventDate}</p>
