@@ -51,7 +51,7 @@ function MainPage() {
   );
 
   return (
-    <body class ="bg-gray-100 h-screen">
+    <body class ="bg-gray-100">
       <nav class="flex justify-between items-center bg-white py-8 px-6 mb-4 border-b border-gray-300">
         <div class="flex items-center space-x-4">
           <Dropdown label="Dropdown button" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">

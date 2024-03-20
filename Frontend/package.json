@@ -14,7 +14,7 @@
         "axios": "^1.6.8",
         "flowbite": "^2.3.0",
         "flowbite-react": "^0.7.3",
-
+        "mui": "^0.0.1",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.20.0",
         "react-scripts": "5.0.1",
