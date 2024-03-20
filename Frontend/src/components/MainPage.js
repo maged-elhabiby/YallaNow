@@ -57,7 +57,7 @@ function MainPage() {
           <Dropdown label="Dropdown button" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
             <Dropdown.Item>My Events</Dropdown.Item>
             <Dropdown.Item>Chat</Dropdown.Item>
-            <Dropdown.Item>My Events</Dropdown.Item>
+            <Dropdown.Item>Make an Event</Dropdown.Item>
           </Dropdown>
         </div>
         <div class="flex items-center">
@@ -103,7 +103,7 @@ function MainPage() {
         {filteredEvents.map((event) => (
           <div key={event.eventID} className="event-card" class = "bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
           
-            onClick = {() => navigate("event/",{ state: { event: event} })}>
+            onClick = {() => navigate(`event/${event.eventID}`,{ state: { event: event} })}>
             <strong>{event.eventName}</strong>
             <p>Group: {event.group}</p>
             <p>Date: {event.eventDate}</p>
