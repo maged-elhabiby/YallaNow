@@ -20,10 +20,14 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
 
     @Autowired
     public RecombeeClientImpl(RecombeeConfig recombeeConfig) {
-        this.client = new RecombeeClient(
-                recombeeConfig.getDatabaseId(),
-                recombeeConfig.getSecretToken()
-        ).setRegion(recombeeConfig.getRegion());
+        try {
+            this.client = new RecombeeClient(
+                    recombeeConfig.getDatabaseId(),
+                    recombeeConfig.getSecretToken()
+            ).setRegion(recombeeConfig.getRegion());
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize RecombeeClient", e);
+        }
     }
 
     @Override

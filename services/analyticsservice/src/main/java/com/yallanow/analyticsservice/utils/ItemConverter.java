@@ -2,6 +2,7 @@ package com.yallanow.analyticsservice.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yallanow.analyticsservice.models.Item;
+import com.yallanow.analyticsservice.models.Location;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,11 +24,19 @@ public class ItemConverter implements Converter<Item> {
         map.put("groupName", item.getGroupName());
         map.put("title", item.getTitle());
         map.put("description", item.getDescription());
+
         map.put("startTime", item.getStartTime().toString());
         map.put("endTime", item.getEndTime().toString());
-        map.put("location", item.getLocation());
-        map.put("eventType", item.getEventType());
+
+        map.put("street", item.getLocation().getStreet());
+        map.put("city", item.getLocation().getCity());
+        map.put("province", item.getLocation().getProvince());
+        map.put("county", item.getLocation().getCountry());
+
         map.put("attendeeCount", item.getAttendeeCount());
+        map.put("capacity", item.getCapacity());
+        map.put("status", item.getStatus());
+        map.put("imageUrl", item.getImageUrl());
         return map;
     }
 
@@ -40,18 +49,23 @@ public class ItemConverter implements Converter<Item> {
 
     @Override
     public Item fromMap(Map<String, Object> map) {
-        String itemId = (String) map.get("itemId");
+        String itemId = (String) map.get("eventId");
         String groupId = (String) map.get("groupId");
         String groupName = (String) map.get("groupName");
-        String title = (String) map.get("title");
-        String description = (String) map.get("description");
+        String title = (String) map.get("eventTitle");
+        String description = (String) map.get("eventDescription");
         LocalDateTime startTime = LocalDateTime.parse((String) map.get("startTime"));
         LocalDateTime endTime = LocalDateTime.parse((String) map.get("endTime"));
-        String location = (String) map.get("location");
-        String eventType = (String) map.get("eventType");
+        Location location = LocationConverter.fromMap((Map<String, Object>) map.get("location"));
+
         int attendeeCount = (Integer) map.get("attendeeCount");
+        int capacity = (Integer) map.get("capacity");
+        String imageUrl = (String) map.get("imageUrl");
+        String status = (String) map.get("status");
         List<String> categories = (List<String>) map.get("categories");
 
-        return new Item(itemId, groupId, groupName, title, description, startTime, endTime, location, eventType, attendeeCount, categories);
+        return new Item(itemId, groupId, groupName, title, description, startTime, endTime,
+                location, attendeeCount, categories, capacity, status, imageUrl);
     }
+
 }

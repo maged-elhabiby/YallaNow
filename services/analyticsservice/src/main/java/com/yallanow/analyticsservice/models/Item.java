@@ -11,14 +11,25 @@ public class Item {
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String location;
-    private String eventType;
+    private Location location;
     private int attendeeCount;
-
+    private int capacity;
+    private String status;
     private List<String> categories;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    private String imageUrl;
+
     public Item(String itemId, String groupId, String groupName, String title, String description, LocalDateTime startTime,
-                LocalDateTime endTime, String location, String eventType, int attendeeCount, List<String> categories) {
+                LocalDateTime endTime, Location location, int attendeeCount, List<String> categories,
+                int capacity, String status, String imageUrl) {
         this.itemId = itemId;
         this.groupId = groupId;
         this.groupName = groupName;
@@ -27,9 +38,11 @@ public class Item {
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
-        this.eventType = eventType;
         this.attendeeCount = attendeeCount;
         this.categories = categories;
+        this.capacity = capacity;
+        this.status = status;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and setters for all fields
@@ -74,20 +87,12 @@ public class Item {
         this.endTime = endTime;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
     }
 
     public int getAttendeeCount() {
@@ -120,5 +125,21 @@ public class Item {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
