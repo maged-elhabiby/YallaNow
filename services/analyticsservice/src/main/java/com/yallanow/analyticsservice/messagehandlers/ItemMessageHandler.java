@@ -33,7 +33,7 @@ public class ItemMessageHandler {
     @ServiceActivator(inputChannel = "eventInputChannel")
     public void handleMessage(Message<String> message) {
         try {
-
+            System.out.println(message.getPayload());
             Item item = itemConverter.fromPubsubMessage(message.getPayload());
             String operationType = getOperationType(message);
 

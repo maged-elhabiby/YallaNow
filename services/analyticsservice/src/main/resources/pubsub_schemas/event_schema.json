@@ -3,6 +3,9 @@
   "title": "Item",
   "type": "object",
   "properties": {
+    "operation": {
+      "type": "string"
+    },
     "eventId": {
       "type": "string"
     },

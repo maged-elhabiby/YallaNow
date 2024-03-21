@@ -42,9 +42,11 @@ public class ItemConverter implements Converter<Item> {
 
     @Override
     public Item fromPubsubMessage(String message) throws IOException {
-        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
-        Map<String, Object> itemData = (Map<String, Object>) payload.get("item");
-        return fromMap(itemData);
+
+            Map<String, Object> payload = objectMapper.readValue(message, Map.class);
+            Map<String, Object> itemData = (Map<String, Object>) payload.get("item");
+            return fromMap(itemData);
+
     }
 
     @Override

@@ -30,12 +30,6 @@ public class PubSubInboundAdapterConfig {
         return createAdapter(inputChannel, "event-sub");
     }
 
-    @Bean
-    public PubSubInboundChannelAdapter interactionMessageChannelAdapter(
-            @Qualifier("interactionInputChannel") MessageChannel inputChannel) {
-        return createAdapter(inputChannel, "interactionSubscription");
-    }
-
     private PubSubInboundChannelAdapter createAdapter(MessageChannel inputChannel, String subscription) {
         PubSubInboundChannelAdapter adapter = new PubSubInboundChannelAdapter(pubSubTemplate, subscription);
         adapter.setOutputChannel(inputChannel);

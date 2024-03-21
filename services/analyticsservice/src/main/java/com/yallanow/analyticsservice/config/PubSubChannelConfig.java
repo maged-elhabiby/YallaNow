@@ -18,8 +18,4 @@ public class PubSubChannelConfig {
         return new DirectChannel();
     }
 
-    @Bean
-    public MessageChannel interactionInputChannel() {
-        return new DirectChannel();
-    }
 }

@@ -19,6 +19,6 @@ public class PubSubTestConfig {
     @Bean
     @ServiceActivator(inputChannel = "pubsubOutputChannel")
     public MessageHandler messageSender(PubSubTemplate pubsubTemplate) {
-        return new PubSubMessageHandler(pubsubTemplate, "test");
+        return new PubSubMessageHandler(pubsubTemplate, "event");
     }
 }
