@@ -167,6 +167,34 @@
       },
       "status": "Scheduled",
       "capacity": 50
+    },
+    {
+      "eventID": "007",
+      "groupID": 6,
+      "eventTitle": "Charity Gala",
+      "eventDescription": "Support a noble cause and make a difference in the community. Join us for an elegant evening of philanthropy, compassion, and hope.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-03-25",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 19,
+        "minute": 30,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 21,
+        "minute": 30,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 50
     }
   ]
 }

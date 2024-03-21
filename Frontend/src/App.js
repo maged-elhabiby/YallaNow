@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import MainPage from './components/MainPage';
 import SingleEvent from './components/SingleEvent';
-
+import MyEvents from './components/MyEvents';
 
 const App = () => {
     return (
@@ -15,6 +15,7 @@ const App = () => {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/event/:eventID" element={<SingleEvent />}/>
                 <Route path="/event" element={<SingleEvent />}/>
+                <Route path="/myevents" element={<MyEvents />}/>
             </Routes>
         </Router>
         </div>

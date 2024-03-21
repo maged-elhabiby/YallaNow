@@ -11,7 +11,7 @@ function Nav(){
     <nav class="flex justify-between items-center bg-white py-4 px-4 mb-4 border-b border-gray-300">
         <div class="flex items-center space-x-4">
         <Dropdown label="Menu" dismissOnClick={false} class="bg-blue-400 hover:bg-blue-500 text-white py-1 font-semibold px-4 rounded">
-            <Dropdown.Item>My Events</Dropdown.Item>
+            <Dropdown.Item onClick = {() => navigate('/myevents')}>My Events</Dropdown.Item>
             <Dropdown.Item>Chat</Dropdown.Item>
             <Dropdown.Item>Make an Event</Dropdown.Item>
         </Dropdown>
