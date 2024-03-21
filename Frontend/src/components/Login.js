@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './login.css';
 import { Dropdown } from 'flowbite-react';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -68,10 +69,14 @@ function LoginForm() {
     setSignupData({ ...signupData, [name]: val });
   };
 
+  const navigate = useNavigate();
+
+
+
   return (
-    <section className="container">
+    <section className="container" >
       <div className="navigation">
-        <Typography
+        {/* <Typography
           variant="h6"
           noWrap
           component="a"
@@ -87,13 +92,17 @@ function LoginForm() {
           }}
         >
           <img src="https://i.ibb.co/L6vFwcd/overall.png" alt="Avatar" style={{ maxWidth: '100px', height: '50px' }} />
-        </Typography>
-        <Dropdown label="Menu" dismissOnClick={false} class="hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded">
+        </Typography> */}
+        {/* <Dropdown label="Menu" dismissOnClick={false} class="hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded"> */}
+        <Dropdown label="Menu" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Item>Sign out</Dropdown.Item>
         </Dropdown> 
+        <p class="font-serif font-bold text-5xl italic text-blue-300 mr-40" onClick = {() => navigate('/')}>YallaNow</p>
+
+        <div></div>
       </div>
 
       <section className="container2">
