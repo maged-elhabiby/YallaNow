@@ -93,14 +93,13 @@ function LoginForm() {
         >
           <img src="https://i.ibb.co/L6vFwcd/overall.png" alt="Avatar" style={{ maxWidth: '100px', height: '50px' }} />
         </Typography> */}
-        {/* <Dropdown label="Menu" dismissOnClick={false} class="hover:bg-blue-600 text-white font-semibold py-1 px-2 rounded"> */}
-        <Dropdown label="Menu" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+        <Dropdown label="Menu" dismissOnClick={false} class="bg-blue-400 hover:bg-blue-500 text-white py-1 font-semibold px-4 rounded">
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Item>Sign out</Dropdown.Item>
         </Dropdown> 
-        <p class="font-serif font-bold text-5xl italic text-blue-300 mr-40" onClick = {() => navigate('/')}>YallaNow</p>
+        <p class="font-serif font-bold text-5xl italic text-blue-400 mr-40 hover:text-blue-500" style={{ cursor: 'pointer'}} onClick = {() => navigate('/')}>YallaNow</p>
 
         <div></div>
       </div>

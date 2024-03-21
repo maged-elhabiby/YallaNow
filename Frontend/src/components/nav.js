@@ -17,7 +17,7 @@ function Nav(){
         </Dropdown>
         </div>
         <div class="flex items-center">
-        <p class="font-serif font-bold text-5xl italic text-blue-400 mr-40 hover:text-blue-500" onClick = {() => navigate('/')}>YallaNow</p>
+        <p class="font-serif font-bold text-5xl italic text-blue-400 mr-40 hover:text-blue-500" style={{ cursor: 'pointer'}} onClick = {() => navigate('/')}>YallaNow</p>
         </div>
         <div>
         <button class="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2.5 px-4 rounded" onClick = {() => navigate('/Login')}>
