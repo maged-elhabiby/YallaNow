@@ -1,29 +1,19 @@
 package org.ucalgary.events_microservice.Service;
 
-import org.springframework.context.annotation.Bean;
+
+import com.google.pubsub.v1.TopicName;
+import com.google.cloud.pubsub.v1.Publisher;
+import com.google.pubsub.v1.PubsubMessage;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-
-import com.google.cloud.pubsub.v1.AckReplyConsumer;
-import com.google.cloud.pubsub.v1.MessageReceiver;
-import com.google.cloud.pubsub.v1.Publisher;
-import com.google.cloud.pubsub.v1.Subscriber;
-import com.google.pubsub.v1.ProjectSubscriptionName;
-import com.google.pubsub.v1.PubsubMessage;
 import com.google.protobuf.ByteString;
-import com.google.pubsub.v1.TopicName;
-
-import io.grpc.netty.shaded.io.netty.handler.timeout.TimeoutException;
-
 import com.google.api.core.ApiFuture;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Service class for publishing events to the Google Cloud Pub/Sub.

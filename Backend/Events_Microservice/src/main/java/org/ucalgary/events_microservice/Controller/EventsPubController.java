@@ -9,7 +9,6 @@ import org.ucalgary.events_microservice.Service.EventsPubService;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/microservice/events")
