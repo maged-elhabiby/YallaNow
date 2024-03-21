@@ -131,7 +131,7 @@ public class EventService {
         events.removeIf(event -> event.getStatus() != EventStatus.Scheduled || 
                         event.getEventDate().isBefore(LocalDate.now()) || 
                         event.getCapacity() == event.getCount() ||
-                        event.getEventEndTime().isAfter(LocalTime.now()));
+                        event.getEventEndTime().isBefore(LocalTime.now()));
         return events; // Return all Events that are Scheduled and that are not in the past.
     }
 

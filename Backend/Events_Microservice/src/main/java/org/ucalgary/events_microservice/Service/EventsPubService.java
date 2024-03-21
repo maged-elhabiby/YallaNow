@@ -1,12 +1,22 @@
 package org.ucalgary.events_microservice.Service;
 
+import org.springframework.context.annotation.Bean;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+
+import com.google.cloud.pubsub.v1.AckReplyConsumer;
+import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.cloud.pubsub.v1.Subscriber;
+import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.TopicName;
+
+import io.grpc.netty.shaded.io.netty.handler.timeout.TimeoutException;
+
 import com.google.api.core.ApiFuture;
 
 import java.io.IOException;
@@ -22,16 +32,25 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class EventsPubService {
-    private final Publisher publisher;
+    private Publisher publisher;
     private final ObjectMapper objectMapper;
+    private final RestTemplate restTemplate;
 
-    public EventsPubService(ObjectMapper objectMapper)
+    public EventsPubService(ObjectMapper objectMapper, RestTemplate restTemplate)
             throws IOException {
-        this.objectMapper = objectMapper; // ObjectMapper is used to convert the EventsEntity to a JSON string.
-        String projectId = "yallanow-413400";
-        String topicId = "event";
-        TopicName topicName = TopicName.of(projectId, topicId); // Create a topic name using the project ID and topic ID.
-        this.publisher = Publisher.newBuilder(topicName).build(); // Create a publisher using the topic name.
+        this.objectMapper = objectMapper;
+        this.restTemplate = restTemplate;
+    }
+
+    /**
+     * Initializes the Google Cloud Pub/Sub publisher.
+     * @param projectId The project ID of the Google Cloud project.
+     * @param topicId The topic ID of the Google Cloud Pub/Sub topic.
+     * @throws IOException if an error occurs while initializing the publisher.
+     */
+    public void initializePubSub(String projectId, String topicId) throws IOException {
+        TopicName topicName = TopicName.of(projectId, topicId);
+        this.publisher = Publisher.newBuilder(topicName).build();
     }
 
     /**
@@ -41,28 +60,44 @@ public class EventsPubService {
      */
     public List<ApiFuture<String>> publishEvents(List<EventsEntity> eventsList)
             throws InterruptedException {
-
-        List<ApiFuture<String>> messageIds = new ArrayList<>(); // A list to store the message IDs of the published events.
+        List<ApiFuture<String>> messageIds = new ArrayList<>();
         try {
             for (EventsEntity event : eventsList) {
-                String jsonMessage = objectMapper.writeValueAsString(event); // Convert the event to a JSON string.
-                ByteString data = ByteString.copyFromUtf8(jsonMessage); // Convert the JSON string to a ByteString.
-
-                PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
-                                                            .setData(data)
-                                                            .putAttributes("operationType","GET")
-                                                            .build(); // Create a PubsubMessage using the ByteString.
-
-                ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage); // Publish the message to the Pub/Sub.
+                String imageUrl = restTemplate.getForObject("http://localhost:8081/microservice/images/GetImage/" + event.getImageId(), String.class);
+                String jsonMessage = objectMapper.writeValueAsString(event);
+                ByteString data = ByteString.copyFromUtf8(jsonMessage);
+                PubsubMessage pubsubMessage = null;
+                if (imageUrl != null) {
+                    pubsubMessage = PubsubMessage.newBuilder()
+                            .setData(data)
+                            .putAttributes("operationType","GET")
+                            .putAttributes("imageUrl",imageUrl)
+                            .build();
+                }else{
+                    pubsubMessage = PubsubMessage.newBuilder()
+                            .setData(data)
+                            .putAttributes("operationType","GET")
+                            .build();
+                }
+                ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
                 messageIds.add(messageIdFuture);
             }
-        }catch (Exception e) {
-            throw new RuntimeException("Error Publishing Events: "+e);
-        } finally {
-            publisher.shutdown(); // Shutdown the publisher.
-            publisher.awaitTermination(1, TimeUnit.MINUTES); // Wait for the publisher to terminate.
+        } catch (Exception e) {
+            throw new RuntimeException("Error Publishing Events: " + e);
         }
         return messageIds;
     }
+
+    /**
+     * Shuts down the Google Cloud Pub/Sub publisher.
+     * @throws InterruptedException if the thread is interrupted while waiting for the publisher to shut down.
+     */
+    public void shutdown() throws InterruptedException {
+        if (publisher != null) {
+            publisher.shutdown();
+            publisher.awaitTermination(1, TimeUnit.MINUTES);
+        }
+    }
+
 }
 
