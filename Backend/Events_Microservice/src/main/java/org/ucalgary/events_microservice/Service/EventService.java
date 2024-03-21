@@ -1,6 +1,7 @@
 package org.ucalgary.events_microservice.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.ucalgary.events_microservice.Repository.EventRepository;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
-import org.ucalgary.events_microservice.Entity.TimeEntity;
 import org.ucalgary.events_microservice.DTO.EventStatus;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,14 +21,11 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class EventService {
-
     private final EventRepository eventRepository;
-    private final TimeService timeService;
     private final AddressService addressService;
 
-    public EventService(EventRepository eventRepository, AddressService addressService, TimeService timeService) {
+    public EventService(EventRepository eventRepository, AddressService addressService) {
         this.eventRepository = eventRepository;
-        this.timeService = timeService;
         this.addressService = addressService;
     }
 
@@ -43,8 +40,6 @@ public class EventService {
         checkEvent(event); // Check if the event is valid
 
         AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
-        TimeEntity startTime = timeService.createStartTime(event);  // Add the Start Time to the DataBase
-        TimeEntity endTime = timeService.createEndTime(event);     // Add the End Time to the DataBase
 
         EventsEntity newEvent = new EventsEntity(event.getEventID(), 
                                                 event.getGroupID(),
@@ -52,8 +47,8 @@ public class EventService {
                                                 event.getEventDescription(), 
                                                 address.getAddressId(),
                                                 event.getEventDate(),
-                                                startTime.getTimeID(),
-                                                endTime.getTimeID(),
+                                                event.getEventStartTime(),
+                                                event.getEventEndTime(),
                                                 event.getStatus(), 
                                                 event.getCount(),
                                                 event.getCapacity(),
@@ -83,16 +78,14 @@ public class EventService {
         checkEvent(updatedEvent); // Check if the event is valid
         
         AddressEntity newAddress = addressService.updateAddress(updatedEvent); // Update the Address in the DataBase
-        TimeEntity newStartTime = timeService.updateStartTime(updatedEvent); // Update the Start Time in the DataBase
-        TimeEntity newEndTime = timeService.updateEndTime(updatedEvent);   // Update the End Time in the DataBase
 
         oldEvent.setGroupId(updatedEvent.getGroupID());
         oldEvent.setEventTitle(updatedEvent.getEventTitle());
         oldEvent.setEventDescription(updatedEvent.getEventDescription());
         oldEvent.setLocationId(newAddress.getAddressId());
         oldEvent.setEventDate(updatedEvent.getEventDate());
-        oldEvent.setEventStartTimeId(newStartTime.getTimeID());
-        oldEvent.setEventEndTimeId(newEndTime.getTimeID());
+        oldEvent.setEventStartTime(updatedEvent.getEventStartTime());
+        oldEvent.setEventEndTime(updatedEvent.getEventStartTime());
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
@@ -135,7 +128,10 @@ public class EventService {
     public List<EventsEntity> getAllAvailableEvents() {
         List<EventsEntity> events = eventRepository.findAll();
 
-        events.removeIf(event -> event.getStatus() != EventStatus.Scheduled || event.getEventDate().isBefore(LocalDate.now()));
+        events.removeIf(event -> event.getStatus() != EventStatus.Scheduled || 
+                        event.getEventDate().isBefore(LocalDate.now()) || 
+                        event.getCapacity() == event.getCount() ||
+                        event.getEventEndTime().isAfter(LocalTime.now()));
         return events; // Return all Events that are Scheduled and that are not in the past.
     }
 
@@ -150,7 +146,6 @@ public class EventService {
         if (event != null) {
             eventRepository.delete(event);
             addressService.deleteAddress(event.getLocationId());
-            timeService.deleteTime(event.getEventStartTimeId());
         } else {
             throw new EntityNotFoundException("Event with ID " + eventID + " does not exist");
         }
