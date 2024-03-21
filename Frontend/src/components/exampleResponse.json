@@ -1,165 +1,172 @@
 {
-    "events": [
-      {
-        "eventName": "Music Concert",
-        "group": "Music Lovers Society",
-        "eventDate": "2024-04-20",
-        "eventTime": "19:00",
-        "eventID": "001",
-        "location": "Concert Hall"
+  "events": [
+    {
+      "eventID": "001",
+      "groupID": 1,
+      "eventTitle": "Music Concert",
+      "eventDescription": "Experience the magic of live music performances by talented artists from various genres. Join us for an evening filled with melody and rhythm.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Art Exhibition",
-        "group": "Art Enthusiasts Club",
-        "eventDate": "2024-05-15",
-        "eventTime": "15:00",
-        "eventID": "002",
-        "location": "Art Gallery"
+      "eventDate": "2024-04-20",
+      "eventStartTime": {
+        "timeID": 2,
+        "hour": 19,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Science Fair",
-        "group": "STEM Alliance",
-        "eventDate": "2024-06-10",
-        "eventTime": "10:00",
-        "eventID": "003",
-        "location": "Science Center"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 21,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Book Launch",
-        "group": "Literature Society",
-        "eventDate": "2024-07-05",
-        "eventTime": "18:30",
-        "eventID": "004",
-        "location": "Library"
+      "status": "Scheduled",
+      "capacity": 50
+    },
+    {
+      "eventID": "002",
+      "groupID": 2,
+      "eventTitle": "Art Exhibition",
+      "eventDescription": "Immerse yourself in a diverse collection of artistic expressions ranging from paintings to sculptures. Explore creativity in its purest form.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Film Screening",
-        "group": "Cinema Club",
-        "eventDate": "2024-08-20",
-        "eventTime": "20:00",
-        "eventID": "005",
-        "location": "Movie Theater"
+      "eventDate": "2024-05-15",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 15,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Charity Gala",
-        "group": "Community Aid Foundation",
-        "eventDate": "2024-09-12",
-        "eventTime": "19:30",
-        "eventID": "006",
-        "location": "Convention Center"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 17,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Cooking Workshop",
-        "group": "Culinary Society",
-        "eventDate": "2024-10-25",
-        "eventTime": "14:00",
-        "eventID": "007",
-        "location": "Kitchen Studio"
+      "status": "Scheduled",
+      "capacity": 50
+    },
+    {
+      "eventID": "003",
+      "groupID": 3,
+      "eventTitle": "Science Fair",
+      "eventDescription": "Discover the wonders of science through interactive exhibits and engaging demonstrations. Ignite your curiosity and embrace the power of knowledge.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Tech Conference",
-        "group": "Tech Innovators Forum",
-        "eventDate": "2024-11-08",
-        "eventTime": "09:00",
-        "eventID": "008",
-        "location": "Conference Hall"
+      "eventDate": "2024-06-10",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 10,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Dance Performance",
-        "group": "Dance Academy",
-        "eventDate": "2024-12-15",
-        "eventTime": "17:00",
-        "eventID": "009",
-        "location": "Theater"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 12,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Fashion Show",
-        "group": "Fashion Designers Association",
-        "eventDate": "2025-01-20",
-        "eventTime": "16:00",
-        "eventID": "010",
-        "location": "Fashion Runway"
+      "status": "Scheduled",
+      "capacity": 50
+    },
+    {
+      "eventID": "004",
+      "groupID": 4,
+      "eventTitle": "Book Launch",
+      "eventDescription": "Celebrate the birth of literary masterpieces as we unveil captivating stories and insightful narratives. Dive into the world of words and imagination.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Poetry Night",
-        "group": "Poetry Society",
-        "eventDate": "2025-02-14",
-        "eventTime": "19:00",
-        "eventID": "011",
-        "location": "Coffeehouse"
+      "eventDate": "2024-07-05",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 18,
+        "minute": 30,
+        "second": 0
       },
-      {
-        "eventName": "Fitness Workshop",
-        "group": "Fitness Enthusiasts Club",
-        "eventDate": "2025-03-10",
-        "eventTime": "11:30",
-        "eventID": "012",
-        "location": "Gym"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 20,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Entrepreneurship Summit",
-        "group": "Startup Hub",
-        "eventDate": "2025-04-18",
-        "eventTime": "10:00",
-        "eventID": "013",
-        "location": "Business Center"
+      "status": "Scheduled",
+      "capacity": 50
+    },
+    {
+      "eventID": "005",
+      "groupID": 5,
+      "eventTitle": "Film Screening",
+      "eventDescription": "Embark on a cinematic journey through a selection of thought-provoking films and captivating stories. Experience the magic of storytelling on the silver screen.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Gardening Seminar",
-        "group": "Gardening Enthusiasts Society",
-        "eventDate": "2025-05-22",
-        "eventTime": "13:00",
-        "eventID": "014",
-        "location": "Botanical Garden"
+      "eventDate": "2024-08-20",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 20,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Language Exchange",
-        "group": "Language Learners Club",
-        "eventDate": "2025-06-30",
-        "eventTime": "16:30",
-        "eventID": "015",
-        "location": "Community Center"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 22,
+        "minute": 0,
+        "second": 0
       },
-      {
-        "eventName": "Photography Exhibition",
-        "group": "Photography Society",
-        "eventDate": "2025-07-25",
-        "eventTime": "15:00",
-        "eventID": "016",
-        "location": "Art Museum"
+      "status": "Scheduled",
+      "capacity": 50
+    },
+    {
+      "eventID": "006",
+      "groupID": 6,
+      "eventTitle": "Charity Gala",
+      "eventDescription": "Support a noble cause and make a difference in the community. Join us for an elegant evening of philanthropy, compassion, and hope.",
+      "location": {
+        "addressID": 1,
+        "street": 124,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
       },
-      {
-        "eventName": "Yoga Retreat",
-        "group": "Yoga Enthusiasts Group",
-        "eventDate": "2025-08-10",
-        "eventTime": "09:00",
-        "eventID": "017",
-        "location": "Retreat Center"
+      "eventDate": "2024-09-12",
+      "eventStartTime": {
+        "timeID": 1,
+        "hour": 19,
+        "minute": 30,
+        "second": 0
       },
-      {
-        "eventName": "Coding Bootcamp",
-        "group": "Programming Club",
-        "eventDate": "2025-09-05",
-        "eventTime": "10:00",
-        "eventID": "018",
-        "location": "Tech Hub"
+      "eventEndTime": {
+        "timeID": 2,
+        "hour": 21,
+        "minute": 30,
+        "second": 0
       },
-      {
-        "eventName": "Music Festival",
-        "group": "Music Fans Association",
-        "eventDate": "2025-10-18",
-        "eventTime": "17:00",
-        "eventID": "019",
-        "location": "Outdoor Venue"
-      },
-      {
-        "eventName": "Art Workshop",
-        "group": "Artists Collective",
-        "eventDate": "2025-11-22",
-        "eventTime": "14:00",
-        "eventID": "020",
-        "location": "Studio"
-      }
-    ]
-  }
-  
+      "status": "Scheduled",
+      "capacity": 50
+    }
+  ]
+}
