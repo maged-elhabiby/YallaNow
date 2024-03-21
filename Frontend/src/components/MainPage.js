@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import '../App.css';
 import '../output.css';
 import eventData from './exampleResponse.json';
+import groupData from './exampleGroups.json';
 import { Carousel, Button  } from 'flowbite-react';
 import Nav from './nav.js';
 
@@ -12,6 +13,7 @@ function MainPage() {
   const [sortBy, setSortBy] = useState('');
   const navigate = useNavigate();
   const modifiedEventData = stringifyEventData(eventData);
+  const modifiedGroupData = stringifyGroupData(groupData);
 
   // Function to sort events based on the selected sort option
   const sortEvents = (events) => {
@@ -63,6 +65,39 @@ function MainPage() {
     })
   );
 
+  // Group functions
+  //sort groups based on name
+  function sortGroups(groups) {
+    return groups.sort((a, b) => a.groupName.localeCompare(b.groupName));
+  }
+
+
+  function stringifyGroupData(data) {
+    const groupsArray = data.groups; // Renamed the variable to groupsArray
+    return groupsArray.map(group => {
+      const { events, ...rest } = group;
+      const stringifiedGroupEvents = JSON.stringify(events);
+      return {
+        ...rest,
+        location: stringifiedGroupEvents
+      };
+    });
+  }
+
+  const filteredGroups = sortGroups(
+    modifiedGroupData.filter((group) => {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      const lowerCaseGroupName = (group.groupName).toLowerCase();
+  
+      switch (sortBy) {
+        case "name":
+          return lowerCaseGroupName.includes(lowerCaseSearchTerm);
+        default:
+          return true;
+      }
+    })
+  );
+
   return (
     <body class ="bg-gray-100 ">
       {Nav()}
@@ -94,12 +129,14 @@ function MainPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+      {displayType === 'events' && (
         <div className="flex items-center">
           <select value={sortBy} className="px-4 py-2 border rounded-md" onChange={(e) => setSortBy(e.target.value)}>
             <option value="name">Name</option>
             <option value="location">Location</option>
           </select>
         </div>
+      )}
       </div>
 
       <div className="content-list flex flex-wrap">
@@ -115,9 +152,10 @@ function MainPage() {
             </div>
           ))
         ) : (
-          modifiedEventData.map((group) => (
-            <div key={group.groupID} className="group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1">
-              <strong>Group ID : {group.groupID}</strong>
+          filteredGroups.map((group) => (
+            <div key={group.groupID} className="group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1"
+            onClick={() => navigate(`group/${group.groupID}`, { state: { event: group } })}>
+              <strong>Group ID : {group.groupName}</strong>
             </div>
           ))
         )}
