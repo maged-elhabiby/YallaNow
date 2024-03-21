@@ -3,12 +3,15 @@ import {Link, useNavigate} from 'react-router-dom';
 import '../App.css';
 import '../output.css';
 import eventData from './exampleResponse.json';
-import { Dropdown, Carousel } from 'flowbite-react';
+import { Carousel, Button  } from 'flowbite-react';
+import Nav from './nav.js';
 
 function MainPage() {
+  const [displayType, setDisplayType] = useState('events');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('');
   const navigate = useNavigate();
+  const modifiedEventData = stringifyEventData(eventData);
 
   // Function to sort events based on the selected sort option
   const sortEvents = (events) => {
@@ -27,48 +30,42 @@ function MainPage() {
     }
   };
 
+  function stringifyEventData(data) {
+    const eventsArray = data.events; // Renamed the variable to eventsArray
+    return eventsArray.map(event => {
+      const { location, eventStartTime, eventEndTime, ...rest } = event;
+      const stringifiedLocation = JSON.stringify(location);
+      const stringifiedStartTime = JSON.stringify(eventStartTime);
+      const stringifiedEndTime = JSON.stringify(eventEndTime);
+      return {
+        ...rest,
+        location: stringifiedLocation,
+        eventStartTime: stringifiedStartTime,
+        eventEndTime: stringifiedEndTime
+      };
+    });
+  }
+
   const filteredEvents = sortEvents(
-    eventData.events.filter((event) => {
+    modifiedEventData.filter((event) => {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
-      const lowerCaseEventName = event.eventName.toLowerCase();
-      const lowerCaseLocation = event.location.toLowerCase();
-      const lowerCaseGroup = event.group.toLowerCase();
-      const eventDate = new Date(event.date);
+      const lowerCaseEventName = (event.eventTitle).toLowerCase();
+      const lowerCaseLocation = JSON.parse(event.location).city.toLowerCase();
   
       switch (sortBy) {
         case "name":
           return lowerCaseEventName.includes(lowerCaseSearchTerm);
         case "location":
           return lowerCaseLocation.includes(lowerCaseSearchTerm);
-        case "group":
-          return lowerCaseGroup.includes(lowerCaseSearchTerm);
-        case "date":
-          return eventDate.toLocaleDateString().includes(lowerCaseSearchTerm);
         default:
-          return true; 
+          return true;
       }
     })
   );
 
   return (
-    <body class ="bg-gray-100 h-screen">
-      <nav class="flex justify-between items-center bg-white py-8 px-6 mb-4">
-        <div class="flex items-center space-x-4">
-          <Dropdown label="Dropdown button" dismissOnClick={false} class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-            <Dropdown.Item>My Events</Dropdown.Item>
-            <Dropdown.Item>Chat</Dropdown.Item>
-            <Dropdown.Item>My Events</Dropdown.Item>
-          </Dropdown>
-        </div>
-        <div class="flex items-center">
-          <p class="test-blue font-serif font-bold text-5xl italic text-blue-300 mr-40">YallaNow</p>
-        </div>
-        <div>
-          <button class="bg-blue-300 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick = {() => navigate('/Login')}>
-            Login
-          </button>
-        </div>
-      </nav>
+    <body class ="bg-gray-100 ">
+      {Nav()}
 
       <div class="items-center justify-center flex mb-4 ">
         <div class="h-56 sm:h-64 xl:h-80 2xl:h-96 w-2/5">
@@ -82,33 +79,48 @@ function MainPage() {
         </div>
       </div>
 
-      <div class = "flex items-center mb-4 justify-center">
+      <div className="flex justify-center items-center mb-2">
+        <Button.Group>
+          <Button color={displayType === 'events' ? 'blue' : 'gray'} onClick={() => setDisplayType('events')}>Events</Button>
+          <Button color={displayType === 'groups' ? 'blue' : 'gray'} onClick={() => setDisplayType('groups')}>Groups</Button>
+        </Button.Group>
+      </div>
+
+      <div className="flex items-center mb-4 justify-center">
         <input
-          class="px-4 py-2 border rounded-md w-2/5"
+          className="px-4 py-2 border rounded-md w-2/5"
           type="text"
-          placeholder="Search Events"
+          placeholder={`Search ${displayType === 'events' ? 'Events' : 'Groups'}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div class="flex items-center">
-          <select value={sortBy} class="px-4 py-2 border rounded-md" onChange={(e) => setSortBy(e.target.value)}>
-            <option value="date">Date</option>
+        <div className="flex items-center">
+          <select value={sortBy} className="px-4 py-2 border rounded-md" onChange={(e) => setSortBy(e.target.value)}>
             <option value="name">Name</option>
             <option value="location">Location</option>
-            <option value="group">Group</option>
           </select>
         </div>
       </div>
-      <div className="event-list" class = "flex flex-wrap ">
-        {filteredEvents.map((event) => (
-          <div key={event.eventID} className="event-card" class = "bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1">
-            <strong>{event.eventName}</strong>
-            <p>Group: {event.group}</p>
-            <p>Date: {event.eventDate}</p>
-            <p>Time: {event.eventTime}</p>
-            <p>Location: {event.location}</p>
-          </div>
-        ))}
+
+      <div className="content-list flex flex-wrap">
+        {displayType === 'events' ? (
+          filteredEvents.map((event) => (
+            <div key={event.eventID} className="event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
+              onClick={() => navigate(`event/${event.eventID}`, { state: { event: event } })}>
+              <strong>{event.eventTitle}</strong>
+              <p>Group: {event.group}</p>
+              <p>Date: {event.eventDate}</p>
+              <p>Time: {event.eventTime}</p>
+              <p>Location: {event.location}</p>
+            </div>
+          ))
+        ) : (
+          modifiedEventData.map((group) => (
+            <div key={group.groupID} className="group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1">
+              <strong>Group ID : {group.groupID}</strong>
+            </div>
+          ))
+        )}
       </div>
     </body>
   );
