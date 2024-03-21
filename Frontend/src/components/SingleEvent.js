@@ -26,7 +26,7 @@ function SingleEvent() {
 
             <div className="singleEvent" class="flex items-center justify-center">
                 <div class="bg-white mx-auto rounded-xl shadow-lg items-center w-3/5 p-6 mt-4">
-                    <p class="font-serif font-bold text-5xl italic text-center pb-1 block">{event.eventName}</p>
+                    <p class="font-serif font-bold text-5xl italic text-center pb-1 block">{event.eventTitle}</p>
                     <hr class="w-full my-4"></hr>
                     <div class="flex">
                         <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." class = "block mx-auto max-w-2xl max-h-72 min-h-44 min-w-72"/>
@@ -34,13 +34,21 @@ function SingleEvent() {
                     <hr class="w-full my-4"></hr>
                     <div class="flex justify-between">
                         <p class="block text-2xl">Event Location:</p>
-                        <p class="block text-2xl"> Event Date &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Event Time</p>
+                        <p class="block text-2xl"> Event Date &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Event Time</p>
                     </div>
                     <div class="flex justify-between">
-                        <p class="block text-3xl font-bold">{event.location}</p>
-                        <p class="block text-3xl font-bold"> {event.eventDate} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{event.eventTime}</p>
+                        <p class="block text-3xl font-bold">{JSON.parse(event.location).addressID}, {JSON.parse(event.location).city}, {JSON.parse(event.location).country}</p>
+                        <p class="block text-3xl font-bold"> {event.eventDate} &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{JSON.parse(event.eventStartTime).hour}:{JSON.parse(event.eventStartTime).minute}</p>
                     </div>
                     <hr class="w-full my-4"></hr>
+                    <div class="flex justify-between">
+                        <p class="block text-3xl font-bold">GroupID: {event.groupID}</p>
+                        <button class="bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2.5 px-4 rounded">Join Event</button>
+                    </div>
+                    <hr class="w-full my-4"></hr>
+                    <div>
+                        <p>{event.eventDescription}</p>
+                    </div>
                 </div>
             </div>
         </body>
