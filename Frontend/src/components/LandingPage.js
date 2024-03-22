@@ -110,7 +110,7 @@ const LandingPage = () => {
       </Container>
       <footer style={{ backgroundColor: '#333', color: '#fff', padding: '20px 0', textAlign: 'center' }}>
         <Typography variant="body2">
-          &copy; {new Date().getFullYear()} EventApp. All rights reserved.
+          &copy; {new Date().getFullYear()} YallaNow. All rights reserved.
         </Typography>
       </footer>
     </div>
