@@ -123,7 +123,7 @@ function MainPage() {
       </div>
 
       <div className="flex items-center mb-4 justify-center">
-      {displayType != 'events' && (
+      {displayType !== 'events' && (
         <input
         className="px-4 py-2 border rounded-md w-2/5"
         type="text"

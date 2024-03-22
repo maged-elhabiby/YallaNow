@@ -1,8 +1,7 @@
 package org.ucalgary.events_microservice.DTO;
 
 import org.springframework.web.client.RestTemplate;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 
 public class PubEvent {
@@ -15,9 +14,8 @@ public class PubEvent {
     private String city;
     private String province;
     private String country;
-    private LocalDate eventDate;
-    private LocalTime eventStartTime;
-    private LocalTime eventEndTime;
+    private LocalDateTime eventStartTime;
+    private LocalDateTime eventEndTime;
     private String status;
     private int count;
     private int capacity;
@@ -35,7 +33,6 @@ public class PubEvent {
         this.city = event.getAddress().getCity();
         this.province = event.getAddress().getProvince();
         this.country = event.getAddress().getCountry();
-        this.eventDate = event.getEventDate();
         this.eventStartTime = event.getEventStartTime();
         this.eventEndTime = event.getEventEndTime();
         this.status = event.getStatus().toString();
@@ -65,9 +62,8 @@ public class PubEvent {
     public final String getCity() {return city;}
     public final String getProvince() {return province;}
     public final String getCountry() {return country;}
-    public final LocalDate getEventDate() {return eventDate;}
-    public final LocalTime getEventStartTime() {return eventStartTime;}
-    public final LocalTime getEventEndTime() {return eventEndTime;}
+    public final LocalDateTime getEventStartTime() {return eventStartTime;}
+    public final LocalDateTime getEventEndTime() {return eventEndTime;}
     public final String getStatus() {return status;}
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
