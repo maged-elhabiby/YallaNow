@@ -14,6 +14,7 @@ function Nav(){
             <Dropdown.Item>My Events</Dropdown.Item>
             <Dropdown.Item>Chat</Dropdown.Item>
             <Dropdown.Item>Make an Event</Dropdown.Item>
+            <Dropdown.Item  onClick = {() => navigate('/group-creation')} >Make a Group</Dropdown.Item>
         </Dropdown>
         </div>
         <div class="flex items-center">
