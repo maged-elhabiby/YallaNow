@@ -13,7 +13,7 @@ const MyEventsFeed = ({ events,onEventClick }) => {
     return (
         <Box sx={{ width: '100%' }}>
             {events.map((event) => (
-                <Card key={event.eventID} sx={{ mb: 2, maxWidth: 345 }} onClick={() => onEventClick(event)}>
+                <Card key={event.eventID} sx={{ mb: 2, maxWidth: 800 }} onClick={() => onEventClick(event)}>
                     <CardMedia
                         component="img"
                         sx={{ height: 140 }} // Adjust height as needed
