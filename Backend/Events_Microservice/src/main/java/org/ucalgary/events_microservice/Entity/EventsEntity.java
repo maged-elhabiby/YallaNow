@@ -1,10 +1,9 @@
 package org.ucalgary.events_microservice.Entity;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
-
 import org.ucalgary.events_microservice.DTO.EventStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,6 +24,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "event_table")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EventsEntity {
 
     // Attributes
@@ -40,12 +40,10 @@ public class EventsEntity {
     private String eventDescription;
     @Column(name = "location_id")
     private Integer locationId;
-    @Column(name = "event_date")
-    private LocalDate eventDate;
     @Column(name = "event_start_time")
-    private LocalTime eventStartTime;
+    private LocalDateTime eventStartTime;
     @Column(name = "event_end_time")
-    private LocalTime eventEndTime;
+    private LocalDateTime eventEndTime;
     @Enumerated(EnumType.STRING)
     private EventStatus status;
     @Column(name = "count")
@@ -69,15 +67,14 @@ public class EventsEntity {
 
     public EventsEntity(Integer eventId, Integer groupId, 
                         String eventTitle, String eventDescription, 
-                        Integer locationId, LocalDate eventDate, 
-                        LocalTime eventStartTime, LocalTime eventEndTime, 
+                        Integer locationId,
+                        LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                         EventStatus status, Integer count, Integer capacity, Integer imageId) {
         this.eventId = eventId;
         this.groupId = groupId;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
         this.locationId = locationId;
-        this.eventDate = eventDate;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.status = status;
@@ -92,22 +89,21 @@ public class EventsEntity {
     public String getEventTitle() {return eventTitle;}
     public String getEventDescription() {return eventDescription;}
     public Integer getLocationId() {return locationId;}
-    public LocalDate getEventDate() {return eventDate;}
-    public LocalTime getEventStartTime() {return eventStartTime;}
-    public LocalTime getEventEndTime() {return eventEndTime;}
+    public LocalDateTime getEventStartTime() {return eventStartTime;}
+    public LocalDateTime getEventEndTime() {return eventEndTime;}
     public EventStatus getStatus() {return status;}
     public Integer getCount() {return count;}
     public Integer getCapacity() {return capacity;}
     public Integer getImageId() {return imageId;}
+    public AddressEntity getAddress() {return address;}
 
     public void setEventId(Integer eventId) {this.eventId = eventId;}
     public void setGroupId(Integer groupId) {this.groupId = groupId;}
     public void setEventTitle(String eventTitle) {this.eventTitle = eventTitle;}
     public void setEventDescription(String eventDescription) {this.eventDescription = eventDescription;}
     public void setLocationId(Integer locationId) {this.locationId = locationId;}
-    public void setEventDate(LocalDate eventDate) {this.eventDate = eventDate;}
-    public void setEventStartTime(LocalTime eventStartTime) {this.eventStartTime = eventStartTime;}
-    public void setEventEndTime(LocalTime eventEndTime) {this.eventEndTime = eventEndTime;}
+    public void setEventStartTime(LocalDateTime eventStartTime) {this.eventStartTime = eventStartTime;}
+    public void setEventEndTime(LocalDateTime eventEndTime) {this.eventEndTime = eventEndTime;}
     public void setStatus(EventStatus status) {this.status = status;}
     public void setCount(Integer count) {this.count = count;}
     public void setCapacity(Integer capacity) {this.capacity = capacity;}

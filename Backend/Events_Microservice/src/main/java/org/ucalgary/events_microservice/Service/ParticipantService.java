@@ -24,10 +24,15 @@ import java.util.Map;
 public class ParticipantService {
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
+    private final EventsPubService eventsPubService;
+    private final EventService eventService;
 
-    public ParticipantService(EventRepository eventRepository,ParticipantRepository participantRepository) {
+    public ParticipantService(EventRepository eventRepository,ParticipantRepository participantRepository, 
+                                EventsPubService eventsPubService, EventService eventService) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
+        this.eventsPubService = eventsPubService;
+        this.eventService = eventService;
     }
 
     /**
@@ -47,17 +52,12 @@ public class ParticipantService {
         EventsEntity event = eventRepository.findById(user.getEventid())
                 .orElseThrow(() -> new EntityNotFoundException("Event with ID " + user.getEventid() + " not found"));
 
-        // Check if the event has reached its capacity
-        if (event.getCapacity() != null && getParticipantCount(user.getEventid()) > event.getCapacity()) {
-            throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
-        }
-
         // Create a new participant entity and associate it with the event
         ParticipantEntity participant = new ParticipantEntity(user.getUserid(),
                                                             user.getParticipantStatus(), 
                                                             event);
 
-        updateEventCount(event, user.getParticipantStatus(), user.getParticipantStatus());
+        updateEventCount(event, user.getParticipantStatus());
 
         return participantRepository.save(participant);
     }
@@ -119,24 +119,6 @@ public class ParticipantService {
     }
 
     /**
-     * Retrieves the count of participants attending an event.
-     * @param eventID The ID of the event to retrieve participant count for.
-     * @return The count of participants attending the event.
-     */
-    @Transactional
-    public int getParticipantCount(int eventID) {
-        int count = 0;
-        ArrayList<ParticipantEntity> participants = getAllEventParticipants(eventID);
-        for (ParticipantEntity participant : participants) {
-            if (participant.getParticipantStatus() == ParticipantStatus.Attending ||
-                participant.getParticipantStatus() == ParticipantStatus.Maybe) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
      * Updates the status of a participant for an event.
      * @param oldParticipant The participant DTO containing the old participant information.
      * @return The updated participant entity.
@@ -178,6 +160,25 @@ public class ParticipantService {
         );
     }
 
+    /**
+     * Updates the count of participants for an event based on status changes.
+     * @param event The event for which to update the count.
+     * @param newStatus The new status of the participant.
+     * @throws IllegalStateException if the event has reached its capacity.
+     */
+    private void updateEventCount(EventsEntity event, ParticipantStatus newStatus){
+        if(newStatus != ParticipantStatus.NotAttending){
+            event.setCount(event.getCount() + 1);
+            // Check if the event has reached its capacity
+            if (event.getCapacity() != null && event.getCount() > event.getCapacity()) {
+                throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
+            }
+            eventRepository.save(event);
+            if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
+                eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
+            }
+        }
+    }
 
     /**
      * Updates the count of participants for an event based on status changes.
@@ -193,20 +194,30 @@ public class ParticipantService {
             if (newStatus == ParticipantStatus.NotAttending &&  
                 (oldStatus == ParticipantStatus.Attending || 
                 oldStatus == ParticipantStatus.Maybe)) {
-                    
-                event.setCount(event.getCount() - 1);
+                
+                if(event.getCapacity().equals(event.getCount())){ 
+                    event.setCount(event.getCount() - 1);
+                    eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE"); // Make the event available for publishing
+                }else{
+                    event.setCount(event.getCount() - 1);    
+                }   
             }
             // If the new status is attending or maybe and the old status is not attending then increase count
             else if (oldStatus == ParticipantStatus.NotAttending && 
                 (newStatus == ParticipantStatus.Attending || 
                 newStatus == ParticipantStatus.Maybe)) {
 
-                if(event.getCapacity() != null && event.getCount() + 1 > event.getCapacity()){ // Check if the event has reached its capacity
+                event.setCount(event.getCount() + 1);
+
+                if(event.getCapacity() != null && event.getCount() > event.getCapacity()){ // Check if the event has reached its capacity
                     throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
                 }
-                event.setCount(event.getCount() + 1);
             }
             eventRepository.save(event); // Save the updated event
+
+            if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
+                eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
+            }
         }
     }
 }

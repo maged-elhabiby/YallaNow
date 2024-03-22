@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.ucalgary.events_microservice.Service.EventsPubService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +23,11 @@ import java.util.List;
 @RequestMapping("/microservice/events")
 public class EventsController {
     private final EventService eventService;
+    private final EventsPubService eventsPubService;
 
-    public EventsController(EventService eventService) {
+    public EventsController(EventService eventService, EventsPubService eventsPubService) {
         this.eventService = eventService;
+        this.eventsPubService = eventsPubService;
     }
 
     /**
@@ -34,6 +38,7 @@ public class EventsController {
     @PostMapping("/AddEvent")
     public ResponseEntity<?> addEvent(@RequestBody EventDTO event) {
         EventsEntity events = eventService.createEvent(event); // createEvent(event);
+        eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "ADD");
         return ResponseEntity.ok(events);
     }   
 
@@ -45,6 +50,7 @@ public class EventsController {
     @PostMapping("/UpdateEvent")
     public ResponseEntity<?> updateEvent(@RequestBody EventDTO event) {
         EventsEntity events = eventService.updateEvent(event); // updateEvent(event);
+        eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
         return ResponseEntity.ok(events);
     }
 
@@ -89,12 +95,10 @@ public class EventsController {
     public ResponseEntity<?> deleteEvent(@PathVariable int eventId) {
         try {
             eventService.deleteEvent(eventId); // deleteEvent(eventId);
+            eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "DELETE");
             return ResponseEntity.ok("Event with ID " + eventId + " has been deleted successfully.");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
-
-    
-
 }

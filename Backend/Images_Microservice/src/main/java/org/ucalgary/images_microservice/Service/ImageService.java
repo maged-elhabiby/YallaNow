@@ -29,7 +29,7 @@ public class ImageService {
     public ImageEntity addImage(ImageDTO imageDTO) {
         isValidLink(imageDTO.getImageLink()); // Check if the link is valid
         Optional<ImageEntity> optionalImage = imageRepository.findByImageLink(imageDTO.getImageLink());
-        if (optionalImage.isPresent()) {updateImage(imageDTO);} // If the ImageEntity is found, update it
+        if (optionalImage.isPresent()) {return updateImage(imageDTO);} // If the ImageEntity is found, update it
 
         ImageEntity image = new ImageEntity(imageDTO.getImageLink()); // Create an ImageEntity
         return imageRepository.save(image); // Save the ImageEntity to the database
@@ -57,7 +57,7 @@ public class ImageService {
      */
     public ImageEntity updateImage(ImageDTO imageDTO) {
         isValidLink(imageDTO.getImageLink()); // Check if the link is valid
-        Optional<ImageEntity> optionalImage = imageRepository.findById(imageDTO.getImageId()); // Get the ImageEntity from the database using the imageID
+        Optional<ImageEntity> optionalImage = imageRepository.findByImageLink(imageDTO.getImageLink()); // Get the ImageEntity from the database using the imageID
         if (optionalImage.isPresent()) {
             ImageEntity image = optionalImage.get(); // If the ImageEntity is found, update it
             image.setImageLink(imageDTO.getImageLink());
