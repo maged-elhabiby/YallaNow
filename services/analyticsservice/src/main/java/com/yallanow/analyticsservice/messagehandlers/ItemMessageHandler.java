@@ -42,18 +42,18 @@ public class ItemMessageHandler {
         String payload = new String((byte[]) message.getPayload());
         try {
 
-            Item item = itemConverter.fromPubsubMessage(payload);
+
             String operationType = getOperationType(payload);
 
             switch (operationType) {
                 case "ADD":
-                    itemService.addItem(item);
+                    itemService.addItem(itemConverter.fromPubsubMessage(payload));
                     break;
                 case "UPDATE":
-                    itemService.updateItem(item);
+                    itemService.updateItem(itemConverter.fromPubsubMessage(payload));
                     break;
                 case "DELETE":
-                    itemService.deleteItem(item);
+                    itemService.deleteItem(itemConverter.getIdFromPubSubMessage(payload));
                     break;
                 default:
                     logger.error("Invalid operation type: {}", operationType);

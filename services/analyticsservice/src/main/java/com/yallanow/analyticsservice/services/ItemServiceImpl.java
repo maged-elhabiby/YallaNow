@@ -38,9 +38,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItem(Item item) throws ItemServiceException {
+    public void deleteItem(String itemId) throws ItemServiceException {
         try {
-            recombeeClient.deleteItem(item.getItemId());
+            recombeeClient.deleteItem(itemId);
         } catch (Exception e) {
             throw new ItemServiceException("Error deleting item from Recombee", e);
         }

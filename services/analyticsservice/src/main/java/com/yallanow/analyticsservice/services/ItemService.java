@@ -7,5 +7,5 @@ public interface ItemService {
 
     void addItem(Item item) throws ItemServiceException;
     void updateItem(Item item) throws ItemServiceException;
-    void deleteItem(Item item) throws ItemServiceException;
+    void deleteItem(String itemId) throws ItemServiceException;
 }

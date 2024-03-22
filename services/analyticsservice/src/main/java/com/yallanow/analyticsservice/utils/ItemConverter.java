@@ -42,12 +42,23 @@ public class ItemConverter implements Converter<Item> {
 
     @Override
     public Item fromPubsubMessage(String message) throws IOException {
+        return fromMap(extractEvent(message));
+    }
+
+    private Map<String, Object> extractEvent(String message) throws com.fasterxml.jackson.core.JsonProcessingException {
         Map<String, Object> payload = objectMapper.readValue(message, Map.class);
         if (!payload.containsKey("event")) {
             throw new IllegalArgumentException("Message does not contain 'event' data");
         }
         Map<String, Object> eventData = (Map<String, Object>) payload.get("event");
-        return fromMap(eventData);
+        return eventData;
+    }
+
+    public String getIdFromPubSubMessage(String message) throws IOException {
+        Map<String, Object> eventData = extractEvent(message);
+        String eventId = String.valueOf(Optional.ofNullable(eventData.get("eventId"))
+                .orElseThrow(() -> new IllegalArgumentException("Missing 'eventId' in event data")));
+        return eventId;
     }
 
     @Override
