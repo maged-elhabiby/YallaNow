@@ -4,14 +4,15 @@ package org.ucalgary.events_microservice.Service;
 import com.google.pubsub.v1.TopicName;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.pubsub.v1.PubsubMessage;
+
+import org.ucalgary.events_microservice.DTO.PubEvent;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
-import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import com.google.protobuf.ByteString;
-import com.google.api.core.ApiFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,8 +27,7 @@ public class EventsPubService {
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
 
-    public EventsPubService(ObjectMapper objectMapper, RestTemplate restTemplate)
-            throws IOException {
+    public EventsPubService(ObjectMapper objectMapper, RestTemplate restTemplate) throws IOException {
         this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
     }
@@ -46,36 +46,25 @@ public class EventsPubService {
     /**
      * Publishes a list of events to the Google Cloud Pub/Sub.
      * @param eventsList The list of events to publish.
-     * @throws InterruptedException if the thread is interrupted while waiting for the publish operation to complete.
      */
-    public List<ApiFuture<String>> publishEvents(List<EventsEntity> eventsList)
-            throws InterruptedException {
-        List<ApiFuture<String>> messageIds = new ArrayList<>();
+    public void publishEvents(List<EventsEntity> eventsList, String Operation) {
         try {
             for (EventsEntity event : eventsList) {
-                String imageUrl = restTemplate.getForObject("http://localhost:8081/microservice/images/GetImage/" + event.getImageId(), String.class);
-                String jsonMessage = objectMapper.writeValueAsString(event);
+                PubEvent publishEvent = new PubEvent(event, restTemplate);
+                String jsonMessage = objectMapper.writeValueAsString(publishEvent);
                 ByteString data = ByteString.copyFromUtf8(jsonMessage);
                 PubsubMessage pubsubMessage = null;
-                if (imageUrl != null) {
-                    pubsubMessage = PubsubMessage.newBuilder()
-                            .setData(data)
-                            .putAttributes("operationType","GET")
-                            .putAttributes("imageUrl",imageUrl)
-                            .build();
-                }else{
-                    pubsubMessage = PubsubMessage.newBuilder()
-                            .setData(data)
-                            .putAttributes("operationType","GET")
-                            .build();
-                }
-                ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
-                messageIds.add(messageIdFuture);
+
+                pubsubMessage = PubsubMessage.newBuilder()
+                        .setData(data)
+                        .putAttributes("operationType",Operation)
+                        .build();
+            
+                publisher.publish(pubsubMessage);
             }
         } catch (Exception e) {
             throw new RuntimeException("Error Publishing Events: " + e);
         }
-        return messageIds;
     }
 
     /**

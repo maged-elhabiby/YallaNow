@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.ucalgary.events_microservice.DTO.EventStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +27,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "event_table")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EventsEntity {
 
     // Attributes
@@ -99,6 +102,7 @@ public class EventsEntity {
     public Integer getCount() {return count;}
     public Integer getCapacity() {return capacity;}
     public Integer getImageId() {return imageId;}
+    public AddressEntity getAddress() {return address;}
 
     public void setEventId(Integer eventId) {this.eventId = eventId;}
     public void setGroupId(Integer groupId) {this.groupId = groupId;}
