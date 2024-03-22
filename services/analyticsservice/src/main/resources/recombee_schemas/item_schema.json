@@ -3,7 +3,7 @@
   "title": "Item",
   "type": "object",
   "properties": {
-    "eventId": {
+    "itemId": {
       "type": "string"
     },
     "groupId": {
@@ -18,48 +18,44 @@
     "eventDescription": {
       "type": "string"
     },
-    "startTime": {
+    "eventStartTime": {
       "type": "string",
       "format": "date-time"
     },
-    "endTime": {
+    "eventEndTime": {
       "type": "string",
       "format": "date-time"
     },
-    "location": {
-      "type": "string",
-      "properties": {
-        "addressID": {
-          "type": "integer"
-        },
-        "street": {
-          "type": "integer"
-        },
-        "city": {
-          "type": "string"
-        },
-        "province": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        }
-      },
-      "required": ["addressID", "street", "city", "province", "country"]
+    "eventLocationStreet": {
+      "type": "string"
     },
-    "attendeeCount": {
+    "eventLocationCity": {
+      "type": "string"
+    },
+    "eventLocationProvince": {
+      "type": "string"
+    },
+    "eventLocationCountry": {
+      "type": "string"
+    },
+    "eventAttendeeCount": {
       "type": "integer",
       "minimum": 0
     },
-    "capacity": {
-      "type": "integer"
+    "eventCapacity": {
+      "type": "integer",
+      "minimum": 0
     },
-    "status": {
-      "type": "string"
+    "eventStatus": {
+      "type": "string",
+      "enum": ["scheduled", "cancelled", "completed"]
     },
-    "imageUrl": {
-      "type": "string"
+    "eventImageUrl": {
+      "type": "string",
+      "format": "uri"
     }
   },
-  "required": ["eventId", "groupId", "groupName", "eventTitle", "startTime", "endTime", "location", "attendeeCount", "status"]
+  "required": ["itemId", "groupId", "groupName", "eventTitle", "eventStartTime", "eventEndTime",
+    "eventLocationStreet", "eventLocationCity", "eventLocationProvince", "eventLocationCountry",
+    "eventAttendeeCount", "eventCapacity", "eventStatus", "eventImageUrl"]
 }

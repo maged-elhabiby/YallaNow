@@ -8,5 +8,5 @@ import java.util.Map;
 public interface Converter<T> {
     Map<String, Object> toRecombeeMap(T entity);
     T fromPubsubMessage(String message) throws IOException;
-    T fromMap(Map<String, Object> map);
+    T fromMap(Map<String, Object> map) throws IOException;
 }

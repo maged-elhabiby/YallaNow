@@ -19,10 +19,6 @@ public interface RecombeeClientInterface {
     void deleteUser(String userId) throws RecombeeClientException;
     Map<String, Object> getUser(String userId) throws RecombeeClientException;
 
-    // Interactions
-    void addDetailView(String userId, String itemId, String recommId)  throws RecombeeClientException;
-    void deleteDetailView(String userId, String itemId)  throws RecombeeClientException;
-    void addPurchase(String userId, String itemId)  throws RecombeeClientException;
-    void deletePurchase(String userId, String itemId)  throws RecombeeClientException;
+    void setItemProperties() throws RecombeeClientException;
 
 }

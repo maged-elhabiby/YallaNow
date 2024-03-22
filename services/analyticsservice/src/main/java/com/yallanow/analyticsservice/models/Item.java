@@ -15,7 +15,6 @@ public class Item {
     private int attendeeCount;
     private int capacity;
     private String status;
-    private List<String> categories;
 
     public String getImageUrl() {
         return imageUrl;
@@ -28,7 +27,7 @@ public class Item {
     private String imageUrl;
 
     public Item(String itemId, String groupId, String groupName, String title, String description, LocalDateTime startTime,
-                LocalDateTime endTime, Location location, int attendeeCount, List<String> categories,
+                LocalDateTime endTime, Location location, int attendeeCount,
                 int capacity, String status, String imageUrl) {
         this.itemId = itemId;
         this.groupId = groupId;
@@ -39,7 +38,6 @@ public class Item {
         this.endTime = endTime;
         this.location = location;
         this.attendeeCount = attendeeCount;
-        this.categories = categories;
         this.capacity = capacity;
         this.status = status;
         this.imageUrl = imageUrl;
@@ -117,14 +115,6 @@ public class Item {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
-    }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
     }
 
     public int getCapacity() {

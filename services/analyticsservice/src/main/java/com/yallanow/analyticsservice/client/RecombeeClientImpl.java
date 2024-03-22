@@ -32,7 +32,6 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
 
     @Override
     public void addItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException, ValidationException {
-        validateItemProperties(itemProperties);
         sendRequest(new SetItemValues(itemId, itemProperties)
                 .setCascadeCreate(true));
     }
@@ -90,26 +89,30 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     }
 
     @Override
-    public void addDetailView(String userId, String itemId, String recommId) throws RecombeeClientException {
-        sendRequest(new AddDetailView(userId, itemId)
-                .setCascadeCreate(false)
-                .setRecommId(recommId)
-        );
-    }
+    public void setItemProperties() throws RecombeeClientException {
+        try {
+            AddItemProperty[] propertyRequests = {
+                new AddItemProperty("groupId", "string"),
+                new AddItemProperty("groupName", "string"),
+                new AddItemProperty("eventTitle", "string"),
+                new AddItemProperty("eventDescription", "string"),
+                new AddItemProperty("eventStartTime", "timestamp"),
+                new AddItemProperty("eventEndTime", "timestamp"),
+                new AddItemProperty("eventLocationStreet", "string"),
+                new AddItemProperty("eventLocationCity", "string"),
+                new AddItemProperty("eventLocationProvince", "string"),
+                new AddItemProperty("eventLocationCountry", "string"),
+                new AddItemProperty("eventAttendeeCount", "int"),
+                new AddItemProperty("eventCapacity", "int"),
+                new AddItemProperty("eventStatus", "set"),
+                new AddItemProperty("eventImageUrl", "image")
+            };
 
-    @Override
-    public void deleteDetailView(String userId, String itemId) throws RecombeeClientException {
-        sendRequest(new DeleteDetailView(userId, itemId));
-    }
-
-    @Override
-    public void addPurchase(String userId, String itemId) throws RecombeeClientException {
-        sendRequest(new AddPurchase(userId, itemId));
-    }
-
-    @Override
-    public void deletePurchase(String userId, String itemId) throws RecombeeClientException {
-        sendRequest(new DeletePurchase(userId, itemId));
+            Batch batch = new Batch(propertyRequests);
+            client.send(batch);
+        } catch (ApiException e) {
+            handleGenericApiException(e);
+        }
     }
 
 
@@ -122,7 +125,7 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     }
 
     private void handleGenericApiException(ApiException e) throws RecombeeClientException {
-        throw new RecombeeClientException("An error occurred while communicating with Recombee", e);
+        throw new RecombeeClientException("An error occurred while communicating with Recombee" + e.getMessage(), e);
     }
 
     // Validation Logic

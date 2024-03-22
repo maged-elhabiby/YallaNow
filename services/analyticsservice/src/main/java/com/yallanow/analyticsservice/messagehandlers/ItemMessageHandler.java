@@ -58,7 +58,6 @@ public class ItemMessageHandler {
         }
     }
 
-
     private String getOperationType(Message<String> message) throws JsonProcessingException {
         Map<String, Object> payload = objectMapper.readValue(message.getPayload(), Map.class);
         return (String) payload.get("operation");

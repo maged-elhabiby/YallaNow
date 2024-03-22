@@ -24,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             recombeeClient.addItem(item.getItemId(), itemConverter.toRecombeeMap(item));
         } catch (Exception e) {
-            throw new ItemServiceException("Error adding item to Recombee", e);
+            throw new ItemServiceException("Error adding item to Recombee: " + e.getMessage(), e);
         }
     }
 
@@ -46,12 +46,4 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    @Override
-    public Item getItem(String itemId) throws ItemServiceException {
-        try {
-            return itemConverter.fromMap(recombeeClient.getItem(itemId));
-        } catch (Exception e) {
-            throw new ItemServiceException("Error getting item from Recombee", e);
-        }
-    }
 }

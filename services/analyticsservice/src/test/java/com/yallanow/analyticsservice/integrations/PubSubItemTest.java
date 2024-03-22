@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.integration.channel.QueueChannel;
 import org.springframework.messaging.Message;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,33 +30,42 @@ public class PubSubItemTest {
 
     @Test
     public void testPubSubMessageProcessing() throws Exception {
-        Event event = generateRandomEvent();
+        Map<String, Object> event = generateRandomEvent();
         String eventJson = objectMapper.writeValueAsString(event);
         System.out.println(eventJson);
         messagingGateway.sendToPubsub(eventJson);
 
         Thread.sleep(5000); // Adjust the sleep time as needed for your application
-
     }
 
-    private Event generateRandomEvent() {
+
+    private Map<String, Object> generateRandomEvent() {
         Random random = new Random();
-        return new Event(
-                "ADD",
-                String.valueOf(random.nextInt()),
-                String.valueOf(random.nextInt()),
-                generateRandomName("group"),
-                generateRandomName("event"),
-                "Random Event Description",
-                "2023-01-01T00:00:00Z",
-                "2023-01-01T02:00:00Z",
-                new Location(random.nextInt(), random.nextInt(200), "Random City", "Random Province", "Random Country"),
-                random.nextInt(100),
-                random.nextInt(200),
-                "active",
-                "Random Image Url"
-        );
+        Map<String, Object> event = new HashMap<>();
+        event.put("operation", "ADD");
+        Map<String, Object> eventDetails = new HashMap<>();
+        eventDetails.put("eventId", String.valueOf(random.nextInt()));
+        eventDetails.put("groupId", String.valueOf(random.nextInt()));
+        eventDetails.put("groupName", generateRandomName("group"));
+        eventDetails.put("eventTitle", generateRandomName("event"));
+        eventDetails.put("eventDescription", "Random Event Description");
+        eventDetails.put("eventStartTime", "2023-01-01T00:00:00Z");
+        eventDetails.put("eventEndTime", "2023-01-01T02:00:00Z");
+        Map<String, Object> location = new HashMap<>();
+        location.put("addressID", String.valueOf(random.nextInt()));
+        location.put("street", "Random Street");
+        location.put("city", "Random City");
+        location.put("province", "Random Province");
+        location.put("country", "Random Country");
+        eventDetails.put("eventLocation", location);
+        eventDetails.put("eventAttendeeCount", random.nextInt(100));
+        eventDetails.put("eventCapacity", random.nextInt(200));
+        eventDetails.put("eventStatus", "scheduled");
+        eventDetails.put("eventImageUrl", "http://www.catster.com/wp-content/uploads/2017/08/A-fluffy-cat-looking-funny-surprised-or-concerned.jpg");
+        event.put("event", eventDetails);
+        return event;
     }
+
 
     private static final String[] ADJECTIVES = {
             "Amazing", "Breathtaking", "Incredible", "Spectacular", "Marvelous",

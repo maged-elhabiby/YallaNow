@@ -55,13 +55,4 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public User getUser(String userId) {
-        try {
-            return userConverter.fromMap(recombeeClient.getUser(userId));
-        } catch (RecombeeClientException e) {
-            handleRecombeeClientException("Error adding item to Recombee", e);
-        }
-        return null;
-    }
 }
