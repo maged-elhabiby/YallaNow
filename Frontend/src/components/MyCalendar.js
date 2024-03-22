@@ -1,12 +1,15 @@
 // src/components/MyCalendar.js
-import React from 'react';
+import React, { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { Modal, Box, Typography, CardMedia } from '@mui/material';
 
-const MyCalendar = ({ events }) => { // Accept events as a prop
+
+const MyCalendar = ({ events,onEventClick }) => { // Accept events as a prop
   return (
+    <>
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
@@ -16,12 +19,9 @@ const MyCalendar = ({ events }) => { // Accept events as a prop
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       }}
       events={events} // Use the events prop
-      eventClick={(eventClickInfo) => {
-        // Implement custom behavior when an event is clicked.
-        // For example, you might want to open a modal with event details.
-        alert(`Event: ${eventClickInfo.event.title}`);
-      }}
+      eventClick={onEventClick}
     />
+    </>
   );
 };
 
