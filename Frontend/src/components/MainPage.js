@@ -9,7 +9,9 @@ import Nav from './nav.js';
 
 function MainPage() {
   const [displayType, setDisplayType] = useState('events');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTermLocation, setSearchTermLocation] = useState('');
+  const [searchTermEvent, setSearchTermEvent] = useState('');
+  const [searchTermGroup, setSearchTermGroup] = useState('');
   const [sortBy, setSortBy] = useState('');
   const navigate = useNavigate();
   const modifiedEventData = stringifyEventData(eventData);
@@ -21,8 +23,6 @@ function MainPage() {
       return events.sort((a, b) => a.eventName.localeCompare(b.eventName));
     } else if (sortBy === 'location') {
       return events.sort((a, b) => a.location.localeCompare(b.location));
-    } else if (sortBy === 'group') {
-      return events.sort((a, b) => a.group.localeCompare(b.group));
     } else {
       return events.sort((a, b) => {
         const dateA = new Date(`${a.eventDate} ${a.eventTime}`);
@@ -50,17 +50,19 @@ function MainPage() {
 
   const filteredEvents = sortEvents(
     modifiedEventData.filter((event) => {
-      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      const lowerCaseSearchTermLocation = searchTermLocation.toLowerCase();
+      const lowerCaseSearchTermEvent = searchTermEvent.toLowerCase();
       const lowerCaseEventName = (event.eventTitle).toLowerCase();
-      const lowerCaseLocation = JSON.parse(event.location).city.toLowerCase();
+      const lowerCaseLocation = JSON.parse(event.location).city.toLowerCase() + JSON.parse(event.location).street.toString() + JSON.parse(event.location).province.toLowerCase() + JSON.parse(event.location).country.toLowerCase();
   
-      switch (sortBy) {
-        case "name":
-          return lowerCaseEventName.includes(lowerCaseSearchTerm);
-        case "location":
-          return lowerCaseLocation.includes(lowerCaseSearchTerm);
-        default:
-          return true;
+      if (lowerCaseSearchTermLocation === '' && lowerCaseSearchTermEvent === '') {
+        return true;
+      } else if (lowerCaseSearchTermLocation === '') {
+        return lowerCaseEventName.includes(lowerCaseSearchTermEvent);
+      } else if (lowerCaseSearchTermEvent === '') {
+        return lowerCaseLocation.includes(lowerCaseSearchTermLocation);
+      } else {
+        return lowerCaseEventName.includes(lowerCaseSearchTermEvent) && lowerCaseLocation.includes(lowerCaseSearchTermLocation);
       }
     })
   );
@@ -86,14 +88,13 @@ function MainPage() {
 
   const filteredGroups = sortGroups(
     modifiedGroupData.filter((group) => {
-      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      const lowerCaseSearchTerm = searchTermGroup.toLowerCase();
       const lowerCaseGroupName = (group.groupName).toLowerCase();
   
-      switch (sortBy) {
-        case "name":
-          return lowerCaseGroupName.includes(lowerCaseSearchTerm);
-        default:
-          return true;
+      if (lowerCaseSearchTerm === '') {
+        return true;
+      } else {
+        return lowerCaseGroupName.includes(lowerCaseSearchTerm);
       }
     })
   );
@@ -122,21 +123,37 @@ function MainPage() {
       </div>
 
       <div className="flex items-center mb-4 justify-center">
+      {displayType != 'events' && (
         <input
-          className="px-4 py-2 border rounded-md w-2/5"
-          type="text"
-          placeholder={`Search ${displayType === 'events' ? 'Events' : 'Groups'}`}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      {displayType === 'events' && (
-        <div className="flex items-center">
-          <select value={sortBy} className="px-4 py-2 border rounded-md" onChange={(e) => setSortBy(e.target.value)}>
-            <option value="name">Name</option>
-            <option value="location">Location</option>
-          </select>
-        </div>
+        className="px-4 py-2 border rounded-md w-2/5"
+        type="text"
+        placeholder={`Search ${displayType === 'events' ? 'Location' : 'Groups'}`}
+        value={searchTermGroup}
+        onChange={(e) => setSearchTermGroup(e.target.value)}
+      />
       )}
+
+
+      {displayType === 'events' && (
+        <input
+        className="px-4 py-2 border divide-x-1 rounded-l-md w-1/3"
+        type="text"
+        placeholder={`Search ${displayType === 'events' ? 'Events' : 'Groups'}`}
+        value={searchTermEvent}
+        onChange={(e) => setSearchTermEvent(e.target.value)}
+      />
+      )}
+
+      {displayType === 'events' && (
+        <input
+        className="px-4 py-2 border rounded-r-md w-1/3"
+        type="text"
+        placeholder={`Search ${displayType === 'events' ? 'Locations' : 'Groups'}`}
+        value={searchTermLocation}
+        onChange={(e) => setSearchTermLocation(e.target.value)}
+      />
+      )}
+
       </div>
 
       <div className="content-list flex flex-wrap">
