@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yallanow.analyticsservice.models.Item;
 import com.yallanow.analyticsservice.services.ItemService;
 import com.yallanow.analyticsservice.utils.ItemConverter;
+import com.yallanow.analyticsservice.exceptions.ItemServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+
 
 import java.io.IOException;
 import java.util.Map;
@@ -33,7 +35,6 @@ public class ItemMessageHandler {
     @ServiceActivator(inputChannel = "eventInputChannel")
     public void handleMessage(Message<String> message) {
         try {
-            System.out.println(message.getPayload());
             Item item = itemConverter.fromPubsubMessage(message.getPayload());
             String operationType = getOperationType(message);
 
@@ -50,10 +51,13 @@ public class ItemMessageHandler {
                 default:
                     logger.error("Invalid operation type: {}", operationType);
             }
-        } catch (IOException e) {
-            logger.error("Error processing message: {}", e.getMessage());
+        } catch (ItemServiceException e) {
+            logger.error("Error processing item: {}", message.getPayload(), e);
+        } catch (Exception e) {
+            logger.error("Unexpected error processing message: {}", message.getPayload(), e);
         }
     }
+
 
     private String getOperationType(Message<String> message) throws JsonProcessingException {
         Map<String, Object> payload = objectMapper.readValue(message.getPayload(), Map.class);
