@@ -17,7 +17,7 @@ public class GroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_id")
-    private int groupID;
+    private Integer groupID;
 
     @Column(name = "group_name")
     private String groupName;
@@ -52,7 +52,7 @@ public class GroupEntity {
         return groupID;
     }
 
-    public void setGroupID(int groupID) {
+    public void setGroupID(Integer groupID) {
         this.groupID = groupID;
     }
 

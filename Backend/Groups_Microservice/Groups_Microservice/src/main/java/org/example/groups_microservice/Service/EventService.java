@@ -41,15 +41,15 @@ public class EventService {
     }
 
     @Transactional
-    public EventEntity getEvent(int eventID) {
+    public EventEntity getEvent(Integer eventID) {
         return eventRepository.findById(eventID).orElse(null);
     }
 
-    public List<EventEntity> getEvents(int groupID) {
-        return eventRepository.findByGroupID(groupID);
+    public List<EventEntity> getEvents(Integer groupID) {
+        return eventRepository.findByGroupGroupID(groupID);
 
     }
-    public EventEntity getEventById(int eventId) throws EventNotFoundException {
+    public EventEntity getEventById(Integer eventId) throws EventNotFoundException {
         return eventRepository.findById(eventId)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with ID: " + eventId));
     }

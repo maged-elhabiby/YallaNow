@@ -13,7 +13,7 @@ public class EventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
-    private int eventID;
+    private Integer eventID;
 
     @Column(name = "event_name")
     private String eventName;

@@ -12,7 +12,7 @@ public class GroupMemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int userID;
+    private Integer userID;
 
 
     @Enumerated(EnumType.STRING)
@@ -30,7 +30,7 @@ public class GroupMemberEntity {
     public GroupMemberEntity() {
     }
 
-    public GroupMemberEntity(int userID, UserRole role) {
+    public GroupMemberEntity(Integer userID, UserRole role) {
         this.userID = userID;
         this.role = role;
     }
