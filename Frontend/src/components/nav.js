@@ -65,6 +65,10 @@ const navigate = useNavigate();
             variant="h6"
             noWrap
             component="a"
+            onClick={(e) => {
+                e.preventDefault(); 
+                navigate('/'); // Use navigate to redirect to the homepage
+            }}
             href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
@@ -76,7 +80,7 @@ const navigate = useNavigate();
               textDecoration: 'none',
             }}
           >
-            LOGO
+            YALLANOW
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
