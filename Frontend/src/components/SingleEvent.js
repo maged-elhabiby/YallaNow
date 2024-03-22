@@ -21,7 +21,7 @@ function SingleEvent() {
     }
 
     return (
-        <body class ="bg-gray-100 h-screen">
+        <body class ="bg-gray-100 min-h-screen">
             {Nav()}
 
             <div className="singleEvent" class="flex items-center justify-center">

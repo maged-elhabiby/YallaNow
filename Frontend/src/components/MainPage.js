@@ -79,7 +79,7 @@ function MainPage() {
       const stringifiedGroupEvents = JSON.stringify(events);
       return {
         ...rest,
-        location: stringifiedGroupEvents
+        events: stringifiedGroupEvents
       };
     });
   }
@@ -99,7 +99,7 @@ function MainPage() {
   );
 
   return (
-    <body class ="bg-gray-100 ">
+    <body class ="bg-gray-100 min-h-screen">
       {Nav()}
 
       <div class="items-center justify-center flex mb-4 ">
