@@ -21,16 +21,14 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class EventService {
-    
-    private final EventsPubService eventsPubService;
+
     private final EventRepository eventRepository;
     private final AddressService addressService;
 
 
-    public EventService(EventRepository eventRepository, AddressService addressService, EventsPubService eventsPubService ) {
+    public EventService(EventRepository eventRepository, AddressService addressService) {
         this.eventRepository = eventRepository;
         this.addressService = addressService;
-        this.eventsPubService = eventsPubService;
     }
 
     /**
@@ -57,8 +55,6 @@ public class EventService {
                                                 event.getCount(),
                                                 event.getCapacity(),
                                                 event.getImageID());
-
-        eventsPubService.publishEvents(getAllAvailableEvents(), "ADD");
         return eventRepository.save(newEvent); // Add the Event to the DataBase
     }
 
@@ -91,13 +87,11 @@ public class EventService {
         oldEvent.setLocationId(newAddress.getAddressId());
         oldEvent.setEventDate(updatedEvent.getEventDate());
         oldEvent.setEventStartTime(updatedEvent.getEventStartTime());
-        oldEvent.setEventEndTime(updatedEvent.getEventStartTime());
+        oldEvent.setEventEndTime(updatedEvent.getEventEndTime());
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
         oldEvent.setImageId(updatedEvent.getImageID());
-
-        eventsPubService.publishEvents(getAllAvailableEvents(), "UPDATE");
         return eventRepository.save(oldEvent); // Update the Event in the DataBase
     }
 
@@ -135,8 +129,9 @@ public class EventService {
     public List<EventsEntity> getAllAvailableEvents() {
         List<EventsEntity> events = eventRepository.findAll();
 
-        events.removeIf(event -> event.getEventDate().isBefore(LocalDate.now()) &&
-                        event.getEventEndTime().isBefore(LocalTime.now()) ||
+        events.removeIf(event ->
+                (event.getEventDate().isEqual(LocalDate.now()) && event.getEventEndTime().isBefore(LocalTime.now())) ||
+                        event.getEventDate().isBefore(LocalDate.now()) ||
                         event.getCapacity().equals(event.getCount()) ||
                         event.getStatus() != EventStatus.Scheduled);
         return events; // Return all Events that are Scheduled and that are not in the past.
@@ -153,7 +148,6 @@ public class EventService {
         if (event != null) {
             eventRepository.delete(event);
             addressService.deleteAddress(event.getLocationId());
-            eventsPubService.publishEvents(getAllAvailableEvents(), "DELETE");
         } else {
             throw new EntityNotFoundException("Event with ID " + eventID + " does not exist");
         }
