@@ -160,7 +160,7 @@ function MainPage() {
         {displayType === 'events' ? (
           filteredEvents.map((event) => (
             <div key={event.eventID} className="event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
-              onClick={() => navigate(`event/${event.eventID}`, { state: { event: event } })}>
+              onClick={() => navigate(`/event/${event.eventID}`, { state: { event: event } })}>
               <strong>{event.eventTitle}</strong>
               <p>Group: {event.group}</p>
               <p>Date: {event.eventDate}</p>
@@ -171,7 +171,7 @@ function MainPage() {
         ) : (
           filteredGroups.map((group) => (
             <div key={group.groupID} className="group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1"
-            onClick={() => navigate(`group/${group.groupID}`, { state: { group: group } })}>
+            onClick={() => navigate(`/group/${group.groupID}`, { state: { group: group } })}>
               <strong>Group ID : {group.groupName}</strong>
             </div>
           ))
