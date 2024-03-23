@@ -3,6 +3,9 @@ package com.yallanow.analyticsservice.messagehandlers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
+import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
+import com.yallanow.analyticsservice.exceptions.UserServiceException;
 import com.yallanow.analyticsservice.models.User;
 import com.yallanow.analyticsservice.services.UserService;
 import com.yallanow.analyticsservice.utils.UserConverter;
@@ -32,32 +35,42 @@ public class UserMessageHandler {
     }
 
     @ServiceActivator(inputChannel = "eventInputChannel")
-    public void handleMessage(Message<String> message) {
+    public void handleMessage(Message<?> message) {
+        BasicAcknowledgeablePubsubMessage originalMessage = message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);
+        if (originalMessage == null) {
+            throw new IllegalArgumentException("Message does not contain an AcknowledgeablePubsubMessage");
+        }
+
+        String payload = new String((byte[]) message.getPayload());
         try {
 
-            User user = userConverter.fromPubsubMessage(message.getPayload());
-            String operationType = getOperationType(message);
+            String operationType = getOperationType(payload);
 
             switch (operationType) {
                 case "ADD":
-                    userService.addUser(user);
+                    userService.addUser(userConverter.fromPubsubMessage(payload));
                     break;
                 case "UPDATE":
-                    userService.updateUser(user);
+                    userService.updateUser(userConverter.fromPubsubMessage(payload));
                     break;
                 case "DELETE":
-                    userService.deleteUser(user);
+                    userService.deleteUser(userConverter.getIdfromPubsubMessage(payload));
                     break;
                 default:
                     logger.error("Invalid operation type: {}", operationType);
             }
-        } catch (IOException e) {
-            logger.error("Error processing message: {}", e.getMessage());
+            originalMessage.ack();
+        } catch (UserServiceException e) {
+            logger.error("Error processing item: {}", payload, e);
+        } catch (Exception e) {
+            logger.error("Unexpected error processing message: {}", payload, e);
+        } finally {
+            originalMessage.ack();
         }
     }
 
-    private String getOperationType(Message<String> message) throws JsonProcessingException {
-        Map<String, Object> payload = objectMapper.readValue(message.getPayload(), Map.class);
+    private String getOperationType(String message) throws JsonProcessingException {
+        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
         return (String) payload.get("operation");
     }
 }

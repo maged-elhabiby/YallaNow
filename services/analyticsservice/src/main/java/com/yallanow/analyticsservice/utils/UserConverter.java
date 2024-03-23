@@ -44,4 +44,8 @@ public class UserConverter implements Converter<User> {
 
         return new User(userId, name, email, age, gender, interests);
     }
+
+    public String getIdfromPubsubMessage(String payload) {
+        return null;
+    }
 }

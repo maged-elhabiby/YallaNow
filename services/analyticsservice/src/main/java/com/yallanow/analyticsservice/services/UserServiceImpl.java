@@ -2,6 +2,7 @@ package com.yallanow.analyticsservice.services;
 
 import com.yallanow.analyticsservice.client.RecombeeClientInterface;
 import com.yallanow.analyticsservice.exceptions.RecombeeClientException;
+import com.yallanow.analyticsservice.exceptions.UserServiceException;
 import com.yallanow.analyticsservice.exceptions.ValidationException;
 import com.yallanow.analyticsservice.models.User;
 import com.yallanow.analyticsservice.utils.UserConverter;
@@ -24,34 +25,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws UserServiceException {
         try {
             recombeeClient.addUser(user.getUserId(), userConverter.toRecombeeMap(user));
-        } catch (RecombeeClientException e) {
-            handleRecombeeClientException("Error adding item to Recombee", e);
-        } catch (ValidationException e) {
-            handleValidationException("Item has invalid properties", e);
+        }  catch (Exception e) {
+            throw new UserServiceException("Error adding user to Recombee", e);
         }
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user) throws UserServiceException {
         try {
             recombeeClient.updateUser(user.getUserId(), userConverter.toRecombeeMap(user));
-        } catch (RecombeeClientException e) {
-            handleRecombeeClientException("Error adding item to Recombee", e);
-        } catch (ValidationException e) {
-            handleValidationException("Item has invalid properties", e);
+        } catch (Exception e) {
+            throw new UserServiceException("Error updating user in Recombee", e);
         }
     }
 
     // Change to soft deletes
     @Override
-    public void deleteUser(User user) {
+    public void deleteUser(String userId) throws UserServiceException {
         try {
-            recombeeClient.deleteUser(user.getUserId());
-        } catch (RecombeeClientException e) {
-            handleRecombeeClientException("Error adding item to Recombee", e);
+            recombeeClient.deleteUser(userId);
+        } catch (Exception e) {
+            throw new UserServiceException("Error deleting user from Recombee", e);
         }
     }
 
