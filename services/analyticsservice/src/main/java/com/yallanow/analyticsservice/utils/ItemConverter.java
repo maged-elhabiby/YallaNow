@@ -1,6 +1,5 @@
 package com.yallanow.analyticsservice.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yallanow.analyticsservice.models.Item;
 import com.yallanow.analyticsservice.models.Location;
 import org.springframework.stereotype.Component;
@@ -13,15 +12,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class ItemConverter implements Converter<Item> {
+public class ItemConverter {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Override
-    public Map<String, Object> toRecombeeMap(Item item) {
+    public Map<String, Object> convertItemToRecombeeMap(Item item) {
         Map<String, Object> map = new HashMap<>();
         map.put("groupId", item.getGroupId());
-        map.put("groupName", item.getGroupName());
         map.put("eventTitle", item.getTitle());
         map.put("eventDescription", item.getDescription());
 
@@ -40,61 +35,68 @@ public class ItemConverter implements Converter<Item> {
         return map;
     }
 
-    @Override
-    public Item fromPubsubMessage(String message) throws IOException {
-        return fromMap(extractEvent(message));
-    }
-
-    private Map<String, Object> extractEvent(String message) throws com.fasterxml.jackson.core.JsonProcessingException {
-        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
-        if (!payload.containsKey("event")) {
-            throw new IllegalArgumentException("Message does not contain 'event' data");
-        }
-        Map<String, Object> eventData = (Map<String, Object>) payload.get("event");
-        return eventData;
-    }
-
-    public String getIdFromPubSubMessage(String message) throws IOException {
-        Map<String, Object> eventData = extractEvent(message);
-        String eventId = String.valueOf(Optional.ofNullable(eventData.get("eventId"))
+    public String getIdFromPubSubMessage(Map<String, Object> map) {
+        return String.valueOf(Optional.ofNullable(map.get("eventId"))
                 .orElseThrow(() -> new IllegalArgumentException("Missing 'eventId' in event data")));
-        return eventId;
     }
 
-    @Override
-    public Item fromMap(Map<String, Object> map) throws IOException {
+    public Item getItemFromPubsubMessage(Map<String, Object> map) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
         try {
             String eventId = String.valueOf(Optional.ofNullable(map.get("eventId"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'eventId' in event data")));
+
             String groupId = String.valueOf(Optional.ofNullable(map.get("groupId"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'groupId' in event data")));
-            String groupName = Optional.ofNullable((String) map.get("groupName"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'groupName' in event data"));
+
             String eventTitle = Optional.ofNullable((String) map.get("eventTitle"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'eventTitle' in event data"));
+
             String eventDescription = Optional.ofNullable((String) map.get("eventDescription"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'eventDescription' in event data"));
+
             LocalDateTime startTime = LocalDateTime.parse(Optional.ofNullable((String) map.get("eventStartTime"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'eventStartTime' in event data")), formatter);
+
             LocalDateTime endTime = LocalDateTime.parse(Optional.ofNullable((String) map.get("eventEndTime"))
                     .orElseThrow(() -> new IllegalArgumentException("Missing 'eventEndTime' in event data")), formatter);
-            Location location = LocationConverter.fromMap(Optional.ofNullable((Map<String, Object>) map.get("eventLocation"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'eventLocation' in event data")));
-            Integer eventAttendeeCount = Optional.ofNullable((Integer) map.get("eventAttendeeCount"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'eventAttendeeCount' in event data"));
-            Integer eventCapacity = Optional.ofNullable((Integer) map.get("eventCapacity"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'eventCapacity' in event data"));
-            String eventStatus = Optional.ofNullable((String) map.get("eventStatus"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'eventStatus' in event data"));
-            String eventImageUrl = Optional.ofNullable((String) map.get("eventImageUrl"))
-                    .orElseThrow(() -> new IllegalArgumentException("Missing 'eventImageUrl' in event data"));
+
+            String eventStreet = String.valueOf(Optional.ofNullable(map.get("street"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'street' in event data")));
+
+            String eventCity = Optional.ofNullable((String) map.get("city"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'city' in event data"));
+
+            String eventProvince = Optional.ofNullable((String) map.get("province"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'province' in event data"));
+
+            String eventCountry = Optional.ofNullable((String) map.get("country"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'country' in event data"));
+
+            Location location = new Location(
+                    eventStreet,
+                    eventCity,
+                    eventProvince,
+                    eventCountry
+            );
+
+            Integer eventAttendeeCount = Optional.ofNullable((Integer) map.get("count"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'count' in event data"));
+
+            Integer eventCapacity = Optional.ofNullable((Integer) map.get("capacity"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'capacity' in event data"));
+
+            String eventStatus = Optional.ofNullable((String) map.get("status"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'status' in event data"))
+                    .toLowerCase(); // Convert the status to lowercase
+
+            String eventImageUrl = Optional.ofNullable((String) map.get("imageUrl"))
+                    .orElseThrow(() -> new IllegalArgumentException("Missing 'imageUrl' in event data"));
 
             return new Item(
                     eventId,
                     groupId,
-                    groupName,
                     eventTitle,
                     eventDescription,
                     startTime,
@@ -109,6 +111,4 @@ public class ItemConverter implements Converter<Item> {
             throw new IOException("Error constructing item from map: " + e.getMessage(), e);
         }
     }
-
-
 }

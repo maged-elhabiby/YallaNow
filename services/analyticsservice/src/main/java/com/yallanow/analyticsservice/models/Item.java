@@ -6,7 +6,6 @@ import java.util.List;
 public class Item {
     private String itemId;
     private String groupId;
-    private String groupName;
     private String title;
     private String description;
     private LocalDateTime startTime;
@@ -26,12 +25,11 @@ public class Item {
 
     private String imageUrl;
 
-    public Item(String itemId, String groupId, String groupName, String title, String description, LocalDateTime startTime,
+    public Item(String itemId, String groupId, String title, String description, LocalDateTime startTime,
                 LocalDateTime endTime, Location location, int attendeeCount,
                 int capacity, String status, String imageUrl) {
         this.itemId = itemId;
         this.groupId = groupId;
-        this.groupName = groupName;
         this.title = title;
         this.description = description;
         this.startTime = startTime;
@@ -107,14 +105,6 @@ public class Item {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public int getCapacity() {

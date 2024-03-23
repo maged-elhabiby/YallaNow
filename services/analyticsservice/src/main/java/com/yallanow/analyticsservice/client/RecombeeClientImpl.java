@@ -93,7 +93,6 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
         try {
             AddItemProperty[] propertyRequests = {
                 new AddItemProperty("groupId", "string"),
-                new AddItemProperty("groupName", "string"),
                 new AddItemProperty("eventTitle", "string"),
                 new AddItemProperty("eventDescription", "string"),
                 new AddItemProperty("eventStartTime", "timestamp"),
@@ -104,7 +103,7 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
                 new AddItemProperty("eventLocationCountry", "string"),
                 new AddItemProperty("eventAttendeeCount", "int"),
                 new AddItemProperty("eventCapacity", "int"),
-                new AddItemProperty("eventStatus", "set"),
+                new AddItemProperty("eventStatus", "string"),
                 new AddItemProperty("eventImageUrl", "image")
             };
 

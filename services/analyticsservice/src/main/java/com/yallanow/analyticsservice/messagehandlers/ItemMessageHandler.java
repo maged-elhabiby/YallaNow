@@ -1,9 +1,7 @@
 package com.yallanow.analyticsservice.messagehandlers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
-import com.yallanow.analyticsservice.models.Item;
 import com.yallanow.analyticsservice.services.ItemService;
 import com.yallanow.analyticsservice.utils.ItemConverter;
 import com.yallanow.analyticsservice.exceptions.ItemServiceException;
@@ -41,24 +39,28 @@ public class ItemMessageHandler {
 
         String payload = new String((byte[]) message.getPayload());
         try {
+            // Deserialize the message payload to a Map
+            Map<String, Object> messageMap = objectMapper.readValue(payload, Map.class);
 
+            Map<String, String> attributes = (Map<String, String>) messageMap.get("attributes");
+            String operationType = attributes.get("operationType");
 
-            String operationType = getOperationType(payload);
+            String eventDataJson = (String) messageMap.get("data");
+            Map<String, Object> eventDataMap = objectMapper.readValue(eventDataJson, Map.class);
 
             switch (operationType) {
                 case "ADD":
-                    itemService.addItem(itemConverter.fromPubsubMessage(payload));
+                    itemService.addItem(itemConverter.getItemFromPubsubMessage(eventDataMap));
                     break;
                 case "UPDATE":
-                    itemService.updateItem(itemConverter.fromPubsubMessage(payload));
+                    itemService.updateItem(itemConverter.getItemFromPubsubMessage(eventDataMap));
                     break;
                 case "DELETE":
-                    itemService.deleteItem(itemConverter.getIdFromPubSubMessage(payload));
+                    itemService.deleteItem(itemConverter.getIdFromPubSubMessage(eventDataMap));
                     break;
                 default:
                     logger.error("Invalid operation type: {}", operationType);
             }
-
             originalMessage.ack();
         } catch (ItemServiceException e) {
             logger.error("Error processing item: {}", payload, e);
@@ -67,11 +69,6 @@ public class ItemMessageHandler {
         } finally {
             originalMessage.ack();
         }
-    }
-
-    private String getOperationType(String message) throws JsonProcessingException {
-        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
-        return (String) payload.get("operation");
     }
 }
 

@@ -22,7 +22,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void addItem(Item item) throws ItemServiceException {
         try {
-            recombeeClient.addItem(item.getItemId(), itemConverter.toRecombeeMap(item));
+            recombeeClient.addItem(item.getItemId(), itemConverter.convertItemToRecombeeMap(item));
         } catch (Exception e) {
             throw new ItemServiceException("Error adding item to Recombee: " + e.getMessage(), e);
         }
@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void updateItem(Item item) throws ItemServiceException {
         try {
-            recombeeClient.updateItem(item.getItemId(), itemConverter.toRecombeeMap(item));
+            recombeeClient.updateItem(item.getItemId(), itemConverter.convertItemToRecombeeMap(item));
         } catch (Exception e) {
             throw new ItemServiceException("Error updating item in Recombee", e);
         }
