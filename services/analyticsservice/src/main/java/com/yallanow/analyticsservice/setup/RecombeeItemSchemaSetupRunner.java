@@ -21,11 +21,11 @@ public class RecombeeItemSchemaSetupRunner {
 
         try {
             // Set up item properties in Recombee
-            recombeeClient.setUserProperties();
-            System.out.println("User properties setup successfully in Recombee.");
+            recombeeClient.setItemProperties();
+            System.out.println("Item properties setup successfully in Recombee.");
         } catch (Exception e) {
-            logger.error("Failed to set up user properties in Recombee: " + e.getMessage());
-            System.err.println("Failed to set up user properties in Recombee: " + e.getMessage());
+            logger.error("Failed to set up item properties in Recombee: " + e.getMessage());
+            System.err.println("Failed to set up item properties in Recombee: " + e.getMessage());
         }
 
         // Close the application context
