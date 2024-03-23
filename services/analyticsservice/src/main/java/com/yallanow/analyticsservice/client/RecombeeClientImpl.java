@@ -115,6 +115,21 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
         }
     }
 
+    public void setUserProperties() throws RecombeeClientException {
+        try {
+            AddUserProperty[] propertyRequests = {
+                    new AddUserProperty("username", "string"),
+                    new AddUserProperty("email", "string"),
+                    // new AddUserProperty("gender", "set"),
+            };
+
+            Batch batch = new Batch(propertyRequests);
+            client.send(batch);
+        } catch (ApiException e) {
+            handleGenericApiException(e);
+        }
+    }
+
 
     private void sendRequest(Request request) throws RecombeeClientException {
         try {

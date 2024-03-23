@@ -21,4 +21,6 @@ public interface RecombeeClientInterface {
 
     void setItemProperties() throws RecombeeClientException;
 
+    void setUserProperties() throws RecombeeClientException;
+
 }
