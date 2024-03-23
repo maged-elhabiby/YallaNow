@@ -8,5 +8,5 @@ import java.util.Optional;
  * Repository for ImageEntity Responsible for handling the database operations of the ImageEntity
  */
 public interface ImageRepository extends JpaRepository<ImageEntity, Integer> {
-    Optional<ImageEntity> findByImageLink(String imageLink); // Find an ImageEntity by the imageLink
+    Optional<ImageEntity> findByImageLink(String imageLink); // Find an ImageEntity by the image_link
 }

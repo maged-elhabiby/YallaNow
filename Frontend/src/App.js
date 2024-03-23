@@ -2,8 +2,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
+import LandingPage from './components/LandingPage';
 import MainPage from './components/MainPage';
 import SingleEvent from './components/SingleEvent';
+import MyEvents from './components/MyEvents';
 import Group from './components/GroupPage';
 import GroupCreation from './components/groupCreation';
 
@@ -13,10 +15,12 @@ const App = () => {
         <div>
         <Router>
             <Routes>
-                <Route path="/" element={<MainPage />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/MainPage" element={<MainPage />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/event/:eventID" element={<SingleEvent />}/>
                 <Route path="/event" element={<SingleEvent />}/>
+                <Route path="/myevents" element={<MyEvents />}/>
                 <Route path="/group/:groupID" element={<Group />} />
                 <Route path="/group" element={<Group />} />
                 <Route path="/group-creation" element={<GroupCreation />} />

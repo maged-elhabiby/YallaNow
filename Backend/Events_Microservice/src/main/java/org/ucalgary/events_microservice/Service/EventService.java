@@ -1,7 +1,6 @@
 package org.ucalgary.events_microservice.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
@@ -21,8 +20,10 @@ import jakarta.transaction.Transactional;
  */
 @Service
 public class EventService {
+
     private final EventRepository eventRepository;
     private final AddressService addressService;
+
 
     public EventService(EventRepository eventRepository, AddressService addressService) {
         this.eventRepository = eventRepository;
@@ -46,7 +47,6 @@ public class EventService {
                                                 event.getEventTitle(), 
                                                 event.getEventDescription(), 
                                                 address.getAddressId(),
-                                                event.getEventDate(),
                                                 event.getEventStartTime(),
                                                 event.getEventEndTime(),
                                                 event.getStatus(), 
@@ -83,14 +83,12 @@ public class EventService {
         oldEvent.setEventTitle(updatedEvent.getEventTitle());
         oldEvent.setEventDescription(updatedEvent.getEventDescription());
         oldEvent.setLocationId(newAddress.getAddressId());
-        oldEvent.setEventDate(updatedEvent.getEventDate());
         oldEvent.setEventStartTime(updatedEvent.getEventStartTime());
-        oldEvent.setEventEndTime(updatedEvent.getEventStartTime());
+        oldEvent.setEventEndTime(updatedEvent.getEventEndTime());
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
         oldEvent.setImageId(updatedEvent.getImageID());
-
         return eventRepository.save(oldEvent); // Update the Event in the DataBase
     }
 
@@ -128,10 +126,9 @@ public class EventService {
     public List<EventsEntity> getAllAvailableEvents() {
         List<EventsEntity> events = eventRepository.findAll();
 
-        events.removeIf(event -> event.getStatus() != EventStatus.Scheduled || 
-                        event.getEventDate().isBefore(LocalDate.now()) || 
-                        event.getCapacity() == event.getCount() ||
-                        event.getEventEndTime().isAfter(LocalTime.now()));
+        events.removeIf(event -> event.getEventEndTime().isEqual(LocalDateTime.now()) ||
+                        event.getCapacity().equals(event.getCount()) ||
+                        event.getStatus() != EventStatus.Scheduled);
         return events; // Return all Events that are Scheduled and that are not in the past.
     }
 
@@ -154,11 +151,9 @@ public class EventService {
     /**
      * Checks if the event represented by the provided event DTO is valid.
      * @param event The event DTO to validate.
-     * @return true if the event is valid, false otherwise.
      */
     public void checkEvent(EventDTO event) {
-        LocalDate today = LocalDate.now();
-        if (event.getEventDate().isBefore(today)) { // Check if the event is in the past
+        if (event.getEventEndTime().isBefore(LocalDateTime.now())) { // Check if the event is in the past
             throw new IllegalArgumentException("You can't make an event in the past");
         }
         if (event.getEventStartTime().isAfter(event.getEventEndTime())) { // Check if the event start time is after the end time
