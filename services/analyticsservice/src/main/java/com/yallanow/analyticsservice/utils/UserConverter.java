@@ -8,44 +8,35 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
-public class UserConverter implements Converter<User> {
+public class UserConverter {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    public Map<String, Object> toRecombeeMap(User user) {
+
+    public Map<String, Object> convertUserToRecombeeMap(User user) {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", user.getUserId());
-        map.put("name", user.getName());
         map.put("email", user.getEmail());
-        map.put("age", user.getAge());
-        map.put("gender", user.getGender());
-        map.put("interests", user.getInterests());
+
         return map;
     }
 
-    @Override
-    public User fromPubsubMessage(String message) throws IOException {
-        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
-        Map<String, Object> itemData = (Map<String, Object>) payload.get("item");
-        return fromMap(itemData);
+    public String getUserIdFromPubsubMessage(Map<String, Object> map) {
+        return String.valueOf(Optional.ofNullable(map.get("userId"))
+                .orElseThrow(() -> new IllegalArgumentException("Missing 'userId' in user data")));
     }
 
-    @Override
-    public User fromMap(Map<String, Object> map) {
-        String userId = (String) map.get("userId");
-        String name = (String) map.get("name");
-        String email = (String) map.get("email");
-        Integer age = (Integer) map.get("age");
-        String gender = (String) map.get("gender");
-        List<String> interests = (List<String>) map.get("interests");
+    public User getUserFromPubsubMessage(Map<String, Object> map) throws IOException {
 
-        return new User(userId, name, email, age, gender, interests);
+        String userId = String.valueOf(Optional.ofNullable(map.get("userId"))
+                .orElseThrow(() -> new IllegalArgumentException("Missing 'userId' in data")));
+
+        String email = Optional.ofNullable((String) map.get("email"))
+                .orElseThrow(() -> new IllegalArgumentException("Missing 'email' in data"));
+
+        return new User(userId, email);
     }
 
-    public String getIdfromPubsubMessage(String payload) {
-        return null;
-    }
 }

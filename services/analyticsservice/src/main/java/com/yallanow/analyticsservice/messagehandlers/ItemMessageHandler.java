@@ -39,24 +39,19 @@ public class ItemMessageHandler {
 
         String payload = new String((byte[]) message.getPayload());
         try {
-            // Deserialize the message payload to a Map
             Map<String, Object> messageMap = objectMapper.readValue(payload, Map.class);
-
-            Map<String, String> attributes = (Map<String, String>) messageMap.get("attributes");
-            String operationType = attributes.get("operationType");
-
-            String eventDataJson = (String) messageMap.get("data");
-            Map<String, Object> eventDataMap = objectMapper.readValue(eventDataJson, Map.class);
+            String operationType = MessageHelper.getOperationType(messageMap);
+            Map<String, Object> dataMap = MessageHelper.getData(messageMap);
 
             switch (operationType) {
                 case "ADD":
-                    itemService.addItem(itemConverter.getItemFromPubsubMessage(eventDataMap));
+                    itemService.addItem(itemConverter.getItemFromPubsubMessage(dataMap));
                     break;
                 case "UPDATE":
-                    itemService.updateItem(itemConverter.getItemFromPubsubMessage(eventDataMap));
+                    itemService.updateItem(itemConverter.getItemFromPubsubMessage(dataMap));
                     break;
                 case "DELETE":
-                    itemService.deleteItem(itemConverter.getIdFromPubSubMessage(eventDataMap));
+                    itemService.deleteItem(itemConverter.getIdFromPubSubMessage(dataMap));
                     break;
                 default:
                     logger.error("Invalid operation type: {}", operationType);

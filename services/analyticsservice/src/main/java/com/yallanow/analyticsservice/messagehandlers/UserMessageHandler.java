@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
 import com.yallanow.analyticsservice.exceptions.UserServiceException;
-import com.yallanow.analyticsservice.models.User;
 import com.yallanow.analyticsservice.services.UserService;
 import com.yallanow.analyticsservice.utils.UserConverter;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -34,7 +32,7 @@ public class UserMessageHandler {
         this.userConverter = userConverter;
     }
 
-    @ServiceActivator(inputChannel = "eventInputChannel")
+    @ServiceActivator(inputChannel = "userInputChannel")
     public void handleMessage(Message<?> message) {
         BasicAcknowledgeablePubsubMessage originalMessage = message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);
         if (originalMessage == null) {
@@ -44,17 +42,20 @@ public class UserMessageHandler {
         String payload = new String((byte[]) message.getPayload());
         try {
 
-            String operationType = getOperationType(payload);
+            Map<String, Object> messageMap = objectMapper.readValue(payload, Map.class);
+            String operationType = MessageHelper.getOperationType(messageMap);
+            Map<String, Object> dataMap = MessageHelper.getData(messageMap);
+
 
             switch (operationType) {
                 case "ADD":
-                    userService.addUser(userConverter.fromPubsubMessage(payload));
+                    userService.addUser(userConverter.getUserFromPubsubMessage(dataMap));
                     break;
                 case "UPDATE":
-                    userService.updateUser(userConverter.fromPubsubMessage(payload));
+                    userService.updateUser(userConverter.getUserFromPubsubMessage(dataMap));
                     break;
                 case "DELETE":
-                    userService.deleteUser(userConverter.getIdfromPubsubMessage(payload));
+                    userService.deleteUser(userConverter.getUserIdFromPubsubMessage(dataMap));
                     break;
                 default:
                     logger.error("Invalid operation type: {}", operationType);
@@ -67,10 +68,5 @@ public class UserMessageHandler {
         } finally {
             originalMessage.ack();
         }
-    }
-
-    private String getOperationType(String message) throws JsonProcessingException {
-        Map<String, Object> payload = objectMapper.readValue(message, Map.class);
-        return (String) payload.get("operation");
     }
 }
