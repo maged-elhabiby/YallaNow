@@ -61,7 +61,7 @@ function GroupPage() {
                         <div class="mx-auto">
                             {groupEvents.map((event) => (
                                 <div key={event.eventID} className="event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
-                                    onClick={() => navigate(`event/${event.eventID}`, { state: { event: event } })}>
+                                    onClick={() => navigate(`/event/${event.eventID}`, { state: { event: event } })}>
                                     <strong>{event.eventTitle}</strong>
                                 </div>
                             ))
