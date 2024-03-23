@@ -7,6 +7,7 @@ import MainPage from './components/MainPage';
 import SingleEvent from './components/SingleEvent';
 import MyEvents from './components/MyEvents';
 import Group from './components/GroupPage';
+import GroupCreation from './components/groupCreation';
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path="/myevents" element={<MyEvents />}/>
                 <Route path="/group/:groupID" element={<Group />} />
                 <Route path="/group" element={<Group />} />
+                <Route path="/group-creation" element={<GroupCreation />} />
             </Routes>
         </Router>
         </div>
