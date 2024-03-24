@@ -44,7 +44,7 @@ public class UserMessageFactory {
         Map<String, Object> userDetails = new HashMap<>();
         if (!"DELETE".equals(operationType)) {
         userDetails.put("userId", String.valueOf(random.nextInt(100000)));
-        userDetails.put("email", generateRandomUsername() + "@gmail.com");
+        userDetails.put("email", generateRandomUsername().replace(" ", ".") + "@gmail.com");
         } else {
             userDetails.put("userId", userId);
         }

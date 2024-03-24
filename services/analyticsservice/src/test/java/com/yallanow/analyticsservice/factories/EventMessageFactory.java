@@ -66,7 +66,7 @@ public class EventMessageFactory {
             eventDetails.put("capacity", random.nextInt(200));
             eventDetails.put("status", "Scheduled");
 
-            eventDetails.put("imageUrl", "http://example.com/image.jpg");
+            eventDetails.put("imageUrl", "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png");
         } else {
             eventDetails.put("eventId", eventId);
         }
