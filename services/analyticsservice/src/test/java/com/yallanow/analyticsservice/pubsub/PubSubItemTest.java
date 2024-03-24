@@ -27,23 +27,27 @@ public class PubSubItemTest {
     public void testPubSubMessageProcessing() throws Exception {
         // Generate and send an ADD event message
         Random random = new Random();
-        int eventId = random.nextInt();
 
-        // Generate and send ADD event message
-        Map<String, Object> addEventMessage = EventMessageFactory.generateEventMessage("ADD", eventId);
-        String addEventJson = objectMapper.writeValueAsString(addEventMessage);
-        System.out.println(addEventJson);
-        messagingGateway.sendToPubsub(addEventJson);
-
+        for (int i = 0; i < 100; i++) {
+            int eventId = random.nextInt();
+            // Generate and send ADD event message
+            Map<String, Object> addEventMessage = EventMessageFactory.generateEventMessage("ADD", eventId);
+            String addEventJson = objectMapper.writeValueAsString(addEventMessage);
+            System.out.println(addEventJson);
+            messagingGateway.sendToPubsub(addEventJson);
+        }
         // Wait for the message to be processed
         Thread.sleep(5000);
 
-        // Generate and send a DELETE event message for the same event
+        /* Generate and send a DELETE event message for the same event
         Map<String, Object> deleteEventMessage = EventMessageFactory.generateEventMessage("DELETE", eventId);
         String deleteEventJson = objectMapper.writeValueAsString(deleteEventMessage);
         System.out.println(deleteEventJson);
         messagingGateway.sendToPubsub(deleteEventJson);
+         */
 
     }
+
+
 
 }

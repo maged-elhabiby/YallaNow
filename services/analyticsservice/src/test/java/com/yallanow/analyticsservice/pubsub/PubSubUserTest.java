@@ -23,18 +23,21 @@ public class PubSubUserTest {
     @Test
     public void testPubSubMessageProcessing() throws Exception {
         Random random = new Random();
-        int userId = random.nextInt();
 
-        Map<String, Object> message = generateUserMessage("ADD", userId);
-        String messageJson = objectMapper.writeValueAsString(message);
-        System.out.println(messageJson);
-        messagingGateway.sendToPubsub(messageJson);
-
+        for (int i = 0; i < 100; i++) {
+            int userId = random.nextInt();
+            Map<String, Object> message = generateUserMessage("ADD", userId);
+            String messageJson = objectMapper.writeValueAsString(message);
+            System.out.println(messageJson);
+            messagingGateway.sendToPubsub(messageJson);
+        }
         Thread.sleep(5000);
 
+        /*
         Map<String, Object> deleteMessage = generateUserMessage("DELETE", userId);
         String deleteJson = objectMapper.writeValueAsString(deleteMessage);
         System.out.println(deleteJson);
         messagingGateway.sendToPubsub(deleteJson);
+        */
     }
 }
