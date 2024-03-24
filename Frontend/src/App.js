@@ -18,11 +18,11 @@ const App = () => {
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/MainPage" element={<MainPage />} />
                 <Route path="/Login" element={<Login />} />
-                <Route path="/event/:eventID" element={<SingleEvent />}/>
-                <Route path="/event" element={<SingleEvent />}/>
+                <Route path="/events/:eventID" element={<SingleEvent />}/>
+                <Route path="/events" element={<SingleEvent />}/>
                 <Route path="/myevents" element={<MyEvents />}/>
-                <Route path="/group/:groupID" element={<Group />} />
-                <Route path="/group" element={<Group />} />
+                <Route path="/groups/:groupID" element={<Group />} />
+                <Route path="/groups" element={<Group />} />
                 <Route path="/group-creation" element={<GroupCreation />} />
             </Routes>
         </Router>

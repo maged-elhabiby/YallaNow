@@ -7,6 +7,7 @@ import Nav from './nav.js';
 
 function groupCreation() {
 
+    //The form for group creation, only requirement is the group name
     return (
         <div>
             <body class="dark:bg-gray-800 bg-gray-100 min-h-screen">
