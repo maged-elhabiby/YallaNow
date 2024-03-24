@@ -8,6 +8,7 @@ import SingleEvent from './components/SingleEvent';
 import MyEvents from './components/MyEvents';
 import Group from './components/GroupPage';
 import GroupCreation from './components/groupCreation';
+import CreateEventForm from './components/createEvent';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/events/:eventID" element={<SingleEvent />}/>
                 <Route path="/events" element={<SingleEvent />}/>
+                <Route path="/createevent" element={<CreateEventForm />}/>
                 <Route path="/myevents" element={<MyEvents />}/>
                 <Route path="/groups/:groupID" element={<Group />} />
                 <Route path="/groups" element={<Group />} />
