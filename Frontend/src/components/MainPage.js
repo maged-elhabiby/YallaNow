@@ -75,7 +75,7 @@ function MainPage() {
 
 
   function stringifyGroupData(data) {
-    const groupsArray = data.groups; // Renamed the variable to groupsArray
+    const groupsArray = data.groups; 
     return groupsArray.map(group => {
       const { events, ...rest } = group;
       const stringifiedGroupEvents = JSON.stringify(events);
