@@ -10,9 +10,10 @@ public class PubEvent {
     private int groupID;
     private String eventTitle;
     private String eventDescription;
-    private int street;
+    private String street;
     private String city;
     private String province;
+    private String postalCode;
     private String country;
     private LocalDateTime eventStartTime;
     private LocalDateTime eventEndTime;
@@ -32,6 +33,7 @@ public class PubEvent {
         this.street = event.getAddress().getStreet();
         this.city = event.getAddress().getCity();
         this.province = event.getAddress().getProvince();
+        this.postalCode = event.getAddress().getPostalCode();
         this.country = event.getAddress().getCountry();
         this.eventStartTime = event.getEventStartTime();
         this.eventEndTime = event.getEventEndTime();
@@ -58,9 +60,10 @@ public class PubEvent {
     public final int getGroupID() {return groupID;}
     public final String getEventTitle() {return eventTitle;}
     public final String getEventDescription() {return eventDescription;}
-    public final int getStreet() {return street;}
+    public final String getStreet() {return street;}
     public final String getCity() {return city;}
     public final String getProvince() {return province;}
+    public final String getPostalCode() {return postalCode;}
     public final String getCountry() {return country;}
     public final LocalDateTime getEventStartTime() {return eventStartTime;}
     public final LocalDateTime getEventEndTime() {return eventEndTime;}

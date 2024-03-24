@@ -31,6 +31,7 @@ public class AddressService {
                                                      event.getLocation().getStreet(),
                                                      event.getLocation().getCity(),
                                                      event.getLocation().getProvince(),
+                                                     event.getLocation().getPostalCode(),
                                                      event.getLocation().getCountry());
         return addressRepository.save(newAddress);
     }
@@ -46,6 +47,7 @@ public class AddressService {
                                                           event.getLocation().getStreet(),
                                                           event.getLocation().getCity(),
                                                           event.getLocation().getProvince(),
+                                                          event.getLocation().getPostalCode(),
                                                           event.getLocation().getCountry());
         return addressRepository.save(updatedAddress);
     }
