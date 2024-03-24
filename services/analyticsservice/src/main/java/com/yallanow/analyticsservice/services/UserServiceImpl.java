@@ -7,6 +7,8 @@ import com.yallanow.analyticsservice.utils.UserConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,9 +24,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) throws UserServiceException {
         try {
-            recombeeClient.addUser(user.getUserId(), userConverter.convertUserToRecombeeMap(user));
+            Map<String, Object> userMap = userConverter.convertUserToRecombeeMap(user);
+            recombeeClient.addUser(user.getUserId(), userMap);
         }  catch (Exception e) {
-            throw new UserServiceException("Error adding user to Recombee", e);
+            throw new UserServiceException("Error adding user to Recombee: " + e.getMessage(), e);
         }
     }
 
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService {
         try {
             recombeeClient.updateUser(user.getUserId(), userConverter.convertUserToRecombeeMap(user));
         } catch (Exception e) {
-            throw new UserServiceException("Error updating user in Recombee", e);
+            throw new UserServiceException("Error updating user in Recombee: " + e.getMessage(), e);
         }
     }
 
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
         try {
             recombeeClient.deleteUser(userId);
         } catch (Exception e) {
-            throw new UserServiceException("Error deleting user from Recombee", e);
+            throw new UserServiceException("Error deleting user from Recombee: " + e.getMessage(), e);
         }
     }
 

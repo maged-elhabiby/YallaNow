@@ -19,7 +19,7 @@ import static com.yallanow.analyticsservice.factories.EventMessageFactory.genera
 public class PubSubItemTest {
 
     @Autowired
-    private PubSubTestConfig.TestPubsubOutboundGateway messagingGateway;
+    private PubSubTestConfig.EventPubsubOutboundGateway messagingGateway;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

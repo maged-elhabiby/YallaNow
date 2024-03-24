@@ -1,5 +1,8 @@
 package com.yallanow.analyticsservice.factories;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,41 +12,43 @@ import static com.yallanow.analyticsservice.helpers.RandomNameGenerator.generate
 
 public class UserMessageFactory {
 
-    public static Map<String, Object> generateUserMessage(String operationType) {
+    public static Map<String, Object> generateUserMessage(String operationType, int userId) {
         if (!Objects.equals(operationType, "ADD") && !Objects.equals(operationType, "UPDATE") && !Objects.equals(operationType, "DELETE")) {
             throw new IllegalArgumentException("Invalid operation type.");
         }
-        Map<String, Object> message = new HashMap<>();
-        message.put("operation", operationType);
-        Map<String, Object> eventDetails = generateRandomUser();
-        message.put("user", eventDetails);
-        return message;
+        Map<String, Object> pubSubMessage = new HashMap<>();
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("operationType", operationType);
+        pubSubMessage.put("attributes", attributes);
+
+        String data = createUserData(operationType, userId);
+        pubSubMessage.put("data", data);
+
+        return pubSubMessage;
     }
 
-    private static Map<String, Object> generateRandomUser() {
+    private static String createUserData(String operationType, int userId) {
+        Map<String, Object> userDetails = generateRandomUserDetails(operationType, userId);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            return objectMapper.writeValueAsString(userDetails);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting event details to JSON", e);
+        }
+    }
+
+    private static Map<String, Object> generateRandomUserDetails(String operationType, int userId) {
         Random random = new Random();
 
         Map<String, Object> userDetails = new HashMap<>();
+        if (!"DELETE".equals(operationType)) {
         userDetails.put("userId", String.valueOf(random.nextInt(100000)));
-        userDetails.put("username", generateRandomUsername());
+        userDetails.put("email", generateRandomUsername() + "@gmail.com");
+        } else {
+            userDetails.put("userId", userId);
+        }
         return userDetails;
     }
 
-    public static class User {
-
-        private final String userId;
-        private final String username;
-
-        public User(String userId, String username) {
-            this.userId = userId;
-            this.username = username;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-        public String getUsername() {
-            return username;
-        }
-    }
 }

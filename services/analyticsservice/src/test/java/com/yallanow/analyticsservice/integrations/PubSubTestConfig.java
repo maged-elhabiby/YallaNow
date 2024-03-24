@@ -11,14 +11,25 @@ import org.springframework.messaging.MessageHandler;
 @TestConfiguration
 public class PubSubTestConfig {
 
-    @MessagingGateway(defaultRequestChannel = "pubsubOutputChannel")
-    public interface TestPubsubOutboundGateway {
+    @MessagingGateway(defaultRequestChannel = "eventPubsubOutputChannel")
+    public interface EventPubsubOutboundGateway {
+        void sendToPubsub(String text);
+    }
+
+    @MessagingGateway(defaultRequestChannel = "userPubsubOutputChannel")
+    public interface UserPubsubOutboundGateway {
         void sendToPubsub(String text);
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "pubsubOutputChannel")
-    public MessageHandler messageSender(PubSubTemplate pubsubTemplate) {
+    @ServiceActivator(inputChannel = "eventPubsubOutputChannel")
+    public MessageHandler eventMessageSender(PubSubTemplate pubsubTemplate) {
         return new PubSubMessageHandler(pubsubTemplate, "event");
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "userPubsubOutputChannel")
+    public MessageHandler userMessageSender(PubSubTemplate pubsubTemplate) {
+        return new PubSubMessageHandler(pubsubTemplate, "user");
     }
 }

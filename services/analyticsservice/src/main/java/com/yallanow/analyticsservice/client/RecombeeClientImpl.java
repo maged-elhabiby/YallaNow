@@ -31,14 +31,13 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     }
 
     @Override
-    public void addItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException, ValidationException {
+    public void addItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException {
         sendRequest(new SetItemValues(itemId, itemProperties)
                 .setCascadeCreate(true));
     }
 
     @Override
-    public void updateItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException, ValidationException {
-        validateItemProperties(itemProperties);
+    public void updateItem(String itemId, Map<String, Object> itemProperties) throws RecombeeClientException {
         sendRequest(new SetItemValues(itemId, itemProperties)
                 .setCascadeCreate(true));
     }
@@ -59,15 +58,13 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     }
 
     @Override
-    public void addUser(String userId, Map<String, Object> userProperties) throws RecombeeClientException, ValidationException {
-        validateUserProperties(userProperties);
+    public void addUser(String userId, Map<String, Object> userProperties) throws RecombeeClientException {
         sendRequest(new SetUserValues(userId, userProperties)
                 .setCascadeCreate(true));
     }
 
     @Override
-    public void updateUser(String userId, Map<String, Object> userProperties) throws RecombeeClientException, ValidationException {
-        validateUserProperties(userProperties);
+    public void updateUser(String userId, Map<String, Object> userProperties) throws RecombeeClientException {
         sendRequest(new SetUserValues(userId, userProperties)
                 .setCascadeCreate(false)
         );
@@ -142,13 +139,5 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
         throw new RecombeeClientException("An error occurred while communicating with Recombee" + e.getMessage(), e);
     }
 
-    // Validation Logic
-    private void validateItemProperties(Map<String, Object> itemProperties) throws ValidationException {
-        ValidatorUtil.validateItemProperties(itemProperties);
-    }
-
-    private void validateUserProperties(Map<String, Object> userProperties) throws ValidationException {
-        ValidatorUtil.validateUserProperties(userProperties);
-    }
 
 }

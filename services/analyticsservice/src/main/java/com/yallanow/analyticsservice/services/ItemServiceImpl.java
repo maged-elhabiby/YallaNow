@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             recombeeClient.updateItem(item.getItemId(), itemConverter.convertItemToRecombeeMap(item));
         } catch (Exception e) {
-            throw new ItemServiceException("Error updating item in Recombee", e);
+            throw new ItemServiceException("Error updating item in Recombee: " + e.getMessage(), e);
         }
     }
 
@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             recombeeClient.deleteItem(itemId);
         } catch (Exception e) {
-            throw new ItemServiceException("Error deleting item from Recombee", e);
+            throw new ItemServiceException("Error deleting item from Recombee: " + e.getMessage(), e);
         }
     }
 

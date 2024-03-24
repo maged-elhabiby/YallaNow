@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
+import java.util.Random;
 
 import static com.yallanow.analyticsservice.factories.UserMessageFactory.generateUserMessage;
 
@@ -15,17 +16,25 @@ import static com.yallanow.analyticsservice.factories.UserMessageFactory.generat
 public class PubSubUserTest {
 
     @Autowired
-    private PubSubTestConfig.TestPubsubOutboundGateway messagingGateway;
+    private PubSubTestConfig.UserPubsubOutboundGateway messagingGateway;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testPubSubMessageProcessing() throws Exception {
-        Map<String, Object> userMessage = generateUserMessage("ADD");
-        String userMessageJson = objectMapper.writeValueAsString(userMessage);
-        System.out.println(userMessageJson);
-        messagingGateway.sendToPubsub(userMessageJson);
+        Random random = new Random();
+        int userId = random.nextInt();
+
+        Map<String, Object> message = generateUserMessage("ADD", userId);
+        String messageJson = objectMapper.writeValueAsString(message);
+        System.out.println(messageJson);
+        messagingGateway.sendToPubsub(messageJson);
 
         Thread.sleep(5000);
+
+        Map<String, Object> deleteMessage = generateUserMessage("DELETE", userId);
+        String deleteJson = objectMapper.writeValueAsString(deleteMessage);
+        System.out.println(deleteJson);
+        messagingGateway.sendToPubsub(deleteJson);
     }
 }
