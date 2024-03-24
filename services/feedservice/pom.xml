@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.yallanow</groupId>
-	<artifactId>feedservice</artifactId>
+	<artifactId>feed-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>feedservice</name>
-	<description>feedservice</description>
+	<name>feed-service</name>
+	<description>feed-service</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -60,7 +60,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.yallanow.feedservice.FeedserviceApplication</mainClass>
+							<mainClass>org.yallanow.feedservice.FeedServiceApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

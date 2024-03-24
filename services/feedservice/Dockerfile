@@ -1,14 +1,22 @@
-# Use the official OpenJDK image as the base image
-FROM openjdk:21-slim
+# Stage 1: Build the application using Maven
+FROM openjdk:21-jdk-slim as build
+WORKDIR /workspace/app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
 
-# Set the working directory in the container
-WORKDIR /app
+RUN ./mvnw install -DskipTests
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-# Copy the JAR file from the target directory to the container
-COPY target/feedservice-0.0.1-SNAPSHOT.jar feedservice.jar
+# Stage 2: Create the Docker container image with OpenJDK 21.0.1
+FROM openjdk:21-jdk-slim
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/app/target/dependency
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-# Expose port 8080 for the application
 EXPOSE 8080
 
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "feedservice.jar"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","org.yallanow.feedservice.FeedServiceApplication"]
