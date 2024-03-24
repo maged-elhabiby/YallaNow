@@ -22,7 +22,7 @@ function GroupPage() {
     if (!group) {   
         return (
             <body class ="bg-gray-100 h-screen">
-                {Nav()}
+                <Nav />
                 <div class="flex justify-center items-center pt-20">
                     <p class="test-blue font-serif font-bold text-5xl italic text-gray-500 mr-40" >Error 404 - Group Not Found</p>
                 </div>
@@ -32,7 +32,7 @@ function GroupPage() {
 
     return (
         <body  class ="bg-gray-100 min-h-screen">
-            {Nav()}
+            <Nav />
             <div className="groupPage" class="flex">
 
                 <div class="w-1/3 pl-5">
@@ -61,7 +61,7 @@ function GroupPage() {
                         <div class="mx-auto">
                             {groupEvents.map((event) => (
                                 <div key={event.eventID} className="event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
-                                    onClick={() => navigate(`event/${event.eventID}`, { state: { event: event } })}>
+                                    onClick={() => navigate(`/event/${event.eventID}`, { state: { event: event } })}>
                                     <strong>{event.eventTitle}</strong>
                                 </div>
                             ))

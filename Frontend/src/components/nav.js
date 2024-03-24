@@ -46,7 +46,7 @@ const navigate = useNavigate();
         path = '/createevent';
         break;
       case 'Groups':
-        path = '/groups';
+        path = '/group-creation';
         break;
       // Add more cases as needed for other pages
       default:
