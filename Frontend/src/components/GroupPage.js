@@ -18,7 +18,7 @@ function GroupPage() {
     }
 
 
-
+    //if the group is not found, return an error message
     if (!group) {   
         return (
             <body class ="bg-gray-100 h-screen">
@@ -30,6 +30,10 @@ function GroupPage() {
         );
     }
 
+    //return the group information
+    //a button to join the group is also included
+    //the group's events are also displayed
+    //each event is a clickable card that will take the user to the event page
     return (
         <body  class ="bg-gray-100 min-h-screen">
             <Nav />
@@ -43,12 +47,6 @@ function GroupPage() {
                         <div class="flex justify-between items-center">
                             <p class="block text font-bold text-2xl">Members: {group.members} </p>
                             <button class="bg-blue-300 hover:bg-blue-400 text-white font-semibold py-2.5 px-4 rounded">Join Group</button>
-                        </div>
-
-                        <hr class="w-full my-4"></hr>
-
-                        <div class="flex justify-between">
-                            <p class="block text-lg">{group.groupDescription}</p>
                         </div>
                     </div>
                 </div>

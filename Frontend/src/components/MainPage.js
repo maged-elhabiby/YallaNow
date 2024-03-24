@@ -17,7 +17,7 @@ function MainPage() {
   const modifiedEventData = stringifyEventData(eventData);
   const modifiedGroupData = stringifyGroupData(groupData);
 
-  // Function to sort events based on the selected sort option
+  // Function to sort events alphaneumerically, by default it sorts by date
   const sortEvents = (events) => {
     if (sortBy === 'name') {
       return events.sort((a, b) => a.eventName.localeCompare(b.eventName));
@@ -32,8 +32,9 @@ function MainPage() {
     }
   };
 
+  //function to stringify event data as arrays can not be passed
   function stringifyEventData(data) {
-    const eventsArray = data.events; // Renamed the variable to eventsArray
+    const eventsArray = data.events;
     return eventsArray.map(event => {
       const { location, eventStartTime, eventEndTime, ...rest } = event;
       const stringifiedLocation = JSON.stringify(location);
@@ -48,6 +49,7 @@ function MainPage() {
     });
   }
 
+  //filter the events based on the search term
   const filteredEvents = sortEvents(
     modifiedEventData.filter((event) => {
       const lowerCaseSearchTermLocation = searchTermLocation.toLowerCase();
@@ -74,6 +76,7 @@ function MainPage() {
   }
 
 
+  //function to stringify group data as arrays can not be passed
   function stringifyGroupData(data) {
     const groupsArray = data.groups; 
     return groupsArray.map(group => {
@@ -86,6 +89,7 @@ function MainPage() {
     });
   }
 
+  //filter the groups based on the search term
   const filteredGroups = sortGroups(
     modifiedGroupData.filter((group) => {
       const lowerCaseSearchTerm = searchTermGroup.toLowerCase();
@@ -99,24 +103,35 @@ function MainPage() {
     })
   );
 
+  // Pagination functions
+  //go to the next page
   const nextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  //go to the previous page
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
+  //constant to set the number of items per page (should be multiple of 3)
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
+  //display the current items based on the display type
   const currentItems = displayType === 'events' ? filteredEvents.slice(indexOfFirstItem, indexOfLastItem) : filteredGroups.slice(indexOfFirstItem, indexOfLastItem);
 
+  //nav Bar
+  //Carosel for recommended events
+  //Buttons to switch between events and groups
+  //Search bar to search for events or groups
+  //List of events or groups
+  //Pagination buttons
   return (
     <body class ="bg-gray-100 min-h-screen">
       {Nav()}
@@ -147,7 +162,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Location' : 'Groups'}`}
         value={searchTermGroup}
-        onChange={(e) => setSearchTermGroup(e.target.value)}
+        onChange={(e) => {setSearchTermGroup(e.target.value); setCurrentPage(1);}}
       />
       )}
 
@@ -158,7 +173,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Events' : 'Groups'}`}
         value={searchTermEvent}
-        onChange={(e) => setSearchTermEvent(e.target.value)}
+        onChange={(e) => {setSearchTermEvent(e.target.value); setCurrentPage(1);}}
       />
       )}
 
@@ -168,7 +183,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Locations' : 'Groups'}`}
         value={searchTermLocation}
-        onChange={(e) => setSearchTermLocation(e.target.value)}
+        onChange={(e) => {setSearchTermLocation(e.target.value); setCurrentPage(1);}}
       />
       )}
 

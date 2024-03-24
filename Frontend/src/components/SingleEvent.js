@@ -9,6 +9,7 @@ function SingleEvent() {
     const { event } = location.state || {};
     const navigate = useNavigate();
 
+    //if the event is not found, return an error message
     if (!event) {
         return (
             <body class ="bg-gray-100 h-screen">
@@ -20,6 +21,8 @@ function SingleEvent() {
         );
     }
 
+    //return the event information
+    //a button to join the event is also included
     return (
         <body class ="bg-gray-100 min-h-screen">
             {Nav()}
