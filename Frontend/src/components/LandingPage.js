@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Nav from './nav.js';
+import StarterAppBar from './StarterNav.js';
 import {
   AppBar,
   Typography,
@@ -68,9 +68,9 @@ const LandingPage = () => {
 
   return (
     <div className={[classes.root, {overFlow:"hidden"}]}>
-      <AppBar position="static" className={classes.appBar}>
-        <Nav />
-      </AppBar>
+
+        <StarterAppBar />
+
       <div className={`${classes.hero}`}>
         <div className={classes.overlay}/>
         <Container className={classes.contentContainer}>
