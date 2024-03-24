@@ -147,7 +147,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Location' : 'Groups'}`}
         value={searchTermGroup}
-        onChange={(e) => setSearchTermGroup(e.target.value)}
+        onChange={(e) => {setSearchTermGroup(e.target.value); setCurrentPage(1);}}
       />
       )}
 
@@ -158,7 +158,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Events' : 'Groups'}`}
         value={searchTermEvent}
-        onChange={(e) => setSearchTermEvent(e.target.value)}
+        onChange={(e) => {setSearchTermEvent(e.target.value); setCurrentPage(1);}}
       />
       )}
 
@@ -168,7 +168,7 @@ function MainPage() {
         type="text"
         placeholder={`Search ${displayType === 'events' ? 'Locations' : 'Groups'}`}
         value={searchTermLocation}
-        onChange={(e) => setSearchTermLocation(e.target.value)}
+        onChange={(e) => {setSearchTermLocation(e.target.value); setCurrentPage(1);}}
       />
       )}
 
