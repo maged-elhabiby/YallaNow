@@ -195,6 +195,174 @@
       },
       "status": "Scheduled",
       "capacity": 50
+    },
+    {
+      "eventID": "008",
+      "groupID": 7,
+      "eventTitle": "Community Cleanup Day",
+      "eventDescription": "Join hands to clean up our community and make it a better place for everyone. Let's work together for a cleaner and greener environment.",
+      "location": {
+        "addressID": 2,
+        "street": 345,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-04-05",
+      "eventStartTime": {
+        "timeID": 3,
+        "hour": 9,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 4,
+        "hour": 12,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 100
+    },
+    {
+      "eventID": "009",
+      "groupID": 8,
+      "eventTitle": "Children's Art Exhibition",
+      "eventDescription": "Discover the creativity of young minds at our children's art exhibition. Support budding artists and encourage their talent.",
+      "location": {
+        "addressID": 3,
+        "street": 567,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-04-10",
+      "eventStartTime": {
+        "timeID": 5,
+        "hour": 10,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 6,
+        "hour": 15,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 80
+    },
+    {
+      "eventID": "010",
+      "groupID": 9,
+      "eventTitle": "Health and Wellness Seminar",
+      "eventDescription": "Join our health experts for an informative seminar on maintaining physical and mental well-being. Learn valuable tips for a healthier lifestyle.",
+      "location": {
+        "addressID": 4,
+        "street": 789,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-04-15",
+      "eventStartTime": {
+        "timeID": 7,
+        "hour": 14,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 8,
+        "hour": 17,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 60
+    },
+    {
+      "eventID": "011",
+      "groupID": 10,
+      "eventTitle": "Food Drive",
+      "eventDescription": "Join us in collecting food items for the less fortunate. Let's make a difference in the lives of those in need by providing them with essential supplies.",
+      "location": {
+        "addressID": 5,
+        "street": 101,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-04-20",
+      "eventStartTime": {
+        "timeID": 9,
+        "hour": 9,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 10,
+        "hour": 16,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 120
+    },
+    {
+      "eventID": "012",
+      "groupID": 11,
+      "eventTitle": "Educational Workshop",
+      "eventDescription": "Attend our educational workshop to gain valuable insights and skills. Enhance your knowledge and expertise in various fields.",
+      "location": {
+        "addressID": 6,
+        "street": 202,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-04-25",
+      "eventStartTime": {
+        "timeID": 11,
+        "hour": 13,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 12,
+        "hour": 16,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 80
+    },
+    {
+      "eventID": "013",
+      "groupID": 12,
+      "eventTitle": "Environmental Awareness Campaign",
+      "eventDescription": "Join our campaign to raise awareness about environmental issues. Let's work together to protect and preserve our planet for future generations.",
+      "location": {
+        "addressID": 7,
+        "street": 303,
+        "city": "Sample City",
+        "province": "Sample Province",
+        "country": "Sample Country"
+      },
+      "eventDate": "2024-05-01",
+      "eventStartTime": {
+        "timeID": 13,
+        "hour": 10,
+        "minute": 0,
+        "second": 0
+      },
+      "eventEndTime": {
+        "timeID": 14,
+        "hour": 14,
+        "minute": 0,
+        "second": 0
+      },
+      "status": "Scheduled",
+      "capacity": 150
     }
   ]
 }

@@ -99,11 +99,29 @@ function MainPage() {
     })
   );
 
+  const nextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const currentItems = displayType === 'events' ? filteredEvents.slice(indexOfFirstItem, indexOfLastItem) : filteredGroups.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <body class ="bg-gray-100 min-h-screen">
       {Nav()}
 
-      <div class="items-center justify-center flex mb-4 ">
+      <div class="items-center justify-center flex my-4 ">
         <div class="h-56 sm:h-64 xl:h-80 2xl:h-96 w-2/5">
           <Carousel slideInterval={5000} pauseOnHover>
             <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
@@ -117,8 +135,8 @@ function MainPage() {
 
       <div className="flex justify-center items-center mb-2">
         <Button.Group>
-          <Button color={displayType === 'events' ? 'blue' : 'gray'} onClick={() => setDisplayType('events')}>Events</Button>
-          <Button color={displayType === 'groups' ? 'blue' : 'gray'} onClick={() => setDisplayType('groups')}>Groups</Button>
+          <Button color={displayType === 'events' ? 'blue' : 'gray'} onClick={() => {setDisplayType('events'); setCurrentPage(1);}}>Events</Button>
+          <Button color={displayType === 'groups' ? 'blue' : 'gray'} onClick={() => {setDisplayType('groups'); setCurrentPage(1);}}>Groups</Button>
         </Button.Group>
       </div>
 
@@ -156,26 +174,28 @@ function MainPage() {
 
       </div>
 
-      <div className="content-list flex flex-wrap">
-        {displayType === 'events' ? (
-          filteredEvents.map((event) => (
-            <div key={event.eventID} className="event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" 
-              onClick={() => navigate(`/event/${event.eventID}`, { state: { event: event } })}>
-              <strong>{event.eventTitle}</strong>
-              <p>Group: {event.group}</p>
-              <p>Date: {event.eventDate}</p>
-              <p>Time: {event.eventTime}</p>
-              <p>Location: {event.location}</p>
-            </div>
-          ))
-        ) : (
-          filteredGroups.map((group) => (
-            <div key={group.groupID} className="group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1"
-            onClick={() => navigate(`/group/${group.groupID}`, { state: { group: group } })}>
-              <strong>Group ID : {group.groupName}</strong>
-            </div>
-          ))
-        )}
+      <div className="content-list flex flex-wrap overflow-y-auto bg-gray-300 mx-10 rounded-2xl" style={{ maxHeight: '500px' }}>
+        {currentItems.map((item) => (
+          <div key={displayType === 'events' ? item.eventID : item.groupID} className={displayType === 'events' ? "event-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1" : "group-card bg-white mx-auto rounded-xl shadow-lg items-center space-x-4 max-w-sm p-6 mt-4 m-1"} 
+            onClick={() => navigate(`/${displayType}/${displayType === 'events' ? item.eventID : item.groupID}`, { state: { [displayType === 'events' ? 'event' : 'group']: item } })}>
+            <strong>{displayType === 'events' ? item.eventTitle : `Group : ${item.groupName}`}</strong>
+            {displayType === 'events' && (
+              <>
+                <p>Group: {item.group}</p>
+                <p>Date: {item.eventDate}</p>
+                <p>Time: {item.eventTime}</p>
+                <p>Location: {item.location}</p>
+              </>
+            )}
+          </div>    
+        ))}
+      </div>
+      <div className="flex justify-center items-center w-full my-2">
+        <button onClick={prevPage} disabled={currentPage === 1} className="block" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{"<"} Previous Page</button>
+        <div>
+          <p className="block"  class="text-white bg-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">{currentPage}</p>
+        </div>
+        <button onClick={nextPage} disabled={indexOfLastItem >= (displayType === 'events' ? filteredEvents.length : filteredGroups.length)} className="block" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Next Page {">"}</button>
       </div>
     </body>
   );
