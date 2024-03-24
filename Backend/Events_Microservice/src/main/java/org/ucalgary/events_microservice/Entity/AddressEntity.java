@@ -23,11 +23,13 @@ public class AddressEntity {
     @Column(name = "address_id")
     private Integer addressId;
     @Column(name = "street")
-    private Integer street;
+    private String street;
     @Column(name = "city")
     private String city;
     @Column(name = "province")
     private String province;
+    @Column(name = "postal_code")
+    private String postalCode;
     @Column(name = "country")
     private String country;
 
@@ -35,24 +37,27 @@ public class AddressEntity {
     public AddressEntity() {
     }
 
-    public AddressEntity(Integer addressId, Integer street, String city, String province, String country) {
+    public AddressEntity(Integer addressId, String street, String city, String province, String postalCode, String country) {
         this.addressId = addressId;
         this.street = street;
         this.city = city;
         this.province = province;
+        this.postalCode = postalCode;
         this.country = country;
     }
 
     // Getters and setters
     public Integer getAddressId() {return addressId;}
-    public Integer getStreet() {return street;}
+    public String getStreet() {return street;}
     public String getCity() {return city;}
     public String getProvince() {return province;}
+    public String getPostalCode() {return postalCode;}
     public String getCountry() {return country;}
 
     public void setAddressId(Integer addressId) {this.addressId = addressId;}
-    public void setStreet(Integer street) {this.street = street;}
+    public void setStreet(String street) {this.street = street;}
     public void setCity(String city) {this.city = city;}
     public void setProvince(String province) {this.province = province;}
+    public void setPostalCode(String postalCode) {this.postalCode = postalCode;}
     public void setCountry(String country) {this.country = country;}
 }

@@ -11,6 +11,7 @@ const CreateEventForm = () => {
     street: '',
     city: '',
     province: '',
+    postalCode: '',
     country: '',
     eventStartTime: '',
     eventEndTime: '',
@@ -21,7 +22,6 @@ const CreateEventForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
     let imageId; // Declare variable to store the retrieved imageId
   
     try {
@@ -57,10 +57,11 @@ const CreateEventForm = () => {
       eventTitle: formData.eventTitle,
       eventDescription: formData.eventDescription,
       location: {
-        street: parseInt(formData.street),
+        street: formData.street,
         city: formData.city,
         province: formData.province,
-        country: formData.country
+        postalCode: formData.postalCode,
+        country: formData.country        
       },
       eventStartTime: formData.eventStartTime,
       eventEndTime: formData.eventEndTime,
@@ -195,105 +196,124 @@ const CreateEventForm = () => {
                   onChange={handleChange}
                 />
               </div>
-                {/* Country */}
-                <div className="sm:col-span-3">
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                        Country
-                    </label>
-                    <input
-                        type="text"
-                        name="country"
-                        id="country"
-                        autoComplete="country-name"
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.country}
-                        onChange={handleChange}
-                    />
-                </div>
 
-                {/* Event Start Time */}
-                <div className="sm:col-span-3">
-                    <label htmlFor="eventStartTime" className="block text-sm font-medium text-gray-700">
-                        Start Time
-                    </label>
-                    <input
-                        type="datetime-local"
-                        name="eventStartTime"
-                        id="eventStartTime"
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.eventStartTime}
-                        onChange={handleChange}
-                    />
-                </div>
+              {/* PostalCode */}
+              <div className="sm:col-span-3">
+                <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700">
+                  Postal Code
+                </label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  id="postalCode"
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  value={formData.postalCode}
+                  onChange={handleChange}
+                />
+              </div>
 
-                {/* Event End Time */}
-                <div className="sm:col-span-3">
-                    <label htmlFor="eventEndTime" className="block text-sm font-medium text-gray-700">
-                        End Time
-                    </label>
-                    <input
-                        type="datetime-local"
-                        name="eventEndTime"
-                        id="eventEndTime"
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.eventEndTime}
-                        onChange={handleChange}
-                    />
-                </div>
+              {/* Country */}
+              <div className="sm:col-span-3">
+                  <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                      Country
+                  </label>
+                  <input
+                      type="text"
+                      name="country"
+                      id="country"
+                      autoComplete="country-name"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.country}
+                      onChange={handleChange}
+                  />
+              </div>
 
-                {/* Status */}
-                <div className="sm:col-span-3">
-                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                        Status
-                    </label>
-                    <select
-                        id="status"
-                        name="status"
-                        autoComplete="status"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.status || 'Scheduled'}
-                        onChange={handleChange}
-                    >
-                        <option value="Scheduled">Scheduled</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                    </select>
-                </div>
+              {/* Event Start Time */}
+              <div className="sm:col-span-3">
+                  <label htmlFor="eventStartTime" className="block text-sm font-medium text-gray-700">
+                      Start Time
+                  </label>
+                  <input
+                      type="datetime-local"
+                      name="eventStartTime"
+                      id="eventStartTime"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.eventStartTime}
+                      onChange={handleChange}
+                  />
+              </div>
 
-                {/* Capacity */}
-                <div className="sm:col-span-3">
-                    <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
-                        Capacity
-                    </label>
-                    <input
-                        type="number"
-                        name="capacity"
-                        id="capacity"
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.capacity}
-                        onChange={handleChange}
-                    />
-                </div>
+              {/* Event End Time */}
+              <div className="sm:col-span-3">
+                  <label htmlFor="eventEndTime" className="block text-sm font-medium text-gray-700">
+                      End Time
+                  </label>
+                  <input
+                      type="datetime-local"
+                      name="eventEndTime"
+                      id="eventEndTime"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.eventEndTime}
+                      onChange={handleChange}
+                  />
+              </div>
 
-                {/* Image URL */}
-                <div className="sm:col-span-6">
-                    <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
-                        Image URL
-                    </label>
-                    <input
-                        type="url"
-                        name="imageUrl"
-                        id="imageUrl"
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.imageUrl}
-                        onChange={handleChange}
-                    />
-                </div>
+              {/* Status */}
+              <div className="sm:col-span-3">
+                  <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+                      Status
+                  </label>
+                  <select
+                      id="status"
+                      name="status"
+                      autoComplete="status"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.status || 'Scheduled'}
+                      onChange={handleChange}
+                  >
+                      <option value="Scheduled">Scheduled</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Cancelled">Cancelled</option>
+                  </select>
+              </div>
+
+              {/* Capacity */}
+              <div className="sm:col-span-3">
+                  <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
+                      Capacity
+                  </label>
+                  <input
+                      type="number"
+                      name="capacity"
+                      id="capacity"
+                      required
+                      pattern="[0-9]*"
+                      title="Please enter numbers only." 
+                      className="mt-1 block w-full rounded-md border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.capacity}
+                      onChange={handleChange}
+                  />
+              </div>
+
+              {/* Image URL */}
+              <div className="sm:col-span-6">
+                  <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
+                      Image URL
+                  </label>
+                  <input
+                      type="url"
+                      name="imageUrl"
+                      id="imageUrl"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      value={formData.imageUrl}
+                      onChange={handleChange}
+                  />
+              </div>
             </div>
         </div>
 
