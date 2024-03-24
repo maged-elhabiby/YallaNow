@@ -1,34 +1,26 @@
 {
   "recommendationScenarios": {
     "ItemSegmentsToItem": [
-      "SCENARIO_I",
-      "SCENARIO_J"
     ],
     "ItemSegmentsToUser": [
-      "SCENARIO_G",
-      "SCENARIO_H"
     ],
     "ItemsToItem": [
-      "SCENARIO_C",
-      "SCENARIO_D"
     ],
     "ItemsToUser": [
-      "popular",
-      "for-you"
+      "popular-items",
+      "homepage-items",
+      "recently-viewed-items",
+      "default-items",
+      "personal-items"
     ],
     "NextItems": [
-      "SCENARIO_E",
-      "SCENARIO_F"
     ],
     "UsersToUser": [
-      "SCENARIO_K",
-      "SCENARIO_L"
     ],
     "SearchItems": [
-      "search-items-default"
+      "search-items-personalized"
     ],
     "SearchItemSegments": [
-      "default"
     ]
   }
 }
