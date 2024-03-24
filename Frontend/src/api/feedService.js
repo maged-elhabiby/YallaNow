@@ -25,7 +25,7 @@ const feedService = {
             recommendationType: 'ItemsToUser'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //getHomepageEvents - homepage or welcome screen scenarios
     getHomepageEvents: async (userId, count) => {
@@ -36,7 +36,7 @@ const feedService = {
             recommendationType: 'ItemsToUser'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //getPersonalEvents - personalized events
     getPersonalEvents: async (userId, count) => {
@@ -47,7 +47,7 @@ const feedService = {
             recommendationType: 'ItemsToUser'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //getPopularEvents - globally recommended events
     getPopularEvents: async (userId, count) => {
@@ -58,7 +58,7 @@ const feedService = {
             recommendationType: 'ItemsToUser'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //getRecentlyViewedEvents - recently viewed events
     getRecentylViewedEvents: async (userId, count) => {
@@ -69,7 +69,7 @@ const feedService = {
             recommendationType: 'ItemsToUser'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //getNextEvents - gets the next items for a event feed
     //  pass in the recommId from one of the getEvents feeds
@@ -81,7 +81,7 @@ const feedService = {
             recommendationType: 'NextItems'
         };
         return await feedService.getRecommendations(request);
-    }
+    },
 
     //searchEvents - personalized full text search of events
     searchEvents: async (userId, count, searchQuery) => {
