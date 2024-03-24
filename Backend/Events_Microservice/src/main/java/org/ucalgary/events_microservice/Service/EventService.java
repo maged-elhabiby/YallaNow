@@ -42,7 +42,7 @@ public class EventService {
 
         AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
 
-        EventsEntity newEvent = new EventsEntity(event.getEventID(), 
+        EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
                                                 event.getEventTitle(), 
                                                 event.getEventDescription(), 
@@ -53,6 +53,7 @@ public class EventService {
                                                 event.getCount(),
                                                 event.getCapacity(),
                                                 event.getImageID());
+        newEvent.setAddress(address);
         return eventRepository.save(newEvent); // Add the Event to the DataBase
     }
 

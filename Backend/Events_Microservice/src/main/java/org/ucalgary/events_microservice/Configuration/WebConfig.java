@@ -1,4 +1,4 @@
-package org.ucalgary.images_microservice.Configuration;
+package org.ucalgary.events_microservice.Configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

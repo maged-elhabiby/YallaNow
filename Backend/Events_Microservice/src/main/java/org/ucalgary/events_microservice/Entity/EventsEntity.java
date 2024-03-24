@@ -107,6 +107,7 @@ public class EventsEntity {
     public void setStatus(EventStatus status) {this.status = status;}
     public void setCount(Integer count) {this.count = count;}
     public void setCapacity(Integer capacity) {this.capacity = capacity;}
+    public void setAddress(AddressEntity address) {this.address = address;}
     public void setImageId(Integer imageId) {this.imageId = imageId;}
 }
 

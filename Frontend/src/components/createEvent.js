@@ -14,15 +14,86 @@ const CreateEventForm = () => {
     country: '',
     eventStartTime: '',
     eventEndTime: '',
-    status: '',
+    status: 'Scheduled',
     capacity: '',
     imageUrl: ''
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-    // Implement submission logic here, such as sending the data to a backend server
+  
+    let imageId; // Declare variable to store the retrieved imageId
+  
+    try {
+      // Fetch request to the image microservice to add the image
+      const imageResponse = await fetch('http://localhost:8081/microservice/images/AddImage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData.imageUrl),
+        mode: 'cors',
+        credentials: 'omit'
+      });
+  
+      if (!imageResponse.ok) {
+        throw new Error(`Error: ${imageResponse.status}`);
+      }
+  
+      // Parse the response to get the imageId
+      const imageResponseData = await imageResponse.json();
+      console.log("Success adding image:", imageResponseData);
+      imageId = imageResponseData.imageId; // Store the retrieved imageId
+  
+    } catch (error) {
+      console.error("Failed to add image:", error);
+      // Handle error, show error message to user, etc.
+      return; // Exit function early if image addition fails
+    }
+  
+    // Adjust formData to match the expected backend format
+    const payload = {
+      groupID: parseInt(formData.groupID),
+      eventTitle: formData.eventTitle,
+      eventDescription: formData.eventDescription,
+      location: {
+        street: parseInt(formData.street),
+        city: formData.city,
+        province: formData.province,
+        country: formData.country
+      },
+      eventStartTime: formData.eventStartTime,
+      eventEndTime: formData.eventEndTime,
+      status: formData.status,
+      capacity: parseInt(formData.capacity),
+      imageID: imageId // Use the retrieved imageId in the payload
+    };
+  
+    try {
+      // Fetch request to add the event using the adjusted payload
+      const eventResponse = await fetch('http://localhost:8082/microservice/events/AddEvent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        mode: 'cors',
+        credentials: 'omit'
+      });
+  
+      if (!eventResponse.ok) {
+        throw new Error(`Error: ${eventResponse.status}`);
+      }
+  
+      // Parse the response for the event creation request
+      const eventResponseData = await eventResponse.json();
+      console.log("Success adding event:", eventResponseData);
+      // Handle successful form submission here, e.g., showing a success message or redirecting the user
+  
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Handle errors here, e.g., showing an error message to the user
+    }
   };
 
   const handleChange = (event) => {
@@ -183,7 +254,7 @@ const CreateEventForm = () => {
                         name="status"
                         autoComplete="status"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        value={formData.status}
+                        value={formData.status || 'Scheduled'}
                         onChange={handleChange}
                     >
                         <option value="Scheduled">Scheduled</option>
