@@ -1,2 +1,4 @@
-package org.ucalgary.events_microservice.ServiceTest;public class AddressServiceTest {
+package org.ucalgary.events_microservice.ServiceTest;
+
+public class AddressServiceTest {
 }
