@@ -7,16 +7,39 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/auth', methods=['POST'])
+# @app.route('/auth', methods=['POST'])
+# def verify():
+#     data = request.get_json
+#     id_token = data['id_token']
+#     try:
+#         decoded_token = auth.verify_id_token(id_token)
+#         uid = decoded_token['uid']
+#         return jsonify({'uid': uid}), 200
+#     except:
+#         return jsonify({'error': 'Invalid token'}), 401
+
+
+
+@app.route('/auth', methods=['POST', 'GET', ' PUT', 'DELETE'])
 def verify():
-    data = request.get_json()
-    id_token = data['id_token']
+    session_cookie = request.cookies.get('session')
+    
     try:
-        decoded_token = auth.verify_id_token(id_token)
+        decoded_token = auth.verify_session_cookie(session_cookie)
         uid = decoded_token['uid']
-        return jsonify({'uid': uid}), 200
+        email = decoded_token['email']
+        respnse = {'uid': uid, 'email': email}
+        return jsonify(respnse), 200
     except:
-        return jsonify({'error': 'Invalid token'}), 401
+        return False, 401
+
+
+
+
+
+
+
+
 
 def init_firebase():
     cred = credentials.Certificate('yallanow12-firebase-adminsdk-njuxe-db0348de3f.json')
