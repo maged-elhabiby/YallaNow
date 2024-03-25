@@ -1,3 +1,151 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Base and utility classes from Tailwind */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Styling for the FullCalendar container */
+.calendar-container {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive adjustments for FullCalendar */
+@media (max-width: 768px) {
+    /* Adjust toolbar padding or font size for smaller screens */
+    .fc .fc-toolbar {
+        padding: 0.5rem;
+        font-size: 0.875rem; /* This is equivalent to Tailwind's text-sm */
+    }
+
+    /* Adjust day cell padding */
+    .fc .fc-daygrid-day {
+        padding: 0.25rem;
+    }
+
+    /* Adjust day number size */
+    .fc .fc-daygrid-day-number {
+        font-size: 0.75rem; /* This is equivalent to Tailwind's text-xs */
+    }
+
+    /* Add customizations for other FullCalendar elements if needed */
+}
+/* Base FullCalendar styling - modify this as needed */
+.fc .fc-toolbar {
+    background-color: #f5f5f5; /* Light grey background for the toolbar area */
+    color: #333333; /* Dark grey color for text */
+    padding: 10px; /* Padding around the toolbar content */
+    border-bottom: 1px solid #dddddd; /* Border bottom for a subtle separation */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adding a slight shadow for depth */
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.25rem; /* 20px size for the calendar title */
+    font-weight: bold; /* Making the title bold */
+}
+
+.fc .fc-button {
+    background-color: #4f46e5; /* Example: A nice shade of blue for buttons */
+    color: white; /* White text color for buttons */
+    border: none; /* Removing default borders */
+    padding: 8px 16px; /* Padding inside the buttons */
+    border-radius: 4px; /* Rounded corners for the buttons */
+    font-weight: 500; /* Medium font weight */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for the buttons for depth */
+    margin-right: 8px; /* Adding some margin to the right of buttons */
+}
+
+.fc .fc-button:hover {
+    background-color: #3730a3; /* A darker shade of blue on hover */
+}
+
+.fc .fc-button:active {
+    background-color: #312e81; /* An even darker shade for the active state */
+}
+
+.fc .fc-button.fc-button-primary {
+    background-color: #6366f1; /* Adjusting the primary button color if needed */
+}
+
+.fc .fc-button.fc-button-active {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Inset shadow for an "active" look */
+}
+
+.fc .fc-event {
+    background-color: #10b981; /* Example: A teal background for events */
+    color: #ffffff; /* White text for better readability */
+    border: 1px solid #10b981; /* A border that matches the background color */
+    border-radius: 4px; /* Rounded corners for the events */
+    font-size: 0.875rem; /* Smaller font size */
+    padding: 4px 8px; /* Padding inside the events */
+}
+
+/* Style the 'Today' button with a distinct look */
+.fc .fc-today-button {
+    background-color: #ef4444; /* Red background for the 'Today' button for emphasis */
+    color: white; /* White text color */
+    border: none; /* Removing the border for a cleaner look */
+    border-radius: 0.25rem; /* Slightly rounded corners */
+    padding: 0.5rem 1rem; /* Comfortable padding */
+    margin-left: 0.5rem; /* Space from the adjacent button */
+    font-weight: 500; /* Medium font weight */
+  }
+/* As the screen size gets smaller, adjust the button sizes accordingly */
+@media (max-width: 1024px) { /* Adjust for tablets */
+    .fc .fc-button {
+      padding: 6px 12px; /* Smaller padding */
+      font-size: 0.875rem; /* Slightly smaller font size */
+    }
+  }
+  
+  @media (max-width: 768px) { /* Adjust for landscape phones */
+    .fc .fc-button {
+      padding: 4px 10px; /* Even smaller padding */
+      font-size: 0.75rem; /* Smaller font size */
+    }
+  }
+  
+  @media (max-width: 480px) { /* Adjust for portrait phones */
+    .fc .fc-button {
+      padding: 2px 8px; /* Minimal padding */
+      font-size: 0.625rem; /* Small font size */
+    }
+  }
+
+  /* Custom CalendarHeader button styles */
+.calendar-header-button {
+    background-color: #f7559a; /* A nice shade of blue for buttons */
+    color: white; /* White text color for buttons */
+    border: none; /* Removing default borders */
+    padding: 8px 16px; /* Padding inside the buttons */
+    border-radius: 4px; /* Rounded corners for the buttons */
+    font-weight: 500; /* Medium font weight */
+    margin-right: 8px; /* Adding some margin to the right of buttons */
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+}
+
+.calendar-header-button:hover {
+    background-color: #f986b7; /* A darker shade of blue on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .calendar-header-button {
+      padding: 6px 12px; /* Smaller padding */
+      font-size: 0.875rem; /* Slightly smaller font size */
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-header-button {
+      padding: 4px 10px; /* Even smaller padding */
+      font-size: 0.75rem; /* Smaller font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-header-button {
+      padding: 2px 8px; /* Minimal padding */
+      font-size: 0.625rem; /* Small font size */
+    }
+}
