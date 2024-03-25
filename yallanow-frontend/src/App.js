@@ -8,6 +8,9 @@ import EventDetailsPage from './pages/EventDetailsPage';
 
 import SearchPage from './pages/SearchPage';
 
+import SignUpPage from './pages/SignUpPage';
+import SignInPage from './pages/SignInPage';
+
 /*
 
 import LoginPage from './pages/LoginPage';
