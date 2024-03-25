@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import ExplorePage from './pages/ExplorePage';
 
 import MyEventsPage from './pages/MyEventsPage';
+import EventDetailsPage from './pages/EventDetailsPage';
 
 /*
 
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/" element={<ExplorePage />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/myevents" element={<MyEventsPage />}/>
+              <Route path="/event-details/:event-id" element={<EventDetailsPage />} />
               {/* Add other routes here */}
           </Routes>
           </div>
