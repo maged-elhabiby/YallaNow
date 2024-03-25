@@ -1,6 +1,6 @@
 import React from 'react';
-import { Fragment } from 'react'
-import { Link } from 'react-router-dom';
+import { Fragment, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -9,7 +9,18 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+const Navbar = () => {
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 w-full z-50">
       {({ open }) => (
@@ -42,7 +53,7 @@ export default function Example() {
                 </div>
               </div>
               <div className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
-                <div className="w-full max-w-lg lg:max-w-xs">
+                <form onSubmit={handleSearch} className="w-full max-w-lg lg:max-w-xs">
                   <label htmlFor="search" className="sr-only">
                     Search
                   </label>
@@ -56,9 +67,11 @@ export default function Example() {
                       className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="Search"
                       type="search"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
-                </div>
+                </form>
               </div>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
@@ -223,3 +236,5 @@ export default function Example() {
     </Disclosure>
   )
 }
+
+export default Navbar;

@@ -5,6 +5,8 @@ const EventCard = ({ event, recommId }) => {
   const navigate = useNavigate();
   const formattedDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const formattedTime = event.eventStartTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  const formattedLocation = event.eventLocationCity + " " + event.eventLocationProvince + " " + event.eventLocationCountry
+
 
   const handleViewEvent = () => {
     navigate(`/event-details/${event.eventId}`, { state: { event, recommId } });
@@ -21,14 +23,11 @@ const EventCard = ({ event, recommId }) => {
         </div>
       </div>
       <div className="mt-4 flex justify-between space-x-4 text-base font-medium text-gray-900">
-        <div>
-          <h3 className="line-clamp-2">
-            
-            {event.eventTitle}
-          </h3>
+        <div className="text-left">
+          <p className="line-clamp-1">{event.eventTitle}</p>
+          <p className="line-clamp-1">{formattedLocation}</p>
         </div>
         <div className="text-right">
-          
           <p className="whitespace-nowrap">{formattedDate}</p>
           <p className="whitespace-nowrap">{formattedTime}</p>
         </div>
