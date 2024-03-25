@@ -2,6 +2,7 @@ const axios = require('axios');
 const baseUrl = 'http://localhost:8080/recommendations';
 
 const feedService = {
+
     getRecommendations: async (recommendationRequest) => {
         try {
             const response = await axios.post(baseUrl, recommendationRequest, {
@@ -9,11 +10,25 @@ const feedService = {
                     'Content-Type': 'application/json',
                 },
             });
-            return response.data;
+            // Format the reponse data
+            data = response.data;
+            data.recommendations = formatRecommendationsToEvents(data.recommendations);
+            return data;
+
         } catch (error) {
             console.error('Error fetching recommendations:', error);
             throw error;
         }
+    },
+
+    
+    formatRecommendationsToEvents: async (recommendations) => {
+        return recommendations.map((recommendation) => {
+            return {
+            ...recommendation.properties,
+            eventId: recommendation.id
+            };
+        });
     },
 
     //getDefault -- universal model
@@ -95,5 +110,9 @@ const feedService = {
         return await feedService.getRecommendations(request);
     }
 };
+
+
+
+
 
 module.exports = feedService;
