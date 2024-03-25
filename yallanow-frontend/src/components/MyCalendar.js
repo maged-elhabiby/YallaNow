@@ -19,7 +19,7 @@ const MyCalendar = ({ events, onEventClick }) => {
                 setTitle(calendarApi.view.title);
             }
         };
-        
+
         // Add an event listener for when the calendar API is ready
         // and use it to set the initial title
         if (calendarRef.current) {
@@ -47,13 +47,7 @@ const MyCalendar = ({ events, onEventClick }) => {
         }
     };
 
-    const eventsForCalendar = Array.isArray(events) ? events.map(event => ({
-        id: event.id.toString(),
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        allDay: event.allDay || false
-    })) : [];
+
 
     return (
         <div className="calendar-container">
@@ -69,7 +63,7 @@ const MyCalendar = ({ events, onEventClick }) => {
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
                 initialView="dayGridMonth"
                 headerToolbar={false}
-                events={eventsForCalendar}
+                events={events}
                 eventClick={handleEventClick}
                 selectable={true}
                 selectMirror={true}
