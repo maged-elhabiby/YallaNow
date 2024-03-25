@@ -5,6 +5,7 @@ import Login from './components/Login';
 import MainPage from './components/MainPage';
 import SingleEvent from './components/SingleEvent';
 import AccountSettings from './components/AccountSettings';
+import Paperbase from './components/Paperbase';
 
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/event/:eventID" element={<SingleEvent />}/>
                 <Route path="/event" element={<SingleEvent />}/>
-                <Route path="/Settings" element={<AccountSettings />} />
+                <Route path="/Settings" element={<Paperbase />} />
             </Routes>
         </Router>
         </div>
