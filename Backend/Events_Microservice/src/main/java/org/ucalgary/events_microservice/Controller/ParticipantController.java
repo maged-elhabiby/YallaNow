@@ -78,13 +78,13 @@ public class ParticipantController {
 
     /**
      * Delete a participant from an event
-     * @param userID
-     * @param eventID
+     * @param userId
+     * @param eventId
      * @return Response Entity with a message that the participant has been removed from the event
      */
-    @DeleteMapping("/DeleteParticipant/{userID}/{eventID}")
-    public ResponseEntity<?> deleteParticipant(@PathVariable int userID, @PathVariable int eventID) {
-        participantService.deleteParticipant(userID, eventID);
-        return ResponseEntity.ok("User with ID " + userID + " has been removed from Event with ID " + eventID + " successfully.");
+    @DeleteMapping("/DeleteParticipant/{userId}/{eventId}")
+    public ResponseEntity<?> deleteParticipant(@PathVariable int userId, @PathVariable int eventId) {
+        participantService.deleteParticipant(userId, eventId);
+        return ResponseEntity.ok("User with ID " + userId + " has been removed from Event with ID " + eventID + " successfully.");
     }
 }
