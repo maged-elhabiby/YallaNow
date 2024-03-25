@@ -27,7 +27,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //getHomepageEvents - homepage or welcome screen scenarios
+    //getHomepageEvents -- homepage or welcome screen scenarios
     getHomepageEvents: async (userId, count) => {
         const request = {
             userId: userId,
@@ -38,7 +38,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //getPersonalEvents - personalized events
+    //getPersonalEvents -- personalized events
     getPersonalEvents: async (userId, count) => {
         const request = {
             userId: userId,
@@ -49,7 +49,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //getPopularEvents - globally recommended events
+    //getPopularEvents -- globally recommended events
     getPopularEvents: async (userId, count) => {
         const request = {
             userId: userId,
@@ -60,7 +60,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //getRecentlyViewedEvents - recently viewed events
+    //getRecentlyViewedEvents -- recently viewed events
     getRecentylViewedEvents: async (userId, count) => {
         const request = {
             userId: userId,
@@ -71,7 +71,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //getNextEvents - gets the next items for a event feed
+    //getNextEvents -- gets the next items for a event feed
     //  pass in the recommId from one of the getEvents feeds
     //  to get additional recommendations. Used for infinate feeds.
     getNextEvents: async (count, recommId) => {
@@ -83,7 +83,7 @@ const feedService = {
         return await feedService.getRecommendations(request);
     },
 
-    //searchEvents - personalized full text search of events
+    //searchEvents -- personalized full text search of events
     searchEvents: async (userId, count, searchQuery) => {
         const request = {
             userId: userId,
@@ -94,7 +94,6 @@ const feedService = {
         };
         return await feedService.getRecommendations(request);
     }
-
 };
 
 module.exports = feedService;
