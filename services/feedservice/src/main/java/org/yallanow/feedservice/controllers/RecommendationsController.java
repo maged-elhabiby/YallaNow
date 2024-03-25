@@ -12,6 +12,7 @@ import org.yallanow.feedservice.services.RecommendationServiceImpl;
 
 @RestController
 @RequestMapping("/recommendations")
+@CrossOrigin
 public class RecommendationsController {
 
     private final RecommendationService recommendationService;
