@@ -31,6 +31,8 @@ const App = () => {
               <Route path="/myevents" element={<MyEventsPage />}/>
               <Route path="/event-details/:event-id" element={<EventDetailsPage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/Signup" element={<SignUpPage />} />
+              <Route path="/Signin" element={<SignInPage />} />
               {/* Add other routes here */}
           </Routes>
           </div>

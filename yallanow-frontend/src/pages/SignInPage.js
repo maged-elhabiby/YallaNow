@@ -1,5 +1,5 @@
 
-export default function Example() {
+const SignInPage = () => {
   return (
     <>
 
@@ -77,3 +77,5 @@ export default function Example() {
     </>
   )
 }
+
+export default SignInPage

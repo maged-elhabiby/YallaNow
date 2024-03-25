@@ -1,5 +1,5 @@
 
-export default function Example() {
+const SignUpPage = () => {
   return (
     <>
 
@@ -11,7 +11,7 @@ export default function Example() {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Sign up to create an account
           </h2>
         </div>
 
@@ -38,16 +38,29 @@ export default function Example() {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <input
                   id="password"
                   name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  Password Confirmation
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  id="password confirmation"
+                  name="password confirmation"
                   type="password"
                   autoComplete="current-password"
                   required
@@ -77,3 +90,5 @@ export default function Example() {
     </>
   )
 }
+
+export default SignUpPage
