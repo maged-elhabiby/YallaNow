@@ -1,5 +1,9 @@
+// src/components/Login.js
+import React from 'react';
+//import { useAuth } from '../AuthContext.js';
 
 const SignInPage = () => {
+  //const { signInWithGoogle } = useAuth();
   return (
     <>
 
@@ -69,7 +73,7 @@ const SignInPage = () => {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
             <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
+              Sign Up, Today!
             </a>
           </p>
         </div>

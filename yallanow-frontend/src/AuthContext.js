@@ -1,6 +1,6 @@
-// src/context/AuthContext.js
+/*// src/context/AuthContext.js
 import React, { useContext, createContext, useEffect, useState } from 'react';
-import { auth } from '../firebase-config';
+import { auth } from './firebase-config';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const AuthContext = createContext();
@@ -31,3 +31,4 @@ export function AuthProvider({ children }) {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+*/
