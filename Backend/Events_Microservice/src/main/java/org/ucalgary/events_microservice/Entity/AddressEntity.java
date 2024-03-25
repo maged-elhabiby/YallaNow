@@ -60,4 +60,9 @@ public class AddressEntity {
     public void setProvince(String province) {this.province = province;}
     public void setPostalCode(String postalCode) {this.postalCode = postalCode;}
     public void setCountry(String country) {this.country = country;}
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s, %s, %s", street, city, province, postalCode, country);
+    }
 }

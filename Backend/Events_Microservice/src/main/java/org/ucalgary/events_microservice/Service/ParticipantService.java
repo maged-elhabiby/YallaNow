@@ -26,13 +26,15 @@ public class ParticipantService {
     private final ParticipantRepository participantRepository;
     private final EventsPubService eventsPubService;
     private final EventService eventService;
+    private final MailSenderService mailSenderService;
 
     public ParticipantService(EventRepository eventRepository,ParticipantRepository participantRepository, 
-                                EventsPubService eventsPubService, EventService eventService) {
+                                EventsPubService eventsPubService, EventService eventService, MailSenderService mailSenderService) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.eventsPubService = eventsPubService;
         this.eventService = eventService;
+        this.mailSenderService = mailSenderService;
     }
 
     /**
@@ -174,6 +176,7 @@ public class ParticipantService {
                 throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
             }
             eventRepository.save(event);
+            mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
                 eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
             }
@@ -214,6 +217,7 @@ public class ParticipantService {
                 }
             }
             eventRepository.save(event); // Save the updated event
+            mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
 
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
                 eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
