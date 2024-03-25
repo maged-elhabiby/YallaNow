@@ -149,3 +149,10 @@
       font-size: 0.625rem; /* Small font size */
     }
 }
+/* index.css */
+@media (max-width: 1800px) { /* Adjust this value based on your needs */
+    .hide-on-small-screens {
+      display: none;
+    }
+  }
+  
