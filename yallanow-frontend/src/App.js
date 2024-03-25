@@ -1,45 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ExplorePage from './pages/ExplorePage';
-
 import MyEventsPage from './pages/MyEventsPage';
 import EventDetailsPage from './pages/EventDetailsPage';
-
 import SearchPage from './pages/SearchPage';
-
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 
-/*
+const AppContent = () => {
+  const location = useLocation();
+  const hideNavbarRoutes = ['/signup', '/signin'];
 
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import GroupsPage from './pages/GroupsPage';
-
-<Route path="/login" element={<LoginPage />} />
-<Route path="/signup" element={<SignupPage />} />
-<Route path="/groups/:groupID" element={<GroupsPage />} />
-
-*/
+  return (
+    <div className="h-full">
+      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+      <Routes>
+        <Route path="/" element={<ExplorePage />} />
+        <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/myevents" element={<MyEventsPage />} />
+        <Route path="/event-details/:event-id" element={<EventDetailsPage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        {/* Add other routes here */}
+      </Routes>
+    </div>
+  );
+};
 
 const App = () => {
   return (
-      <Router>
-        <div className="h-full" >
-          <Navbar />
-          <Routes>
-              <Route path="/" element={<ExplorePage />} />
-              <Route path="/explore" element={<ExplorePage />} />
-              <Route path="/myevents" element={<MyEventsPage />}/>
-              <Route path="/event-details/:event-id" element={<EventDetailsPage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/Signup" element={<SignUpPage />} />
-              <Route path="/Signin" element={<SignInPage />} />
-              {/* Add other routes here */}
-          </Routes>
-          </div>
-      </Router>
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 
