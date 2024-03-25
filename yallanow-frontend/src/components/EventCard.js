@@ -4,7 +4,7 @@ const EventCard = ({ event }) => {
   return (
     <div key={event.eventId} className="group relative">
       <div className="aspect-h-3 aspect-w-4 overflow-hidden rounded-lg bg-gray-100">
-        <img src={event.eventImageUrl} className="object-cover object-center" />
+        <img src={event.eventImageUrl} alt="" className="object-cover object-center" />
         <div className="flex items-end p-4 opacity-0 group-hover:opacity-100" aria-hidden="true">
           <div className="w-full rounded-md bg-white bg-opacity-75 px-4 py-2 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
             View Event
