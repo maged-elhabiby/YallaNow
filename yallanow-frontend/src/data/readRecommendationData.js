@@ -23,3 +23,4 @@ const getMockRecommendations = () => {
 };
 
 export default getMockRecommendations;
+
