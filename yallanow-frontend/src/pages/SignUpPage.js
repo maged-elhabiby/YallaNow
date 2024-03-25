@@ -1,4 +1,29 @@
+import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 const SignUpPage = () => {
+    // Handler for form submission
+    const handleSubmit = async (event) => {
+      event.preventDefault(); // Prevent the default form submission behavior
+  
+      // Get the form data
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+  
+      try {
+        // Submit the form data to your backend
+        await axios.post('https://your-backend-url.com/signup', data);
+  
+        // Redirect or show success message
+        alert('Signup successful. You can now sign in.');
+        // If using React Router, you can programmatically navigate to the sign-in page
+        // history.push('/signin'); // Uncomment this if you have set up React Router's useHistory
+      } catch (error) {
+        // Handle errors, e.g., show error message
+        alert('Signup failed. Please try again.');
+      }
+    };
   return (
     <>
       <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -93,9 +118,9 @@ const SignUpPage = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Returning Member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Sign In
-            </a>
+            <Link to="/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Sign In, Today!
+            </Link>
           </p>
         </div>
       </div>
