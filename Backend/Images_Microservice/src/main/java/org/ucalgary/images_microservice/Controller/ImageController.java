@@ -1,5 +1,6 @@
 package org.ucalgary.images_microservice.Controller;
 
+import org.ucalgary.images_microservice.DTO.ImageBase64DTO;
 import org.ucalgary.images_microservice.DTO.ImageDTO;
 import org.ucalgary.images_microservice.Entity.ImageEntity;
 import org.ucalgary.images_microservice.Service.ImageService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
 
 /**
  * Controller class for ImageEntity Responsible for handling the API requests of the ImageEntity
@@ -33,6 +36,18 @@ public class ImageController {
         ImageEntity image = imageService.addImage(imageDTO); // Add image to the database
         return ResponseEntity.ok(image);
     }
+
+    /**
+     * Add an image to the database
+     * @param base64Image
+     * @return ResponseEntity<ImageEntity>
+     */
+    @PostMapping("/UploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageBase64DTO imageBase64DTO) throws IOException {
+        ImageEntity image = imageService.uploadImage(imageBase64DTO); // Add image to the database
+        return ResponseEntity.ok(image);
+    }
+
 
     /**
      * Get an image from the database
