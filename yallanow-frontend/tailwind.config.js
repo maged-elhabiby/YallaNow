@@ -5,7 +5,7 @@ module.exports = {
     "./public/index.html",
   ],
   theme: {
-    extends: {    
+    extend: {    
       colors: {
         'slate-3': '#252a34',
         'pink-2': '#f7559a',

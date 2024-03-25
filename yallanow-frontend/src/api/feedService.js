@@ -3,7 +3,7 @@ const baseUrl = 'http://localhost:8080/recommendations';
 
 const feedService = {
 
-    formatRecommendationsToEvents: async (recommendations) => {
+    formatRecommendationsToEvents: (recommendations) => {
         return recommendations.map((recommendation) => {
           const formattedEvent = {
             ...recommendation.properties,
@@ -25,9 +25,11 @@ const feedService = {
                 },
             });
             // Format the reponse data
-            const data = response.data;
-            data.recommendations = feedService.formatRecommendationsToEvents(data.recommendations);
-            return data;
+            const responseData = { 
+                recommId: response.data.recommId, 
+                recommendations: feedService.formatRecommendationsToEvents(response.data.recommendations)
+            }        
+            return responseData;
 
         } catch (error) {
             console.error('Error fetching recommendations:', error);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, recommId }) => {
   const formattedDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const formattedTime = event.eventStartTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
