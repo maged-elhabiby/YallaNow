@@ -1,15 +1,36 @@
-const axios = require('axios');
+import axios from "axios";
 const baseUrl = 'http://localhost:8080/recommendations';
 
 const feedService = {
+
+    formatRecommendationsToEvents: (recommendations) => {
+        return recommendations.map((recommendation) => {
+          const formattedEvent = {
+            ...recommendation.properties,
+            eventId: recommendation.id,
+            eventStartTime: new Date(recommendation.properties.eventStartTime * 1000),
+            eventEndTime: new Date(recommendation.properties.eventEndTime * 1000)
+          };
+      
+          return formattedEvent;
+        });
+      },
+
     getRecommendations: async (recommendationRequest) => {
         try {
             const response = await axios.post(baseUrl, recommendationRequest, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'mode': 'cors'
                 },
             });
-            return response.data;
+            // Format the reponse data
+            const responseData = { 
+                recommId: response.data.recommId, 
+                recommendations: feedService.formatRecommendationsToEvents(response.data.recommendations)
+            }        
+            return responseData;
+
         } catch (error) {
             console.error('Error fetching recommendations:', error);
             throw error;
@@ -96,4 +117,7 @@ const feedService = {
     }
 };
 
-module.exports = feedService;
+
+
+
+export default feedService;

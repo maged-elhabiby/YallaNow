@@ -20,7 +20,7 @@ import GroupsPage from './pages/GroupsPage';
 const App = () => {
   return (
       <Router>
-        <div class="h-full" >
+        <div className="h-full" >
           <Navbar />
           <Routes>
               <Route path="/" element={<ExplorePage />} />
