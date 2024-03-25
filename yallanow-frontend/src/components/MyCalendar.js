@@ -6,10 +6,12 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import CalendarHeader from './CalendarHeader';
 import '../index.css';
+import { useNavigate  } from 'react-router-dom';
 
 const MyCalendar = ({ events, onEventClick }) => {
     const calendarRef = useRef(null);
     const [title, setTitle] = useState('');
+    const Anavigate = useNavigate();
 
     useEffect(() => {
         // Move title update logic into a separate function
@@ -27,9 +29,15 @@ const MyCalendar = ({ events, onEventClick }) => {
         }
     }, []);
 
+    // Define handleEventClick function
     const handleEventClick = ({ event }) => {
-        if (onEventClick) onEventClick(event);
-    };
+        Anavigate(`/event-details/${event.id}`, {
+          state: {
+            eventId: event.id
+          }
+        });
+      };
+      
 
     const handleViewChange = (view) => {
         if (calendarRef.current) {
@@ -42,10 +50,15 @@ const MyCalendar = ({ events, onEventClick }) => {
     const navigate = (action) => {
         if (calendarRef.current) {
             const calendarApi = calendarRef.current.getApi();
-            calendarApi[action]();
-            setTitle(calendarApi.view.title);
+            if (typeof calendarApi[action] === 'function') {
+                calendarApi[action]();
+                setTitle(calendarApi.view.title); // This line updates the title after navigation
+            } else {
+                console.error(`The method ${action} does not exist on the calendarApi object.`);
+            }
         }
     };
+    
 
 
 
