@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { Register } from '../firebase-config';
+import { useNavigate  } from 'react-router-dom';
 const SignUpPage = () => {
-
+  const navigate = useNavigate();
+  
   const handleGoogleSignUp = async () => {
     try {
       const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
@@ -19,7 +21,7 @@ const SignUpPage = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the default form submission
 
     // Extract user data from the form
@@ -32,6 +34,16 @@ const SignUpPage = () => {
     };
 
     console.log('User sign-up data:', userData);
+    if(await Register(userData) === true){
+      console.log("Register successful");
+      navigate('/');
+    } else {
+      console.log("Register failed");
+      alert("Register failed");
+    }
+    
+
+    
 
     // Here, you can add the logic to send this data to your backend for account creation
     // For example:
