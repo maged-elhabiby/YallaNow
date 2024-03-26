@@ -9,10 +9,11 @@ import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import GroupDetailsPage from './pages/GroupDetailsPage';
 import GroupPage from './pages/GroupsPage';
+import ForgotPassword from './pages/ForgotPassword';
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ['/signup', '/signin'];
+  const hideNavbarRoutes = ['/signup', '/signin', '/forgotpassword'];
 
   return (
     <div className="h-full">
@@ -27,6 +28,7 @@ const AppContent = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         {/* Add other routes here */}
       </Routes>
     </div>

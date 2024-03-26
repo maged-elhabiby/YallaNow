@@ -7,9 +7,19 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Login } from '../firebase-config';
+import { useNavigate } from 'react-router-dom';
+import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {
   //const { signInWithGoogle } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleForgotPassword = () => {
+    navigate('/forgotpassword');
+  };
+  
+
   const handleGoogleSignIn = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider(); // Create Google provider object
@@ -85,9 +95,12 @@ const SignInPage = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  {/* <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
-                  </a>
+                  </a> */}
+                  <button onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                  Forgot password?
+                </button>
                 </div>
               </div>
               <div className="mt-2">
