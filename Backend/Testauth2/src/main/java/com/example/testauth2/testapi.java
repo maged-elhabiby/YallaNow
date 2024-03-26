@@ -14,7 +14,7 @@ public class testapi {
     @RequestMapping("/test")
     public String test( @RequestAttribute("Email") String email, @RequestAttribute("Id") String id, @RequestAttribute("Name") String name) {
 
-
+        System.out.println(email + " " + id + " " + name);
         return email + " " + id + " " + name;
     }
 }

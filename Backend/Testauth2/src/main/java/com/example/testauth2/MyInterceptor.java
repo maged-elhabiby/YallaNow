@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 public class MyInterceptor implements HandlerInterceptor {
+
     public String email;
     public String id;
     public String name;
@@ -21,6 +22,9 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws Exception {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         System.out.println("Executing pre-request logic...");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -56,12 +60,11 @@ public class MyInterceptor implements HandlerInterceptor {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
+            System.out.println(headerName + ": " + request.getHeader(headerName));
             headers.add(headerName, request.getHeader(headerName));
         }
         return headers;
     }
-
-
 
 
 }
