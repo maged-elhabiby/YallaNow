@@ -1,6 +1,6 @@
 // GroupDetailsPage.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import getMockRecommendations from '../data/readRecommendationData';
 
@@ -9,6 +9,7 @@ const GroupDetailsPage = () => {
     const [groupDetails, setGroupDetails] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [events, setEvents] = useState([]);
+    const navigate = useNavigate(); // Add this line
 
     useEffect(() => {
         // Simulate fetching group details based on groupId
@@ -43,7 +44,9 @@ const GroupDetailsPage = () => {
     if (!groupDetails) {
         return <div>Loading...</div>;
     }
-
+    const handleCreateEvent = () => {
+        navigate(`/create-event/${groupId}`); // Adjust the path as necessary
+    };
     return (
         <div className="container mx-auto p-4">
             <div className="px-6 py-24 sm:py-32 lg:px-8">
@@ -91,6 +94,11 @@ const GroupDetailsPage = () => {
                         <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors">Join Group</button>
                     )}
                     </div>
+                    <button onClick={handleCreateEvent}className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"><Link to={`/create-event/${groupId}`} state={{ groupId }}>Create Event</Link></button>
+                    {groupDetails.isMember ? (
+                        <button onClick={handleCreateEvent}className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"><Link to={`/create-event/${groupId}`} state={{ groupId }}>Create Event</Link></button>
+                    ) : (<></>)}
+               
                 </div>
             </div>
             <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">
