@@ -15,6 +15,15 @@ public class EventsMicroserviceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EventsMicroserviceApplication.class, args);
+
+        // EventsPubService eventsPubService = SpringApplication
+        //         .run(EventsMicroserviceApplication.class, args)
+        //         .getBean(EventsPubService.class);
+        // try {
+        //     eventsPubService.subscribeGroups();
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
     }
 
     @Bean

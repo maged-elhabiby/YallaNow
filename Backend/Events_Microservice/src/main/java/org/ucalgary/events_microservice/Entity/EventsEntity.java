@@ -70,6 +70,7 @@ public class EventsEntity {
                         Integer locationId,
                         LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                         EventStatus status, Integer count, Integer capacity, Integer imageId) {
+
         this.eventId = eventId;
         this.groupId = groupId;
         this.eventTitle = eventTitle;
@@ -110,4 +111,3 @@ public class EventsEntity {
     public void setAddress(AddressEntity address) {this.address = address;}
     public void setImageId(Integer imageId) {this.imageId = imageId;}
 }
-

@@ -1,16 +1,12 @@
 package org.ucalgary.events_microservice.Controller;
 
+import org.springframework.web.bind.annotation.*;
+import org.ucalgary.events_microservice.Service.AddressService;
 import org.ucalgary.events_microservice.Service.EventService;
+import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,10 +20,12 @@ import java.util.List;
 public class EventsController {
     private final EventService eventService;
     private final EventsPubService eventsPubService;
+    private final AddressService addressService;
 
-    public EventsController(EventService eventService, EventsPubService eventsPubService) {
+    public EventsController(EventService eventService, EventsPubService eventsPubService, AddressService addressService) {
         this.eventService = eventService;
         this.eventsPubService = eventsPubService;
+        this.addressService = addressService;
     }
 
     /**
@@ -37,10 +35,12 @@ public class EventsController {
      */
     @PostMapping("/AddEvent")
     public ResponseEntity<?> addEvent(@RequestBody EventDTO event) {
-        EventsEntity events = eventService.createEvent(event); // createEvent(event);
-        eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "ADD");
+        AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
+        EventsEntity events = eventService.createEvent(event, address); // createEvent(event);
+        eventsPubService.publishEvents(events, "ADD");
         return ResponseEntity.ok(events);
-    }   
+    }
+    // , @RequestAttribute("Id") String email
 
     /**
      * Update an event
@@ -49,8 +49,9 @@ public class EventsController {
      */
     @PostMapping("/UpdateEvent")
     public ResponseEntity<?> updateEvent(@RequestBody EventDTO event) {
-        EventsEntity events = eventService.updateEvent(event); // updateEvent(event);
-        eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
+        AddressEntity newAddress = addressService.updateAddress(event); // Update the Address in the DataBase
+        EventsEntity events = eventService.updateEvent(event, newAddress); // updateEvent(event);
+        eventsPubService.publishEvents(events, "UPDATE");
         return ResponseEntity.ok(events);
     }
 
@@ -94,9 +95,15 @@ public class EventsController {
     @DeleteMapping("/DeleteEvent/{eventId}")
     public ResponseEntity<?> deleteEvent(@PathVariable int eventId) {
         try {
-            eventService.deleteEvent(eventId); // deleteEvent(eventId);
-            eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "DELETE");
-            return ResponseEntity.ok("Event with ID " + eventId + " has been deleted successfully.");
+            EventsEntity events = eventService.getEvent(eventId);
+            if (events != null) {
+                eventService.deleteEvent(eventId);
+                addressService.deleteAddress(events.getLocationId());
+                eventsPubService.publishEvents(events, "DELETE");
+                return ResponseEntity.ok("Event with ID " + eventId + " has been deleted successfully.");
+            } else {
+                return ResponseEntity.badRequest().body("Event with ID " + eventId + " does not exist.");
+            }
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

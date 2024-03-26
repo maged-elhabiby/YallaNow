@@ -37,10 +37,8 @@ public class EventService {
      * @throws IllegalStateException if the event is invalid.
      */
     @Transactional
-    public EventsEntity createEvent(EventDTO event) {
+    public EventsEntity createEvent(EventDTO event, AddressEntity address) {
         checkEvent(event); // Check if the event is valid
-
-        AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
 
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
@@ -65,20 +63,15 @@ public class EventService {
      * @throws IllegalStateException if the event is invalid.
      */
     @Transactional
-    public EventsEntity updateEvent(EventDTO updatedEvent) {
+    public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress) {
         EventsEntity oldEvent;
         try {
             oldEvent = getEvent(updatedEvent.getEventID()); // Check if the event exists
-            if (oldEvent == null) {
-                throw new IllegalStateException("Event" + updatedEvent.getEventID() + "does not exist");
-            }
-        } catch (IllegalStateException e) {
-            return createEvent(updatedEvent); // If the event does not exist, create it
+        } catch (EntityNotFoundException e) {
+            return createEvent(updatedEvent, new AddressEntity()); // If the event does not exist, create it
         }
 
         checkEvent(updatedEvent); // Check if the event is valid
-        
-        AddressEntity newAddress = addressService.updateAddress(updatedEvent); // Update the Address in the DataBase
 
         oldEvent.setGroupId(updatedEvent.getGroupID());
         oldEvent.setEventTitle(updatedEvent.getEventTitle());
@@ -143,7 +136,6 @@ public class EventService {
         EventsEntity event = getEvent(eventID);
         if (event != null) {
             eventRepository.delete(event);
-            addressService.deleteAddress(event.getLocationId());
         } else {
             throw new EntityNotFoundException("Event with ID " + eventID + " does not exist");
         }
@@ -162,6 +154,9 @@ public class EventService {
         } 
         if(event.getCapacity() < 0) { // Check if the event capacity is negative
             throw new IllegalArgumentException("Capacity can't be negative");
+        }
+        if(event.getLocation() == null){
+            throw new IllegalArgumentException("Missing Address");
         }
     }
 }

@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class EventServiceTest {
+public class ServiceTest {
     @Mock
     private EventRepository eventRepository;
 

@@ -178,7 +178,7 @@ public class ParticipantService {
             eventRepository.save(event);
             mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
-                eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
+                eventsPubService.publishEvents(event, "UPDATE");
             }
         }
     }
@@ -200,7 +200,7 @@ public class ParticipantService {
                 
                 if(event.getCapacity().equals(event.getCount())){ 
                     event.setCount(event.getCount() - 1);
-                    eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE"); // Make the event available for publishing
+                    eventsPubService.publishEvents(event, "UPDATE"); // Make the event available for publishing
                 }else{
                     event.setCount(event.getCount() - 1);    
                 }   
@@ -220,7 +220,7 @@ public class ParticipantService {
             mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
 
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
-                eventsPubService.publishEvents(eventService.getAllAvailableEvents(), "UPDATE");
+                eventsPubService.publishEvents(event, "UPDATE");
             }
         }
     }

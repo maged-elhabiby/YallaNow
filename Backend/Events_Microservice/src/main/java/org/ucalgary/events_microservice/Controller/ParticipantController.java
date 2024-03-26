@@ -34,7 +34,7 @@ public class ParticipantController {
     @PostMapping("/AddParticipant")
     public ResponseEntity<?>  addParticipant(@RequestBody ParticipantDTO participant) {
         ParticipantEntity participants = participantService.addParticipantToEvent(participant);
-        return ResponseEntity.ok(participants);
+        return ResponseEntity.ok(participants); // make return 200
     }
 
     /**
