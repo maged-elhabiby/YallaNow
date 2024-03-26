@@ -148,6 +148,6 @@ const resetPassword = async (email) => {
 
 
 
-export {Register, Login, logoutfirebase, resetPassword};
+export {Register, Login, logoutfirebase, resetPassword, auth};
 // export const googleProvider = new GoogleAuthProvider();
 
