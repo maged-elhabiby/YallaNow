@@ -8,6 +8,7 @@ import SearchPage from './pages/SearchPage';
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import GroupDetailsPage from './pages/GroupDetailsPage';
+import GroupPage from './pages/GroupsPage';
 
 const AppContent = () => {
   const location = useLocation();
@@ -21,6 +22,7 @@ const AppContent = () => {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/myevents" element={<MyEventsPage />} />
         <Route path="/event-details/:event-id" element={<EventDetailsPage />} />
+        <Route path="/groups" element={<GroupPage />} />
         <Route path="/group/:groupId" element={<GroupDetailsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/signup" element={<SignUpPage />} />
