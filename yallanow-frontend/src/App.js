@@ -30,7 +30,7 @@ const AppContent = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="groups/creategroup" element={<CreateGroup/>}/>
+        <Route path="/create-group" element={<CreateGroup/>}/>
         {/* Add other routes here */}
       </Routes>
     </div>
