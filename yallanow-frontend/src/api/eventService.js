@@ -127,8 +127,6 @@ const eventService = {
     },
     
 
-
-    
     getUserRsvpdEvents: async (userId) => {
         try {
             const response = await axios.get(baseUrl + 'GetAllUserEvents/' + userId);

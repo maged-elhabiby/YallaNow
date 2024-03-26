@@ -47,17 +47,17 @@ const Navbar = () => {
                 </div>
                 <div className="hidden lg:ml-6 lg:block">
                   <div className="flex space-x-4">
-                    <Link to="/explore" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+                    <Link to="/explore" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-pink-600 hover:text-white">
                       Explore
                     </Link>
-                    <Link to="/myevents" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                    <Link to="/myevents" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-pink-600 hover:text-white">
                       My Events
                     </Link>
-                    <Link to="/projects" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                      Link 1 spot
+                    <Link to="/groups" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-pink-600 hover:text-white">
+                      Groups
                     </Link>
-                    <Link to="/calendar" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-                      Link 2 spot
+                    <Link to="/mygroups" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-pink-600 hover:text-white">
+                      MyGroups
                     </Link>
                   </div>
                 </div>
@@ -69,7 +69,7 @@ const Navbar = () => {
                   </label>
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      <MagnifyingGlassIcon className="h-5 w-5 text-pink-400" aria-hidden="true" />
                     </div>
                     <input
                       id="search"
@@ -85,7 +85,7 @@ const Navbar = () => {
               </div>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-pink-400 hover:bg-pink-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -97,15 +97,6 @@ const Navbar = () => {
               </div>
               <div className="hidden lg:ml-4 lg:block">
                 <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="relative flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-
                   {/* Profile dropdown */}
                   {/* This need logic for logged in / logged out */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
@@ -139,13 +130,6 @@ const Navbar = () => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Link to="/settings" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
-                              Settings
-                            </Link>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
                             <Link to="/signout" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700' )} onClick={handleSignOut}>
                               Sign out
                             </Link>
@@ -154,9 +138,6 @@ const Navbar = () => {
                       </Menu.Items>
                     </Transition>
                   </Menu>
-
-
-
                 </div>
               </div>
             </div>
@@ -168,30 +149,30 @@ const Navbar = () => {
               <Disclosure.Button
                 as={Link}
                 to="/explore"
-                className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-pink-600 hover:text-white"
               >
                 Explore
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
-                to="/explore"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                to="/myevents"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-pink-600 hover:text-white"
               >
                 My Events
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
-                to="/explore"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                to="/groups"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-pink-600 hover:text-white"
               >
-                Link spot 1
+                Groups
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
-                to="/explore"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                to="/mygroups"
+                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-pink-600 hover:text-white"
               >
-                Link spot 2
+                My Groups
               </Disclosure.Button>
             </div>
             <div className="border-t border-gray-700 pb-3 pt-4">
@@ -207,34 +188,19 @@ const Navbar = () => {
                   <div className="text-base font-medium text-white">Tom Cook</div>
                   <div className="text-sm font-medium text-gray-400">tom@example.com</div>
                 </div>
-                <button
-                  type="button"
-                  className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
               </div>
               <div className="mt-3 space-y-1 px-2">
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
                 >
                   Your Profile
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                >
-                  Settings
-                </Disclosure.Button>
-                <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
                 >
                   Sign out
                 </Disclosure.Button>
