@@ -1,16 +1,11 @@
-
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { recombeeInteractions } from '../api/recomebeeInteractions';
 import eventService from '../api/eventService';
 
-
 const EventDetailsPage = () => {
-
-
   const { state } = useLocation();
   const { event, recommId } = state;
-  const [rsvpStatus, setRsvpStatus] = useState(null);
+  const [rsvpStatus, setRsvpStatus] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,17 +16,27 @@ const EventDetailsPage = () => {
       setRsvpStatus(status);
     };
 
-  fetchRsvpStatus();
+    fetchRsvpStatus();
   }, [event.eventId]);
 
   const handleRsvpClick = async () => {
     const userId = 'user-id';
-    if (rsvpStatus === 'Attending') {
-      await eventService.removeRsvpStatusFromEvent(userId, event.eventId);
-      setRsvpStatus(null);
+    if (rsvpStatus) {
+      const success = await eventService.removeRsvpStatusFromEvent(userId, event.eventId);
+      if (success) {
+        setRsvpStatus(false);
+        alert('Successfully un-RSVP\'d');
+      } else {
+        alert('Failed to un-RSVP');
+      }
     } else {
-      await eventService.addRspvStatusToEvent(userId, event.eventId);
-      setRsvpStatus('Attending');
+      const success = await eventService.addRsvpStatusToEvent(userId, event.eventId);
+      if (success) {
+        setRsvpStatus(true);
+        alert('Successfully RSVP\'d');
+      } else {
+        alert('Failed to RSVP');
+      }
     }
   };
 
@@ -42,10 +47,8 @@ const EventDetailsPage = () => {
 
   // Send recombee detail view when this page is loaded.
   useEffect(() => {
-
     console.log(`Sending detail view interaction for event ${event.eventId} with recommId ${recommId}`);
-    // recombeeInteractions.addDetailView(user.userId, event.eventId, recommId);
-
+    // recombeeInteractions.addDetailViewInteraction(user.userId, event.eventId, recommId);
   }, [event, recommId]);
 
   const formattedStartDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -54,12 +57,8 @@ const EventDetailsPage = () => {
   const formattedEndDate = event.eventEndTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const formattedEndTime = event.eventEndTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   
+  const formattedLocation = event.eventLocationCity + " " + event.eventLocationProvince + " " + event.eventLocationCountry;
   
-  const formattedLocation = event.eventLocationCity + " " + event.eventLocationProvince + " " + event.eventLocationCountry
-  event.eventDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.";
-
-
-
   return (
     <div className="bg-white">
       <div className="mx-auto mt-32 px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -77,31 +76,16 @@ const EventDetailsPage = () => {
             <div className="flex flex-col-reverse">
               <div className="mt-4">
                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{event.eventTitle}</h1>
-
-                <h2 id="information-heading" className="sr-only">
-                  Event information
-                </h2>
-                <p className="mt-2 text-sm text-gray-500">
-                  {formattedLocation}
-                </p>
-                <p className="mt-2 text-sm text-gray-500">
-                  From: {formattedStartDate} at {formattedStartTime}
-                </p>
-                <p className="mt-2 text-sm text-gray-500">
-                  To: {formattedEndDate} at {formattedEndTime}
-                </p>
+                <h2 id="information-heading" className="sr-only">Event information</h2>
+                <p className="mt-2 text-sm text-gray-500">{formattedLocation}</p>
+                <p className="mt-2 text-sm text-gray-500">From: {formattedStartDate} at {formattedStartTime}</p>
+                <p className="mt-2 text-sm text-gray-500">To: {formattedEndDate} at {formattedEndTime}</p>
               </div>
-
-              
             </div>
             <div className="mt-8">
-                <h2 className="text-sm font-medium text-gray-900">Description</h2>
-
-                <p className="prose prose-sm mt-4 text-gray-500">
-                  {event.eventDescription}
-                </p>
-                
-              </div>
+              <h2 className="text-sm font-medium text-gray-900">Description</h2>
+              <p className="prose prose-sm mt-4 text-gray-500">{event.eventDescription}</p>
+            </div>
 
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
               <button
