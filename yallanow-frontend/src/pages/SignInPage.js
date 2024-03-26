@@ -1,10 +1,12 @@
 // src/components/Login.js
 import React from 'react';
+// import {Register, Login, logout, resetPassword} from '../firebase-config';
 //import { useAuth } from '../AuthContext.js';
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Login } from '../firebase-config';
 
 const SignInPage = () => {
   //const { signInWithGoogle } = useAuth();
@@ -23,7 +25,27 @@ const SignInPage = () => {
         console.error('Google Sign-In failed:', error);
       });
   };
+    // Handler for form submission
+    const handleSubmit = async (event) => {
+      event.preventDefault(); // Prevent default form submission
   
+      // Extract email and password from the form
+      const email = event.target.email.value;
+      const password = event.target.password.value;
+  
+      // Log email and password to the console
+      console.log("Email:", email, "Password:", password);
+      const loginData = { "email": email, "password": password};
+      
+
+      if (await Login(loginData) === true) {
+        console.log("Login successful");
+      } else {
+        console.log("Login failed");
+      }
+
+      // Here, you can also add your sign-in logic with email and password
+    };
   return (
     <>
 
@@ -40,7 +62,7 @@ const SignInPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" onSubmit={handleSubmit} method="POST">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address

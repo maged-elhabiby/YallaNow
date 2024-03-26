@@ -19,27 +19,24 @@ const SignUpPage = () => {
     }
   };
 
-    // Handler for form submission
-    const handleSubmit = async (event) => {
-      event.preventDefault(); // Prevent the default form submission behavior
-  
-      // Get the form data
-      const formData = new FormData(event.target);
-      const data = Object.fromEntries(formData.entries());
-  
-      try {
-        // Submit the form data to your backend
-        await axios.post('https://your-backend-url.com/signup', data);
-  
-        // Redirect or show success message
-        alert('Signup successful. You can now sign in.');
-        // If using React Router, you can programmatically navigate to the sign-in page
-        // history.push('/signin'); // Uncomment this if you have set up React Router's useHistory
-      } catch (error) {
-        // Handle errors, e.g., show error message
-        alert('Signup failed. Please try again.');
-      }
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Extract user data from the form
+    const formData = new FormData(event.target);
+    const userData = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'), // Note: In a real application, handle passwords securely!
+      passwordConfirmation: formData.get('password-confirmation'),
     };
+
+    console.log('User sign-up data:', userData);
+
+    // Here, you can add the logic to send this data to your backend for account creation
+    // For example:
+    // await axios.post('https://your-backend-url.com/signup', userData);
+  };
   return (
     <>
       <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -55,7 +52,7 @@ const SignUpPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Name
