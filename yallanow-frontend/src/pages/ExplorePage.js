@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
+import FeaturedEventsCarousel from '../components/FeaturedEvents';
 import feedService from '../api/feedService';
 
 const ExplorePage = () => {
