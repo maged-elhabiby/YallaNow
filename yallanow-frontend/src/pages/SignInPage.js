@@ -1,5 +1,6 @@
 // src/components/Login.js
 import React from 'react';
+// import {Register, Login, logout, resetPassword} from '../firebase-config';
 //import { useAuth } from '../AuthContext.js';
 
 const SignInPage = () => {

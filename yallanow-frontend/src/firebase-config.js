@@ -1,7 +1,3 @@
-// firebase-config.js
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -89,6 +85,5 @@ const resetPassword = async (email) => {
 
 
 export {Register, Login, logout, resetPassword};
-export const googleProvider = new GoogleAuthProvider();
+// export const googleProvider = new GoogleAuthProvider();
 
-// Youssef Add the Config
