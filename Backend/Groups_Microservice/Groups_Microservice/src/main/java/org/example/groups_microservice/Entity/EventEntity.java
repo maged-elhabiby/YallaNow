@@ -45,11 +45,11 @@ public class EventEntity {
 
     // Getters and Setters
 
-    public int getEventID() {
+    public Integer getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
+    public void setEventID(Integer eventID) {
         this.eventID = eventID;
     }
 

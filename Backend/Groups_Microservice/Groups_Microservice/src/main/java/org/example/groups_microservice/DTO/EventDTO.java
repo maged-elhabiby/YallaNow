@@ -1,13 +1,13 @@
 package org.example.groups_microservice.DTO;
 
 public class EventDTO {
-    private int eventID;
+    private Integer eventID;
     private String eventName;
-    private int groupID;
+    private Integer groupID;
     private String groupName;
 
 
-    public EventDTO(int eventID, String eventName, int groupID,String groupName) {
+    public EventDTO(Integer eventID, String eventName, Integer groupID,String groupName) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.groupID = groupID;
@@ -19,11 +19,11 @@ public class EventDTO {
 
     }
 
-    public int getEventID() {
+    public Integer getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
+    public void setEventID(Integer eventID) {
         this.eventID = eventID;
     }
 
@@ -35,14 +35,13 @@ public class EventDTO {
         this.eventName = eventName;
     }
 
-    public int getGroupID() {
+    public Integer getGroupID() {
         return groupID;
     }
 
-    public void setGroupID(int groupID) {
+    public void setGroupID(Integer groupID) {
         this.groupID = groupID;
     }
-
     public String getGroupName() {
         return groupName;
     }
@@ -50,4 +49,7 @@ public class EventDTO {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+
+
+
 }

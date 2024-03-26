@@ -8,10 +8,12 @@ import org.example.groups_microservice.Entity.EventEntity;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
 import org.example.groups_microservice.Exceptions.EventNotFoundException;
+import org.example.groups_microservice.Exceptions.EventNotFoundException;
 import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
+import org.example.groups_microservice.Service.*;
 
 import org.springframework.stereotype.Service;
 
@@ -155,14 +157,11 @@ public class GroupService {
         groupMemberService.updateGroupMembers(groupEntity, groupDTO.getGroupMembers());
 
         // Update events carefully
-        eventService.updateEvent(groupEntity, groupDTO.getEvents());
+        eventService.updateEvents(groupEntity, groupDTO.getEvents());
 
 
         return groupRepository.save(groupEntity);
     }
-
-
-
 
 
     /**

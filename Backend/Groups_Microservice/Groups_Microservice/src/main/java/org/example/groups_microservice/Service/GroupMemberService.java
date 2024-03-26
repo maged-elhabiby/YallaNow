@@ -9,8 +9,9 @@ import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
 import org.springframework.stereotype.Service;
 import org.example.groups_microservice.Repository.GroupMemberRepository;
-
+import java.util.stream.Collectors;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GroupMemberService {
@@ -116,11 +117,30 @@ public class GroupMemberService {
     }
 
     public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
-        for (GroupMemberDTO groupMemberDTO : groupMembers) {
-            GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
-            groupMemberEntity.setRole(groupMemberDTO.getRole());
-            groupMemberEntity.setGroup(groupEntity);
-            groupEntity.getGroupMembers().add(groupMemberEntity);
+        Map<Integer, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
+                .filter(member -> member.getUserID() != null)
+                .collect(Collectors.toMap(GroupMemberEntity::getUserID, member -> member));
+        for (GroupMemberDTO dto : groupMembers) {
+            if (dto.getUserID() != null) {
+                GroupMemberEntity existingMember = existingMembersById.get(dto.getUserID());
+                // If the member exists, update the role
+                if (existingMember != null) {
+                    mapDTOToEntity(dto, existingMember);
+                } else {
+                    // If the member does not exist, create a new member
+                    GroupMemberEntity newMember = new GroupMemberEntity();
+                    mapDTOToEntity(dto, newMember);
+                    newMember.setGroup(groupEntity);
+                    groupEntity.getGroupMembers().add(newMember);
+                }
+            }
+            groupRepository.save(groupEntity);
         }
+
+    }
+    private void mapDTOToEntity(GroupMemberDTO dto, GroupMemberEntity entity) {
+        entity.setRole(dto.getRole());
+        entity.setUserID(dto.getUserID());
+        entity.setUserName(dto.getUserName());
     }
 }
