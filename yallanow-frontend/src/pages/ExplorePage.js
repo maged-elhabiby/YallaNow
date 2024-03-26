@@ -7,6 +7,15 @@ const ExplorePage = () => {
   const [recommId, setRecommId] = useState(null);
   const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+    const isSignedIn = localStorage.getItem('SignedIn');
+    if (isSignedIn === "false") {
+      window.location.href = '/signin';
+    }
+  }, []);
+
+
+
   const fetchHomepageEvents = async () => {
     setLoading(true);
     try {
