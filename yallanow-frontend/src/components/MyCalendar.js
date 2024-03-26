@@ -33,7 +33,7 @@ const MyCalendar = ({ events, onEventClick }) => {
     const handleEventClick = ({ event }) => {
         Anavigate(`/event-details/${event.id}`, {
           state: {
-            eventId: event.id
+            eventId: event.id, event
           }
         });
       };
