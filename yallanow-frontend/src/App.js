@@ -10,6 +10,7 @@ import SignInPage from './pages/SignInPage';
 import GroupDetailsPage from './pages/GroupDetailsPage';
 import GroupPage from './pages/GroupsPage';
 import ForgotPassword from './pages/ForgotPassword';
+import CreateGroup from './pages/CreateGroup';
 
 const AppContent = () => {
   const location = useLocation();
@@ -29,6 +30,7 @@ const AppContent = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="groups/creategroup" element={<CreateGroup/>}/>
         {/* Add other routes here */}
       </Routes>
     </div>
