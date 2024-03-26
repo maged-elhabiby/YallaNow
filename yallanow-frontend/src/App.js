@@ -10,7 +10,8 @@ import SignInPage from './pages/SignInPage';
 import GroupDetailsPage from './pages/GroupDetailsPage';
 import GroupPage from './pages/GroupsPage';
 import ForgotPassword from './pages/ForgotPassword';
-
+import CreateGroup from './pages/CreateGroup';
+import CreateEvent from './pages/CreateEvent';
 const AppContent = () => {
   const location = useLocation();
   const hideNavbarRoutes = ['/signup', '/signin', '/forgotpassword'];
@@ -29,6 +30,8 @@ const AppContent = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/create-group" element={<CreateGroup/>}/>
+        <Route path="/create-event/:event-id" element={<CreateEvent/>}/>
         {/* Add other routes here */}
       </Routes>
     </div>
