@@ -1,8 +1,44 @@
+import React from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
+      const idToken = googleUser.getAuthResponse().id_token;
+      // Send the Google ID token to your backend for verification and user creation
+      await axios.post('https://your-backend-url.com/google/signup', { idToken });
+      // redirect to the home page
+      window.location.href = '/';
+
+    } catch (error) {
+      // Handle sign-up failure
+      console.error('Google sign-up failed:', error);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Extract user data from the form
+    const formData = new FormData(event.target);
+    const userData = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'), // Note: In a real application, handle passwords securely!
+      passwordConfirmation: formData.get('password-confirmation'),
+    };
+
+    console.log('User sign-up data:', userData);
+
+    // Here, you can add the logic to send this data to your backend for account creation
+    // For example:
+    // await axios.post('https://your-backend-url.com/signup', userData);
+  };
   return (
     <>
-
       <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -16,7 +52,23 @@ const SignUpPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -43,7 +95,7 @@ const SignUpPage = () => {
                 <input
                   id="password"
                   name="password"
-
+                  type="password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -52,7 +104,7 @@ const SignUpPage = () => {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="password-confirmation" className="block text-sm font-medium leading-6 text-gray-900">
                   Password Confirmation
                 </label>
               </div>
@@ -60,6 +112,7 @@ const SignUpPage = () => {
                 <input
                   id="password-confirmation"
                   name="password-confirmation"
+                  type="password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -74,18 +127,34 @@ const SignUpPage = () => {
                 Sign up
               </button>
             </div>
+
+            <div style={{ paddingTop: '0px' }}>
+            <button
+              type="button"
+              onClick={handleGoogleSignUp}
+              className="flex items-center justify-center w-full rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
+                alt="Google Logo"
+                className="h-5 w-5 mr-2"
+              />
+              Sign up with Google
+            </button>
+          </div>
+
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
-            </a>
+            Returning Member?{' '}
+            <Link to="/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Sign In, Today!
+            </Link>
           </p>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;
