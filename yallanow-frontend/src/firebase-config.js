@@ -1,8 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken, signOut, sendPasswordResetEmail} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken, signOut, sendPasswordResetEmail, onAuthStateChanged, revokeAccessToken, updateProfile} from "firebase/auth";
 import{getDatabase, ref, set} from "firebase/database";
+
+
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAFU_zSpZWKznKiEiNqrNwsi-8JIr5XfhQ",
@@ -19,26 +23,68 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 const database = getDatabase();
+var currentuser = null;
 
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is signed in");
+    console.log(user);
+    localStorage.setItem("SignedIn", true);
+    currentuser = user;
+  } else {
+    console.log("User is signed out");
+    localStorage.setItem("SignedIn", false);
+    currentuser = null;
+
+  }
+});
 
 const Register = async (signup) => {
   console.log("we are in register");
-  const { email, password } = signup;
+  const { email, password, name } = signup;
 
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    const response = await createUserWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
+
+
+      
       // Signed in 
+
       console.log(userCredential);
-      const user = userCredential.user;
+
+      var user = userCredential.user;
+      await updateProfile(user, {
+        displayName: name
+
+      });
+  
+      const idToken =  await getIdToken(user);
+      localStorage.setItem("idToken", idToken);
       // ...
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      return false;
+
       // ..
     });
+    if (response === false) {
+      return false;
+    }
+
+
+    
+
+
+    
+
+
 
     console.log("we are exiting register")
+    return true;
 }
 
 
@@ -48,12 +94,12 @@ const Login = async (login) => {
   const { email, password } = login;
   console.log(email + " +" + password);
   const response = await signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+  .then(async (userCredential) => {
 
     console.log(userCredential)
     const user = userCredential.user;
-    const idToken =  getIdToken(user);
-    console.log(idToken);
+    const idToken =  await getIdToken(user);
+    localStorage.setItem("idToken", idToken);
 
   }
 
@@ -77,6 +123,11 @@ const logoutfirebase = async () => {
   console.log("we are in logout");
   await signOut(auth).then(() => {
     console.log("we are exiting logout");
+    localStorage.removeItem("idToken");
+  
+  currentuser = null;
+
+
   }).catch((error) => {
     console.log(error);
   });
