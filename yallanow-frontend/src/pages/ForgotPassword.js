@@ -21,8 +21,17 @@ function ForgotPassword() {
         }
     };
 
+    const handleBack = () => {
+        window.history.back();
+    }
+
     return (
         <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div style={{paddingBottom: '10px'}}>
+            <button onClick={handleBack} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                  {'<'} Return to Sign In Page
+            </button>
+            </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img
                     className="mx-auto h-10 w-auto"
