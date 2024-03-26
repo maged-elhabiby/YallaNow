@@ -1,10 +1,4 @@
 {
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "firebase": "^10.9.0"
-  }
-}
-{
     "name": "yallanow",
     "version": "0.1.0",
     "private": true,
@@ -46,3 +40,4 @@
         ]
     }
 }
+
