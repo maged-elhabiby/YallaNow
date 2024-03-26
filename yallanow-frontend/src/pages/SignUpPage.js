@@ -3,6 +3,22 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
+      const idToken = googleUser.getAuthResponse().id_token;
+      // Send the Google ID token to your backend for verification and user creation
+      await axios.post('https://your-backend-url.com/google/signup', { idToken });
+      // redirect to the home page
+      window.location.href = '/';
+
+    } catch (error) {
+      // Handle sign-up failure
+      console.error('Google sign-up failed:', error);
+    }
+  };
+
     // Handler for form submission
     const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent the default form submission behavior
@@ -114,6 +130,22 @@ const SignUpPage = () => {
                 Sign up
               </button>
             </div>
+
+            <div style={{ paddingTop: '0px' }}>
+            <button
+              type="button"
+              onClick={handleGoogleSignUp}
+              className="flex items-center justify-center w-full rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
+                alt="Google Logo"
+                className="h-5 w-5 mr-2"
+              />
+              Sign up with Google
+            </button>
+          </div>
+
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">

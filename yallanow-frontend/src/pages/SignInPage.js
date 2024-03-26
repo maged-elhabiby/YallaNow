@@ -4,9 +4,26 @@ import React from 'react';
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const SignInPage = () => {
   //const { signInWithGoogle } = useAuth();
+  const handleGoogleSignIn = () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider(); // Create Google provider object
+
+    signInWithPopup(auth, provider) // Sign in with Google using popup
+      .then((result) => {
+        // Handle successful sign-in here
+        console.log('Google Sign-In successful');
+        console.log('User info:', result.user);
+      })
+      .catch((error) => {
+        // Handle errors here
+        console.error('Google Sign-In failed:', error);
+      });
+  };
+  
   return (
     <>
 
@@ -71,7 +88,22 @@ const SignInPage = () => {
                 Sign in
               </button>
             </div>
+            
           </form>
+          <div style={{ paddingTop: '10px' }}>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="flex items-center justify-center w-full rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
+                alt="Google Logo"
+                className="h-5 w-5 mr-2"
+              />
+              Sign in with Google
+            </button>
+          </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
