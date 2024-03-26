@@ -22,16 +22,16 @@ app = Flask(__name__)
 
 @app.route('/auth', methods=['POST', 'GET', ' PUT', 'DELETE'])
 def verify():
-    session_cookie = request.cookies.get('session')
+    id_token = request.headers.get('Authorization')
     
     try:
-        decoded_token = auth.verify_session_cookie(session_cookie)
+        decoded_token = auth.verify_id_token(id_token)
         uid = decoded_token['uid']
         email = decoded_token['email']
         respnse = {'uid': uid, 'email': email}
         return jsonify(respnse), 200
     except:
-        return False, 401
+        return jsonify(False), 401
 
 
 
