@@ -4,6 +4,51 @@ const baseUrl = 'http://localhost:8080/microservice/events/';
 
 const eventService = {
 
+
+    convertEventDataToRequest: (data) => {
+        return {
+            eventID: data.eventId,
+            groupID: data.gourpId,
+            eventTitle: data.eventTitle,
+            eventDescription: data.eventDescription,
+            location: {
+                street: data.eventLocaitonStreet,
+                city: data.eventLocationCity,
+                province: data.eventLocaitonProvince,
+                country: data.eventLocaitonCountry
+            },
+            eventStartTime: data.eventStartTime,
+            eventEndTime: data.eventEndTime,
+            status: data.eventStatus,
+            capacity: data.eventCapacity,
+            count: data.eventAttendeeCount,
+        }
+
+    },
+
+    convertResponseToEvent: (data) => {
+        return {
+            eventId: data.eventId,
+            eventAttendeeCount: data.count,
+            eventCapacity: data.capacity,
+            eventDescription: data.eventDescription,
+            eventEndTime: data.eventEndTime,
+            eventImageUrl: data.imageUrl,
+            eventLocationCity: data.address.street,
+            eventLocationCountry: data.address.city,
+            eventLocationProvince: data.address.province,
+            eventLocationStreet: data.address.street,
+            eventStartTime: data.eventStartTime,
+            eventStatus: data.status,
+            eventTitle: data.eventTitle,
+            groupId: data.groupId
+        }
+    },
+
+    createEvent: async (eventData) => {
+        const request = convertToRequest(eventData)
+    },
+
     addEvent: async (eventRequest) => {
         try {
             const response = await axios.post(baseUrl + 'AddEvent', eventRequest, {
