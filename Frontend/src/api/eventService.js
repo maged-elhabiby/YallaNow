@@ -1,5 +1,5 @@
 const axios = require('axios');
-const baseUrl = 'http://localhost:8080/microservice/events';
+const baseUrl = 'http://localhost:8082/microservice/events';
 
 const eventService = {
 
