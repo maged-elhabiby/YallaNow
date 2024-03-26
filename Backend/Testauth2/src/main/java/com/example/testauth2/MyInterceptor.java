@@ -25,32 +25,37 @@ public class MyInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
-        System.out.println("Executing pre-request logic...");
+        try {
+            System.out.println("Executing pre-request logic...");
 
-        RestTemplate restTemplate = new RestTemplate();
-        String authUrl = "http://localhost:5001/auth";
+            RestTemplate restTemplate = new RestTemplate();
+            String authUrl = "http://localhost:5001/auth";
 
-        // Extract headers from the incoming request
-        HttpHeaders headers = extractHeaders(request);
+            // Extract headers from the incoming request
+            HttpHeaders headers = extractHeaders(request);
 
-        // Send a GET request to the auth server with extracted headers
-        ResponseEntity<String> authResponse = restTemplate.exchange(authUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            // Send a GET request to the auth server with extracted headers
+            ResponseEntity<String> authResponse = restTemplate.exchange(authUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
 
+            if (authResponse.getStatusCode().is2xxSuccessful()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                AuthResponse responseBody = objectMapper.readValue(authResponse.getBody(), AuthResponse.class);
+                email = responseBody.getEmail();
+                id = responseBody.getUid();
+                name = "John Doe";
+                request.setAttribute("Email", email);
+                request.setAttribute("Id", id);
+                request.setAttribute("Name", name);
+                return true;
+            } else {
+                response.setStatus(403);
 
-        if (authResponse.getStatusCode().is2xxSuccessful()) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            AuthResponse responseBody = objectMapper.readValue(authResponse.getBody(), AuthResponse.class);
-            email = responseBody.getEmail();
-            id = responseBody.getUid();
-            name = "John Doe";
-            request.setAttribute("Email", email);
-            request.setAttribute("Id", id);
-            request.setAttribute("Name", name);
-            return true;
-        } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             response.setStatus(403);
-
             return false;
         }
     }
