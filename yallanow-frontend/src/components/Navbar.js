@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { logoutfirebase } from '../firebase-config';
+import { logoutfirebase, auth } from '../firebase-config';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -13,10 +13,12 @@ function classNames(...classes) {
 
 
 const Navbar = () => {
+  
 
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-
+  const name = auth.currentUser.displayName
+  const email = auth.currentUser.email
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -185,8 +187,8 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">Tom Cook</div>
-                  <div className="text-sm font-medium text-gray-400">tom@example.com</div>
+                  <div className="text-base font-medium text-white">{name}</div>
+                  <div className="text-sm font-medium text-gray-400">{email}</div>
                 </div>
               </div>
               <div className="mt-3 space-y-1 px-2">
