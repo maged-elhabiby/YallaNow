@@ -1,14 +1,47 @@
 // src/components/Login.js
 import React from 'react';
+
 // import {Register, Login, logout, resetPassword} from '../firebase-config';
 //import { useAuth } from '../AuthContext.js';
+import { useNavigate } from 'react-router-dom';
+
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login } from '../firebase-config';
+import { Login, logoutfirebase } from '../firebase-config';
+
+
+
+// function postData() {
+//   const url = `http://127.0.0.1:8080/api/test`;
+//   const data = { /* Your data object */ };
+
+//   axios.post(url, data, {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       "Authorization": localStorage.getItem('idToken')
+//       // Add any additional headers here if needed
+//     }
+//   })
+//     .then(response => {
+//       // Handle the response data
+//       console.log(response.data);
+//     })
+//     .catch(error => {
+//       // Handle errors here
+//       console.error('There was a problem with your axios request:', error);
+//     });
+//   }
+
+
+
+
+
 
 const SignInPage = () => {
+
+  const navigate = useNavigate();
   //const { signInWithGoogle } = useAuth();
   const handleGoogleSignIn = () => {
     const auth = getAuth();
@@ -36,12 +69,13 @@ const SignInPage = () => {
       // Log email and password to the console
       console.log("Email:", email, "Password:", password);
       const loginData = { "email": email, "password": password};
-      
 
       if (await Login(loginData) === true) {
         console.log("Login successful");
+        navigate('/');
       } else {
         console.log("Login failed");
+        alert("Login failed");
       }
 
       // Here, you can also add your sign-in logic with email and password
