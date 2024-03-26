@@ -1,5 +1,6 @@
-const axios = require('axios');
-const baseUrl = 'http://localhost:8080/microservice/events';
+import axios from "axios";
+const baseUrl = 'http://localhost:8080/microservice/events/';
+
 
 const eventService = {
 
@@ -61,18 +62,10 @@ const eventService = {
         }
     },
 
-    addUserToEvent: async (eventRequest) => {
-        try {
-            const response = await axios.post(baseUrl + 'AddParticipant', eventRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+
+
+    rsvpUserToEvent: async (userId, eventId) => {
+
     },
 
     getUserEvents: async (userId) => {
@@ -95,15 +88,7 @@ const eventService = {
         }
     },
     
-    getUserEventStatus: async (userId, eventId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetParticipantStatus/' + userId + '/' + eventId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
-    },
+
 
     updateUser: async (userRequest) => {
         try {
@@ -119,9 +104,25 @@ const eventService = {
         }
     },
 
-    deleteUserFromEvent: async (userID, eventID) => {
+
+
+
+    // remove partitcipant status from event
+    removeRsvpStatusFromEvent: async (userId, eventId) => {
         try {
-            const response = await axios.get(baseUrl + 'GetAllEventParticipants/' + userID + '/' + eventID);
+            const response = await axios.delete(baseUrl + 'DeleteParticipant/' + userId + '/' + eventId);
+            return response.data;
+        } catch (error) {
+            console.error('Error removing participant from event:', error);
+            throw error;
+        }
+    },
+
+    // get participant status from event
+    getUserRsvpStatusForEvent: async (userId, eventId) => {
+        return 'Attending'
+        try {
+            const response = await axios.get(baseUrl + 'GetParticipantStatus/' + userId + '/' + eventId);
             return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
@@ -129,6 +130,38 @@ const eventService = {
         }
     },
 
+    /*
+
+    Participant dto
+    participantID: int,
+    userId: int,
+    eventId: int,
+    ParticipantStatus: ["Attending", "NotAttending", "Maybe"]
+
+    */
+
+    // Add participant to event
+    addRspvStatusToEvent: async (userId, eventId) => {
+
+        const request = {
+            userId: userId,
+            eventId: eventId,
+            ParticipantStatus: "Attending"
+        }
+
+        try {
+            const response = await axios.post(baseUrl + 'AddParticipant', request, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error adding participant to event:', error);
+            throw error;
+        }
+    },
+
 };
 
-module.exports = eventService;
+export default eventService;
