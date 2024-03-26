@@ -4,10 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { logoutfirebase } from '../firebase-config';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
+
+
 
 const Navbar = () => {
 
@@ -20,6 +23,13 @@ const Navbar = () => {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  const handleSignOut = async (event) => {
+    event.preventDefault();
+    console.log("we are in signout");
+    logoutfirebase();
+    navigate('/signin');
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 w-full z-50">
@@ -136,7 +146,7 @@ const Navbar = () => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Link to="/signout" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                            <Link to="/signout" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700' )} onClick={handleSignOut}>
                               Sign out
                             </Link>
                           )}
