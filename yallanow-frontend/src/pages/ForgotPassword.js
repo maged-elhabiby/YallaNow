@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {resetPassword} from '../firebase-config';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -11,8 +12,9 @@ function ForgotPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log({ email })
+
         try {
-            /// HANDLE THE LOGIC HEREEEEEEEEEEEE
+            await resetPassword(email);
             setMessage('Password reset email sent!');
             setEmail('');
         } catch (error) {

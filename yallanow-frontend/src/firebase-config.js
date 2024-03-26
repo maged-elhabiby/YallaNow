@@ -140,7 +140,9 @@ const resetPassword = async (email) => {
     console.log("we are exiting reset password");
   }).catch((error) => {
     console.log(error);
+    return false;
   });
+  return true;
 }
 
 
