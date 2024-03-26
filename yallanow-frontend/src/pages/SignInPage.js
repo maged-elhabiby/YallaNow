@@ -6,6 +6,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Login } from '../firebase-config';
 
 const SignInPage = () => {
   //const { signInWithGoogle } = useAuth();
@@ -25,7 +26,7 @@ const SignInPage = () => {
       });
   };
     // Handler for form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent default form submission
   
       // Extract email and password from the form
@@ -34,7 +35,15 @@ const SignInPage = () => {
   
       // Log email and password to the console
       console.log("Email:", email, "Password:", password);
-  
+      const loginData = { "email": email, "password": password};
+      
+
+      if (await Login(loginData) === true) {
+        console.log("Login successful");
+      } else {
+        console.log("Login failed");
+      }
+
       // Here, you can also add your sign-in logic with email and password
     };
   return (

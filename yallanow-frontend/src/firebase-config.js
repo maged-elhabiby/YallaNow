@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken, logout, sendPasswordResetEmail} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken, signOut, sendPasswordResetEmail} from "firebase/auth";
 import{getDatabase, ref, set} from "firebase/database";
 
 const firebaseConfig = {
@@ -43,26 +43,37 @@ const Register = async (signup) => {
 
 
 const Login = async (login) => {
+
   console.log("we are in login");
   const { email, password } = login;
-  await signInWithEmailAndPassword(auth, email, password)
+  console.log(email + " +" + password);
+  const response = await signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    // Signed in 
+
     console.log(userCredential)
     const user = userCredential.user;
     const idToken =  getIdToken(user);
     console.log(idToken);
-    // ...
-  })
-  .catch((error) => {
+
+  }
+
+).catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    return false;
   });
+
+  console.log(response);
+  if (response === false) {
+    return false;
+  }
+
   console.log("we are exiting login");
+  return true;
 }
 
 
-const logout = async () => {
+const logoutfirebase = async () => {
   console.log("we are in logout");
   await signOut(auth).then(() => {
     console.log("we are exiting logout");
@@ -84,6 +95,6 @@ const resetPassword = async (email) => {
 
 
 
-export {Register, Login, logout, resetPassword};
+export {Register, Login, logoutfirebase, resetPassword};
 // export const googleProvider = new GoogleAuthProvider();
 
