@@ -8,18 +8,14 @@ import org.example.groups_microservice.Entity.EventEntity;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
 import org.example.groups_microservice.Exceptions.EventNotFoundException;
-import org.example.groups_microservice.Exceptions.EventNotFoundException;
 import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
-import org.example.groups_microservice.Service.*;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.ArrayList;
 
 
 /**
@@ -79,27 +75,27 @@ public class GroupService {
 
     private void linkEventToGroup(GroupEntity groupEntity, EventDTO eventDTO) {
         EventEntity eventEntity = new EventEntity();
-        eventEntity.setEventName(eventDTO.getEventName());
+        eventEntity.setGlobalEventID(eventDTO.getGlobalEventID());
         eventEntity.setGroup(groupEntity);
         groupEntity.getEvents().add(eventEntity);
-
     }
 
     private void LinkGroupMemberToGroup(GroupEntity groupEntity, GroupMemberDTO groupMemberDTO) {
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(groupMemberDTO.getRole());
         groupMemberEntity.setGroup(groupEntity);
+        groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setUserName(groupMemberDTO.getUserName());
         groupEntity.getGroupMembers().add(groupMemberEntity);
+
     }
 
     private EventEntity convertToEventEntity(EventDTO dto, GroupEntity groupEntity) {
         EventEntity eventEntity = new EventEntity();
-        eventEntity.setEventName(dto.getEventName());
+        eventEntity.setGlobalEventID(dto.getGlobalEventID());
         eventEntity.setEventID(dto.getEventID());
         eventEntity.setGroup(groupEntity);
-
         return eventEntity;
     }
 

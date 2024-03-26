@@ -27,9 +27,6 @@ public class GroupMemberEntity {
     private String userName;
 
 
-
-
-
     // Relationships with other entities
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = true) // Maps this relationship to the 'group_id' column in 'group_members' table

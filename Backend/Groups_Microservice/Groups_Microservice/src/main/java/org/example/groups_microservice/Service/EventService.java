@@ -28,7 +28,7 @@ public class EventService {
         GroupEntity group = groupRepository.findById(eventsDTO.getGroupID())
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + eventsDTO.getGroupID()));
         EventEntity eventEntity = new EventEntity();
-        eventEntity.setEventName(eventsDTO.getEventName());
+        eventEntity.setGlobalEventID(eventsDTO.getGlobalEventID());
         eventEntity.setGroup(group);
         eventEntity.setEventID(eventsDTO.getEventID());
         return eventRepository.save(eventEntity);
@@ -64,8 +64,10 @@ public class EventService {
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + eventsDTO.getGroupID()));
         EventEntity eventEntity = eventRepository.findById(eventsDTO.getEventID())
                 .orElseThrow(() -> new GroupNotFoundException("Event does not exist with ID: " + eventsDTO.getEventID()));
-        eventEntity.setEventName(eventsDTO.getEventName());
+        eventEntity.setGlobalEventID(eventsDTO.getGlobalEventID());
         eventEntity.setGroup(group);
+        eventEntity.setEventID(eventsDTO.getEventID());
+
 
         return eventRepository.save(eventEntity);
     }
@@ -98,7 +100,7 @@ public class EventService {
         groupRepository.save(groupEntity);
     }
     private void mapDtoToEntity(EventDTO dto, EventEntity eventEntity) {
-        eventEntity.setEventName(dto.getEventName());
+        eventEntity.setGlobalEventID(dto.getGlobalEventID());
         eventEntity.setEventID(dto.getEventID());
 
     }

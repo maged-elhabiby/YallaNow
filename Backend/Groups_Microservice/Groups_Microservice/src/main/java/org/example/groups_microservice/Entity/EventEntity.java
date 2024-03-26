@@ -15,11 +15,8 @@ public class EventEntity {
     @Column(name = "event_id")
     private Integer eventID;
 
-    @Column(name = "event_name")
-    private String eventName;
-
-
-
+    @Column(name = "global_event_id")
+    private Integer globalEventID;
 
 
     //Relationships with other entities
@@ -37,9 +34,9 @@ public class EventEntity {
     public EventEntity() {
     }
 
-    public EventEntity(Integer eventID, String eventName, GroupEntity group) {
+    public EventEntity(Integer eventID, Integer globalEventID, GroupEntity group) {
         this.eventID = eventID;
-        this.eventName = eventName;
+        this.globalEventID = globalEventID;
         this.group = group;
     }
 
@@ -53,12 +50,13 @@ public class EventEntity {
         this.eventID = eventID;
     }
 
-    public String getEventName() {
-        return eventName;
+
+    public Integer getGlobalEventID() {
+        return globalEventID;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setGlobalEventID(Integer globalEventID) {
+        this.globalEventID = globalEventID;
     }
 
     public GroupEntity getGroup() {

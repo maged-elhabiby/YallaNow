@@ -12,9 +12,7 @@ import java.util.Optional;
 public interface EventRepository extends JpaRepository<EventEntity, Integer>{
 
     Optional<EventEntity> findByEventID(Integer eventID);
-    Optional<EventEntity> findByEventName(String eventName);
-    //List<EventEntity> findByGroupID(Integer groupID);
-    //List<EventEntity> findByGroupName(String groupName);
+
     List<EventEntity> findByGroupGroupName(String groupName);
     List<EventEntity> findByGroupGroupID(Integer groupID);
 

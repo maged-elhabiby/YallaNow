@@ -10,12 +10,14 @@ public class GroupMemberDTO {
     private Integer groupID;
 
 
-    public GroupMemberDTO(Integer groupMemberID,Integer userID, String userName, UserRole role, GroupDTO group) {
+    public GroupMemberDTO(Integer groupMemberID,Integer userID, String userName, UserRole role, GroupDTO group, Integer groupID) {
         this.groupMemberID = groupMemberID;
         this.userID = userID;
         this.userName = userName;
         this.role = role;
         this.groupID = group.getGroupID();
+
+
     }
 
     public GroupMemberDTO() {

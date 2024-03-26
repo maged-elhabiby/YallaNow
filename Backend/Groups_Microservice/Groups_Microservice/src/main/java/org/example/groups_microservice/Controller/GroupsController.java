@@ -62,7 +62,7 @@ public class GroupsController {
                 .map(eventEntity -> {
                     EventDTO eventDTO = new EventDTO();
                     eventDTO.setEventID(eventEntity.getEventID());
-                    eventDTO.setEventName(eventEntity.getEventName());
+                    eventDTO.setGlobalEventID(eventEntity.getGlobalEventID());
                     eventDTO.setGroupID(eventEntity.getGroup().getGroupID());
                     eventDTO.setGroupName(eventEntity.getGroup().getGroupName());
                     return eventDTO;

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/microservice/groups/{groupID}/members")
 public class GroupMemberController {
-    private final GroupMemberService groupMemberService;
+    final GroupMemberService groupMemberService;
     @Autowired
     public GroupMemberController(GroupMemberService groupMemberService) {
         this.groupMemberService = groupMemberService;
@@ -42,6 +42,7 @@ public class GroupMemberController {
     private GroupMemberDTO convertToDto(GroupMemberEntity groupMemberEntity) {
         GroupMemberDTO dto = new GroupMemberDTO();
         dto.setRole(groupMemberEntity.getRole());
+        dto.setGroupID(groupMemberEntity.getGroup().getGroupID());
         dto.setUserName(groupMemberEntity.getUserName());
         dto.setGroupMemberID(groupMemberEntity.getGroupMemberID());
         dto.setUserID(groupMemberEntity.getUserID());
@@ -69,7 +70,7 @@ public class GroupMemberController {
      */
 
     @DeleteMapping("/{userID}")
-    public ResponseEntity<Void> removeGroupMember(@PathVariable int groupID, @PathVariable int userID) throws MemberNotFoundException {
+    public ResponseEntity<Void> removeGroupMember(@PathVariable Integer groupID, @PathVariable Integer userID) throws MemberNotFoundException {
         groupMemberService.removeGroupMember(groupID, userID);
         return ResponseEntity.noContent().build();
     }
@@ -83,7 +84,7 @@ public class GroupMemberController {
      */
 
     @GetMapping("/{userID}")
-    public ResponseEntity<GroupMemberDTO> getGroupMember(@PathVariable int groupID, @PathVariable int userID) throws MemberNotFoundException {
+    public ResponseEntity<GroupMemberDTO> getGroupMember(@PathVariable Integer groupID, @PathVariable Integer userID) throws MemberNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberService.getGroupMember(groupID, userID);
         return ResponseEntity.ok(convertToDto(groupMemberEntity));
     }
@@ -98,7 +99,7 @@ public class GroupMemberController {
      */
 
     @PutMapping("/{userID}")
-    public ResponseEntity<GroupMemberDTO> updateGroupMember(@PathVariable int groupID, @PathVariable int userID, @RequestBody GroupMemberDTO groupMemberDTO) throws MemberNotFoundException {
+    public ResponseEntity<GroupMemberDTO> updateGroupMember(@PathVariable Integer groupID, @PathVariable Integer userID, @RequestBody GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberService.updateGroupMember(groupID, userID, groupMemberDTO);
         return ResponseEntity.ok(convertToDto(groupMemberEntity));
     }

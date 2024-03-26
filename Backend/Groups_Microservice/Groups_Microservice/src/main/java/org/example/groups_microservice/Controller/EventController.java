@@ -32,7 +32,7 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> getEvents(@PathVariable int groupID) {
+    public ResponseEntity<List<EventDTO>> getEvents(@PathVariable Integer groupID) {
         List<EventEntity> events = eventService.getEvents(groupID);
         List<EventDTO> eventDTOs = events.stream()
                 .map(this::convertToDto)
@@ -44,7 +44,7 @@ public class EventController {
     private EventDTO convertToDto(EventEntity eventEntity) {
         EventDTO dto = new EventDTO();
         dto.setEventID(eventEntity.getEventID());
-        dto.setEventName(eventEntity.getEventName());
+        dto.setGlobalEventID(eventEntity.getGlobalEventID());
         dto.setGroupID(eventEntity.getGroup().getGroupID());
         dto.setGroupName(eventEntity.getGroup().getGroupName());
         return dto;
@@ -55,7 +55,7 @@ public class EventController {
      * @return the event entity
      */
     @GetMapping("/{eventID}")
-    public ResponseEntity<EventDTO> getEvent(@PathVariable int eventID) {
+    public ResponseEntity<EventDTO> getEvent(@PathVariable Integer eventID) {
         EventEntity event = eventService.getEvent(eventID);
         EventDTO eventDTO = convertToDto(event);
         return ResponseEntity.ok(eventDTO);
@@ -69,7 +69,7 @@ public class EventController {
      */
 
     @DeleteMapping("/{eventID}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable int eventID) throws EventNotFoundException {
+    public ResponseEntity<Void> deleteEvent(@PathVariable Integer eventID) throws EventNotFoundException {
         eventService.deleteEvent(eventID);
         return ResponseEntity.noContent().build();
     }

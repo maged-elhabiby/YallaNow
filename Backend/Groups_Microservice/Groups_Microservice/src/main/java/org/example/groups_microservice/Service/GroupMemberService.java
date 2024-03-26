@@ -37,8 +37,10 @@ public class GroupMemberService {
 
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(groupMemberDTO.getRole());
+        groupMemberEntity.setUserID(groupMemberDTO.getUserID());
+        groupMemberEntity.setUserName(groupMemberDTO.getUserName());
+        groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
         groupMemberEntity.setGroup(groupEntity);
-
         return groupMemberRepository.save(groupMemberEntity);
     }
 
@@ -94,12 +96,20 @@ public class GroupMemberService {
      * @throws MemberNotFoundException if the member does not exist
      */
     @Transactional
-    public GroupMemberEntity updateGroupMember(Integer groupID, Integer userID, GroupMemberDTO groupMemberDTO) throws  MemberNotFoundException {
+    public GroupMemberEntity updateGroupMember(Integer groupID, Integer userID, GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
+
+        GroupEntity group = groupRepository.findById(groupID)
+                .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
-
         groupMemberEntity.setRole(groupMemberDTO.getRole());
+        groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
+        groupMemberEntity.setUserName(groupMemberDTO.getUserName());
+        groupMemberEntity.setUserID(groupMemberDTO.getUserID());
+        groupMemberEntity.setGroup(group);
+        groupRepository.save(group);
         return groupMemberRepository.save(groupMemberEntity);
+
     }
 
     /**
@@ -139,8 +149,11 @@ public class GroupMemberService {
 
     }
     private void mapDTOToEntity(GroupMemberDTO dto, GroupMemberEntity entity) {
+        entity.setGroupMemberID(dto.getGroupMemberID());
         entity.setRole(dto.getRole());
         entity.setUserID(dto.getUserID());
         entity.setUserName(dto.getUserName());
+
+
     }
 }
