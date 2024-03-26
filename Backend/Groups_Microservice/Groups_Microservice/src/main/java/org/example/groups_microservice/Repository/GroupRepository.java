@@ -16,8 +16,10 @@ import java.util.Optional;
 @Repository
 public interface GroupRepository extends JpaRepository<GroupEntity, Integer>{
 
-    Optional<GroupEntity> findByGroupID(Integer groupID);
+    Optional<GroupEntity> findGroupEntityByGroupID(Integer groupID);
     Optional<GroupEntity> findByGroupName(String groupName);
+    Optional<GroupEntity> deleteGroupEntitiesByGroupID(Integer groupID);
+    void deleteById(Integer groupID);
 }
 
 

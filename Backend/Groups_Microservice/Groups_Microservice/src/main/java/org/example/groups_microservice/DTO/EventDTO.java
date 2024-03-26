@@ -4,11 +4,15 @@ public class EventDTO {
     private int eventID;
     private String eventName;
     private int groupID;
+    private String groupName;
 
-    public EventDTO(int eventID, String eventName, int groupID) {
+
+    public EventDTO(int eventID, String eventName, int groupID,String groupName) {
         this.eventID = eventID;
         this.eventName = eventName;
         this.groupID = groupID;
+        this.groupName = groupName;
+
     }
 
     public EventDTO() {
@@ -39,5 +43,11 @@ public class EventDTO {
         this.groupID = groupID;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
 
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

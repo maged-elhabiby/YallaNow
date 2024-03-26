@@ -29,6 +29,7 @@ public class EventService {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setEventName(eventsDTO.getEventName());
         eventEntity.setGroup(group);
+        eventEntity.setEventID(eventsDTO.getEventID());
         return eventRepository.save(eventEntity);
     }
 
@@ -66,10 +67,17 @@ public class EventService {
                 .orElseThrow(() -> new GroupNotFoundException("Event does not exist with ID: " + eventsDTO.getEventID()));
         eventEntity.setEventName(eventsDTO.getEventName());
         eventEntity.setGroup(group);
+
         return eventRepository.save(eventEntity);
     }
 
 
-
-
+    public void updateEvent(GroupEntity groupEntity, List<EventDTO> events) {
+        for (EventDTO eventDTO : events) {
+            EventEntity eventEntity = new EventEntity();
+            eventEntity.setEventName(eventDTO.getEventName());
+            eventEntity.setGroup(groupEntity);
+            groupEntity.getEvents().add(eventEntity);
+        }
+    }
 }

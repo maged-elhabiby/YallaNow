@@ -41,10 +41,9 @@ public class GroupMemberController {
 
     private GroupMemberDTO convertToDto(GroupMemberEntity groupMemberEntity) {
         GroupMemberDTO dto = new GroupMemberDTO();
-        GroupDTO groupDTO = new GroupDTO();
-        groupDTO.setGroupID(groupMemberEntity.getGroup().getGroupID());
-        groupDTO.setGroupName(groupMemberEntity.getGroup().getGroupName());
-        dto.setGroup(groupDTO);
+        dto.setRole(groupMemberEntity.getRole());
+        dto.setUserName(groupMemberEntity.getUserName());
+        dto.setGroupMemberID(groupMemberEntity.getGroupMemberID());
         dto.setUserID(groupMemberEntity.getUserID());
         return dto;
     }

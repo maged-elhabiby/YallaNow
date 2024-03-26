@@ -1,18 +1,23 @@
 package org.example.groups_microservice.Service;
 
 import jakarta.transaction.Transactional;
+import org.example.groups_microservice.DTO.EventDTO;
 import org.example.groups_microservice.DTO.GroupDTO;
 import org.example.groups_microservice.DTO.GroupMemberDTO;
+import org.example.groups_microservice.Entity.EventEntity;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
+import org.example.groups_microservice.Exceptions.EventNotFoundException;
 import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
+import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 
 /**
@@ -24,9 +29,15 @@ import java.util.stream.Collectors;
 @Service
 public class GroupService {
     private final GroupRepository groupRepository;
+    private final EventService eventService;
+    private final GroupMemberService groupMemberService;
 
-    public GroupService(GroupRepository groupRepository) {
+
+
+    public GroupService(GroupRepository groupRepository, EventService eventService, GroupMemberService groupMemberService) {
         this.groupRepository = groupRepository;
+        this.eventService = eventService;
+        this.groupMemberService = groupMemberService;
     }
 
     /**
@@ -49,14 +60,45 @@ public class GroupService {
 
         GroupEntity groupEntity = new GroupEntity();
         groupEntity.setGroupName(groupDTO.getGroupName());
+        groupEntity.setIsPrivate(groupDTO.getIsPrivate());
 
-        // Link GroupMembers to the Group
-        List<GroupMemberEntity> groupMembers = groupDTO.getGroupMembers().stream()
-                .map(dto -> convertToGroupMemberEntity(dto, groupEntity))
-                .collect(Collectors.toList());
-        groupEntity.setGroupMembers(groupMembers);
 
+        //Link GroupMembers to the Group
+        for (GroupMemberDTO groupMemberDTO : groupDTO.getGroupMembers()) {
+            LinkGroupMemberToGroup(groupEntity, groupMemberDTO);
+        }
+
+        //Link Event to the Group
+        for (EventDTO eventDTO : groupDTO.getEvents()) {
+            linkEventToGroup(groupEntity, eventDTO);
+        }
         return groupRepository.save(groupEntity);
+    }
+
+    private void linkEventToGroup(GroupEntity groupEntity, EventDTO eventDTO) {
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setEventName(eventDTO.getEventName());
+        eventEntity.setGroup(groupEntity);
+        groupEntity.getEvents().add(eventEntity);
+
+    }
+
+    private void LinkGroupMemberToGroup(GroupEntity groupEntity, GroupMemberDTO groupMemberDTO) {
+        GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
+        groupMemberEntity.setRole(groupMemberDTO.getRole());
+        groupMemberEntity.setGroup(groupEntity);
+        groupMemberEntity.setUserID(groupMemberDTO.getUserID());
+        groupMemberEntity.setUserName(groupMemberDTO.getUserName());
+        groupEntity.getGroupMembers().add(groupMemberEntity);
+    }
+
+    private EventEntity convertToEventEntity(EventDTO dto, GroupEntity groupEntity) {
+        EventEntity eventEntity = new EventEntity();
+        eventEntity.setEventName(dto.getEventName());
+        eventEntity.setEventID(dto.getEventID());
+        eventEntity.setGroup(groupEntity);
+
+        return eventEntity;
     }
 
     private GroupMemberEntity convertToGroupMemberEntity(GroupMemberDTO dto, GroupEntity groupEntity) {
@@ -64,6 +106,9 @@ public class GroupService {
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(dto.getRole());
         groupMemberEntity.setGroup(groupEntity);
+        groupMemberEntity.setUserID(dto.getGroupMemberID());
+        groupMemberEntity.setGroupMemberID(dto.getGroupMemberID());
+        groupMemberEntity.setUserName(dto.getUserName());
         return groupMemberEntity;
     }
 
@@ -74,8 +119,9 @@ public class GroupService {
      * @return the group entity
      * @throws GroupNotFoundException if the group does not exist
      */
-    public GroupEntity getGroup(int groupID) throws GroupNotFoundException {
-        return groupRepository.findById(groupID)
+    @Transactional
+    public GroupEntity getGroup(Integer groupID) throws GroupNotFoundException {
+        return groupRepository.findGroupEntityByGroupID(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
     }
 
@@ -83,6 +129,7 @@ public class GroupService {
      * getGroups method is used to retrieve all groups.
      * @return a list of group entities
      */
+    @Transactional
     public List<GroupEntity> getGroups() {
         return groupRepository.findAll();
     }
@@ -97,16 +144,26 @@ public class GroupService {
      */
     @Transactional
     public GroupEntity updateGroup(int groupID, GroupDTO groupDTO) throws GroupNotFoundException {
-        GroupEntity groupEntity = groupRepository.findById(groupID)
+        GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
 
+        // Update simple fields
         groupEntity.setGroupName(groupDTO.getGroupName());
-        List<GroupMemberEntity> groupMembers = groupDTO.getGroupMembers().stream()
-                .map(dto -> convertToGroupMemberEntity(dto, groupEntity))
-                .collect(Collectors.toList());
-        groupEntity.setGroupMembers(groupMembers);
+        groupEntity.setIsPrivate(groupDTO.getIsPrivate());
+
+        // Update group members carefully
+        groupMemberService.updateGroupMembers(groupEntity, groupDTO.getGroupMembers());
+
+        // Update events carefully
+        eventService.updateEvent(groupEntity, groupDTO.getEvents());
+
+
         return groupRepository.save(groupEntity);
     }
+
+
+
+
 
     /**
      * deleteGroup method is used to delete a group by its ID.
@@ -115,9 +172,13 @@ public class GroupService {
      * @throws GroupNotFoundException if the group does not exist
      */
     @Transactional
-    public void deleteGroup(int groupID) throws GroupNotFoundException {
-        GroupEntity groupEntity = groupRepository.findById(groupID)
-                .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
+    public void deleteGroup(Integer groupID) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
+
+        GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
+             .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
+
         groupRepository.delete(groupEntity);
+
+
     }
 }

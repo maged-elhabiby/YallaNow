@@ -2,28 +2,41 @@ package org.example.groups_microservice.DTO;
 
 public class GroupMemberDTO {
 
-    private int userID;
+    private Integer groupMemberID;
+    private Integer userID;
     private String userName;
     private UserRole role;
-    private GroupDTO group;
 
-    public GroupMemberDTO(int userID, String userName, UserRole role, GroupDTO group) {
+    private Integer groupID;
+
+
+    public GroupMemberDTO(Integer groupMemberID,Integer userID, String userName, UserRole role, GroupDTO group) {
+        this.groupMemberID = groupMemberID;
         this.userID = userID;
         this.userName = userName;
         this.role = role;
-        this.group = group;
+        this.groupID = group.getGroupID();
     }
 
     public GroupMemberDTO() {
-
     }
 
-    public int getUserID() {
+
+
+    public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
+    }
+
+    public Integer getGroupMemberID() {
+        return groupMemberID;
+    }
+
+    public void setGroupMemberID(Integer groupMemberID) {
+        this.groupMemberID = groupMemberID;
     }
 
     public String getUserName() {
@@ -42,13 +55,16 @@ public class GroupMemberDTO {
         this.role = role;
     }
 
-    public GroupDTO getGroup() {
-        return group;
+
+    public Integer getGroupID() {
+        return groupID;
     }
 
-    public void setGroup(GroupDTO group) {
-        this.group = group;
+    public void setGroupID(Integer groupID) {
+        this.groupID = groupID;
     }
+
+
 
 
 

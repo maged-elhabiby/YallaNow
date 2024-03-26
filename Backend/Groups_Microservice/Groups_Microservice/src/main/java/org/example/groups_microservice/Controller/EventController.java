@@ -46,6 +46,7 @@ public class EventController {
         dto.setEventID(eventEntity.getEventID());
         dto.setEventName(eventEntity.getEventName());
         dto.setGroupID(eventEntity.getGroup().getGroupID());
+        dto.setGroupName(eventEntity.getGroup().getGroupName());
         return dto;
     }
     /**

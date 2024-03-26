@@ -7,12 +7,14 @@ public class GroupDTO {
     private String groupName;
     private List<GroupMemberDTO> groupMembers;
     private List<EventDTO> events;
+    private boolean isPrivate;
 
-    public GroupDTO(int groupID, String groupName, List<GroupMemberDTO> groupMembers, List<EventDTO> events) {
+    public GroupDTO(int groupID, String groupName, List<GroupMemberDTO> groupMembers, List<EventDTO> events, boolean isPrivate) {
         this.groupID = groupID;
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.events = events;
+        this.isPrivate = isPrivate;
     }
 
     public GroupDTO() {
@@ -64,6 +66,18 @@ public class GroupDTO {
 
     public void removeEvent(EventDTO event) {
         this.events.remove(event);
+    }
+
+    public boolean IsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public boolean getIsPrivate() {
+        return isPrivate;
     }
 
 

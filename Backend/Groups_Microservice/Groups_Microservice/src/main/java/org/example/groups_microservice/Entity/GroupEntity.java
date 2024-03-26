@@ -1,5 +1,7 @@
 package org.example.groups_microservice.Entity;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -22,28 +24,35 @@ public class GroupEntity {
     @Column(name = "group_name")
     private String groupName;
 
+    @Column(name = "is_private")
+    private boolean isPrivate;
+
     // relationships with other entities
-    @OneToMany(mappedBy = "group",  cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "group",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMemberEntity> groupMembers;
 
-    @OneToMany(mappedBy = "group",  cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "group",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventEntity> events;
 
     // constructors
     public GroupEntity() {
+        this.groupMembers = new ArrayList<>();
+        this.events = new ArrayList<>();
     }
 
-    public GroupEntity(int groupID, String groupName, List<GroupMemberEntity> groupMembers, List<EventEntity> events) {
+    public GroupEntity(Integer groupID, String groupName, List<GroupMemberEntity> groupMembers, List<EventEntity> events, boolean isPrivate) {
+        this.groupID = groupID;
+        this.groupName = groupName;
+        this.groupMembers = groupMembers != null ? groupMembers : new ArrayList<>();
+        this.events = events != null ? events : new ArrayList<>();
+        this.isPrivate = isPrivate;
+    }
+
+    public GroupEntity(Integer groupID, String groupName, List<GroupMemberEntity> groupMembers,boolean isPrivate) {
         this.groupID = groupID;
         this.groupName = groupName;
         this.groupMembers = groupMembers;
-        this.events = events;
-    }
-
-    public GroupEntity(int groupID, String groupName, List<GroupMemberEntity> groupMembers) {
-        this.groupID = groupID;
-        this.groupName = groupName;
-        this.groupMembers = groupMembers;
+        this.isPrivate = isPrivate;
     }
 
 
@@ -62,6 +71,13 @@ public class GroupEntity {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     public List<GroupMemberEntity> getGroupMembers() {
@@ -93,6 +109,8 @@ public class GroupEntity {
         groupMembers.remove(member);
         member.setGroup(null);
     }
+
+
 
 }
 

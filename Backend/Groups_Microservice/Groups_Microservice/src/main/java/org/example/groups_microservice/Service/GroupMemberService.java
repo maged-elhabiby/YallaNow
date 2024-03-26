@@ -115,4 +115,12 @@ public class GroupMemberService {
         groupMemberRepository.delete(groupMemberEntity);
     }
 
+    public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
+        for (GroupMemberDTO groupMemberDTO : groupMembers) {
+            GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
+            groupMemberEntity.setRole(groupMemberDTO.getRole());
+            groupMemberEntity.setGroup(groupEntity);
+            groupEntity.getGroupMembers().add(groupMemberEntity);
+        }
+    }
 }

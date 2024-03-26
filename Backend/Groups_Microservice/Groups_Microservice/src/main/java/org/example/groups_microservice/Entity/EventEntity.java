@@ -19,17 +19,28 @@ public class EventEntity {
     private String eventName;
 
 
+
+
+
     //Relationships with other entities
     @ManyToOne
-    @JoinColumn(name = "group_id", nullable = false) // Ensures the foreign key relation
+    @JoinColumn(name = "group_id", nullable = true) // Ensures the foreign key relation
     private GroupEntity group;
+
+    // add group name from group entity to store the group name
+
+
+
+    // uses group name from group entity to store the group name
+
 
     public EventEntity() {
     }
 
-    public EventEntity(int eventID, String eventName) {
+    public EventEntity(Integer eventID, String eventName, GroupEntity group) {
         this.eventID = eventID;
         this.eventName = eventName;
+        this.group = group;
     }
 
     // Getters and Setters
@@ -57,6 +68,7 @@ public class EventEntity {
     public void setGroup(GroupEntity group) {
         this.group = group;
     }
+
 
 
 
