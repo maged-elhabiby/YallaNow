@@ -4,11 +4,14 @@ const baseUrl = 'http://localhost:8080/microservice/events/';
 
 const eventService = {
 
+    // Image needs image service to fetch image url.
 
-    convertEventDataToRequest: (data) => {
+    formatEventForRequest: (data) => {
         return {
             eventID: data.eventId,
-            groupID: data.gourpId,
+            groupID: data.groupId,
+            imageID: data.imageId,
+
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: {
@@ -22,18 +25,19 @@ const eventService = {
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
+            
         }
 
     },
 
-    convertResponseToEvent: (data) => {
+    formatEventForApp: (data) => {
         return {
             eventId: data.eventId,
             eventAttendeeCount: data.count,
             eventCapacity: data.capacity,
             eventDescription: data.eventDescription,
             eventEndTime: data.eventEndTime,
-            eventImageUrl: data.imageUrl,
+            eventImageId: data.imageId,
             eventLocationCity: data.address.street,
             eventLocationCountry: data.address.city,
             eventLocationProvince: data.address.province,
@@ -45,9 +49,7 @@ const eventService = {
         }
     },
 
-    createEvent: async (eventData) => {
-        const request = convertToRequest(eventData)
-    },
+
 
     addEvent: async (eventRequest) => {
         try {
@@ -113,15 +115,6 @@ const eventService = {
 
     },
 
-    getUserEvents: async (userId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetAllUserEvents/' + userId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
-    },
 
     getEventUsers: async (eventId) => {
         try {
@@ -135,14 +128,12 @@ const eventService = {
     
 
 
-    updateUser: async (userRequest) => {
+    
+    getUserRsvpdEvents: async (userId) => {
         try {
-            const response = await axios.post(baseUrl + 'UpdateParticipant', userRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return response.data;
+            const response = await axios.get(baseUrl + 'GetAllUserEvents/' + userId);
+            return response.data.map(event=>eventService.formatEventForApp(event)) || []
+
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
@@ -167,6 +158,7 @@ const eventService = {
             return false; // Indicate that the participant was not removed
         }
     },
+
     
     // get participant status from event
 
@@ -187,17 +179,6 @@ const eventService = {
             return false; // Assume the user has not RSVP'd
         }
     },
-
-    
-    /*
-
-    Participant dto
-    participantID: int,
-    userId: int,
-    eventId: int,
-    ParticipantStatus: ["Attending", "NotAttending", "Maybe"]
-
-    */
 
     // Add participant to event
     addRsvpStatusToEvent: async (userId, eventId) => {
