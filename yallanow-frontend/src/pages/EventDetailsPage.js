@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import eventService from '../api/eventService';
+import recombeeInteractions from '../api/recomebeeInteractions';
 
 const EventDetailsPage = () => {
+  const userId = 10001;
   const { state } = useLocation();
   const { event, recommId } = state;
   const [rsvpStatus, setRsvpStatus] = useState(false);
@@ -11,7 +13,6 @@ const EventDetailsPage = () => {
   useEffect(() => {
     const fetchRsvpStatus = async () => {
       // Assuming you have access to the user's ID
-      const userId = 'user-id';
       const status = await eventService.getUserRsvpStatusForEvent(userId, event.eventId);
       setRsvpStatus(status);
     };
@@ -20,7 +21,6 @@ const EventDetailsPage = () => {
   }, [event.eventId]);
 
   const handleRsvpClick = async () => {
-    const userId = 'user-id';
     if (rsvpStatus) {
       const success = await eventService.removeRsvpStatusFromEvent(userId, event.eventId);
       if (success) {
@@ -34,6 +34,8 @@ const EventDetailsPage = () => {
       if (success) {
         setRsvpStatus(true);
         alert('Successfully RSVP\'d');
+        // Send a purchase interaction to Recombee
+        recombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
       } else {
         alert('Failed to RSVP');
       }
@@ -48,7 +50,7 @@ const EventDetailsPage = () => {
   // Send recombee detail view when this page is loaded.
   useEffect(() => {
     console.log(`Sending detail view interaction for event ${event.eventId} with recommId ${recommId}`);
-    // recombeeInteractions.addDetailViewInteraction(user.userId, event.eventId, recommId);
+    recombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
   }, [event, recommId]);
 
   const formattedStartDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
