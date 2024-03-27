@@ -20,7 +20,7 @@ import ForgotPassword from './ForgotPassword';
 //   axios.post(url, data, {
 //     headers: {
 //       'Content-Type': 'application/json',
-//       "Authorization": localStorage.getItem('idToken')
+//       "Authorization": localStorage.getItem('idToken')    #######################IMPORTANT FOR AUTHENTICATION#######################
 //       // Add any additional headers here if needed
 //     }
 //   })
