@@ -1,10 +1,11 @@
-package com.example.testauth2;
+package org.example.groups_microservice;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 
 
@@ -18,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new com.example.testauth2.MyInterceptor()).addPathPatterns("/**");
     }
 
 
