@@ -1,0 +1,8 @@
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/factories/GroupMessageFactory.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/AnalyticsserviceApplicationTests.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/factories/EventMessageFactory.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/pubsub/PubSubItemTest.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/factories/UserMessageFactory.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/integrations/PubSubTestConfig.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/pubsub/PubSubUserTest.java
+/home/marshal/repos/university/winter_2024/ensf401/YallaNow/services/analyticsservice/src/test/java/com/yallanow/analyticsservice/helpers/RandomNameGenerator.java

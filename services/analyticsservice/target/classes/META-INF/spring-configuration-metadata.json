@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "recombee",
+      "type": "com.yallanow.analyticsservice.config.RecombeeConfig",
+      "sourceType": "com.yallanow.analyticsservice.config.RecombeeConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "recombee.database-id",
+      "type": "java.lang.String",
+      "sourceType": "com.yallanow.analyticsservice.config.RecombeeConfig"
+    },
+    {
+      "name": "recombee.region",
+      "type": "com.recombee.api_client.util.Region",
+      "sourceType": "com.yallanow.analyticsservice.config.RecombeeConfig"
+    },
+    {
+      "name": "recombee.secret-token",
+      "type": "java.lang.String",
+      "sourceType": "com.yallanow.analyticsservice.config.RecombeeConfig"
+    }
+  ],
+  "hints": []
+}
