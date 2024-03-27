@@ -15,14 +15,13 @@ import java.util.Optional;
 
 @Repository
 public interface GroupMemberRepository extends JpaRepository<GroupMemberEntity, Integer>{
-    Optional<GroupMemberEntity> findByUserID(Integer userID);
+    Optional<GroupMemberEntity> findByUserID(String userID);
     List<GroupMemberEntity> findByGroupGroupID(Integer groupID);
 
-    Optional<GroupMemberEntity> findByUserIDAndGroupGroupID(Integer userID, Integer groupID);
+    Optional<GroupMemberEntity> findByUserIDAndGroupGroupID(String userID, Integer groupID);
 
     List<GroupMemberEntity> findAllByGroupGroupID(Integer groupID);
 
-    //List<GroupMemberEntity> findAllByUserID(Integer userID);
 
-    List<GroupMemberEntity> findAllGroupByUserID(Integer userID);
+    List<GroupMemberEntity> findAllGroupByUserID(String userID);
 }

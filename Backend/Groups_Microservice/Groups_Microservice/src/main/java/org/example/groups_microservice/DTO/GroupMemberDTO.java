@@ -3,14 +3,14 @@ package org.example.groups_microservice.DTO;
 public class GroupMemberDTO {
 
     private Integer groupMemberID;
-    private Integer userID;
+    private String userID;
     private String userName;
     private UserRole role;
 
     private Integer groupID;
 
 
-    public GroupMemberDTO(Integer groupMemberID,Integer userID, String userName, UserRole role, GroupDTO group, Integer groupID) {
+    public GroupMemberDTO(Integer groupMemberID,String userID, String userName, UserRole role, GroupDTO group, Integer groupID) {
         this.groupMemberID = groupMemberID;
         this.userID = userID;
         this.userName = userName;
@@ -25,11 +25,11 @@ public class GroupMemberDTO {
 
 
 
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
