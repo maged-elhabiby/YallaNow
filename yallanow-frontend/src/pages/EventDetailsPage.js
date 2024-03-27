@@ -8,53 +8,46 @@ const EventDetailsPage = () => {
   const { state } = useLocation();
   const { event, recommId } = state;
   const [rsvpStatus, setRsvpStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRsvpStatus = async () => {
-      // Assuming you have access to the user's ID
-      const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
-      setRsvpStatus(status);
+        try {
+            const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
+            setRsvpStatus(status);
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
     };
 
     fetchRsvpStatus();
-  }, [event.eventId]);
+}, [event.eventId]);
 
-  const handleRsvpClick = async () => {
-    if (rsvpStatus) {
-      const success = await eventService.unRsvpUserFromEvent(userId, event.eventId);
-      if (success) {
-        setRsvpStatus(false);
-        alert('Successfully un-RSVP\'d');
+const handleRsvpClick = async () => {
+  try {
+      if (rsvpStatus) {
+          await eventService.unRsvpUserFromEvent(userId, event.eventId);
+          setRsvpStatus(false);
+          alert('Successfully un-RSVP\'d');
       } else {
-        alert('Failed to un-RSVP');
+          await eventService.rsvpUserToEvent(userId, event.eventId);
+          setRsvpStatus(true);
+          alert('Successfully RSVP\'d');
+          recombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
       }
-    } else {
-      const success = await eventService.rsvpUserToEvent(userId, event.eventId);
-      if (success) {
-        setRsvpStatus(true);
-        alert('Successfully RSVP\'d');
-        // Send a purchase interaction to Recombee
-        
-        recombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
-        
-      } else {
-        alert('Failed to RSVP');
-      }
-    }
-  };
+  } catch (error) {
+      alert(error.message);
+  }
+};
 
   const handleVisitGroup = () => {
-    // Navigate to the group page
     navigate(`/group/${event.groupId}`);
   };
 
   // Send recombee detail view when this page is loaded.
   useEffect(() => {
-    
-      console.log(`Sending detail view interaction for event ${event.eventId} with recommId ${recommId}`);
       recombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
-    
   }, [event, recommId]);
 
   const formattedStartDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -67,6 +60,7 @@ const EventDetailsPage = () => {
   
   return (
     <div className="bg-white">
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
       <div className="mx-auto mt-32 px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         {/* Product */}
         <div className="lg:grid lg:grid-cols-7 lg:grid-rows-1 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
