@@ -45,7 +45,8 @@ const Navbar = () => {
     navigate('/signin');
   }
 
-  
+  const displayNameInitial = currentUser?.displayName?.charAt(0).toUpperCase();
+
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 w-full z-50">
       {({ open }) => (
@@ -119,11 +120,13 @@ const Navbar = () => {
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
+                        {currentUser?.photoURL ? (
+                        <img className="h-8 w-8 rounded-full" src={currentUser?.photoURL} alt="" />
+                      ) : (
+                        <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500">
+                          <span className="text-sm font-medium leading-none text-white">{displayNameInitial}</span>
+                        </span>
+                )}
                       </Menu.Button>
                     </div>
                     <Transition
@@ -193,11 +196,13 @@ const Navbar = () => {
             <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                {currentUser?.photoURL ? (
+                  <img className="h-8 w-8 rounded-full" src={currentUser?.photoURL} alt="" />
+                ) : (
+                  <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500">
+                    <span className="text-sm font-medium leading-none text-white">{displayNameInitial}</span>
+                  </span>
+                )}
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">{currentUser?.displayName}</div>

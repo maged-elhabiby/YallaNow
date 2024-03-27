@@ -35,68 +35,91 @@ const ProfilePage = () => {
 
 
   // Handler for updating profile
-  const handleUpdateProfile = async () => {
-    if (!newDisplayName.trim()) return; // Basic validation
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    if (!newDisplayName.trim()) {
+      setMessage('Display name cannot be empty.');
+      return;
+    }
     try {
-      await updateProfile(auth.currentUser, {
-        displayName: newDisplayName
-      });
-      console.log("Profile updated successfully");
-      // Update UI accordingly or show a success message
+      await updateProfile(currentUser, { displayName: newDisplayName });
+      setMessage('Profile updated successfully.');
+      setNewDisplayName(''); // Clear input field after update
     } catch (error) {
       console.error("Error updating profile:", error);
+      setMessage('Failed to update profile.');
     }
   };
 
+  const displayNameInitial = currentUser?.displayName?.charAt(0).toUpperCase();
+
   return (
     <div className="container mt-20 mx-auto p-6">
-        <div className="md:flex md:items-center md:justify-between md:space-x-5">
-            <div className="flex items-start space-x-5">
-                <div className="flex-shrink-0">
-                <div className="relative">
-                    <img
-                    className="h-16 w-16 rounded-full"
-                    src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                    alt=""
-                    />
-                    <span className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-                </div>
-                </div>
-                {/*
-                Use vertical padding to simulate center alignment when both lines of text are one line,
-                but preserve the same layout if the text wraps without making the image jump around.
-                */}
-                <div className="pt-1.5">
-                <h1 className="text-2xl font-bold text-gray-900">{currentUser?.displayName}</h1>
-                <p className="text-sm font-medium text-gray-500">{currentUser?.email}</p>
-                </div>
-            </div>
-            <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-                <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                onClick={handleEmailChange}
-                >
-                Change Password
-                </button>
-                <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={handleSignOut}
-                >
-                Sign Out
-                </button>
-            </div>
-            </div>
-            {message && (
-            <div
-            className={`mt-4 p-4 text-center ${message.startsWith('Failed') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'} rounded-lg`}
-            role="alert"
-            >
-            {message}
-            </div>
+      <div className="mx-auto mb-10 max-w-2xl text-center">
+        <p className="text-base font-semibold leading-7 text-pink-600">Welcome to</p>
+        <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Your Profile</h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">View Account and Manage your account settings and preferences</p>
+      </div>
+      <div className="container mt-20 mx-auto p-6">
+      <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+        <div className="flex items-center space-x-4">
+          <div className="flex-shrink-0 h-16 w-16 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-xl">
+            {currentUser.photoURL ? (
+              <img className="rounded-full" src={currentUser.photoURL} alt="Profile" />
+            ) : (
+              <span>{displayNameInitial}</span>
             )}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">{currentUser?.displayName}</h1>
+            <p className="text-sm font-medium text-gray-500">{currentUser?.email}</p>
+          </div>
+        </div>
+
+        <div className="flex-grow">
+          <form onSubmit={handleUpdateProfile} className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+            <input
+              type="text"
+              placeholder="New display name"
+              value={newDisplayName}
+              onChange={(e) => setNewDisplayName(e.target.value)}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6"
+            />
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            >
+              Update
+            </button>
+          </form>
+        </div>
+
+        <div className="space-x-2">
+          <button
+            className="px-3 py-2 rounded-md bg-white text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50"
+            onClick={handleEmailChange}
+          >
+            Change Password
+          </button>
+          <button
+            className="px-3 py-2 rounded-md bg-pink-600 text-sm font-semibold text-white shadow-sm hover:bg-pink-500"
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+      {message && (
+        <div
+          className={`mt-4 text-center ${message.startsWith('Failed') ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'} p-4 rounded-lg`}
+          role="alert"
+        >
+          {message}
+        </div>
+      )}
+    </div>
     </div>
   );
 };
-
 export default ProfilePage;

@@ -22,11 +22,11 @@ const GroupPage = () => {
           {/* Flex container for the heading and the button */}
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-base font-semibold leading-7 text-indigo-600 mb-2">Find People Like You</p>
+              <p className="text-base font-semibold leading-7 text-pink-600 mb-2">Find People Like You</p>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Groups Center</h2>
             </div>
             {/* Link wrapping the button for navigation */}
-            <Link to="/create-group" className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            <Link to="/create-group" className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700">
               Create a Group
             </Link>
           </div>
