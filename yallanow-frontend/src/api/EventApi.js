@@ -1,5 +1,5 @@
 import eventService from "./eventService";
-import feedService from "./feedService"
+
 import imageService from "./imageService"
 
 const EventApi = {
@@ -18,16 +18,14 @@ const EventApi = {
 
         return formattedEvent;
     },
-
     
-    // updateEvent: async (eventData) => {
-    //     const rawEvent = eventService.updateEvent(eventData);
-    //     const formattedEvent = EventApi.formatEventForEventService(rawEvent);
-    //     formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.eventId);
+    updateEvent: async (eventData) => {
+        const rawEvent = eventService.updateEvent(eventData);
+        const formattedEvent = EventApi.formatEventForEventService(rawEvent);
+        formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.eventId);
     
-    //     return formattedEvent;
-    // },
-
+        return formattedEvent;
+    },
 
     getEvent: async (eventId) => {
         const rawEvent = await eventService.getEventById(eventId);
@@ -35,14 +33,6 @@ const EventApi = {
         formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.imageId);
         
         return formattedEvent;
-    },
-
-    deleteEvent: async (eventId) => {
-        return await eventService.deleteEvent(eventId);
-    },
-
-    getRsvpdUsersForEvent: async (eventId) => {
-        return await eventService.getRsvpdUsersForEvent(eventId);
     },
 
     getEventsForGroup: async (groupId) => {
@@ -56,7 +46,15 @@ const EventApi = {
         return eventsWithImages;
     },
 
-    getRsvpdEvents: async (userId) => {
+    deleteEvent: async (eventId) => {
+        return await eventService.deleteEvent(eventId);
+    },
+
+    getRsvpdUsersForEvent: async (eventId) => {
+        return await eventService.getRsvpdUsersForEvent(eventId);
+    },
+
+    getUserRsvpdEvents: async (userId) => {
         const response = await eventService.getRsvpdEvents(userId);
         const eventsWithImages = await Promise.all(response.map(async (data) => {
             const formattedEvent = EventApi.formatEventFromEventService(data.event);
@@ -67,28 +65,20 @@ const EventApi = {
         return eventsWithImages;
     },
 
-    isUserRsvpdToEvent: async (userId, eventId) => {
-        return eventService.isUserRsvpdToEvent(userId, eventId);
-    },
-
     unRsvpUserFromEvent: async (userId, eventId) => {
         return eventService.unRsvpUserFromEvent(userId, eventId);
+    },
+
+    isUserRsvpdToEvent: async (userId, eventId) => {
+        return eventService.isUserRsvpdToEvent(userId, eventId);
     },
 
     rsvpUserToEvent: async (userId, eventId) => {
         return eventService.rsvpUserToEvent(userId, eventId);
     },
 
-    getHomepageEvents: async (userId, count) => {
-        return await feedService.getHomepageEvents(userId, count);
-    },
-
-    getNextEvents: async (count, recommId) => {
-        return await feedService.getNextEvents(count, recommId);
-    },
-
-    searchEvents: async (userId, count, searchQuery) => {
-        return await feedService.searchEvents(userId, count, searchQuery)
+    updateRsvpStatus: async (eventId, status) => {
+        return eventService.updateRsvpStatus(eventId, status);
     },
 
     getImageUrlById: (imageId) => {
