@@ -9,8 +9,13 @@ import json
 import firebase_admin
 from firebase_admin import auth
 import datetime
-from auth_server import init_firebase
+from firebase_admin import credentials
 
+
+
+def init_firebase():
+    cred = credentials.Certificate('yallanow12-firebase-adminsdk-njuxe-db0348de3f.json')
+    firebase_admin.initialize_app(cred)
 init_firebase()
 
 # url = 'http://localhost:5001/auth'
@@ -34,14 +39,12 @@ init_firebase()
 token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImViYzIwNzkzNTQ1NzExODNkNzFjZWJlZDI5YzU1YmVmMjdhZDJjY2IiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20veWFsbGFub3cxMiIsImF1ZCI6InlhbGxhbm93MTIiLCJhdXRoX3RpbWUiOjE3MTE0MDI2OTAsInVzZXJfaWQiOiJ1U1lsQXZJN2VYVXVod1ZCRGJwNXZVS2tUdWgyIiwic3ViIjoidVNZbEF2STdlWFV1aHdWQkRicDV2VUtrVHVoMiIsImlhdCI6MTcxMTQwMjY5MCwiZXhwIjoxNzExNDA2MjkwLCJlbWFpbCI6InlvdXNzZWYubWFtb3VuMDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInlvdXNzZWYubWFtb3VuMDNAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.sKH60P0tYZ363mzwPqpTaJDixVFcTBop_mZZTDyHGB8L9npcOKad7AvDGPO_Jerz028B3a_-sLFgvKO5pEL15_8Ov31TjCyXvxAh4pgkL4cYdRPtUFliD8YZ95AsoAn5ashjf0yAua5NEbCD-dvRoKkL1m6HPUmXMBOWhMfRq0KGjY0Zyfm2yoltcsJse6NMru1NECdpAU7uqUVfdLrOhCyfAqWwOujWwXAJqSrph-XuLrPbgT119t-7ZDRc6O3S9NjIaXU293ixolaH3WlZ3rF9uJJjVVZg1d8mm9_dY0QjUOabchFfwwas4VGcEX6H4fyu2I0M_GPzzjvNqX1tzQ"
 
 
-cookie = auth.create_session_cookie(token, expires_in=datetime.timedelta(days=5))
+
 
 # Set the cookie in the request headers
-headers = {'Cookie': 'session=' + cookie}
+headers = {'authorization': token}
 
-# Make the request with the attached cookie
-url = 'http://127.0.0.1:8080/api/test'
-# url = 'http://localhost:5001/auth'
+url = 'http://localhost:5001/auth'
 response = requests.post(url, headers=headers)
 
 print(response.text)
