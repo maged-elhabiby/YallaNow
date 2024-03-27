@@ -4,54 +4,8 @@ const baseUrl = 'http://localhost:8080/microservice/events/';
 
 const eventService = {
 
-    // Image needs image service to fetch image url.
 
-    formatEventForRequest: (data) => {
-        return {
-            eventID: data.eventId,
-            groupID: data.groupId,
-            imageID: data.imageId,
-
-            eventTitle: data.eventTitle,
-            eventDescription: data.eventDescription,
-            location: {
-                street: data.eventLocaitonStreet,
-                city: data.eventLocationCity,
-                province: data.eventLocaitonProvince,
-                country: data.eventLocaitonCountry
-            },
-            eventStartTime: data.eventStartTime,
-            eventEndTime: data.eventEndTime,
-            status: data.eventStatus,
-            capacity: data.eventCapacity,
-            count: data.eventAttendeeCount,
-            
-        }
-
-    },
-
-    formatEventForApp: (data) => {
-        return {
-            eventId: data.eventId,
-            eventAttendeeCount: data.count,
-            eventCapacity: data.capacity,
-            eventDescription: data.eventDescription,
-            eventEndTime: data.eventEndTime,
-            eventImageId: data.imageId,
-            eventLocationCity: data.address.street,
-            eventLocationCountry: data.address.city,
-            eventLocationProvince: data.address.province,
-            eventLocationStreet: data.address.street,
-            eventStartTime: data.eventStartTime,
-            eventStatus: data.status,
-            eventTitle: data.eventTitle,
-            groupId: data.groupId
-        }
-    },
-
-
-
-    addEvent: async (eventRequest) => {
+    createEvent: async (eventRequest) => {
         try {
             const response = await axios.post(baseUrl + 'AddEvent', eventRequest, {
                 headers: {
@@ -89,7 +43,7 @@ const eventService = {
         }
     },
 
-    getGroupEvent: async (groupId) => {
+    getEventsForGroup: async (groupId) => {
         try {
             const response = await axios.get(baseUrl + 'GetGroupEvent/' + groupId);
             return response.data;
@@ -110,13 +64,7 @@ const eventService = {
     },
 
 
-
-    rsvpUserToEvent: async (userId, eventId) => {
-
-    },
-
-
-    getEventUsers: async (eventId) => {
+    getRsvpdUsersForEvent: async (eventId) => {
         try {
             const response = await axios.get(baseUrl + 'GetAllEventParticipants/' + eventId);
             return response.data;
@@ -139,7 +87,7 @@ const eventService = {
     },
 
     // remove partitcipant status from event
-    removeRsvpStatusFromEvent: async (userId, eventId) => {
+    unRsvpUserFromEvent: async (userId, eventId) => {
         try {
             const response = await axios.delete(baseUrl + 'DeleteParticipant/' + userId + '/' + eventId);
             if (response.status === 200) {
@@ -160,7 +108,7 @@ const eventService = {
     
     // get participant status from event
 
-    getUserRsvpStatusForEvent: async (userId, eventId) => {
+    isUserRsvpdToEvent: async (userId, eventId) => {
         try {
             const response = await axios.get(baseUrl + 'GetParticipantStatus/' + userId + '/' + eventId);
             if (response.status === 200) {
@@ -179,7 +127,7 @@ const eventService = {
     },
 
     // Add participant to event
-    addRsvpStatusToEvent: async (userId, eventId) => {
+    rsvpUserToEvent: async (userId, eventId) => {
         const request = {
             userId: userId,
             eventId: eventId,
