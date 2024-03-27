@@ -28,17 +28,7 @@ const MyCalendar = ({ events, onEventClick }) => {
             updateTitle();
         }
     }, []);
-
-    // Define handleEventClick function
-    const handleEventClick = ({ event }) => {
-        Anavigate(`/event-details/${event.id}`, {
-          state: {
-            eventId: event.id, event
-          }
-        });
-      };
       
-
     const handleViewChange = (view) => {
         if (calendarRef.current) {
             const calendarApi = calendarRef.current.getApi();
@@ -77,7 +67,6 @@ const MyCalendar = ({ events, onEventClick }) => {
                 initialView="dayGridMonth"
                 headerToolbar={false}
                 events={events}
-                eventClick={handleEventClick}
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}

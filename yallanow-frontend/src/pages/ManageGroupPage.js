@@ -22,7 +22,7 @@ function ManageGroupPage() {
     <div className="mt-20 px-4 sm:px-6 lg:px-8">
       <div className="md:flex md:items-center md:justify-between">
       <div className="min-w-0 flex-1">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+        <h2 className="mb-1 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
           Manage Group
         </h2>
       </div>
@@ -30,7 +30,7 @@ function ManageGroupPage() {
         <button
           type="button"
           onClick={() => navigate(-1)}
-          className="ml-3 inline-flex items-center rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600"
+          className="ml-4 inline-flex items-center rounded-md bg-pink-600 px-10 py-3 text-sm font-semibold text-white shadow-sm hover:bg-pink-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600"
         >
           Go Back
         </button>
