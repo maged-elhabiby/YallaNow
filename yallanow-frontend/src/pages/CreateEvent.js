@@ -25,7 +25,7 @@ const CreateEventPage = () => {
   });
 
   const [imageBase64, setImageBase64] = useState('');
-  const [imagePreview, setImagePreview] = useState('#');
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +65,10 @@ const CreateEventPage = () => {
     }
   };
 
+  const triggerFileInput = () => {
+    document.getElementById('image-upload').click();
+  }; 
+
   return (
     <div className="container mx-auto p-4">
         <div className=" px-2 py-12 sm:py-12 mt-8 lg:px-2">
@@ -95,104 +99,101 @@ const CreateEventPage = () => {
 
           {/* Event Location */}
           <div className="sm:col-span-3">
-              <label htmlFor="eventLocationCountry" className="block text-sm font-medium leading-6 text-gray-900">
-                Country
-              </label>
-              <div className="mt-2">
-                <select
+            <label htmlFor="eventLocationCountry" className="block text-sm font-medium leading-6 text-gray-900">
+              Country
+            </label>
+            <div className="mt-2">
+              <select
+                onChange={handleChange} required
+                id="eventLocationCountry"
+                name="eventLocationCountry"
+                autoComplete="country-name"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+              >
+                <option>United States</option>
+                <option>Canada</option>
+                <option>Mexico</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="col-span-full">
+            <label htmlFor="eventLocationStreet" className="block text-sm font-medium leading-6 text-gray-900">
+              Street address
+            </label>
+            <div className="mt-2">
+              <input
+                onChange={handleChange} required
+                type="text"
+                name="eventLocationStreet"
+                id="eventLocationStreet"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div className="sm:col-span-2 sm:col-start-1">
+            <label htmlFor="eventLocationCity" className="block text-sm font-medium leading-6 text-gray-900">
+              City
+            </label>
+            <div className="mt-2">
+              <input
+                onChange={handleChange} required 
+                type="text"
+                name="eventLocationCity"
+                id="eventLocationCity"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div className="sm:col-span-2">
+            <label htmlFor="eventLocationProvince" className="block text-sm font-medium leading-6 text-gray-900">
+              State / Province
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="eventLocationProvince"
+                id="eventLocationProvince"
                   onChange={handleChange} required
-                  id="eventLocationCountry"
-                  name="eventLocationCountry"
-                  autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
+
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
             </div>
+          </div>
 
-            <div className="col-span-full">
-              <label htmlFor="eventLocationStreet" className="block text-sm font-medium leading-6 text-gray-900">
-                Street address
-              </label>
-              <div className="mt-2">
-                <input
-                 onChange={handleChange} required
-                  type="text"
-                  name="eventLocationStreet"
-                  id="eventLocationStreet"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2 sm:col-start-1">
-              <label htmlFor="eventLocationCity" className="block text-sm font-medium leading-6 text-gray-900">
-                City
-              </label>
-              <div className="mt-2">
-                <input
-                 onChange={handleChange} required 
-                  type="text"
-                  name="eventLocationCity"
-                  id="eventLocationCity"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2">
-              <label htmlFor="eventLocationProvince" className="block text-sm font-medium leading-6 text-gray-900">
-                State / Province
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="eventLocationProvince"
-                  id="eventLocationProvince"
-                   onChange={handleChange} required
-
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2">
-              <label htmlFor="eventLocationPostalCode" className="block text-sm font-medium leading-6 text-gray-900">
-                ZIP / Postal code
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="eventLocationPostalCode"
-                  id="eventLocationPostalCode"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="eventLocationPostalCode" className="block text-sm font-medium leading-6 text-gray-900">
+              ZIP / Postal code
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="eventLocationPostalCode"
+                id="eventLocationPostalCode"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
             </div>
           </div>
 
           {/* Event Start and End Time */}
-          <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-4 md:grid-cols-3">
-            <div className="flex-1">
-              <label htmlFor="eventStartTime" className="block text-sm font-medium text-gray-700">Start Time
-              </label>
-              <input type="datetime-local" id="eventStartTime" name="eventStartTime" value={formData.eventStartTime} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-            </div>
-            <div className="flex-1">
-              <label htmlFor="eventEndTime" className="block text-sm font-medium text-gray-700">End Time</label>
-              <input type="datetime-local" id="eventEndTime" name="eventEndTime" value={formData.eventEndTime} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-            </div>
+          <div className="sm:col-span-3">
+            <label htmlFor="eventStartTime" className="block text-sm font-medium text-gray-700">Start Time
+            </label>
+            <input type="datetime-local" id="eventStartTime" name="eventStartTime" value={formData.eventStartTime} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+          </div>
+          <div className="sm:col-span-3">
+            <label htmlFor="eventEndTime" className="block text-sm font-medium text-gray-700">End Time</label>
+            <input type="datetime-local" id="eventEndTime" name="eventEndTime" value={formData.eventEndTime} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
           </div>
 
           {/* Event Capacity */}
-          <div className="mt-4">
+          <div className="sm:col-span-2">
             <label htmlFor="eventCapacity" className="block text-sm font-medium text-gray-700">Capacity</label>
             <input type="number" id="eventCapacity" name="eventCapacity" placeholder="Number of attendees" value={formData.eventCapacity} onChange={handleChange} required className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
           </div>
-
+        </div>
           {/* Event Image URL */}
 
 
@@ -200,12 +201,15 @@ const CreateEventPage = () => {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Cover photo
               </label>
-            {imagePreview ? 
-              <div>
-                
-              </div>
-            :
-            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              {imagePreview ? (
+          <div
+            className="mt-2 group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 cursor-pointer"
+            onClick={triggerFileInput}
+          >
+            <img id="image-preview" src={imagePreview} alt="" className="pointer-events-none object-cover group-hover:opacity-75" />
+          </div>
+        ) : (
+          <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
             <div className="text-center">
               <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
               <div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -215,15 +219,14 @@ const CreateEventPage = () => {
                 >
                   <span>Upload an image</span>
                   <input type="file" id="image-upload" name="image-upload" accept="image/*" onChange={handleImageChange} className="sr-only" />
-                  <img id="image-preview" src={imagePreview} alt="" />
                 </label>
                 <p className="pl-1">or drag and drop</p>
               </div>
               <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
             </div>
           </div>
-            }
-
+        )}
+        <input type="file" id="image-upload" name="image-upload" accept="image/*" onChange={handleImageChange} className="sr-only" />
 
             </div>
 
