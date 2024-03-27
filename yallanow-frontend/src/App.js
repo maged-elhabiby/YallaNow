@@ -15,6 +15,7 @@ import CreateEvent from './pages/CreateEvent';
 import ProtectedRoute from './ProtectedRoute';
 import ManageGroupPage from './pages/ManageGroupPage';
 import ProfilePage from './pages/ProfilePage';
+import MyGroupsPage from './pages/MyGroupsPage';
 
 const App = () => {
   const location = useLocation();
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/create-event/:event-id" element={<ProtectedRoute><CreateEvent/></ProtectedRoute>}/>
           <Route path="/manage-group/:groupId" element={<ProtectedRoute><ManageGroupPage/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
+          <Route path="/mygroups" element={<ProtectedRoute><MyGroupsPage/></ProtectedRoute>}/>
         </Routes>
       </div>
     
