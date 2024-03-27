@@ -25,11 +25,14 @@ const CreateEventPage = () => {
   });
 
   const [imageBase64, setImageBase64] = useState('');
+  const [imagePreview, setImagePreview] = useState('#');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -39,6 +42,7 @@ const CreateEventPage = () => {
         setImageBase64(reader.result);
       };
       reader.readAsDataURL(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -91,14 +95,14 @@ const CreateEventPage = () => {
 
           {/* Event Location */}
           <div className="sm:col-span-3">
-              <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="eventLocationCountry" className="block text-sm font-medium leading-6 text-gray-900">
                 Country
               </label>
               <div className="mt-2">
                 <select
-                  value={formData.eventLocationCountry} onChange={handleChange} required
-                  id="country"
-                  name="country"
+                  onChange={handleChange} required
+                  id="eventLocationCountry"
+                  name="eventLocationCountry"
                   autoComplete="country-name"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
@@ -110,63 +114,60 @@ const CreateEventPage = () => {
             </div>
 
             <div className="col-span-full">
-              <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="eventLocationStreet" className="block text-sm font-medium leading-6 text-gray-900">
                 Street address
               </label>
               <div className="mt-2">
                 <input
-                value={formData.eventLocationStreet} onChange={handleChange} required
+                 onChange={handleChange} required
                   type="text"
-                  name="street-address"
-                  id="street-address"
-                  autoComplete="street-address"
+                  name="eventLocationStreet"
+                  id="eventLocationStreet"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2 sm:col-start-1">
-              <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="eventLocationCity" className="block text-sm font-medium leading-6 text-gray-900">
                 City
               </label>
               <div className="mt-2">
                 <input
-                value={formData.eventLocationCity} onChange={handleChange} required 
+                 onChange={handleChange} required 
                   type="text"
-                  name="city"
-                  id="city"
-                  autoComplete="address-level2"
+                  name="eventLocationCity"
+                  id="eventLocationCity"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="eventLocationProvince" className="block text-sm font-medium leading-6 text-gray-900">
                 State / Province
               </label>
               <div className="mt-2">
                 <input
-                value={formData.eventLocationProvince} onChange={handleChange} required
                   type="text"
-                  name="region"
-                  id="region"
-                  autoComplete="address-level1"
+                  name="eventLocationProvince"
+                  id="eventLocationProvince"
+                   onChange={handleChange} required
+
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="eventLocationPostalCode" className="block text-sm font-medium leading-6 text-gray-900">
                 ZIP / Postal code
               </label>
               <div className="mt-2">
                 <input
                   type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autoComplete="postal-code"
+                  name="eventLocationPostalCode"
+                  id="eventLocationPostalCode"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -199,22 +200,31 @@ const CreateEventPage = () => {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Cover photo
               </label>
-              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                <div className="text-center">
-                  <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                    >
-                      <span>Upload an image</span>
-                      <input type="file" id="file-uploda" name="file-upload" accept="image/*" onChange={handleImageChange} className="sr-only" />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                </div>
+            {imagePreview ? 
+              <div>
+                
               </div>
+            :
+            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+            <div className="text-center">
+              <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+              <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                <label
+                  htmlFor="image-upload"
+                  className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                >
+                  <span>Upload an image</span>
+                  <input type="file" id="image-upload" name="image-upload" accept="image/*" onChange={handleImageChange} className="sr-only" />
+                  <img id="image-preview" src={imagePreview} alt="" />
+                </label>
+                <p className="pl-1">or drag and drop</p>
+              </div>
+              <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+            </div>
+          </div>
+            }
+
+
             </div>
 
           {/* Submit Button */}
