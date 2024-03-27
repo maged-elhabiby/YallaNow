@@ -1,0 +1,16 @@
+Dear [UserName],
+Congratulations! You've successfully scheduled for [EventName] through YallaNow, our premier event planning service.
+We're thrilled to have you on board and look forward to an unforgettable experience.
+
+Here are the details of your registration:
+Event Name: [EventName]
+Event Start Date: [EventStartDate]
+Event End Date: [EventEndDate]
+Location: [EventLocation]
+
+Please keep an eye on your email for any updates or additional information regarding the event.
+If you have any questions or need further assistance, feel free to reach out to us at yallanow.401@gmail.com .
+Once again, thank you for choosing YallaNow. We can't wait to see you at [EventName]!
+
+Best regards,
+YallaNow Team
