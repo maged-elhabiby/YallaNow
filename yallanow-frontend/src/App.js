@@ -13,6 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import CreateGroup from './pages/CreateGroup';
 import CreateEvent from './pages/CreateEvent';
 import ProtectedRoute from './ProtectedRoute';
+import ManageGroupPage from './pages/ManageGroupPage';
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/create-group" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>}/>
           <Route path="/create-event/:event-id" element={<ProtectedRoute><CreateEvent/></ProtectedRoute>}/>
+          <Route path="/manage-group/:groupId" element={<ProtectedRoute><ManageGroupPage/></ProtectedRoute>}/>
         </Routes>
       </div>
     
