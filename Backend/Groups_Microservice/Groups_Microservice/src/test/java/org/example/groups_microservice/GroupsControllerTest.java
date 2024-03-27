@@ -2,10 +2,7 @@ package org.example.groups_microservice;
 
 import org.example.groups_microservice.Controller.GroupsController;
 import org.example.groups_microservice.DTO.GroupDTO;
-import org.example.groups_microservice.Exceptions.EventNotFoundException;
-import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
-import org.example.groups_microservice.Exceptions.GroupNotFoundException;
-import org.example.groups_microservice.Exceptions.MemberNotFoundException;
+import org.example.groups_microservice.Exceptions.*;
 import org.example.groups_microservice.Service.GroupService;
 import org.example.groups_microservice.Entity.EventEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
@@ -49,7 +46,7 @@ public class GroupsControllerTest {
         events.add(new EventEntity(1,1,groupEntity));
 
         List<GroupMemberEntity> groupMembers = new ArrayList<>();
-        groupMembers.add(new GroupMemberEntity(1,1,null, "Guy", groupEntity));
+        groupMembers.add(new GroupMemberEntity(1,"1",null, "Guy", groupEntity));
 
         groups.add(new GroupEntity(1, "Test Group", groupMembers, events, false));
 
@@ -82,12 +79,12 @@ public class GroupsControllerTest {
 //create Delete Update
 
     @Test
-    public void testDeleteGroup() throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
+    public void testDeleteGroup() throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException, NotAuthorizationException {
         // Arrange
         int groupID = 1;
 
         // Act
-        ResponseEntity<Void> response = groupsController.deleteGroup(groupID);
+        ResponseEntity<Void> response = groupsController.deleteGroup(groupID, "1");
 
         // Assert
         verify(groupService, times(1)).deleteGroup(groupID);

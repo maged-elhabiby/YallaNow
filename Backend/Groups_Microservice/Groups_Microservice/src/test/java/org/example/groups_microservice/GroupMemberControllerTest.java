@@ -45,7 +45,7 @@ public class GroupMemberControllerTest {
         groupEntity.setGroupID(groupID);
         groupEntity.setGroupName("Test Group");
         List<GroupMemberEntity> groupMembers = new ArrayList<>();
-        groupMembers.add(new GroupMemberEntity(1,1,null, null, groupEntity));
+        groupMembers.add(new GroupMemberEntity(1,"1",null, null, groupEntity));
 
         when(groupMemberService.getGroupMembers(groupID)).thenReturn(groupMembers);
 
@@ -60,11 +60,11 @@ public class GroupMemberControllerTest {
     public void testGetGroupMember() throws GroupNotFoundException, MemberNotFoundException {
         // Arrange
         int groupID = 1;
-        int userID = 1;
+        String userID = "1";
         GroupEntity groupEntity = new GroupEntity();
         groupEntity.setGroupID(groupID);
         groupEntity.setGroupName("Test Group");
-        GroupMemberEntity groupMember = new GroupMemberEntity(1,1,null, null, groupEntity);
+        GroupMemberEntity groupMember = new GroupMemberEntity(1,"1",null, null, groupEntity);
 
         when(groupMemberService.getGroupMember(groupID, userID)).thenReturn(groupMember);
 
@@ -80,13 +80,13 @@ public class GroupMemberControllerTest {
     public void testAddGroupMember() throws GroupNotFoundException {
         // Arrange
         int groupID = 1;
-        int userID = 1;
+        String userID = "1";
         GroupDTO groupDTO = new GroupDTO();
-        GroupMemberDTO GroupMemberDTO = new GroupMemberDTO(1,1,null,null, groupDTO,1);
+        GroupMemberDTO GroupMemberDTO = new GroupMemberDTO(1,"1",null,null, groupDTO,1);
         GroupEntity groupEntity = new GroupEntity();
         groupEntity.setGroupID(groupID);
         groupEntity.setGroupName("Test Group");
-        GroupMemberEntity groupMember = new GroupMemberEntity(1,1,null, null, groupEntity);
+        GroupMemberEntity groupMember = new GroupMemberEntity(1,"1",null, null, groupEntity);
 
         when(groupMemberService.addGroupMember(groupID, GroupMemberDTO)).thenReturn(groupMember);
 
@@ -102,7 +102,7 @@ public class GroupMemberControllerTest {
     public void testRemoveGroupMember() throws GroupNotFoundException, MemberNotFoundException {
         // Arrange
         int groupID = 1;
-        int userID = 1;
+        String userID = "1";
 
         // Act
         ResponseEntity<Void> response = groupMemberController.removeGroupMember(groupID, userID);
