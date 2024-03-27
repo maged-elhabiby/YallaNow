@@ -1,9 +1,20 @@
 import React from 'react';
+import { useAuth } from '../AuthContext';// Update this path to your AuthContext
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
   const heroBackgroundImageUrl = "https://storage.googleapis.com/tmp-bucket-json-data/1.jpg";
   const testimonialsBackgroundImageUrl = "https://storage.googleapis.com/tmp-bucket-json-data/2.jpg";
 
+  const handleGetStartedClick = () => {
+    if (currentUser) {
+      navigate('/explore'); // If signed in, navigate to explore page
+    } else {
+      navigate('/signup'); // If not signed in, navigate to sign up page
+    }
+  };
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       {/* Hero section */}
@@ -13,7 +24,9 @@ const LandingPage = () => {
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Welcome to Yalla Now</h1>
             <p className="text-xl">Connect, plan, and celebrate events effortlessly with friends and family.</p>
             <div className="mt-8">
-              <a href="/signup" className="bg-pink-600 text-white rounded-full py-3 px-6">Get Started</a>
+                <button onClick={handleGetStartedClick} className="bg-pink-600 text-white rounded-full py-3 px-6">
+                    Get Started
+                </button>
             </div>
           </div>
         </div>
