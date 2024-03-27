@@ -5,10 +5,7 @@ import org.example.groups_microservice.DTO.GroupMemberDTO;
 import org.example.groups_microservice.DTO.UserRole;
 import org.example.groups_microservice.Entity.GroupEntity;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
-import org.example.groups_microservice.Exceptions.EventNotFoundException;
-import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
-import org.example.groups_microservice.Exceptions.GroupNotFoundException;
-import org.example.groups_microservice.Exceptions.MemberNotFoundException;
+import org.example.groups_microservice.Exceptions.*;
 import org.example.groups_microservice.Service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -107,7 +104,16 @@ public class GroupsController {
      * @param groupID - the ID of the group
      */
     @DeleteMapping("/{groupID}")
-    public ResponseEntity<Void> deleteGroup(@PathVariable Integer groupID) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
+    public ResponseEntity<Void> deleteGroup(@PathVariable Integer groupID, @RequestAttribute("Id") String userID ) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException, NotAuthorizationException {
+        // check if the user is authorized to delete the group by seeing if they are the ADMIN ROLE
+        GroupEntity groupEntity = groupService.getGroup(groupID);
+        for (GroupMemberEntity groupMemberEntity : groupEntity.getGroupMembers()) {
+            if (groupMemberEntity.getUserID().equals(userID) && groupMemberEntity.getRole().equals(UserRole.ADMIN)) {
+                break;
+            } else {
+                throw new NotAuthorizationException("User is not authorized to delete group");
+            }
+        }
         groupService.deleteGroup(groupID);
         return ResponseEntity.ok().build();
     }
@@ -119,8 +125,8 @@ public class GroupsController {
      * @return the updated group entity
      */
     @PutMapping("/{groupID}")
-    public ResponseEntity<GroupDTO> updateGroup(@PathVariable Integer groupID, @RequestBody GroupDTO groupDTO) throws GroupNotFoundException {
-        GroupEntity groupEntity = groupService.updateGroup(groupID, groupDTO);
+    public ResponseEntity<GroupDTO> updateGroup(@PathVariable Integer groupID, @RequestBody GroupDTO groupDTO,@RequestAttribute("Id") String userId, @RequestAttribute("Name") String username ) throws GroupNotFoundException, NotAuthorizationException {
+        GroupEntity groupEntity = groupService.updateGroup(groupID, groupDTO, userId, username);
         publishGroupByMember(groupEntity, "UPDATE");
         return ResponseEntity.ok(convertToDto(groupEntity));
     }
@@ -129,7 +135,8 @@ public class GroupsController {
      * get groups that a user is part of through userID without showing group members or events
      */
     @GetMapping("/user/{userID}")
-    public ResponseEntity<List<GroupDTO>> getGroupsByUserID(@PathVariable Integer userID) {
+    public ResponseEntity<List<GroupDTO>> getGroupsByUserID(@PathVariable String userID) {
+        // check if the user is authorized to get the groups
         List<GroupEntity> groups = groupService.getGroupsByUserID(userID);
         List<GroupDTO> groupDTOS = groups.stream()
                 .map(this::convertToDtoWithNoMembersOrEvents)

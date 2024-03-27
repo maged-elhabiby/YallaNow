@@ -22,7 +22,7 @@ public interface GroupRepository extends JpaRepository<GroupEntity, Integer>{
     Optional<GroupEntity> deleteGroupEntitiesByGroupID(Integer groupID);
     void deleteById(Integer groupID);
 
-    List<GroupEntity> findAllByGroupMembersUserID(Integer userID);
+    List<GroupEntity> findAllByGroupMembersUserID(String userID);
 }
 
 
