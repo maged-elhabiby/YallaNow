@@ -1,0 +1,26 @@
+{
+  "recommendationScenarios": {
+    "ItemSegmentsToItem": [
+    ],
+    "ItemSegmentsToUser": [
+    ],
+    "ItemsToItem": [
+    ],
+    "ItemsToUser": [
+      "popular-items",
+      "homepage-items",
+      "recently-viewed-items",
+      "default-items",
+      "personal-items"
+    ],
+    "NextItems": [
+    ],
+    "UsersToUser": [
+    ],
+    "SearchItems": [
+      "search-items-personalized"
+    ],
+    "SearchItemSegments": [
+    ]
+  }
+}
