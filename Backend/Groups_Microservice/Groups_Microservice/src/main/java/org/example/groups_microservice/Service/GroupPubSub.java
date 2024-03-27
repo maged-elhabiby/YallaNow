@@ -38,6 +38,7 @@ public class GroupPubSub {
         }
     }
 
+
     /**
      * Publishes a message to the Pub/Sub topic
      *
@@ -45,11 +46,10 @@ public class GroupPubSub {
      * @param operation  The operation that was performed on the group
      *
      */
-    public void publishGroup(GroupEntity group, String operation) {
+    public static void publishGroup(GroupEntity group, String operation) {
         try {
             // Convert the group to JSON
             JSONObject groupJson = convertGroupToJson(group);
-            //groupJson.put("operation", operation);
 
             // Convert the JSON to a byte string
 
@@ -58,9 +58,6 @@ public class GroupPubSub {
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(data).putAttributes("operationType", operation)
                     .build();
-
-
-
             // Publishing the message
             ApiFuture<String> future = publisher.publish(pubsubMessage);
             // Asynchronously handling the publishing response
@@ -79,11 +76,100 @@ public class GroupPubSub {
             throw new RuntimeException("Error while publishing the group: " + e.getMessage());
         }
     }
+    public static void publishGroupByMember(GroupEntity group, String operation) {
+        try {
+            for (GroupMemberEntity member : group.getGroupMembers()) {
+                // Convert the group to JSON
+                publishGroupMember(member, operation);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error while publishing the group: " + e.getMessage());
+        }
+    }
+
+
+
+    /**
+     * Publishes only group ID to the Pub/Sub topic
+     *
+     * @param groupID     The group to be published
+     * @param operation  The operation that was performed on the group
+     *
+     */
+    public static void publishGroupID(Integer groupID,String operation){
+        try {
+            // Create a Pub/Sub message as a JSON object
+            ByteString data = ByteString.copyFromUtf8(groupID.toString());
+            PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                    .setData(data).putAttributes("operationType", operation)
+                    .build();
+            // Publishing the message
+            ApiFuture<String> future = publisher.publish(pubsubMessage);
+            // Asynchronously handling the publishing response
+            ApiFutures.addCallback(future, new ApiFutureCallback<String>() {
+                @Override
+                public void onSuccess(String messageId) {
+                    System.out.println("Published message ID: " + messageId);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    System.err.println("Error publishing message: " + t.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        } catch (Exception e) {
+            throw new RuntimeException("Error while publishing the group: " + e.getMessage());
+
+        }
+    }
+    /**
+     * publish a single group member to the Pub/Sub topic
+     * @param groupMember - the group member to be published
+     * @param operation - the operation that was performed on the group member
+     *
+     */
+    public static void publishGroupMember(GroupMemberEntity groupMember, String operation) {
+        try {
+            // Convert the group member to JSON
+            JSONObject groupMemberJson = new JSONObject();
+            groupMemberJson.put("userId", groupMember.getUserID().toString());
+            groupMemberJson.put("role", groupMember.getRole());
+            groupMemberJson.put("groupId", groupMember.getGroup().getGroupID());
+
+            // Convert the JSON to a byte string
+            ByteString data = ByteString.copyFromUtf8(groupMemberJson.toString());
+
+            // Create a Pub/Sub message as a JSON object
+            PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                    .setData(data).putAttributes("operationType", operation)
+                    .build();
+
+            // Publishing the message
+            ApiFuture<String> future = publisher.publish(pubsubMessage);
+
+            // Asynchronously handling the publishing response
+            ApiFutures.addCallback(future, new ApiFutureCallback<String>() {
+                @Override
+                public void onSuccess(String messageId) {
+                    System.out.println("Published message ID: " + messageId);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    System.err.println("Error publishing message: " + t.getMessage());
+                }
+            }, MoreExecutors.directExecutor());
+        } catch (Exception e) {
+            throw new RuntimeException("Error while publishing the group member: " + e.getMessage());
+        }
+    }
+
+
 
     /**
      * Shuts down the publisher
      *
-     * @throws Exception
+     * @throws Exception if the publisher cannot be shut down
      */
     public void shutdownPublisher() throws Exception {
         if (publisher != null) {
@@ -92,25 +178,11 @@ public class GroupPubSub {
         }
     }
 
-    /**
-     * Main method to test the Pub/Sub functionality
-     *
-     * @param args
-     * @throws Exception
-     */
-    public static void main(String... args) throws Exception {
-
-        String projectId = "yallanow-413400";
-        String topicId = "group";
-
-        initializePubSub(projectId, topicId);
-
-    }
 
 
     /**
      * covert group to json
-     * @param group
+     * @param group - the group to be converted
      * @return json
      */
 
@@ -126,7 +198,6 @@ public class GroupPubSub {
         for (GroupMemberEntity member : group.getGroupMembers()) {
             JSONObject memberJson = new JSONObject();
             memberJson.put("userId", member.getUserID());
-            memberJson.put("groupMemberId", member.getGroupMemberID());
             memberJson.put("userName", member.getUserName());
             memberJson.put("role", member.getRole());
             membersArray.put(memberJson);
@@ -143,33 +214,14 @@ public class GroupPubSub {
         json.put("events", eventsArray);
 
         return json;
+
+
+    }
+
+    public void shutdown() {
     }
 
 
-    /**
-     * Test the convertGroupToJson method
-     *
-     */
-//    public static void main(String... args) throws Exception {
-//        GroupEntity group = new GroupEntity();
-//        GroupMemberEntity groupMember = new GroupMemberEntity();
-//        UserRole role = UserRole.ADMIN;
-//        EventEntity event = new EventEntity();
-//        event.setEventID(1);
-//        event.setGlobalEventID(1);
-//        group.getEvents().add(event);
-//        groupMember.setUserID(1);
-//        groupMember.setUserName("User 1");
-//        groupMember.setRole(role);
-//        groupMember.setGroup(group);
-//        group.getGroupMembers().add(groupMember);
-//        group.setGroupID(1);
-//        group.setGroupName("Group 1");
-//        group.setIsPrivate(false);
-//        group.setGroupMembers(group.getGroupMembers());
-//        group.setEvents(group.getEvents());
-//        System.out.println(convertGroupToJson(group));
-//        }
 
 
 }

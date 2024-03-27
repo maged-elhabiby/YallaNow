@@ -39,7 +39,7 @@ public class GroupMemberService {
         groupMemberEntity.setRole(groupMemberDTO.getRole());
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setUserName(groupMemberDTO.getUserName());
-        groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
+        //groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
         groupMemberEntity.setGroup(groupEntity);
         return groupMemberRepository.save(groupMemberEntity);
     }
@@ -55,6 +55,9 @@ public class GroupMemberService {
     public void removeGroupMember(Integer groupID, Integer userID) throws  MemberNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
+        GroupPubSub.publishGroupMember(groupMemberEntity, "DELETE");
+
+
 
         groupMemberRepository.delete(groupMemberEntity);
     }
@@ -107,6 +110,8 @@ public class GroupMemberService {
         groupMemberEntity.setUserName(groupMemberDTO.getUserName());
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setGroup(group);
+        group.setMemberCount(group.getGroupMembers().size());
+
         groupRepository.save(group);
         return groupMemberRepository.save(groupMemberEntity);
 
@@ -126,6 +131,7 @@ public class GroupMemberService {
         groupMemberRepository.delete(groupMemberEntity);
     }
 
+    @Transactional
     public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
         Map<Integer, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
                 .filter(member -> member.getUserID() != null)
@@ -142,6 +148,8 @@ public class GroupMemberService {
                     mapDTOToEntity(dto, newMember);
                     newMember.setGroup(groupEntity);
                     groupEntity.getGroupMembers().add(newMember);
+                    groupEntity.setMemberCount(groupEntity.getGroupMembers().size());
+
                 }
             }
             groupRepository.save(groupEntity);
@@ -155,5 +163,9 @@ public class GroupMemberService {
         entity.setUserName(dto.getUserName());
 
 
+    }
+    @Transactional
+    public List<GroupMemberEntity> getGroupsByUserID(Integer userID) {
+        return groupMemberRepository.findAllGroupByUserID(userID);
     }
 }

@@ -7,6 +7,7 @@ import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Service.GroupMemberService;
+import org.example.groups_microservice.Service.GroupPubSub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,7 @@ public class GroupMemberController {
     @DeleteMapping("/{userID}")
     public ResponseEntity<Void> removeGroupMember(@PathVariable Integer groupID, @PathVariable Integer userID) throws MemberNotFoundException {
         groupMemberService.removeGroupMember(groupID, userID);
+        //GroupPubSub.publishGroupMember(new GroupMemberEntity(), "DELETE");
         return ResponseEntity.noContent().build();
     }
 
@@ -101,7 +103,25 @@ public class GroupMemberController {
     @PutMapping("/{userID}")
     public ResponseEntity<GroupMemberDTO> updateGroupMember(@PathVariable Integer groupID, @PathVariable Integer userID, @RequestBody GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberService.updateGroupMember(groupID, userID, groupMemberDTO);
+        GroupPubSub.publishGroupMember(groupMemberEntity, "ADD");
         return ResponseEntity.ok(convertToDto(groupMemberEntity));
+    }
+
+    /**
+     * get all groups that member is part of through userID without showing group members or events
+     * @param userID - the ID of the member
+     * @return a list of group member entities
+     * @throws MemberNotFoundException if the member does not exist
+     */
+
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<List<GroupMemberDTO>> getGroupsByUserID(@PathVariable Integer userID) throws MemberNotFoundException {
+        List<GroupMemberEntity> groupMembers = groupMemberService.getGroupsByUserID(userID);
+        List<GroupMemberDTO> groupMemberDTOs = groupMembers.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(groupMemberDTOs);
     }
 
 }

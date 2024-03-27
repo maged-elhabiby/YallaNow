@@ -27,6 +27,9 @@ public class GroupEntity {
     @Column(name = "is_private")
     private boolean isPrivate;
 
+    @Column(name = "member_count")
+    private Integer memberCount;
+
     // relationships with other entities
     @OneToMany(mappedBy = "group",  cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMemberEntity> groupMembers;
@@ -46,6 +49,8 @@ public class GroupEntity {
         this.groupMembers = groupMembers != null ? groupMembers : new ArrayList<>();
         this.events = events != null ? events : new ArrayList<>();
         this.isPrivate = isPrivate;
+        this.memberCount = groupMembers.size();
+
     }
 
     public GroupEntity(Integer groupID, String groupName, List<GroupMemberEntity> groupMembers,boolean isPrivate) {
@@ -53,6 +58,7 @@ public class GroupEntity {
         this.groupName = groupName;
         this.groupMembers = groupMembers;
         this.isPrivate = isPrivate;
+        this.memberCount = groupMembers.size();
     }
 
 
@@ -91,6 +97,16 @@ public class GroupEntity {
     public List<EventEntity> getEvents() {
         return events;
     }
+
+    public Integer getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Integer memberCount) {
+        this.memberCount = memberCount;
+    }
+
+
 
     public void setEvents(List<EventEntity> events) {
         this.events = events;

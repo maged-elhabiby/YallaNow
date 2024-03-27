@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.example.groups_microservice.Entity.GroupEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +21,8 @@ public interface GroupRepository extends JpaRepository<GroupEntity, Integer>{
     Optional<GroupEntity> findByGroupName(String groupName);
     Optional<GroupEntity> deleteGroupEntitiesByGroupID(Integer groupID);
     void deleteById(Integer groupID);
+
+    List<GroupEntity> findAllByGroupMembersUserID(Integer userID);
 }
 
 

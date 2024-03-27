@@ -22,4 +22,7 @@ public interface GroupMemberRepository extends JpaRepository<GroupMemberEntity, 
 
     List<GroupMemberEntity> findAllByGroupGroupID(Integer groupID);
 
+    //List<GroupMemberEntity> findAllByUserID(Integer userID);
+
+    List<GroupMemberEntity> findAllGroupByUserID(Integer userID);
 }

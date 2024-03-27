@@ -65,6 +65,7 @@ public class GroupService {
         for (GroupMemberDTO groupMemberDTO : groupDTO.getGroupMembers()) {
             LinkGroupMemberToGroup(groupEntity, groupMemberDTO);
         }
+        groupEntity.setMemberCount(groupEntity.getGroupMembers().size());
 
         //Link Event to the Group
         for (EventDTO eventDTO : groupDTO.getEvents()) {
@@ -88,6 +89,7 @@ public class GroupService {
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setUserName(groupMemberDTO.getUserName());
         groupEntity.getGroupMembers().add(groupMemberEntity);
+        groupEntity.setMemberCount(groupEntity.getGroupMembers().size());
 
     }
 
@@ -149,8 +151,11 @@ public class GroupService {
         groupEntity.setGroupName(groupDTO.getGroupName());
         groupEntity.setIsPrivate(groupDTO.getIsPrivate());
 
+
+
         // Update group members carefully
         groupMemberService.updateGroupMembers(groupEntity, groupDTO.getGroupMembers());
+        groupEntity.setMemberCount(groupDTO.getGroupMembers().size());
 
         // Update events carefully
         eventService.updateEvents(groupEntity, groupDTO.getEvents());
@@ -175,5 +180,9 @@ public class GroupService {
         groupRepository.delete(groupEntity);
 
 
+    }
+
+    public List<GroupEntity> getGroupsByUserID(Integer userID) {
+        return groupRepository.findAllByGroupMembersUserID(userID);
     }
 }

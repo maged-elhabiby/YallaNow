@@ -2,7 +2,9 @@ package org.example.groups_microservice.Controller;
 import org.example.groups_microservice.DTO.EventDTO;
 import org.example.groups_microservice.DTO.GroupDTO;
 import org.example.groups_microservice.DTO.GroupMemberDTO;
+import org.example.groups_microservice.DTO.UserRole;
 import org.example.groups_microservice.Entity.GroupEntity;
+import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Exceptions.EventNotFoundException;
 import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.example.groups_microservice.Service.GroupPubSub.*;
 
 
 @RestController
@@ -68,6 +71,7 @@ public class GroupsController {
                     return eventDTO;
                 })
                 .collect(Collectors.toList()));
+        dto.setMemberCount(groupEntity.getGroupMembers().size());
         return dto;
     }
 
@@ -80,6 +84,7 @@ public class GroupsController {
     @PostMapping
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO groupDTO) throws GroupAlreadyExistsException {
         GroupEntity groupEntity = groupService.createGroup(groupDTO);
+        publishGroupByMember(groupEntity, "UPDATE");
         return ResponseEntity.ok(convertToDto(groupEntity));
     }
 
@@ -104,6 +109,7 @@ public class GroupsController {
     @DeleteMapping("/{groupID}")
     public ResponseEntity<Void> deleteGroup(@PathVariable Integer groupID) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
         groupService.deleteGroup(groupID);
+        publishGroupID(groupID, "DELETE");
         return ResponseEntity.ok().build();
     }
 
@@ -116,8 +122,45 @@ public class GroupsController {
     @PutMapping("/{groupID}")
     public ResponseEntity<GroupDTO> updateGroup(@PathVariable Integer groupID, @RequestBody GroupDTO groupDTO) throws GroupNotFoundException {
         GroupEntity groupEntity = groupService.updateGroup(groupID, groupDTO);
+        publishGroupByMember(groupEntity, "UPDATE");
         return ResponseEntity.ok(convertToDto(groupEntity));
     }
+
+    /**
+     * get groups that a user is part of through userID without showing group members or events
+     */
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<List<GroupDTO>> getGroupsByUserID(@PathVariable Integer userID) {
+        List<GroupEntity> groups = groupService.getGroupsByUserID(userID);
+        List<GroupDTO> groupDTOS = groups.stream()
+                .map(this::convertToDtoWithNoMembersOrEvents)
+                .collect(Collectors.toList());
+        //get member count and role
+        for (GroupDTO groupDTO : groupDTOS) {
+            for (GroupEntity groupEntity : groups) {
+                for (GroupMemberEntity groupMemberEntity : groupEntity.getGroupMembers()) {
+                    if (groupMemberEntity.getUserID().equals(userID)) {
+                        groupDTO.setMemberCount(groupEntity.getGroupMembers().size());
+                    }
+                }
+            }
+        }
+
+        return ResponseEntity.ok(groupDTOS);
+
+    }
+    private GroupDTO convertToDtoWithNoMembersOrEvents(GroupEntity groupEntity) {
+        GroupDTO dto = new GroupDTO();
+        dto.setGroupID(groupEntity.getGroupID());
+        dto.setGroupName(groupEntity.getGroupName());
+        dto.setIsPrivate(groupEntity.getIsPrivate());
+
+
+        return dto;
+    }
+
+
+
 
 
 }

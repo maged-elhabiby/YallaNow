@@ -8,6 +8,7 @@ public class GroupDTO {
     private List<GroupMemberDTO> groupMembers;
     private List<EventDTO> events;
     private boolean isPrivate;
+    private Integer memberCount;
 
     public GroupDTO(int groupID, String groupName, List<GroupMemberDTO> groupMembers, List<EventDTO> events, boolean isPrivate) {
         this.groupID = groupID;
@@ -15,6 +16,8 @@ public class GroupDTO {
         this.groupMembers = groupMembers;
         this.events = events;
         this.isPrivate = isPrivate;
+        this.memberCount = groupMembers.size();
+
     }
 
     public GroupDTO() {
@@ -81,4 +84,11 @@ public class GroupDTO {
     }
 
 
+    public void setMemberCount(Integer memberCount) {
+        this.memberCount = memberCount;
+
+    }
+    public Integer getMemberCount() {
+        return memberCount;
+    }
 }
