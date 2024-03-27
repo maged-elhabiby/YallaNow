@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.ucalgary.events_microservice.Repository.EventRepository;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
 import org.ucalgary.events_microservice.DTO.EventStatus;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,12 +23,11 @@ import jakarta.transaction.Transactional;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final AddressService addressService;
+    private final GroupUsersService groupUsersService;
 
-
-    public EventService(EventRepository eventRepository, AddressService addressService) {
+    public EventService(EventRepository eventRepository, GroupUsersService groupUsersService) {
         this.eventRepository = eventRepository;
-        this.addressService = addressService;
+        this.groupUsersService = groupUsersService;
     }
 
     /**
@@ -37,8 +37,8 @@ public class EventService {
      * @throws IllegalStateException if the event is invalid.
      */
     @Transactional
-    public EventsEntity createEvent(EventDTO event, AddressEntity address) {
-        checkEvent(event); // Check if the event is valid
+    public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) {
+        checkEvent(event, userID); // Check if the event is valid
 
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
@@ -63,15 +63,15 @@ public class EventService {
      * @throws IllegalStateException if the event is invalid.
      */
     @Transactional
-    public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress) {
+    public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress, String userID) {
         EventsEntity oldEvent;
         try {
             oldEvent = getEvent(updatedEvent.getEventID()); // Check if the event exists
         } catch (EntityNotFoundException e) {
-            return createEvent(updatedEvent, new AddressEntity()); // If the event does not exist, create it
+            return createEvent(updatedEvent, new AddressEntity(), userID); // If the event does not exist, create it
         }
 
-        checkEvent(updatedEvent); // Check if the event is valid
+        checkEvent(updatedEvent, userID); // Check if the event is valid
 
         oldEvent.setGroupId(updatedEvent.getGroupID());
         oldEvent.setEventTitle(updatedEvent.getEventTitle());
@@ -145,7 +145,7 @@ public class EventService {
      * Checks if the event represented by the provided event DTO is valid.
      * @param event The event DTO to validate.
      */
-    public void checkEvent(EventDTO event) {
+    public void checkEvent(EventDTO event, String userID) {
         if (event.getEventEndTime().isBefore(LocalDateTime.now())) { // Check if the event is in the past
             throw new IllegalArgumentException("You can't make an event in the past");
         }
@@ -157,6 +157,13 @@ public class EventService {
         }
         if(event.getLocation() == null){
             throw new IllegalArgumentException("Missing Address");
+        }
+        
+        Optional<GroupUsersEntity> member = groupUsersService.getGroupUser(event.getGroupID(), userID);
+        if (!member.isPresent()) {
+            throw new IllegalArgumentException("You are not a member of this group");
+        } if(!member.get().getRole().equals("Admin")) {
+            throw new IllegalArgumentException("You do not have enough permissions");
         }
     }
 }

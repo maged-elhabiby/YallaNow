@@ -14,6 +14,7 @@ import org.ucalgary.events_microservice.Repository.AddressRepository;
 import org.ucalgary.events_microservice.Repository.EventRepository;
 import org.ucalgary.events_microservice.Service.AddressService;
 import org.ucalgary.events_microservice.Service.EventService;
+import org.ucalgary.events_microservice.Service.GroupUsersService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.*;
@@ -43,12 +44,15 @@ public class ServiceTest {
     private EventService eventService;
 
     @InjectMocks
+    private GroupUsersService groupUsersService;
+
+    @InjectMocks
     private AddressService addressService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        eventService = new EventService(eventRepository, addressService);
+        eventService = new EventService(eventRepository, groupUsersService);
     }
 
     @Nested
@@ -71,7 +75,7 @@ public class ServiceTest {
             when(eventRepository.save(any(EventsEntity.class))).thenReturn(mockEvent);
 
             // Test the createEvent method
-            EventsEntity createdEvent = eventService.createEvent(event, mockAddress);
+            EventsEntity createdEvent = eventService.createEvent(event, mockAddress, "1");
 
             // Assert that the createdAddress is not null
             assertNotNull(createdEvent);
@@ -86,7 +90,7 @@ public class ServiceTest {
             when(eventRepository.save(any(EventsEntity.class))).thenReturn(new EventsEntity());
 
             // Act and Assert
-            assertThrows(IllegalArgumentException.class, () -> eventService.createEvent(eventDTO, addressEntity));
+            assertThrows(IllegalArgumentException.class, () -> eventService.createEvent(eventDTO, addressEntity, "1"));
         }
     }
 
@@ -109,7 +113,7 @@ public class ServiceTest {
             when(eventRepository.findEventByEventId(updatedEventDTO.getEventID())).thenReturn(Optional.of(existingEvent));
 
             // Act
-            EventsEntity updatedEvent = eventService.updateEvent(updatedEventDTO, updatedAddressEntity);
+            EventsEntity updatedEvent = eventService.updateEvent(updatedEventDTO, updatedAddressEntity, "1");
 
             assertThat(updatedEvent).isNotNull();
             assertThat(updatedEvent).isEqualTo(existingEvent);
@@ -124,7 +128,7 @@ public class ServiceTest {
             when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.empty());
 
             // Act and Assert: Expect IllegalStateException to be thrown when trying to update a non-existing event
-            assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity()));
+            assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity(), "1"));
 
         }
 
@@ -139,7 +143,7 @@ public class ServiceTest {
         when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.of(existingEvent));
 
         // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity()));
+        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity(), "1"));
     }
 
     @Test
@@ -152,7 +156,7 @@ public class ServiceTest {
         when(addressService.updateAddress(validEventDTO)).thenThrow(IllegalStateException.class);
 
         // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity()));
+        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity(), "1"));
     }
 
     @Test
@@ -163,7 +167,7 @@ public class ServiceTest {
         when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.empty());
 
         // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity()));
+        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity(), "1"));
         verify(eventRepository, never()).save(any());
     }
 

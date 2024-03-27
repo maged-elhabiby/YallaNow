@@ -6,6 +6,7 @@ import org.ucalgary.events_microservice.DTO.ParticipantDTO;
 import org.ucalgary.events_microservice.Entity.ParticipantEntity;
 import org.ucalgary.events_microservice.Service.ParticipantService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,8 +43,8 @@ public class ParticipantController {
      * @param userId
      * @return Response Entity with the list of events for the participant
      */
-    @GetMapping("/GetAllUserEvents/{userId}")
-    public ResponseEntity<?> GetEventsForParticipant(@PathVariable int userId) {
+    @GetMapping("/GetAllUserEvents")
+    public ResponseEntity<?> GetEventsForParticipant(@RequestAttribute("Id") String userId) {
         List<Map<String, Object>> participants = participantService.getEventsForParticipant(userId);
         return ResponseEntity.ok(participants);
     }
@@ -55,12 +56,12 @@ public class ParticipantController {
      */
     @PostMapping("/GetAllEventParticipants")
     public ResponseEntity<?> getAllParticipantsForEvent(@RequestBody EventDTO event) {
-        List<Map<Integer, String>> participants = participantService.getAllParticipantsForEvent(event);
+        List<Map<String, String>> participants = participantService.getAllParticipantsForEvent(event);
         return ResponseEntity.ok(participants);
     }
 
-    @GetMapping("/GetParticipantStatus/{userId}/{eventId}")
-    public ResponseEntity<?> getParticipantStatus(@PathVariable int userId, @PathVariable int eventId) {
+    @GetMapping("/GetParticipantStatus/{eventId}")
+    public ResponseEntity<?> getParticipantStatus(@PathVariable int eventId, @RequestAttribute("Id") String userId) {
         String status = participantService.getParticipantStatus(userId, eventId).toString();
         return ResponseEntity.ok(status);
     }
@@ -82,8 +83,8 @@ public class ParticipantController {
      * @param eventId
      * @return Response Entity with a message that the participant has been removed from the event
      */
-    @DeleteMapping("/DeleteParticipant/{userId}/{eventId}")
-    public ResponseEntity<?> deleteParticipant(@PathVariable int userId, @PathVariable int eventId) {
+    @DeleteMapping("/DeleteParticipant/{eventId}")
+    public ResponseEntity<?> deleteParticipant(@PathVariable int eventId, @RequestAttribute("Id") String userId) {
         participantService.deleteParticipant(userId, eventId);
         return ResponseEntity.ok("User with ID " + userId + " has been removed from Event with ID " + eventId + " successfully.");
     }

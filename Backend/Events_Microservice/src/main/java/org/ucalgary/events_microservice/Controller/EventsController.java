@@ -36,11 +36,10 @@ public class EventsController {
     @PostMapping("/AddEvent")
     public ResponseEntity<?> addEvent(@RequestBody EventDTO event) {
         AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
-        EventsEntity events = eventService.createEvent(event, address); // createEvent(event);
+        EventsEntity events = eventService.createEvent(event, address, "1"); // createEvent(event);
         eventsPubService.publishEvents(events, "ADD");
         return ResponseEntity.ok(events);
     }
-    // , @RequestAttribute("Id") String email
 
     /**
      * Update an event
@@ -48,9 +47,9 @@ public class EventsController {
      * @return Response Entity with the object of the event updated
      */
     @PostMapping("/UpdateEvent")
-    public ResponseEntity<?> updateEvent(@RequestBody EventDTO event) {
+    public ResponseEntity<?> updateEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
         AddressEntity newAddress = addressService.updateAddress(event); // Update the Address in the DataBase
-        EventsEntity events = eventService.updateEvent(event, newAddress); // updateEvent(event);
+        EventsEntity events = eventService.updateEvent(event, newAddress, userId); // updateEvent(event);
         eventsPubService.publishEvents(events, "UPDATE");
         return ResponseEntity.ok(events);
     }
@@ -102,7 +101,7 @@ public class EventsController {
                 eventsPubService.publishEvents(events, "DELETE");
                 return ResponseEntity.ok("Event with ID " + eventId + " has been deleted successfully.");
             } else {
-                return ResponseEntity.badRequest().body("Event with ID " + eventId + " does not exist.");
+                return ResponseEntity.notFound().build();
             }
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();

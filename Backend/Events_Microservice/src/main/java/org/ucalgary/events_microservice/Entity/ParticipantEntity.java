@@ -27,7 +27,7 @@ public class ParticipantEntity {
     @Column(name = "participant_id")
     private Integer participantId;
     @Column(name = "user_id")
-    private Integer userId;
+    private String userId;
     @Enumerated(EnumType.STRING)
     @Column(name = "participant_status")
     private ParticipantStatus participantStatus;
@@ -41,7 +41,7 @@ public class ParticipantEntity {
     public ParticipantEntity() {
     }
 
-    public ParticipantEntity(Integer userId, ParticipantStatus participantStatus, EventsEntity event) {
+    public ParticipantEntity(String userId, ParticipantStatus participantStatus, EventsEntity event) {
         this.userId = userId;
         this.participantStatus = participantStatus;
         this.event = event;
@@ -49,12 +49,12 @@ public class ParticipantEntity {
 
     // Getters and setters
     public Integer getParticipantId() {return participantId;}
-    public Integer getUserId() {return userId;}
+    public String getUserId() {return userId;}
     public ParticipantStatus getParticipantStatus() {return participantStatus;}
     public EventsEntity getEvent() {return event;}
 
     public void setParticipantId(Integer participantId) {this.participantId = participantId;}
-    public void setUserId(Integer userId) {this.userId = userId;}
+    public void setUserId(String userId) {this.userId = userId;}
     public void setParticipantStatus(ParticipantStatus participantStatus) {this.participantStatus = participantStatus;}
     public void setEvent(EventsEntity event) {this.event = event;}
 }

@@ -1,31 +1,34 @@
 package org.ucalgary.events_microservice.Service;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.cloud.pubsub.v1.Subscriber;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.TopicName;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Publisher;
-import com.google.cloud.pubsub.v1.Subscriber;
-import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.google.pubsub.v1.PubsubMessage;
-
 import org.ucalgary.events_microservice.DTO.PubEvent;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
+import java.util.Map;
 import com.google.protobuf.ByteString;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
+
+import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 
 /**
  * Service class for publishing events to the Google Cloud Pub/Sub.
@@ -35,14 +38,14 @@ import java.util.Map;
 @Service
 public class EventsPubService {
     private Publisher publisher;
-    private Subscriber subscriber;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
-    private static ArrayList<Map<String, String>> userRoleMap = new ArrayList<>();
+    private final GroupUsersService groupUsersService;
 
-    public EventsPubService(ObjectMapper objectMapper, RestTemplate restTemplate) throws IOException {
+    public EventsPubService(ObjectMapper objectMapper, RestTemplate restTemplate, GroupUsersService groupUsersService) throws IOException {
         this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
+        this.groupUsersService = groupUsersService;
     }
 
     /**
@@ -87,16 +90,22 @@ public class EventsPubService {
             try {
                 JsonNode jsonNode = objectMapper.readTree(jsonData);
                 JsonNode groupMembers = jsonNode.get("groupMembers");
-                if (groupMembers.isArray()) {
-                    for (JsonNode member : groupMembers) {
-                        String userID = member.get("userID").asText();
-                        String role = member.get("role").asText();
-                        Map<String, String> userRoleEntry = new HashMap<>();
-                        userRoleEntry.put(userID, role);
-                        synchronized (userRoleMap) {
-                            userRoleMap.add(userRoleEntry);
-                        }
+                String operationType = message.getAttributesMap().get("operationType");
+
+                if (operationType.equals("CREATE")) {
+                    for (JsonNode groupMember : groupMembers) {
+                        groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
                     }
+                } else if (operationType.equals("DELETE")) {
+                    for (JsonNode groupMember : groupMembers) {
+                        groupUsersService.removeGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText());
+                    }
+                } else if (operationType.equals("UPDATE")) {
+                    for (JsonNode groupMember : groupMembers) {
+                        groupUsersService.updateGroupUserRole(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
+                    }
+                }else{
+                    throw new RuntimeException("Invalid Operation Type");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -106,7 +115,7 @@ public class EventsPubService {
 
         Subscriber subscriber = Subscriber.newBuilder(subscriptionName, receiver).build();
         subscriber.addListener(
-            new Subscriber.Listener() {
+                        new Subscriber.Listener() {
                 public void failed(Subscriber.State from, Throwable failure) {
                     System.err.println("Subscriber failed: " + failure);
                 }

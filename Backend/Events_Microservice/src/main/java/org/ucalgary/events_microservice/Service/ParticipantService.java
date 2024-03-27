@@ -25,15 +25,13 @@ public class ParticipantService {
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
     private final EventsPubService eventsPubService;
-    private final EventService eventService;
     private final MailSenderService mailSenderService;
 
     public ParticipantService(EventRepository eventRepository,ParticipantRepository participantRepository, 
-                                EventsPubService eventsPubService, EventService eventService, MailSenderService mailSenderService) {
+                                EventsPubService eventsPubService, MailSenderService mailSenderService) {
         this.eventRepository = eventRepository;
         this.participantRepository = participantRepository;
         this.eventsPubService = eventsPubService;
-        this.eventService = eventService;
         this.mailSenderService = mailSenderService;
     }
 
@@ -72,7 +70,7 @@ public class ParticipantService {
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public ParticipantStatus getParticipantStatus(int userId, int eventId) {
+    public ParticipantStatus getParticipantStatus(String userId, int eventId) {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userId, eventId);
         if (participant.isPresent()) {
             return participant.get().getParticipantStatus();
@@ -88,7 +86,7 @@ public class ParticipantService {
      * @return A list of events associated with the user and their statuses.
      */
     @Transactional
-    public List<Map<String, Object>> getEventsForParticipant(int userId) {
+    public List<Map<String, Object>> getEventsForParticipant(String userId) {
         List<ParticipantEntity> participantEntities = participantRepository.findAllByUserId(userId);
 
         return participantEntities.stream().map(participant -> { // Map the participant entities to a list of event and status data
@@ -115,7 +113,7 @@ public class ParticipantService {
      * @return A list of participants and their statuses associated with the event.
      */
     @Transactional
-    public List<Map<Integer, String>> getAllParticipantsForEvent(EventDTO event) {
+    public List<Map<String, String>> getAllParticipantsForEvent(EventDTO event) {
         ArrayList<ParticipantEntity> participants = getAllEventParticipants(event.getEventID());
         return participants.stream().map(participant -> Map.of(participant.getUserId(), participant.getParticipantStatus().toString())).collect(Collectors.toList());
     }
@@ -151,7 +149,7 @@ public class ParticipantService {
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public void deleteParticipant(int userID, int eventID) {
+    public void deleteParticipant(String userID, int eventID) {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userID, eventID);
 
         participant.ifPresentOrElse(

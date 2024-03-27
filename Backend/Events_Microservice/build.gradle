@@ -26,7 +26,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.cloud:spring-cloud-gcp-starter-pubsub:1.2.8.RELEASE'
+
+
+    implementation 'org.springframework.integration:spring-integration-core'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub:2.0.10'
+
+
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.h2database:h2'
@@ -36,6 +41,12 @@ dependencies {
     testImplementation 'org.jmock:jmock:2.12.0'
     testImplementation 'org.jmock:jmock-junit4:2.12.0'
 }
+
+//dependencyManagement {
+//    imports {
+//        mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
+//    }
+//}
 
 tasks.named('test') {
     outputs.dir snippetsDir
