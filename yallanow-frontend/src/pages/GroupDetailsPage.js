@@ -10,7 +10,11 @@ const GroupDetailsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [events, setEvents] = useState([]);
     const navigate = useNavigate(); // Add this line
-
+    
+    const handleManageGroup = () => {
+        navigate(`/manage-group/${groupId}`, { state: { groupData: groupDetails } });
+    };
+    
     useEffect(() => {
         // Simulate fetching group details based on groupId
         // In a real app, you'd fetch this data from a backend service
@@ -21,8 +25,8 @@ const GroupDetailsPage = () => {
                 groupName: "Astrophysics Enthusiasts",
                 isPrivate: true,
                 groupMembers: [
-                    { userID: 2, role: "ADMIN" },
-                    { userID: 3, role: "MEMBER" },
+                    { name:"Mike",userID: 2, role: "ADMIN" },
+                    { name:"Mike",userID: 3, role: "MEMBER" },
                 ],
                 events: [
                     { eventID: 101, eventName: "Black Hole Mysteries" },
@@ -34,7 +38,7 @@ const GroupDetailsPage = () => {
             }
         };
 
-        fetchGroupDetails();
+        fetchGroupDetails()
     }, [groupId]);
     
     useEffect(() => {
@@ -60,6 +64,12 @@ const GroupDetailsPage = () => {
                         <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition-colors">View Members</button>
                     )
                     */}
+                    <button
+                        onClick={handleManageGroup}
+                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                    >
+                        Manage Group
+                    </button>
                     <button
                             onClick={() => setIsModalOpen(true)}
                             className="mt-4 mr-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 transition-colors"
