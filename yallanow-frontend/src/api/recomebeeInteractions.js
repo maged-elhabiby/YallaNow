@@ -7,22 +7,18 @@ const recombeeInteractions = {
     // Convert to strings
     userId = String(userId);
     itemId = String(itemId);
-    recommId = String(recommId);
+    const opt = recommId == null ? {} : { recommId: String(recommId) };
 
-    client.send(new recombee.AddDetailView(userId, itemId, { 
-      recommId: recommId 
-    }));
+    client.send(new recombee.AddDetailView(userId, itemId, opt));
   },
 
   addPurchaseInteraction: (userId, itemId, recommId) => {
     // Convert to strings
     userId = String(userId);
     itemId = String(itemId);
-    recommId = String(recommId);
+    const opt = recommId == null ? {} : { recommId: String(recommId) };
 
-    client.send(new recombee.AddPurchase(userId, itemId, { recommId: 
-      recommId 
-    }));
+    client.send(new recombee.AddPurchase(userId, itemId, opt));
   },
 };
 

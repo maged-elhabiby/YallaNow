@@ -35,7 +35,9 @@ const EventDetailsPage = () => {
         setRsvpStatus(true);
         alert('Successfully RSVP\'d');
         // Send a purchase interaction to Recombee
+        
         recombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
+        
       } else {
         alert('Failed to RSVP');
       }
@@ -49,8 +51,10 @@ const EventDetailsPage = () => {
 
   // Send recombee detail view when this page is loaded.
   useEffect(() => {
-    console.log(`Sending detail view interaction for event ${event.eventId} with recommId ${recommId}`);
-    recombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
+    
+      console.log(`Sending detail view interaction for event ${event.eventId} with recommId ${recommId}`);
+      recombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
+    
   }, [event, recommId]);
 
   const formattedStartDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
