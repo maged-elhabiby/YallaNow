@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.yallanow.feedservice.models.RecommendationType.ItemsToUser;
 import static org.yallanow.feedservice.models.RecommendationType.SearchItems;
+import static org.yallanow.feedservice.utils.RecombeeUtil.convertToRecommendationResponse;
 
 @SpringBootTest
 class RecommendationServiceImplTest {
@@ -51,5 +52,4 @@ class RecommendationServiceImplTest {
         assertThrows(RecommendationException.class, () -> recommendationService.searchItems(request));
     }
 
-    // Add more test cases for other methods in RecommendationServiceImpl
 }
