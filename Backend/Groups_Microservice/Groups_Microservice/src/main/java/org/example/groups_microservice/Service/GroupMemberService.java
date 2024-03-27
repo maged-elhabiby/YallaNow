@@ -39,7 +39,7 @@ public class GroupMemberService {
         groupMemberEntity.setRole(groupMemberDTO.getRole());
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setUserName(groupMemberDTO.getUserName());
-        //groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
+        groupMemberEntity.setGroupMemberID(groupMemberDTO.getGroupMemberID());
         groupMemberEntity.setGroup(groupEntity);
         return groupMemberRepository.save(groupMemberEntity);
     }
