@@ -10,19 +10,20 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [initializing, setInitializing] = useState(true);
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       console.log("AuthProvider - User state changed:", user);
       setCurrentUser(user);
+      setInitializing(false);
     });
 
     return unsubscribe;
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
-      {children}
+    <AuthContext.Provider value={{ currentUser, initializing  }}>
+       {!initializing && children} 
     </AuthContext.Provider>
   );
 };

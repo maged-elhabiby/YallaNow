@@ -7,18 +7,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# @app.route('/auth', methods=['POST'])
-# def verify():
-#     data = request.get_json
-#     id_token = data['id_token']
-#     try:
-#         decoded_token = auth.verify_id_token(id_token)
-#         uid = decoded_token['uid']
-#         return jsonify({'uid': uid}), 200
-#     except:
-#         return jsonify({'error': 'Invalid token'}), 401
-
-
 
 @app.route('/auth', methods=['POST', 'GET', ' PUT', 'DELETE'])
 def verify():
@@ -34,12 +22,6 @@ def verify():
     except Exception as e:
         print(e)
         return jsonify(False), 401
-
-
-
-
-
-
 
 
 
