@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
@@ -13,18 +13,33 @@ function classNames(...classes) {
 
 
 const Navbar = () => {
-  
+
 
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const name = auth.currentUser.displayName
-  const email = auth.currentUser.email
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+
+  // You can use state to store the user's name and email
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const isSignedIn = localStorage.getItem('SignedIn');
+    if (isSignedIn === "false") {
+      window.location.href = '/signin';
+    } else {
+      // Update to set state instead of using a variable
+      setUserName(auth.currentUser?.displayName || "");
+      setUserEmail(auth.currentUser?.email || "");
+    }
+  }, []);
+
 
   const handleSignOut = async (event) => {
     event.preventDefault();
@@ -187,22 +202,22 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">{name}</div>
-                  <div className="text-sm font-medium text-gray-400">{email}</div>
+                  <div className="text-base font-medium text-white">{userName}</div>
+                  <div className="text-sm font-medium text-gray-400">{userEmail}</div>
                 </div>
               </div>
               <div className="mt-3 space-y-1 px-2">
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white" 
                 >
                   Your Profile
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white" onClick={handleSignOut}
                 >
                   Sign out
                 </Disclosure.Button>
