@@ -160,6 +160,7 @@ public class GroupService {
         groupMemberService.updateGroupMembers(groupEntity, groupDTO.getGroupMembers());
         groupEntity.setMemberCount(groupDTO.getGroupMembers().size());
 
+
         // Update events carefully
         eventService.updateEvents(groupEntity, groupDTO.getEvents());
 

@@ -53,7 +53,7 @@ public class GroupsController {
         dto.setGroupMembers(groupEntity.getGroupMembers().stream()
                 .map(groupMemberEntity -> {
                     GroupMemberDTO groupMemberDTO = new GroupMemberDTO();
-                    groupMemberDTO.setGroupMemberID(groupMemberEntity.getUserID());
+                    groupMemberDTO.setGroupMemberID(groupMemberEntity.getGroupMemberID()); // Corrected here
                     groupMemberDTO.setUserID(groupMemberEntity.getUserID());
                     groupMemberDTO.setUserName(groupMemberEntity.getUserName());
                     groupMemberDTO.setGroupID(groupMemberEntity.getGroup().getGroupID());
