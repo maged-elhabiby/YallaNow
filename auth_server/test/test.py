@@ -44,7 +44,7 @@ token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImViYzIwNzkzNTQ1NzExODNkNzFjZWJlZDI5YzU1YmV
 # Set the cookie in the request headers
 headers = {'authorization': token}
 
-url = 'http://localhost:5001/auth'
+url = 'http://localhost:5000/auth'
 response = requests.post(url, headers=headers)
 
 print(response.text)
