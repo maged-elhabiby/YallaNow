@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         try {
             Map<String, Object> userMap = userConverter.convertUserToRecombeeMap(user);
             recombeeClient.addUser(user.getUserId(), userMap);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new UserServiceException("Error adding user to Recombee: " + e.getMessage(), e);
         }
     }
