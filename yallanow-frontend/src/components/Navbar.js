@@ -25,7 +25,10 @@ const Navbar = () => {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
+  const handleProfile = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    navigate('/profile'); // Programmatically navigate to /profile
+  };
   // You can use state to store the user's name and email
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -44,6 +47,7 @@ const Navbar = () => {
     navigate('/signin');
   }
 
+  
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 w-full z-50">
       {({ open }) => (
@@ -207,6 +211,7 @@ const Navbar = () => {
                   as="a"
                   href="#"
                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white" 
+                  onClick={handleProfile}
                 >
                   Your Profile
                 </Disclosure.Button>
