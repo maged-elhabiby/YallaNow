@@ -7,9 +7,9 @@ const eventService = {
         eventData.imageId = imageData.id;
         const eventImageUrl = imageData.imageUrl;
 
-        const requestData = EventApi.formatEventForEventService(eventData);
+        const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.createEvent(requestData);
-        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
         formattedEvent.eventImageUrl = eventImageUrl;
 
         return formattedEvent;
@@ -25,9 +25,9 @@ const eventService = {
             eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
         }
 
-        const requestData = EventApi.formatEventForEventService(eventData);
+        const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.updateEvent(requestData);
-        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
         formattedEvent.eventImageUrl = eventImageUrl;
 
         return formattedEvent;
@@ -35,7 +35,7 @@ const eventService = {
 
     getEvent: async (eventId) => {
         const rawEvent = await eventServiceApi.getEvent(eventId);
-        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
         formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.imageId);
 
         return formattedEvent;
@@ -44,7 +44,7 @@ const eventService = {
     getEventsForGroup: async (groupId) => {
         const rawEvents = await eventServiceApi.getEventsForGroup(groupId);
         const eventsWithImages = await Promise.all(rawEvents.map(async (event) => {
-            const formattedEvent = EventApi.formatEventFromEventService(event);
+            const formattedEvent = eventServiceApi.formatEventFromEventService(event);
             formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
             return formattedEvent;
         }));
@@ -63,7 +63,7 @@ const eventService = {
     getUserRsvpdEvents: async (userId) => {
         const rawEvents = await eventServiceApi.getUserRsvpdEvents(userId);
         const eventsWithImages = await Promise.all(rawEvents.map(async (event) => {
-            const formattedEvent = EventApi.formatEventFromEventService(event);
+            const formattedEvent = eventServiceApi.formatEventFromEventService(event);
             formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
             return formattedEvent;
         }));
