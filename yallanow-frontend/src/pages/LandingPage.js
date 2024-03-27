@@ -43,23 +43,38 @@ const LandingPage = () => {
             </div>
             <div className="text-center">
               <h3 className="text-xl font-semibold mb-2">Finding Communities</h3>
-              <p className="text-gray-600"></p>
+              <p className="text-gray-600">Create or Join communities to connect with people who share your passions and hobbies.</p>
             </div>
             <div className="text-center">
               <h3 className="text-xl font-semibold mb-2">RSVP</h3>
-              <p className="text-gray-600"></p>
+              <p className="text-gray-600">RSVP to events with ease and view them from your event calendar to stay organized.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials section */}
-      <section className="bg-gray-100" style={{ backgroundImage: `url(${testimonialsBackgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundBlendMode: 'multiply', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+{/* Testimonials section */}
+    <section className="bg-gray-100" style={{ backgroundImage: `url(${testimonialsBackgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundBlendMode: 'multiply', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-white">
           <h2 className="text-3xl font-bold text-center">What Our Users Say</h2>
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Add testimonials here */}
-          </div>
+            {/* Testimonial 1 */}
+            <div className="bg-white rounded shadow py-6 px-8 text-gray-600">
+              <p className="italic">"Yalla Now has been a game-changer for finding interesting events in my city. I've met so many new friends!"</p>
+              <div className="mt-4">
+                <p className="font-semibold">Amira K.</p>
+                <p className="text-sm">Event Attendee</p>
+              </div>
+            </div>
+            {/* Testimonial 2 */}
+            <div className="bg-white rounded shadow py-6 px-8 text-gray-600">
+              <p className="italic">"Organizing my cooking workshops has never been easier. Yalla Now's tools are incredibly user-friendly."</p>
+              <div className="mt-4">
+                <p className="font-semibold">Liam J.</p>
+                <p className="text-sm">Event Organizer</p>
+              </div>
+              </div>
+        </div>
         </div>
       </section>
 
