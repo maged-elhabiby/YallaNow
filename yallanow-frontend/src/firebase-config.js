@@ -1,8 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken, signOut, sendPasswordResetEmail, onAuthStateChanged, revokeAccessToken, updateProfile} from "firebase/auth";
-import{getDatabase, ref, set} from "firebase/database";
+import {
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  getIdToken, 
+  signOut, 
+  sendPasswordResetEmail, 
+  onAuthStateChanged, 
+  revokeAccessToken, 
+  updateProfile, GoogleAuthProvider, signInWithPopup , 
+  setPersistence, 
+  browserLocalPersistence
+} from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
 
 
 
@@ -23,7 +36,44 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 const database = getDatabase();
+const provider = new GoogleAuthProvider();
 var currentuser = null;
+
+
+const googleSignIn = async () => {
+  console.log("we are in google sign in");
+  const response = await signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(user);
+    const idToken =  getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    return false;
+
+    // ...
+  });
+
+  if (response === false) {
+    return false;
+  }
+
+  console.log("we are exiting google sign in");
+  return true;
+}
+
+
+
 
 
 
@@ -45,78 +95,43 @@ const Register = async (signup) => {
   console.log("we are in register");
   const { email, password, name } = signup;
 
-    const response = await createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(userCredential);
 
-
-      
-      // Signed in 
-
-      console.log(userCredential);
-
-      var user = userCredential.user;
-      await updateProfile(user, {
-        displayName: name
-
-      });
-  
-      const idToken =  await getIdToken(user);
-      localStorage.setItem("idToken", idToken);
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return false;
-
-      // ..
-    });
-    if (response === false) {
-      return false;
-    }
-
-
-    
-
-
-    
-
-
-
-    console.log("we are exiting register")
+    var user = userCredential.user;
+    await updateProfile(user, { displayName: name });
+    const idToken = await getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    console.log("Registration successful");
     return true;
-}
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return false;
+  }
+};
 
 
 const Login = async (login) => {
-
   console.log("we are in login");
   const { email, password } = login;
-  console.log(email + " +" + password);
-  const response = await signInWithEmailAndPassword(auth, email, password)
-  .then(async (userCredential) => {
 
-    console.log(userCredential)
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("Signed in:", userCredential);
+
     const user = userCredential.user;
-    const idToken =  await getIdToken(user);
+    const idToken = await getIdToken(user);
     localStorage.setItem("idToken", idToken);
-
-  }
-
-).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    return false;
-  });
-
-  console.log(response);
-  if (response === false) {
+    console.log("Login successful");
+    return true;
+  } catch (error) {
+    console.error("Error during login:", error);
     return false;
   }
-
-  console.log("we are exiting login");
-  return true;
-}
+};
 
 
 const logoutfirebase = async () => {
@@ -148,6 +163,6 @@ const resetPassword = async (email) => {
 
 
 
-export {Register, Login, logoutfirebase, resetPassword, auth};
+export {Register, Login, logoutfirebase, resetPassword, auth, googleSignIn};
 // export const googleProvider = new GoogleAuthProvider();
 
