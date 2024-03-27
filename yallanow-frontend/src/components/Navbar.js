@@ -1,10 +1,11 @@
 import React from 'react';
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { logoutfirebase } from '../firebase-config';
+import { logoutfirebase, auth } from '../firebase-config';
+import { useAuth } from '../AuthContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -14,6 +15,7 @@ function classNames(...classes) {
 
 const Navbar = () => {
 
+  const { currentUser } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
@@ -23,6 +25,20 @@ const Navbar = () => {
       navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
+  const handleProfile = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    navigate('/profile'); // Programmatically navigate to /profile
+  };
+  // You can use state to store the user's name and email
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/signin');
+    }
+  }, [currentUser, navigate]);
+
 
   const handleSignOut = async (event) => {
     event.preventDefault();
@@ -31,6 +47,7 @@ const Navbar = () => {
     navigate('/signin');
   }
 
+  
   return (
     <Disclosure as="nav" className="bg-gray-800 fixed top-0 w-full z-50">
       {({ open }) => (
@@ -185,22 +202,23 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-white">Tom Cook</div>
-                  <div className="text-sm font-medium text-gray-400">tom@example.com</div>
+                  <div className="text-base font-medium text-white">{currentUser?.displayName}</div>
+                  <div className="text-sm font-medium text-gray-400">{currentUser?.email}</div>
                 </div>
               </div>
               <div className="mt-3 space-y-1 px-2">
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white" 
+                  onClick={handleProfile}
                 >
                   Your Profile
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
                   href="#"
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-pink-600 hover:text-white" onClick={handleSignOut}
                 >
                   Sign out
                 </Disclosure.Button>
