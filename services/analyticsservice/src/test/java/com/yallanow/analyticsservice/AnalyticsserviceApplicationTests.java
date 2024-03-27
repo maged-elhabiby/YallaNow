@@ -10,4 +10,10 @@ class AnalyticsserviceApplicationTests {
 	void contextLoads() {
 	}
 
+	//unit tests for Item Service
+
+
+
+	//unit tests for User Service
+
 }
