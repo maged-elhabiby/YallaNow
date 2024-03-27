@@ -49,13 +49,13 @@ public class MyInterceptor implements HandlerInterceptor {
                 request.setAttribute("Name", name);
                 return true;
             } else {
-                response.setStatus(403);
+                response.setStatus(401);
 
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(403);
+            response.setStatus(401);
             return false;
         }
     }
