@@ -1,8 +1,6 @@
 package com.yallanow.analyticsservice.messagehandlers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
 import com.yallanow.analyticsservice.exceptions.UserServiceException;

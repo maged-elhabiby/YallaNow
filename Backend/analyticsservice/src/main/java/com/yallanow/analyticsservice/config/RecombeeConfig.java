@@ -1,8 +1,8 @@
 package com.yallanow.analyticsservice.config;
 
+import com.recombee.api_client.util.Region;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import com.recombee.api_client.util.Region;
 
 @Configuration
 @ConfigurationProperties(prefix = "recombee")

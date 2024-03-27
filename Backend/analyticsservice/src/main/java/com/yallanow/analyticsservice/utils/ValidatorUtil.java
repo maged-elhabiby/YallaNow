@@ -1,6 +1,7 @@
 package com.yallanow.analyticsservice.utils;
 
 import com.yallanow.analyticsservice.exceptions.ValidationException;
+
 import java.io.IOException;
 import java.util.Map;
 

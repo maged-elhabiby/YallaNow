@@ -1,7 +1,6 @@
 package com.yallanow.analyticsservice.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Item {
     private String itemId;
@@ -14,15 +13,6 @@ public class Item {
     private int attendeeCount;
     private int capacity;
     private String status;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     private String imageUrl;
 
     public Item(String itemId, String groupId, String title, String description, LocalDateTime startTime,
@@ -38,6 +28,14 @@ public class Item {
         this.attendeeCount = attendeeCount;
         this.capacity = capacity;
         this.status = status;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
