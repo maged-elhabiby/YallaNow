@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
 import feedService from '../api/feedService';
+import {  auth } from '../firebase-config';
 
 const ExplorePage = () => {
+  console.log("Rendering ExplorePage");
+
   const userId = 10000;
   const initialiEventsCount = 20
   const [events, setEvents] = useState([]);
   const [homepageRecommId, setHomepageRecommId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-    const isSignedIn = localStorage.getItem('SignedIn');
-    if (isSignedIn === "false") {
-      window.location.href = '/signin';
-    }
+
+  useEffect(() => {
+    console.log("Current user: ", auth.currentUser);
   }, []);
-
-
-
   const fetchHomepageEvents = async () => {
     setLoading(true);
     try {

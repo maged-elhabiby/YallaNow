@@ -1,7 +1,6 @@
-/*// src/context/AuthContext.js
+// AuthContext.js
 import React, { useContext, createContext, useEffect, useState } from 'react';
-import { auth } from './firebase-config';
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from './firebase-config'; 
 
 const AuthContext = createContext();
 
@@ -9,26 +8,21 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-
-  function signInWithGoogle() {
-    return signInWithPopup(auth, googleProvider);
-  }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
+      console.log("AuthProvider - User state changed:", user);
       setCurrentUser(user);
     });
 
     return unsubscribe;
   }, []);
 
-  const value = {
-    currentUser,
-    signInWithGoogle
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-*/
+  return (
+    <AuthContext.Provider value={{ currentUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
