@@ -17,6 +17,7 @@ import ManageGroupPage from './pages/ManageGroupPage';
 import ProfilePage from './pages/ProfilePage';
 import MyGroupsPage from './pages/MyGroupsPage';
 import LandingPage from './pages/LandingPage';
+import NotFoundPage from './pages//NotFoundPage';
 
 const App = () => {
   const location = useLocation();
@@ -47,6 +48,8 @@ const App = () => {
           <Route path="/manage-group/:groupId" element={<ProtectedRoute><ManageGroupPage/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
           <Route path="/mygroups" element={<ProtectedRoute><MyGroupsPage/></ProtectedRoute>}/>
+          {/* Catch-all route for 404 Page Not Found */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     
