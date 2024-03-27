@@ -4,6 +4,53 @@ const baseUrl = 'http://localhost:8080/microservice/events/';
 
 const eventService = {
 
+    // Image needs image service to fetch image url.
+
+    formatEventForRequest: (data) => {
+        return {
+            eventID: data.eventId,
+            groupID: data.groupId,
+            imageID: data.imageId,
+
+            eventTitle: data.eventTitle,
+            eventDescription: data.eventDescription,
+            location: {
+                street: data.eventLocaitonStreet,
+                city: data.eventLocationCity,
+                province: data.eventLocaitonProvince,
+                country: data.eventLocaitonCountry
+            },
+            eventStartTime: data.eventStartTime,
+            eventEndTime: data.eventEndTime,
+            status: data.eventStatus,
+            capacity: data.eventCapacity,
+            count: data.eventAttendeeCount,
+            
+        }
+
+    },
+
+    formatEventForApp: (data) => {
+        return {
+            eventId: data.eventId,
+            eventAttendeeCount: data.count,
+            eventCapacity: data.capacity,
+            eventDescription: data.eventDescription,
+            eventEndTime: data.eventEndTime,
+            eventImageId: data.imageId,
+            eventLocationCity: data.address.street,
+            eventLocationCountry: data.address.city,
+            eventLocationProvince: data.address.province,
+            eventLocationStreet: data.address.street,
+            eventStartTime: data.eventStartTime,
+            eventStatus: data.status,
+            eventTitle: data.eventTitle,
+            groupId: data.groupId
+        }
+    },
+
+
+
     addEvent: async (eventRequest) => {
         try {
             const response = await axios.post(baseUrl + 'AddEvent', eventRequest, {
@@ -11,11 +58,7 @@ const eventService = {
                     'Content-Type': 'application/json',
                 },
             });
-            if (response.status === 200) {
-                return response.data || [];
-            } else {
-
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
@@ -29,67 +72,54 @@ const eventService = {
                     'Content-Type': 'application/json',
                 },
             });
-            if (response.status === 200) {
-                return response.data || [];
-            } else {
-
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
         }
     },
 
-    getEventById: async (eventId) => {
+    getEvent: async (eventId) => {
         try {
             const response = await axios.get(baseUrl + 'GetEvent/' + eventId);
-            if (response.status === 200) {
-                return response.data || {};
-            } else {
-
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
         }
     },
 
-    getEventsForGroup: async (groupId) => {
+    getGroupEvent: async (groupId) => {
         try {
             const response = await axios.get(baseUrl + 'GetGroupEvent/' + groupId);
-            if (response.status === 200) {
-                return response.data || [];
-            } else {
-
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
         }
     },
 
-    deleteEventById: async (eventId) => {
+    deleteEvent: async (eventId) => {
         try {
             const response = await axios.delete(baseUrl + 'DeleteEvent/' + eventId);
-            if (response.status === 200) {
-                return true;
-            } else {
-                return false;
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
         }
     },
 
-    getRsvpdUsersForEvent: async (eventId) => {
+
+
+    rsvpUserToEvent: async (userId, eventId) => {
+
+    },
+
+
+    getEventUsers: async (eventId) => {
         try {
             const response = await axios.get(baseUrl + 'GetAllEventParticipants/' + eventId);
-            if (response.status === 200) {
-                return response.data || [];
-            } else {
-
-            }
+            return response.data;
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
@@ -97,15 +127,11 @@ const eventService = {
     },
     
 
-    getRsvpdEvents: async (userId) => {
+    getUserRsvpdEvents: async (userId) => {
         try {
             const response = await axios.get(baseUrl + 'GetAllUserEvents/' + userId);
-            if (response.status === 200) {
-                return response.data || [];
-            } else {
+            return response.data.map(event=>eventService.formatEventForApp(event)) || []
 
-            }
-            
         } catch (error) {
             console.error('Error fetching events:', error);
             throw error;
@@ -113,7 +139,7 @@ const eventService = {
     },
 
     // remove partitcipant status from event
-    unRsvpUserFromEvent: async (userId, eventId) => {
+    removeRsvpStatusFromEvent: async (userId, eventId) => {
         try {
             const response = await axios.delete(baseUrl + 'DeleteParticipant/' + userId + '/' + eventId);
             if (response.status === 200) {
@@ -134,7 +160,7 @@ const eventService = {
     
     // get participant status from event
 
-    isUserRsvpdToEvent: async (userId, eventId) => {
+    getUserRsvpStatusForEvent: async (userId, eventId) => {
         try {
             const response = await axios.get(baseUrl + 'GetParticipantStatus/' + userId + '/' + eventId);
             if (response.status === 200) {
@@ -153,7 +179,7 @@ const eventService = {
     },
 
     // Add participant to event
-    rsvpUserToEvent: async (userId, eventId) => {
+    addRsvpStatusToEvent: async (userId, eventId) => {
         const request = {
             userId: userId,
             eventId: eventId,
