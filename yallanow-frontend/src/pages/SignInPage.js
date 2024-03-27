@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, logoutfirebase } from '../firebase-config';
+import { Login, logoutfirebase, googleSignIn } from '../firebase-config';
 import ForgotPassword from './ForgotPassword';
 
 
@@ -48,23 +48,20 @@ const SignInPage = () => {
   const handleForgotPassword = () => {
     navigate('/forgotpassword');
   };
+
+  const handleGoogleSignIn = async () => {
+    if (await googleSignIn() === true) {
+      console.log("Login successful");
+      navigate('/');
+    } else {
+      console.log("Login failed");
+    
+    }
+  };
+  
   
 
-  const handleGoogleSignIn = () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider(); // Create Google provider object
 
-    signInWithPopup(auth, provider) // Sign in with Google using popup
-      .then((result) => {
-        // Handle successful sign-in here
-        console.log('Google Sign-In successful');
-        console.log('User info:', result.user);
-      })
-      .catch((error) => {
-        // Handle errors here
-        console.error('Google Sign-In failed:', error);
-      });
-  };
     // Handler for form submission
     const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent default form submission
