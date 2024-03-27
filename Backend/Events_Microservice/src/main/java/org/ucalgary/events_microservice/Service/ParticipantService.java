@@ -37,12 +37,12 @@ public class ParticipantService {
 
     /**
      * Adds a participant to an event.
-     * @param user The participant DTO containing participant information.
-     * @return The newly created participant entity.
-     * @throws IllegalStateException if the event has reached its capacity or if the participant already exists.
+     * @param user The participant DTO containing user and event information.
+     * @return The participant entity added to the event.
+     * @throws IllegalArgumentException if the participant already exists.
      */
     @Transactional
-    public ParticipantEntity addParticipantToEvent(ParticipantDTO user) {
+    public ParticipantEntity addParticipantToEvent(ParticipantDTO user)throws IllegalArgumentException {
         Optional<ParticipantEntity> checkDup = participantRepository.findByUserIdAndEvent_EventId(user.getUserid(), user.getEventid());
         if (checkDup.isPresent()) {
             return updateParticipant(user);
@@ -70,20 +70,19 @@ public class ParticipantService {
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public ParticipantStatus getParticipantStatus(String userId, int eventId) {
+    public ParticipantStatus getParticipantStatus(String userId, int eventId) throws EntityNotFoundException{
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userId, eventId);
         if (participant.isPresent()) {
             return participant.get().getParticipantStatus();
         } else {
-            throw new EntityNotFoundException("Participant with ID" + userId + 
-                                "did not sign up for Event with ID " + eventId);
+            throw new EntityNotFoundException("Participant not found");
         }
     }
 
     /**
-     * Retrieves events associated with a user.
+     * Retrieves all events for a participant.
      * @param userId The ID of the user to retrieve events for.
-     * @return A list of events associated with the user and their statuses.
+     * @return A list of event and status data for the participant.
      */
     @Transactional
     public List<Map<String, Object>> getEventsForParticipant(String userId) {
@@ -99,7 +98,7 @@ public class ParticipantService {
     /**
      * Retrieves all participants for an event.
      * @param eventID The ID of the event to retrieve participants for.
-     * @return A list of participant entities associated with the event.
+     * @return A list of participants associated with the event.
      */
     @Transactional
     public ArrayList<ParticipantEntity> getAllEventParticipants(int eventID) {
@@ -108,9 +107,9 @@ public class ParticipantService {
     }
 
     /**
-     * Retrieves all participants and their statuses for an event.
-     * @param event The event DTO containing event information.
-     * @return A list of participants and their statuses associated with the event.
+     * Retrieves all participants for an event.
+     * @param event The event DTO to retrieve participants for.
+     * @return A list of participants associated with the event.
      */
     @Transactional
     public List<Map<String, String>> getAllParticipantsForEvent(EventDTO event) {
@@ -120,11 +119,12 @@ public class ParticipantService {
 
     /**
      * Updates the status of a participant for an event.
-     * @param oldParticipant The participant DTO containing the old participant information.
+     * @param oldParticipant The participant DTO containing the updated status.
      * @return The updated participant entity.
+     * @throws IllegalArgumentException if the participant does not exist.
      */
     @Transactional
-    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant) {
+    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant)throws IllegalArgumentException {
         Optional<ParticipantEntity> optionalParticipant = participantRepository.findByUserIdAndEvent_EventId(
                 oldParticipant.getUserid(),
                 oldParticipant.getEventid()
@@ -144,19 +144,17 @@ public class ParticipantService {
 
     /**
      * Deletes a participant from an event.
-     * @param userID The ID of the user to delete as a participant.
-     * @param eventID The ID of the event from which to delete the participant.
+     * @param userID The ID of the user to delete the participant for.
+     * @param eventID The ID of the event to delete the participant from.
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public void deleteParticipant(String userID, int eventID) {
+    public void deleteParticipant(String userID, int eventID)throws EntityNotFoundException {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userID, eventID);
 
         participant.ifPresentOrElse(
                 p -> participantRepository.deleteById(p.getParticipantId()),
-                () -> {
-                    throw new EntityNotFoundException("Participant with user ID " + userID + " and event ID " + eventID + " does not exist");
-                }
+                () -> {throw new EntityNotFoundException("Event Particiapant not found");}
         );
     }
 
@@ -166,7 +164,7 @@ public class ParticipantService {
      * @param newStatus The new status of the participant.
      * @throws IllegalStateException if the event has reached its capacity.
      */
-    private void updateEventCount(EventsEntity event, ParticipantStatus newStatus){
+    private void updateEventCount(EventsEntity event, ParticipantStatus newStatus)throws IllegalArgumentException{
         if(newStatus != ParticipantStatus.NotAttending){
             event.setCount(event.getCount() + 1);
             // Check if the event has reached its capacity
@@ -188,7 +186,7 @@ public class ParticipantService {
      * @param newStatus The new status of the participant.
      * @throws IllegalStateException if the event has reached its capacity.
      */
-    private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus) {
+    private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus) throws IllegalArgumentException {
         if (newStatus != oldStatus) { // If the status has changed
 
             // If the new status is not attending and the old status is attending or maybe then decrease count

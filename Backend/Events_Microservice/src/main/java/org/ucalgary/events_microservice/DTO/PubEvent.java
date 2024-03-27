@@ -72,7 +72,11 @@ public class PubEvent {
     public final int getCapacity() {return capacity;}
     public final String getImageUrl() {return imageUrl;}
     
-    
+    /**
+     * Extracts the image link from the response string.
+     * @param responseString
+     * @return
+     */
     private String extractImageLink(String responseString) {
         // Find the index of "imageLink" in the response string
         int startIndex = responseString.indexOf("\"imageLink\":\"");
@@ -90,7 +94,12 @@ public class PubEvent {
         return responseString.substring(startIndex, endIndex);
     }
 
-    private void ValidateInput(EventsEntity event){
+    /**
+     * Validates the input for the event.
+     * @param event
+     * @throws IllegalArgumentException
+     */
+    private void ValidateInput(EventsEntity event) throws IllegalArgumentException{
         if(event.getEventId() == null || event.getGroupId() == null){
             throw new IllegalArgumentException("Event ID and Group ID cannot be null");
         }else if (event.getEventTitle() == null || event.getEventTitle().isEmpty()){

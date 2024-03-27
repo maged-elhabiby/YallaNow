@@ -81,16 +81,25 @@ public class EventDTO {
     public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
     public void setImageID(final int imageID) {this.imageID = imageID;}
-
+    
+    /**
+     * Validates the input for the event.
+     * @param start
+     * @param end
+     * @param count
+     * @param capacity
+     * @param locationId
+     * @param groupId
+     */
     private void validateConstructor(LocalDateTime start, LocalDateTime end, int count, int capacity, Integer locationId, Integer groupId){
         if(start.isAfter(end)){
             throw new IllegalArgumentException("Event start time cannot be after event end time");
         } if(count > capacity){
             throw new IllegalArgumentException("Count cannot be greater than capacity");
-        } if(locationId == null){
-            throw new IllegalArgumentException("You must include a location");
-        } if(groupId == null){
+        }if(groupId == null){
             throw new IllegalArgumentException("Event must be part of a group");
+        }if(location == null){
+            throw new IllegalArgumentException("You must have an address");
         }
     }
 }

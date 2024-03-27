@@ -53,6 +53,14 @@ public class AddressDTO {
         return String.format("%s %s, %s, %s", street, city, province, country);
     }
 
+    /**
+     * Validates the input for the address.
+     * @param street
+     * @param city
+     * @param province
+     * @param postalCode
+     * @param country
+     */
     private void validateInput(String street, String city, String province, String postalCode, String country){
         if (street == null || street.isEmpty()) {
             throw new IllegalArgumentException("Street cannot be null or empty");

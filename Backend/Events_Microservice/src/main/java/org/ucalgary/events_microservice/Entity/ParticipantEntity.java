@@ -42,6 +42,7 @@ public class ParticipantEntity {
     }
 
     public ParticipantEntity(String userId, ParticipantStatus participantStatus, EventsEntity event) {
+        ValidateInput(event, userId, participantStatus);
         this.userId = userId;
         this.participantStatus = participantStatus;
         this.event = event;
@@ -57,4 +58,21 @@ public class ParticipantEntity {
     public void setUserId(String userId) {this.userId = userId;}
     public void setParticipantStatus(ParticipantStatus participantStatus) {this.participantStatus = participantStatus;}
     public void setEvent(EventsEntity event) {this.event = event;}
+
+    /**
+     * Validate the input
+     * @param event
+     * @param userId
+     * @param participantStatus
+     * @throws IllegalArgumentException
+     */
+    private void ValidateInput(EventsEntity event, String userId, ParticipantStatus participantStatus) throws IllegalArgumentException{
+        if (event == null) {
+            throw new IllegalArgumentException("Event cannot be null");
+        } else if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        } else if (participantStatus == null) {
+            throw new IllegalArgumentException("Participant Status cannot be null");
+        }
+    }
 }

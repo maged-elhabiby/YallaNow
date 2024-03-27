@@ -9,12 +9,18 @@ public class ImageDTO {
     private String imageLink;
 
     // constructors
-    public ImageDTO(int imageId, String imageLink) {
+    public ImageDTO(int imageId, String imageLink)throws IllegalArgumentException {
+        if(imageLink == null || imageLink.isEmpty()) {
+            throw new IllegalArgumentException("Image link cannot be null or empty");
+        }
         this.imageId = imageId;
         this.imageLink = imageLink;
     }
 
-    public ImageDTO(String imageLink) {
+    public ImageDTO(String imageLink)throws IllegalArgumentException {
+        if(imageLink == null || imageLink.isEmpty()) {
+            throw new IllegalArgumentException("Image link cannot be null or empty");
+        }
         this.imageLink = imageLink;
     }
 

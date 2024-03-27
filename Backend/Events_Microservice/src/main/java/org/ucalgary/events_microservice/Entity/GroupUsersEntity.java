@@ -28,6 +28,7 @@ public class GroupUsersEntity {
     public GroupUsersEntity() {}
 
     public GroupUsersEntity(Integer groupId, String userId, String role) {
+        ValidateInput(groupId, userId, role);
         this.groupId = groupId;
         this.userId = userId;
         this.role = role;
@@ -41,4 +42,17 @@ public class GroupUsersEntity {
     public void setGroupId(Integer groupId) {this.groupId = groupId;}
     public void setUserId(String userId) {this.userId = userId;}
     public void setRole(String role) {this.role = role;}
+
+    /**
+     * Validate the input
+     * @param groupId
+     * @param userId
+     * @param role
+     * @throws IllegalArgumentException
+     */
+    private void ValidateInput(Integer groupId, String userId, String role)throws IllegalArgumentException {
+        if (groupId == null || userId == null || role == null) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+    }
 }

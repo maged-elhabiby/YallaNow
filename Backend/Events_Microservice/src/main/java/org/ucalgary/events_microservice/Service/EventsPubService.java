@@ -14,21 +14,17 @@ import org.ucalgary.events_microservice.DTO.PubEvent;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-
-import java.util.Map;
 import com.google.protobuf.ByteString;
 import java.util.concurrent.TimeUnit;
 import java.io.IOException;
 
-import com.google.cloud.spring.pubsub.support.GcpPubSubHeaders;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
 
-import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * Service class for publishing events to the Google Cloud Pub/Sub.
@@ -38,6 +34,8 @@ import com.google.cloud.spring.pubsub.support.BasicAcknowledgeablePubsubMessage;
 @Service
 public class EventsPubService {
     private Publisher publisher;
+
+    private Subscriber subscriber;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
     private final GroupUsersService groupUsersService;
@@ -52,7 +50,7 @@ public class EventsPubService {
      * Initializes the Google Cloud Pub/Sub publisher.
      * @param projectId The project ID of the Google Cloud project.
      * @param topicId The topic ID of the Google Cloud Pub/Sub topic.
-     * @throws IOException if an error occurs while initializing the publisher.
+     * @throws IOException if the publisher cannot be initialized.
      */
     public void initializePubSub(String projectId, String topicId) throws IOException {
         TopicName topicName = TopicName.of(projectId, topicId);
@@ -60,17 +58,16 @@ public class EventsPubService {
     }
 
     /**
-     * Publishes a list of events to the Google Cloud Pub/Sub.
-     * @param event An Event that is to be published
+     * Publishes an event to the Google Cloud Pub/Sub.
+     * @param event The event entity to publish.
+     * @param Operation The operation type to publish.
      */
     public void publishEvents(EventsEntity event, String Operation) {
         try {
             PubEvent publishEvent = new PubEvent(event, restTemplate);
             String jsonMessage = objectMapper.writeValueAsString(publishEvent);
             ByteString data = ByteString.copyFromUtf8(jsonMessage);
-            PubsubMessage pubsubMessage = null;
-
-            pubsubMessage = PubsubMessage.newBuilder()
+            PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(data)
                     .putAttributes("operationType",Operation)
                     .build();
@@ -81,6 +78,11 @@ public class EventsPubService {
         }
     }
 
+    /**
+     * Subscribes to the Google Cloud Pub/Sub topic for group updates.
+     * @throws IOException if the subscriber cannot be initialized.
+     */
+    @PostConstruct
     public void subscribeGroups() throws IOException {
         ProjectSubscriptionName subscriptionName =
                 ProjectSubscriptionName.of("yallanow-413400", "group-sub");
@@ -88,34 +90,32 @@ public class EventsPubService {
         MessageReceiver receiver = (PubsubMessage message, AckReplyConsumer consumer) -> {
             String jsonData = message.getData().toStringUtf8();
             try {
-                JsonNode jsonNode = objectMapper.readTree(jsonData);
-                JsonNode groupMembers = jsonNode.get("groupMembers");
+                JsonNode groupMember = objectMapper.readTree(jsonData);
                 String operationType = message.getAttributesMap().get("operationType");
 
-                if (operationType.equals("CREATE")) {
-                    for (JsonNode groupMember : groupMembers) {
-                        groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
-                    }
-                } else if (operationType.equals("DELETE")) {
-                    for (JsonNode groupMember : groupMembers) {
+                switch (operationType) {
+                    case "ADD":{
+                        GroupUsersEntity member = groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
+                        break;
+                    }case "DELETE":{
                         groupUsersService.removeGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText());
-                    }
-                } else if (operationType.equals("UPDATE")) {
-                    for (JsonNode groupMember : groupMembers) {
+                        break;
+                    }case "UPDATE":{
                         groupUsersService.updateGroupUserRole(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
+                        break;
+                    }default:{
+                        throw new RuntimeException("Invalid Operation Type");
                     }
-                }else{
-                    throw new RuntimeException("Invalid Operation Type");
                 }
-            } catch (IOException e) {
+            }catch (IOException e) {
                 e.printStackTrace();
+            }finally {
+                consumer.ack();
             }
-            consumer.ack();
         };
 
-        Subscriber subscriber = Subscriber.newBuilder(subscriptionName, receiver).build();
-        subscriber.addListener(
-                        new Subscriber.Listener() {
+        subscriber = Subscriber.newBuilder(subscriptionName, receiver).build();
+        subscriber.addListener( new Subscriber.Listener() {
                 public void failed(Subscriber.State from, Throwable failure) {
                     System.err.println("Subscriber failed: " + failure);
                 }
@@ -123,19 +123,22 @@ public class EventsPubService {
             MoreExecutors.directExecutor()
         );
         subscriber.startAsync().awaitRunning();
-        while (true) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                System.err.println("Subscriber interrupted: " + e);
-                Thread.currentThread().interrupt();
-            }
-        }
     }
 
     /**
+     * Shuts down the Google Cloud Pub/Sub subscriber.
+     */
+    @PreDestroy
+    public void stopSubscriber(){
+        if(subscriber != null){
+            subscriber.stopAsync().awaitTerminated();
+        }
+    }
+
+
+    /**
      * Shuts down the Google Cloud Pub/Sub publisher.
-     * @throws InterruptedException if the thread is interrupted while waiting for the publisher to shut down.
+     * @throws InterruptedException if the publisher cannot be shut down.
      */
     public void shutdown() throws InterruptedException {
         if (publisher != null) {

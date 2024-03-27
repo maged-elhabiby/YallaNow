@@ -30,6 +30,12 @@ public class MailSenderService {
         this.mailSender = mailSender;
     }
 
+    /**
+     * Sends a new email to the specified recipient.
+     * @param to
+     * @param subject
+     * @param body
+     */
     public void sendNewMail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -38,6 +44,13 @@ public class MailSenderService {
         mailSender.send(message);
     }
 
+    /**
+     * Loads the message template for the specified event and user.
+     * @param event
+     * @param userName
+     * @param messageType
+     * @return The message template.
+     */
     public String loadMessage(EventsEntity event, String userName, ParticipantStatus messageType) {
         try {
             String mailBodyTemplate;
@@ -65,6 +78,13 @@ public class MailSenderService {
         }
     }
 
+    /**
+     * Sends a message to the specified user for the specified event.
+     * @param event
+     * @param userName
+     * @param userEmail
+     * @param messageType
+     */
     public void sendMessage(EventsEntity event, String userName, String userEmail, ParticipantStatus messageType) {
         String message = loadMessage(event, userName, messageType);
         if(message != null) {

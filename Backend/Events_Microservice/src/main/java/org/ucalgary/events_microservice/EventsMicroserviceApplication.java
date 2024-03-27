@@ -23,22 +23,36 @@ public class EventsMicroserviceApplication {
         
     }
 
+    /**
+     * Bean for the EventsPubService
+     * @param groupUsersService
+     * @return
+     * @throws IOException
+     */
     @Bean
     EventsPubService eventsPubService(GroupUsersService groupUsersService) throws IOException {
         String projectId = "yallanow-413400";
         String topicId = "event";
-        
+
         EventsPubService eventsPubService = new EventsPubService(objectMapper(), restTemplate(), groupUsersService);
-        eventsPubService.initializePubSub(projectId, topicId);
+         eventsPubService.initializePubSub(projectId, topicId);
         eventsPubService.subscribeGroups();
         return eventsPubService;
     }
 
+    /**
+     * Bean for the RestTemplate
+     * @return
+     */
     @Bean
     RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
+    /**
+     * Bean for the ObjectMapper
+     * @return
+     */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -46,6 +60,10 @@ public class EventsMicroserviceApplication {
         return objectMapper;
     }
 
+    /**
+     * Bean for the GroupUsersService
+     * @return
+     */
     @Bean
     ShutdownHook shutdownHook(EventsPubService eventsPubService) {
         return new ShutdownHook(eventsPubService);
