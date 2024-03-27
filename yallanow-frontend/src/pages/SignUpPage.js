@@ -1,25 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Register } from '../firebase-config';
+import { Register, googleSignIn } from '../firebase-config';
 import { useNavigate  } from 'react-router-dom';
 const SignUpPage = () => {
   const navigate = useNavigate();
   
   const handleGoogleSignUp = async () => {
-    try {
-      const googleUser = await window.gapi.auth2.getAuthInstance().signIn();
-      const idToken = googleUser.getAuthResponse().id_token;
-      // Send the Google ID token to your backend for verification and user creation
-      await axios.post('https://your-backend-url.com/google/signup', { idToken });
-      // redirect to the home page
-      window.location.href = '/';
-
-    } catch (error) {
-      // Handle sign-up failure
-      console.error('Google sign-up failed:', error);
-    }
+      if (await googleSignIn() === true) {
+        console.log("signup successful");
+        navigate('/');
+      } else {
+        console.log("signup failed");
   };
+}
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the default form submission

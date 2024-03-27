@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, logoutfirebase } from '../firebase-config';
+import { Login, logoutfirebase, googleSignIn } from '../firebase-config';
 import ForgotPassword from './ForgotPassword';
 
 
@@ -20,7 +20,7 @@ import ForgotPassword from './ForgotPassword';
 //   axios.post(url, data, {
 //     headers: {
 //       'Content-Type': 'application/json',
-//       "Authorization": localStorage.getItem('idToken')
+//       "Authorization": localStorage.getItem('idToken')    #######################IMPORTANT FOR AUTHENTICATION#######################
 //       // Add any additional headers here if needed
 //     }
 //   })
@@ -41,30 +41,33 @@ import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {
 
-
+  const handleKeyPress = (event) => {
+    // Check if the "Enter" key was pressed
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action
+      handleSubmit(event); // Call your submit handler directly
+    }
+  };
 
   const navigate = useNavigate();
 
   const handleForgotPassword = () => {
     navigate('/forgotpassword');
   };
+
+  const handleGoogleSignIn = async () => {
+    if (await googleSignIn() === true) {
+      console.log("Login successful");
+      navigate('/');
+    } else {
+      console.log("Login failed");
+    
+    }
+  };
+  
   
 
-  const handleGoogleSignIn = () => {
-    const auth = getAuth();
-    const provider = new GoogleAuthProvider(); // Create Google provider object
 
-    signInWithPopup(auth, provider) // Sign in with Google using popup
-      .then((result) => {
-        // Handle successful sign-in here
-        console.log('Google Sign-In successful');
-        console.log('User info:', result.user);
-      })
-      .catch((error) => {
-        // Handle errors here
-        console.error('Google Sign-In failed:', error);
-      });
-  };
     // Handler for form submission
     const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent default form submission
@@ -129,7 +132,7 @@ const SignInPage = () => {
                   {/* <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
                   </a> */}
-                  <button onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                  <button type="button" onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
                   Forgot password?
                 </button>
                 </div>

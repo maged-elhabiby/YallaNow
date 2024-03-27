@@ -10,11 +10,13 @@ import {
   sendPasswordResetEmail, 
   onAuthStateChanged, 
   revokeAccessToken, 
-  updateProfile, 
+  updateProfile, GoogleAuthProvider, signInWithPopup , 
   setPersistence, 
   browserLocalPersistence
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+
+
 
 
 
@@ -34,7 +36,44 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 const database = getDatabase();
+const provider = new GoogleAuthProvider();
 var currentuser = null;
+
+
+const googleSignIn = async () => {
+  console.log("we are in google sign in");
+  const response = await signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(user);
+    const idToken =  getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    return false;
+
+    // ...
+  });
+
+  if (response === false) {
+    return false;
+  }
+
+  console.log("we are exiting google sign in");
+  return true;
+}
+
+
+
 
 
 
@@ -124,6 +163,6 @@ const resetPassword = async (email) => {
 
 
 
-export {Register, Login, logoutfirebase, resetPassword, auth};
+export {Register, Login, logoutfirebase, resetPassword, auth, googleSignIn};
 // export const googleProvider = new GoogleAuthProvider();
 

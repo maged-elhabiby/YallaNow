@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice;
+package com.example.testauth2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
