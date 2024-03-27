@@ -120,8 +120,8 @@ const Navbar = () => {
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        {currentUser.photoURL ? (
-                        <img className="h-8 w-8 rounded-full" src={currentUser.photoURL} alt="" />
+                        {currentUser?.photoURL ? (
+                        <img className="h-8 w-8 rounded-full" src={currentUser?.photoURL} alt="" />
                       ) : (
                         <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500">
                           <span className="text-sm font-medium leading-none text-white">{displayNameInitial}</span>
@@ -196,8 +196,8 @@ const Navbar = () => {
             <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                {currentUser.photoURL ? (
-                  <img className="h-8 w-8 rounded-full" src={currentUser.photoURL} alt="" />
+                {currentUser?.photoURL ? (
+                  <img className="h-8 w-8 rounded-full" src={currentUser?.photoURL} alt="" />
                 ) : (
                   <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500">
                     <span className="text-sm font-medium leading-none text-white">{displayNameInitial}</span>
