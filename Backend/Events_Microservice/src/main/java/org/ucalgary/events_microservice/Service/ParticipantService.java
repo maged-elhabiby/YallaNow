@@ -42,7 +42,7 @@ public class ParticipantService {
      * @throws IllegalArgumentException if the participant already exists.
      */
     @Transactional
-    public ParticipantEntity addParticipantToEvent(ParticipantDTO user)throws IllegalArgumentException {
+    public ParticipantEntity addParticipantToEvent(ParticipantDTO user)throws IllegalArgumentException, EntityNotFoundException {
         Optional<ParticipantEntity> checkDup = participantRepository.findByUserIdAndEvent_EventId(user.getUserid(), user.getEventid());
         if (checkDup.isPresent()) {
             return updateParticipant(user);
@@ -85,9 +85,11 @@ public class ParticipantService {
      * @return A list of event and status data for the participant.
      */
     @Transactional
-    public List<Map<String, Object>> getEventsForParticipant(String userId) {
+    public List<Map<String, Object>> getEventsForParticipant(String userId)throws EntityNotFoundException {
         List<ParticipantEntity> participantEntities = participantRepository.findAllByUserId(userId);
-
+        if (participantEntities.isEmpty()) {
+            throw new EntityNotFoundException("No Events Registered");
+        }
         return participantEntities.stream().map(participant -> { // Map the participant entities to a list of event and status data
             EventsEntity event = participant.getEvent();
             ParticipantStatus status = participant.getParticipantStatus();

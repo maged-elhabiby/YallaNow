@@ -1,161 +1,124 @@
-import axios from "axios";
-const baseUrl = 'http://localhost:8080/microservice/events/';
-
+import eventServiceApi from "./eventServiceApi";
+import imageService from "./imageService";
 
 const eventService = {
+    createEvent: async (eventData) => {
+        const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
+        eventData.imageId = imageData.id;
+        const eventImageUrl = imageData.imageUrl;
 
+        const requestData = EventApi.formatEventForEventService(eventData);
+        const rawEvent = await eventServiceApi.createEvent(requestData);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        formattedEvent.eventImageUrl = eventImageUrl;
 
-    createEvent: async (eventRequest) => {
-        try {
-            const response = await axios.post(baseUrl + 'AddEvent', eventRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        return formattedEvent;
     },
 
-    updateEvent: async (eventRequest) => {
-        try {
-            const response = await axios.post(baseUrl + 'UpdateEvent', eventRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
+    updateEvent: async (eventData) => {
+        let eventImageUrl = null;
+        if (eventData.imageBase64) {
+            const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
+            eventData.imageId = imageData.id;
+            eventImageUrl = imageData.imageUrl;
+        } else {
+            eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
         }
+
+        const requestData = EventApi.formatEventForEventService(eventData);
+        const rawEvent = await eventServiceApi.updateEvent(requestData);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        formattedEvent.eventImageUrl = eventImageUrl;
+
+        return formattedEvent;
     },
 
     getEvent: async (eventId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetEvent/' + eventId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        const rawEvent = await eventServiceApi.getEvent(eventId);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.imageId);
+
+        return formattedEvent;
     },
 
     getEventsForGroup: async (groupId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetGroupEvent/' + groupId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        const rawEvents = await eventServiceApi.getEventsForGroup(groupId);
+        const eventsWithImages = await Promise.all(rawEvents.map(async (event) => {
+            const formattedEvent = EventApi.formatEventFromEventService(event);
+            formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
+            return formattedEvent;
+        }));
+
+        return eventsWithImages;
     },
 
     deleteEvent: async (eventId) => {
-        try {
-            const response = await axios.delete(baseUrl + 'DeleteEvent/' + eventId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        return await eventServiceApi.deleteEvent(eventId);
     },
-
 
     getRsvpdUsersForEvent: async (eventId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetAllEventParticipants/' + eventId);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        return await eventServiceApi.getRsvpdUsersForEvent(eventId);
     },
-    
 
     getUserRsvpdEvents: async (userId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetAllUserEvents/' + userId);
-            return response.data.map(event=>eventService.formatEventForApp(event)) || []
+        const rawEvents = await eventServiceApi.getUserRsvpdEvents(userId);
+        const eventsWithImages = await Promise.all(rawEvents.map(async (event) => {
+            const formattedEvent = EventApi.formatEventFromEventService(event);
+            formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
+            return formattedEvent;
+        }));
 
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            throw error;
-        }
+        return eventsWithImages;
     },
 
-    // remove partitcipant status from event
     unRsvpUserFromEvent: async (userId, eventId) => {
-        try {
-            const response = await axios.delete(baseUrl + 'DeleteParticipant/' + userId + '/' + eventId);
-            if (response.status === 200) {
-                // The operation was successful
-                console.log('Participant removed successfully');
-                return true; // Indicate that the participant was successfully removed
-            } else {
-                // The operation failed
-                console.error('Failed to remove participant:', response.status);
-                return false; // Indicate that the participant was not removed
-            }
-        } catch (error) {
-            console.error('Error removing participant from event:', error);
-            return false; // Indicate that the participant was not removed
-        }
+        return await eventServiceApi.unRsvpUserFromEvent(userId, eventId);
     },
-
-    
-    // get participant status from event
 
     isUserRsvpdToEvent: async (userId, eventId) => {
-        try {
-            const response = await axios.get(baseUrl + 'GetParticipantStatus/' + userId + '/' + eventId);
-            if (response.status === 200) {
-                // The operation was successful
-                console.log(`RSVP status for user ${userId} in event ${eventId}:`, response.data);
-                return true; // User has RSVP'd
-            } else {
-                // The operation failed, or the status code is not 200
-                console.error('Failed to fetch RSVP status:', response.status);
-                return false; // Assume the user has not RSVP'd
-            }
-        } catch (error) {
-            console.error('Error fetching RSVP status:', error);
-            return false; // Assume the user has not RSVP'd
-        }
+        return await eventServiceApi.isUserRsvpdToEvent(userId, eventId);
     },
 
-    // Add participant to event
     rsvpUserToEvent: async (userId, eventId) => {
-        const request = {
-            userId: userId,
-            eventId: eventId,
-            participantStatus: "Attending"
-        };
-
-        try {
-            const response = await axios.post(baseUrl + 'AddParticipant', request, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (response.status === 200) {
-                // The operation was successful
-                console.log('Participant added successfully');
-                return true; // Indicate that the participant was successfully added
-            } else {
-                // The operation failed
-                console.error('Failed to add participant:', response.status);
-                return false; // Indicate that the participant was not added
-            }
-        } catch (error) {
-            console.error('Error adding participant to event:', error);
-            return false; // Indicate that the participant was not added
-        }
+        return await eventServiceApi.rsvpUserToEvent(userId, eventId);
     },
 
+    updateRsvpStatus: async (userId, eventId, status) => {
+        return await eventServiceApi.updateRsvpStatus(userId, eventId, status);
+    },
 
+    formatEventForEventService: (data) => {
+        return {
+            eventID: data.eventId,
+            groupID: data.groupId,
+            imageID: data.imageId,
+            eventTitle: data.eventTitle,
+            eventDescription: data.eventDescription,
+            location: data.location,
+            eventStartTime: data.eventStartTime,
+            eventEndTime: data.eventEndTime,
+            status: data.eventStatus,
+            capacity: data.eventCapacity,
+            count: data.eventAttendeeCount,
+        };
+    },
+
+    formatEventFromEventService: (data) => {
+        return {
+            eventId: data.eventID,
+            groupId: data.groupID,
+            imageId: data.imageID,
+            eventTitle: data.eventTitle,
+            eventDescription: data.eventDescription,
+            location: data.location,
+            eventStartTime: data.eventStartTime,
+            eventEndTime: data.eventEndTime,
+            eventStatus: data.status,
+            eventCapacity: data.capacity,
+            eventAttendeeCount: data.count,
+            eventImageUrl: null,
+        };
+    },
 };
 
 export default eventService;

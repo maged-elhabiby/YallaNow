@@ -13,7 +13,7 @@ const EventDetailsPage = () => {
   useEffect(() => {
     const fetchRsvpStatus = async () => {
       // Assuming you have access to the user's ID
-      const status = await eventService.getUserRsvpStatusForEvent(userId, event.eventId);
+      const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
       setRsvpStatus(status);
     };
 
@@ -22,7 +22,7 @@ const EventDetailsPage = () => {
 
   const handleRsvpClick = async () => {
     if (rsvpStatus) {
-      const success = await eventService.removeRsvpStatusFromEvent(userId, event.eventId);
+      const success = await eventService.unRsvpUserFromEvent(userId, event.eventId);
       if (success) {
         setRsvpStatus(false);
         alert('Successfully un-RSVP\'d');
@@ -30,7 +30,7 @@ const EventDetailsPage = () => {
         alert('Failed to un-RSVP');
       }
     } else {
-      const success = await eventService.addRsvpStatusToEvent(userId, event.eventId);
+      const success = await eventService.rsvpUserToEvent(userId, event.eventId);
       if (success) {
         setRsvpStatus(true);
         alert('Successfully RSVP\'d');

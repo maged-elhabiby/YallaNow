@@ -36,8 +36,9 @@ public class ParticipantController {
      * @return Response Entity with the object of the participant added
      */
     @PostMapping("/AddParticipant")
-    public ResponseEntity<?> addParticipant(@RequestBody ParticipantDTO participant) {
+    public ResponseEntity<?> addParticipant(@RequestBody ParticipantDTO participant, @RequestAttribute("Id") String userId) {
         try{
+            participant.setUserid(userId);
             ParticipantEntity participants = participantService.addParticipantToEvent(participant);
             return ResponseEntity.ok(participants); // make return 200
         }catch(IllegalArgumentException e){
@@ -54,8 +55,12 @@ public class ParticipantController {
      */
     @GetMapping("/GetAllUserEvents")
     public ResponseEntity<?> GetEventsForParticipant(@RequestAttribute("Id") String userId) {
-        List<Map<String, Object>> participants = participantService.getEventsForParticipant(userId);
-        return ResponseEntity.ok(participants);
+        try{
+            List<Map<String, Object>> participants = participantService.getEventsForParticipant(userId);
+            return ResponseEntity.ok(participants);
+        }catch(EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
