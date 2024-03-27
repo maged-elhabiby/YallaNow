@@ -29,9 +29,7 @@ const Navbar = () => {
     event.preventDefault(); // Prevent default link behavior
     navigate('/profile'); // Programmatically navigate to /profile
   };
-  // You can use state to store the user's name and email
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+
 
   useEffect(() => {
     if (!currentUser) {
