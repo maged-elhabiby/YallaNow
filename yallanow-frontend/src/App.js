@@ -16,10 +16,11 @@ import ProtectedRoute from './ProtectedRoute';
 import ManageGroupPage from './pages/ManageGroupPage';
 import ProfilePage from './pages/ProfilePage';
 import MyGroupsPage from './pages/MyGroupsPage';
+import LandingPage from './pages/LandingPage';
 
 const App = () => {
   const location = useLocation();
-  const hideNavbarRoutes = ['/signup', '/signin', '/forgotpassword'];
+  const hideNavbarRoutes = ['/signup', '/signin', '/forgotpassword', '/'];
   console.log("Current location:", location.pathname)
   return (
     
@@ -34,7 +35,7 @@ const App = () => {
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           
           {/* Protected routes */}
-          <Route path="/" element={<ProtectedRoute><ExplorePage /></ProtectedRoute>} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/explore" element={<ProtectedRoute><ExplorePage /></ProtectedRoute>} />
           <Route path="/myevents" element={<ProtectedRoute><MyEventsPage /></ProtectedRoute>} />
           <Route path="/event-details/:event-id" element={<ProtectedRoute><EventDetailsPage /></ProtectedRoute>} />

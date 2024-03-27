@@ -55,9 +55,9 @@ const Navbar = () => {
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
+                    className="h-12 w-auto"
+                    src="https://storage.googleapis.com/tmp-bucket-json-data/Logo.svg"
+                    alt="Yala"
                   />
                 </div>
                 <div className="hidden lg:ml-6 lg:block">
