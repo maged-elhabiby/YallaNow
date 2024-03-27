@@ -9,15 +9,18 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ImagesMicroserviceApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(ImagesMicroserviceApplication.class, args);
+    }
+
+    /**
+     * Bean for Cloudinary
+     * @return
+     */
     @Bean
     public Cloudinary cloudinary() {
         Dotenv dotenv = Dotenv.configure().load();
         String cloudinaryUrl = dotenv.get("CLOUDINARY_URL");
         return new Cloudinary(cloudinaryUrl);
     }
-
-    public static void main(String[] args) {
-        SpringApplication.run(ImagesMicroserviceApplication.class, args);
-    }
-
 }

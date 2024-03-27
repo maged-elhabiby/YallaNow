@@ -3,6 +3,7 @@ package org.ucalgary.images_microservice.Service;
 import com.cloudinary.*;
 
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.persistence.EntityNotFoundException;
 import org.ucalgary.images_microservice.Repository.ImageRepository;
 import org.ucalgary.images_microservice.Entity.ImageEntity;
 import org.ucalgary.images_microservice.DTO.ImageBase64DTO;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import javax.swing.text.html.parser.Entity;
+
 import java.util.regex.Matcher;
 import java.util.Optional;
 
@@ -35,8 +39,9 @@ public class ImageService {
      * Adds an image to the database
      * @param imageDTO
      * @return ImageEntity
+     * @throws IllegalArgumentException
      */
-    public ImageEntity addImage(ImageDTO imageDTO) {
+    public ImageEntity addImage(ImageDTO imageDTO) throws IllegalArgumentException{
         isValidLink(imageDTO.getImageLink()); // Check if the link is valid
         Optional<ImageEntity> optionalImage = imageRepository.findByImageLink(imageDTO.getImageLink());
         if (optionalImage.isPresent()) {return updateImage(imageDTO);} // If the ImageEntity is found, update it
@@ -49,6 +54,7 @@ public class ImageService {
      * Uploads an image to the database
      * @param base64Image
      * @return ImageEntity
+     * @throws IOException
      */
     public ImageEntity uploadImage(ImageBase64DTO base64Image) throws IOException {
         // Upload image to Cloudinary
@@ -61,17 +67,18 @@ public class ImageService {
     }
 
     /**
-     * Gets an image from the database using ID
+     * Gets an image from the database
      * @param imageId
      * @return ImageEntity
+     * @throws EntityNotFoundException
      */
-    public ImageEntity getImage(int imageId) {
+    public ImageEntity getImage(int imageId) throws EntityNotFoundException {
         Optional<ImageEntity> optionalImage = imageRepository.findById(imageId); // Get the ImageEntity from the database using the imageID
         if (optionalImage.isPresent()) {
             return optionalImage.get(); // If the ImageEntity is found, return it
         }
         else {
-            throw new IllegalArgumentException("Image not found"); // If the ImageEntity is not found, throw an exception
+            throw new EntityNotFoundException("Image not found"); // If the ImageEntity is not found, throw an exception
         }
     }
 
@@ -79,15 +86,15 @@ public class ImageService {
      * Updates an image in the database
      * @param imageDTO
      * @return ImageEntity
+     * @throws IllegalArgumentException
      */
-    public ImageEntity updateImage(ImageDTO imageDTO) {
+    public ImageEntity updateImage(ImageDTO imageDTO)throws IllegalArgumentException {
         isValidLink(imageDTO.getImageLink()); // Check if the link is valid
         Optional<ImageEntity> optionalImage = imageRepository.findByImageLink(imageDTO.getImageLink()); // Get the ImageEntity from the database using the imageID
         if (optionalImage.isPresent()) {
             ImageEntity image = optionalImage.get(); // If the ImageEntity is found, update it
             image.setImageLink(imageDTO.getImageLink());
             return imageRepository.save(image);
-
         } else {
             return addImage(imageDTO); // If the ImageEntity is not found, add it
         }
@@ -96,23 +103,25 @@ public class ImageService {
     /**
      * Deletes an image from the database
      * @param imageId
+     * @throws EntityNotFoundException
      */
-    public void deleteImage(int imageId) {
+    public void deleteImage(int imageId)throws EntityNotFoundException {
         Optional<ImageEntity> optionalImage = imageRepository.findById(imageId); // Get the ImageEntity from the database using the imageID
         if (optionalImage.isPresent()) {
             ImageEntity image = optionalImage.get(); 
             imageRepository.delete(image); // If the ImageEntity is found, delete it
         }
         else {
-            throw new IllegalArgumentException("Image not found"); // If the ImageEntity is not found, throw an exception
+            throw new EntityNotFoundException("Image not found"); // If the ImageEntity is not found, throw an exception
         }
     }
 
     /**
      * Checks if the link is valid
      * @param link
+     * @throws IllegalArgumentException
      */
-    public static void isValidLink(String link) {
+    public static void isValidLink(String link) throws IllegalArgumentException {
         if(link == null || link.isEmpty()) {throw new IllegalArgumentException("Link is empty");} // Check if the link is empty
         Pattern pattern = Pattern.compile(LINK_REGEX); 
         Matcher matcher = pattern.matcher(link); // Match the link with the regex pattern

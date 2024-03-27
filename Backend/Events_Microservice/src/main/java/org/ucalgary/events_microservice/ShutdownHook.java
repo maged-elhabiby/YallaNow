@@ -14,6 +14,9 @@ public class ShutdownHook {
         this.eventsPubService = eventsPubService;
     }
 
+    /**
+     * Shutdown hook to close resources gracefully.
+     */
     @PreDestroy
     public void onShutdown() {
         try {

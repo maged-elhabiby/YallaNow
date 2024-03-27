@@ -14,6 +14,7 @@ public class AddressDTO {
     public AddressDTO() {}
 
     public AddressDTO(String street, String city, String province, String postalCode ,String country) {
+        validateInput(street, city, province, postalCode, country);
         this.street = street;
         this.city = city;
         this.province = province;
@@ -22,6 +23,7 @@ public class AddressDTO {
     }
 
     public AddressDTO(int addressID, String street, String city, String province, String postalCode, String country) {
+        validateInput(street, city, province, postalCode, country);
         this.addressID = addressID;
         this.street = street;
         this.city = city;
@@ -38,6 +40,7 @@ public class AddressDTO {
     public final String getPostalCode() {return postalCode;}
     public final String getCountry() {return country;}
 
+    public void setAddressID(final int addressID) {this.addressID = addressID;}
     public void setStreet(final String street) {this.street = street;}
     public void setCity(final String city) {this.city = city;}
     public void setProvince(final String province) {this.province = province;}
@@ -47,6 +50,32 @@ public class AddressDTO {
     // Override Methods
     @Override
     public String toString() {
-        return String.format("%d %s, %s, %s", street, city, province, country);
+        return String.format("%s %s, %s, %s", street, city, province, country);
+    }
+
+    /**
+     * Validates the input for the address.
+     * @param street
+     * @param city
+     * @param province
+     * @param postalCode
+     * @param country
+     */
+    private void validateInput(String street, String city, String province, String postalCode, String country){
+        if (street == null || street.isEmpty()) {
+            throw new IllegalArgumentException("Street cannot be null or empty");
+        }
+        if (city == null || city.isEmpty()) {
+            throw new IllegalArgumentException("City cannot be null or empty");
+        }
+        if (province == null || province.isEmpty()) {
+            throw new IllegalArgumentException("Province cannot be null or empty");
+        }
+        if (postalCode == null || postalCode.isEmpty()) {
+            throw new IllegalArgumentException("Postal code cannot be null or empty");
+        }
+        if (country == null || country.isEmpty()) {
+            throw new IllegalArgumentException("Country cannot be null or empty");
+        }
     }
 }

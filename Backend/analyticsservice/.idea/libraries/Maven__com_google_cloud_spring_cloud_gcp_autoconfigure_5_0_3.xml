@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.cloud:spring-cloud-gcp-autoconfigure:5.0.3" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.google.cloud" artifactId="spring-cloud-gcp-autoconfigure" version="5.0.3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/spring-cloud-gcp-autoconfigure/5.0.3/spring-cloud-gcp-autoconfigure-5.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/spring-cloud-gcp-autoconfigure/5.0.3/spring-cloud-gcp-autoconfigure-5.0.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/cloud/spring-cloud-gcp-autoconfigure/5.0.3/spring-cloud-gcp-autoconfigure-5.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

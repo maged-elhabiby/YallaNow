@@ -14,7 +14,7 @@ import org.ucalgary.events_microservice.Entity.ParticipantEntity;
  */
 @Repository
 public interface ParticipantRepository extends JpaRepository<ParticipantEntity, Integer> {
-   List<ParticipantEntity> findAllByUserId(Integer userId); // find all Events a User is registered for using user id
-   Optional<ParticipantEntity> findByUserIdAndEvent_EventId(Integer userId, Integer eventId); // find participant by user id and event id
+   List<ParticipantEntity> findAllByUserId(String userId); // find all Events a User is registered for using user id
+   Optional<ParticipantEntity> findByUserIdAndEvent_EventId(String userId, Integer eventId); // find participant by user id and event id
    Optional<ArrayList<ParticipantEntity>> findAllByEvent_EventId(Integer eventID); // find all participants in a certain event
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.io.IOException;
 
@@ -33,19 +34,27 @@ public class ImageController {
      */
     @PostMapping("/AddImage")
     public ResponseEntity<?> addImage(@RequestBody ImageDTO imageDTO) {
-        ImageEntity image = imageService.addImage(imageDTO); // Add image to the database
-        return ResponseEntity.ok(image);
+        try{
+            ImageEntity image = imageService.addImage(imageDTO); // Add image to the database
+            return ResponseEntity.ok(image);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**
      * Add an image to the database
-     * @param base64Image
+     * @param imageBase64DTO
      * @return ResponseEntity<ImageEntity>
      */
     @PostMapping("/UploadImage")
     public ResponseEntity<?> uploadImage(@RequestBody ImageBase64DTO imageBase64DTO) throws IOException {
-        ImageEntity image = imageService.uploadImage(imageBase64DTO); // Add image to the database
-        return ResponseEntity.ok(image);
+        try{
+            ImageEntity image = imageService.uploadImage(imageBase64DTO); // Add image to the database
+            return ResponseEntity.ok(image);
+        }catch (IOException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
@@ -56,8 +65,12 @@ public class ImageController {
      */
     @GetMapping("/GetImage/{imageId}")
     public ResponseEntity<?> getImage(@PathVariable int imageId) {
-        ImageEntity image = imageService.getImage(imageId); // Get image from the database
-        return ResponseEntity.ok(image);
+        try{
+            ImageEntity image = imageService.getImage(imageId); // Get image from the database
+            return ResponseEntity.ok(image);
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
@@ -67,8 +80,12 @@ public class ImageController {
      */
     @PostMapping("/UpdateImage")
     public ResponseEntity<?> updateImage(@RequestBody ImageDTO imageDTO) {
-        ImageEntity image = imageService.updateImage(imageDTO); // Update image in the database
-        return ResponseEntity.ok(image);
+        try{
+            ImageEntity image = imageService.updateImage(imageDTO); // Update image in the database
+            return ResponseEntity.ok(image);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**
@@ -78,7 +95,11 @@ public class ImageController {
      */
     @GetMapping("/DeleteImage/{imageId}")
     public ResponseEntity<?> deleteImage(@PathVariable int imageId) {
-        imageService.deleteImage(imageId); // Delete image from the database
-        return ResponseEntity.ok("Image deleted");
+        try{
+            imageService.deleteImage(imageId); // Delete image from the database
+            return ResponseEntity.ok("Image deleted");
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
