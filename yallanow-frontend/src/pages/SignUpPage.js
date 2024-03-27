@@ -1,11 +1,11 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Register, googleSignIn } from '../firebase-config';
 import { useNavigate  } from 'react-router-dom';
 const SignUpPage = () => {
   const navigate = useNavigate();
-  
+  const [loginMessage, setLoginMessage] = useState({ text: '', isError: false });
+
   const handleGoogleSignUp = async () => {
       if (await googleSignIn() === true) {
         console.log("signup successful");
@@ -33,7 +33,8 @@ const SignUpPage = () => {
       navigate('/explore');
     } else {
       console.log("Register failed");
-      alert("Register failed");
+      setLoginMessage({ text: 'Sign up failed. Account Already Exist, Please SignIn or Choose a Diffrent Email.', isError: true });
+
     }
     
 
@@ -134,7 +135,14 @@ const SignUpPage = () => {
           </div>
 
           </form>
-
+          {loginMessage.text && (
+          <div
+            className={`mt-3 mx-auto max-w-sm text-center ${loginMessage.isError ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'} p-4 rounded-lg mb-4`}
+            role="alert"
+          >
+            {loginMessage.text}
+          </div>
+        )}
           <p className="mt-10 text-center text-sm text-gray-500">
             Returning Member?{' '}
             <Link to="/signin" className="font-semibold leading-6 text-pink-600 hover:text-pink-500">

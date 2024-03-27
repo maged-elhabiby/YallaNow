@@ -1,5 +1,5 @@
 // src/components/Login.js
-import React from 'react';
+import React, { useState } from 'react';
 
 // import {Register, Login, logout, resetPassword} from '../firebase-config';
 //import { useAuth } from '../AuthContext.js';
@@ -58,7 +58,7 @@ const SignInPage = () => {
     }
   };
   
-  
+  const [loginMessage, setLoginMessage] = useState({ text: '', isError: false });
 
 
     // Handler for form submission
@@ -68,7 +68,8 @@ const SignInPage = () => {
       // Extract email and password from the form
       const email = event.target.email.value;
       const password = event.target.password.value;
-  
+      
+
       // Log email and password to the console
       console.log("Email:", email, "Password:", password);
       const loginData = { "email": email, "password": password};
@@ -78,7 +79,7 @@ const SignInPage = () => {
         navigate('/explore');
       } else {
         console.log("Login failed");
-        alert("Login failed");
+        setLoginMessage({ text: 'Login failed. Invalid email or password.', isError: true });
       }
 
       // Here, you can also add your sign-in logic with email and password
@@ -166,7 +167,14 @@ const SignInPage = () => {
               Sign in with Google
             </button>
           </div>
-
+          {loginMessage.text && (
+          <div
+            className={`mt-3 mx-auto max-w-sm text-center ${loginMessage.isError ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'} p-4 rounded-lg mb-4`}
+            role="alert"
+          >
+            {loginMessage.text}
+          </div>
+        )}
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
             <Link to="/signup" className="font-semibold leading-6 text-pink-600 hover:text-pink-500">
