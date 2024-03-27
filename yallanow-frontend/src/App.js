@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes , useLocation} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ExplorePage from './pages/ExplorePage';
 import MyEventsPage from './pages/MyEventsPage';
@@ -15,11 +15,15 @@ import CreateEvent from './pages/CreateEvent';
 import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
+  const location = useLocation();
+  const hideNavbarRoutes = ['/signup', '/signin', '/forgotpassword'];
+  console.log("Current location:", location.pathname)
   return (
     
       <div className="h-full">
         {/* Assuming Navbar is always visible except on certain routes */}
-        <Navbar />
+        {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+
         <Routes>
           {/* Public routes */}
           <Route path="/signup" element={<SignUpPage />} />

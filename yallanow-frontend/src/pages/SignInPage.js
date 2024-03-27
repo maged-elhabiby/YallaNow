@@ -41,7 +41,13 @@ import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {
 
-
+  const handleKeyPress = (event) => {
+    // Check if the "Enter" key was pressed
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action
+      handleSubmit(event); // Call your submit handler directly
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -129,7 +135,7 @@ const SignInPage = () => {
                   {/* <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
                   </a> */}
-                  <button onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                  <button type="button" onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
                   Forgot password?
                 </button>
                 </div>
