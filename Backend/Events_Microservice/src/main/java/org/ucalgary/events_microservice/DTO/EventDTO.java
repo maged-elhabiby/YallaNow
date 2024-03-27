@@ -23,6 +23,7 @@ public class EventDTO {
                     String eventTitle, String eventDescription, 
                     AddressDTO location, LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                     EventStatus status, int count, int capacity, int imageID) {
+        validateConstructor(eventStartTime, eventEndTime, count, capacity, location.getAddressID(), groupID);
         this.eventID = eventID;
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -41,7 +42,7 @@ public class EventDTO {
                     LocalDateTime eventStartTime,
                     LocalDateTime eventEndTime,EventStatus status,
                     int count, int capacity, int imageID) {
-
+        validateConstructor(eventStartTime, eventEndTime, count, capacity, location.getAddressID(), groupID);
         this.groupID = groupID;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
@@ -69,6 +70,7 @@ public class EventDTO {
     public final int getImageID() {return imageID;}
 
     // Setters
+    public void setEventID(final int eventID) {this.eventID = eventID;}
     public void setGroupID(final int groupID) {this.groupID = groupID;}
     public void setEventTitle(final String eventTitle) {this.eventTitle = eventTitle;}
     public void setEventDescription(final String eventDescription) {this.eventDescription = eventDescription;}
@@ -79,4 +81,25 @@ public class EventDTO {
     public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
     public void setImageID(final int imageID) {this.imageID = imageID;}
+    
+    /**
+     * Validates the input for the event.
+     * @param start
+     * @param end
+     * @param count
+     * @param capacity
+     * @param locationId
+     * @param groupId
+     */
+    private void validateConstructor(LocalDateTime start, LocalDateTime end, int count, int capacity, Integer locationId, Integer groupId){
+        if(start.isAfter(end)){
+            throw new IllegalArgumentException("Event start time cannot be after event end time");
+        } if(count > capacity){
+            throw new IllegalArgumentException("Count cannot be greater than capacity");
+        }if(groupId == null){
+            throw new IllegalArgumentException("Event must be part of a group");
+        }if(location == null){
+            throw new IllegalArgumentException("You must have an address");
+        }
+    }
 }

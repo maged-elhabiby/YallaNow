@@ -1,0 +1,17 @@
+Dear [UserName],
+
+We're sorry to hear that you've decided to cancel your registration for [EventName] scheduled on [EventDate] through YallaNow. Your presence would have added to the excitement of the event, and we're sad to see you go.
+
+Here are the details of your cancelled registration:
+Event Name: [EventName]
+Event Date: [EventDate]
+Location: [EventLocation]
+
+If you have any feedback or reasons for cancelling that you'd like to share with us, please feel free to reach out. We always strive to improve our services and would appreciate your input.
+
+We hope to have the opportunity to welcome you back in the future for another event. In the meantime, if there's anything we can assist you with, please don't hesitate to contact us at yallanow.401@gmail.com.
+
+Thank you for considering YallaNow, and we wish you all the best in your future endeavors.
+
+Best regards,
+YallaNow Team
