@@ -109,7 +109,6 @@ public class GroupsController {
     @DeleteMapping("/{groupID}")
     public ResponseEntity<Void> deleteGroup(@PathVariable Integer groupID) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
         groupService.deleteGroup(groupID);
-        publishGroupID(groupID, "DELETE");
         return ResponseEntity.ok().build();
     }
 
@@ -154,8 +153,6 @@ public class GroupsController {
         dto.setGroupID(groupEntity.getGroupID());
         dto.setGroupName(groupEntity.getGroupName());
         dto.setIsPrivate(groupEntity.getIsPrivate());
-
-
         return dto;
     }
 

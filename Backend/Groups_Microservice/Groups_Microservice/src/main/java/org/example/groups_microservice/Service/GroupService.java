@@ -12,10 +12,13 @@ import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
+import org.example.groups_microservice.Service.GroupPubSub;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static org.example.groups_microservice.Service.GroupPubSub.publishGroupByMember;
 
 
 /**
@@ -176,6 +179,11 @@ public class GroupService {
 
         GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
              .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
+
+        publishGroupByMember(groupEntity, "DELETE");
+
+
+
 
         groupRepository.delete(groupEntity);
 
