@@ -1,19 +1,168 @@
-// firebase-config.js
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAnalytics } from "firebase/analytics";
+import {
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  getIdToken, 
+  signOut, 
+  sendPasswordResetEmail, 
+  onAuthStateChanged, 
+  revokeAccessToken, 
+  updateProfile, GoogleAuthProvider, signInWithPopup , 
+  setPersistence, 
+  browserLocalPersistence
+} from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
+
+
+
+
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAFU_zSpZWKznKiEiNqrNwsi-8JIr5XfhQ",
+  authDomain: "yallanow12.firebaseapp.com",
+  projectId: "yallanow12",
+  storageBucket: "yallanow12.appspot.com",
+  messagingSenderId: "463351798443",
+  appId: "1:463351798443:web:dc83ad7b3ebbf1e88f75ee",
+  measurementId: "G-77DNY9TMVN"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth();
+const database = getDatabase();
+const provider = new GoogleAuthProvider();
+var currentuser = null;
 
-export const auth = getAuth(app);
-export const googleProvider = new GoogleAuthProvider();
 
-// Youssef Add the Config
+const googleSignIn = async () => {
+  console.log("we are in google sign in");
+  const response = await signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+    console.log(user);
+    const idToken =  getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    return false;
+
+    // ...
+  });
+
+  if (response === false) {
+    return false;
+  }
+
+  console.log("we are exiting google sign in");
+  return true;
+}
+
+
+
+
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("User is signed in");
+    console.log(user);
+    localStorage.setItem("SignedIn", true);
+    currentuser = user;
+  } else {
+    console.log("User is signed out");
+    localStorage.setItem("SignedIn", false);
+    currentuser = null;
+
+  }
+});
+
+const Register = async (signup) => {
+  console.log("we are in register");
+  const { email, password, name } = signup;
+
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(userCredential);
+
+    var user = userCredential.user;
+    await updateProfile(user, { displayName: name });
+    const idToken = await getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    console.log("Registration successful");
+    return true;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return false;
+  }
+};
+
+
+const Login = async (login) => {
+  console.log("we are in login");
+  const { email, password } = login;
+
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("Signed in:", userCredential);
+
+    const user = userCredential.user;
+    const idToken = await getIdToken(user);
+    localStorage.setItem("idToken", idToken);
+    console.log("Login successful");
+    return true;
+  } catch (error) {
+    console.error("Error during login:", error);
+    return false;
+  }
+};
+
+
+const logoutfirebase = async () => {
+  console.log("we are in logout");
+  await signOut(auth).then(() => {
+    console.log("we are exiting logout");
+    localStorage.removeItem("idToken");
+  
+  currentuser = null;
+
+
+  }).catch((error) => {
+    console.log(error);
+  });
+}
+
+const resetPassword = async (email) => {
+  console.log("we are in reset password");
+  await sendPasswordResetEmail(auth, email)
+  .then(() => {
+    console.log("we are exiting reset password");
+  }).catch((error) => {
+    console.log(error);
+    return false;
+  });
+  return true;
+}
+
+
+
+
+export {Register, Login, logoutfirebase, resetPassword, auth, googleSignIn};
+// export const googleProvider = new GoogleAuthProvider();
+

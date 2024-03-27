@@ -1,9 +1,95 @@
 // src/components/Login.js
 import React from 'react';
+
+// import {Register, Login, logout, resetPassword} from '../firebase-config';
 //import { useAuth } from '../AuthContext.js';
+import { useNavigate } from 'react-router-dom';
+
+
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Login, logoutfirebase, googleSignIn } from '../firebase-config';
+import ForgotPassword from './ForgotPassword';
+
+
+// function postData() {
+//   const url = `http://127.0.0.1:8080/api/test`;
+//   const data = { /* Your data object */ };
+
+//   axios.post(url, data, {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       "Authorization": localStorage.getItem('idToken')    #######################IMPORTANT FOR AUTHENTICATION#######################
+//       // Add any additional headers here if needed
+//     }
+//   })
+//     .then(response => {
+//       // Handle the response data
+//       console.log(response.data);
+//     })
+//     .catch(error => {
+//       // Handle errors here
+//       console.error('There was a problem with your axios request:', error);
+//     });
+//   }
+
+
+
+
+
 
 const SignInPage = () => {
-  //const { signInWithGoogle } = useAuth();
+
+  const handleKeyPress = (event) => {
+    // Check if the "Enter" key was pressed
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default action
+      handleSubmit(event); // Call your submit handler directly
+    }
+  };
+
+  const navigate = useNavigate();
+
+  const handleForgotPassword = () => {
+    navigate('/forgotpassword');
+  };
+
+  const handleGoogleSignIn = async () => {
+    if (await googleSignIn() === true) {
+      console.log("Login successful");
+      navigate('/');
+    } else {
+      console.log("Login failed");
+    
+    }
+  };
+  
+  
+
+
+    // Handler for form submission
+    const handleSubmit = async (event) => {
+      event.preventDefault(); // Prevent default form submission
+  
+      // Extract email and password from the form
+      const email = event.target.email.value;
+      const password = event.target.password.value;
+  
+      // Log email and password to the console
+      console.log("Email:", email, "Password:", password);
+      const loginData = { "email": email, "password": password};
+
+      if (await Login(loginData) === true) {
+        console.log("Login successful");
+        navigate('/');
+      } else {
+        console.log("Login failed");
+        alert("Login failed");
+      }
+
+      // Here, you can also add your sign-in logic with email and password
+    };
   return (
     <>
 
@@ -20,7 +106,7 @@ const SignInPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" onSubmit={handleSubmit} method="POST">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -43,9 +129,12 @@ const SignInPage = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  {/* <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
-                  </a>
+                  </a> */}
+                  <button type="button" onClick={handleForgotPassword} className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+                  Forgot password?
+                </button>
                 </div>
               </div>
               <div className="mt-2">
@@ -68,13 +157,28 @@ const SignInPage = () => {
                 Sign in
               </button>
             </div>
+            
           </form>
+          <div style={{ paddingTop: '10px' }}>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="flex items-center justify-center w-full rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
+                alt="Google Logo"
+                className="h-5 w-5 mr-2"
+              />
+              Sign in with Google
+            </button>
+          </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Sign Up, Today!
-            </a>
+            <Link to="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            Sign Up, Today!
+            </Link>
           </p>
         </div>
       </div>
