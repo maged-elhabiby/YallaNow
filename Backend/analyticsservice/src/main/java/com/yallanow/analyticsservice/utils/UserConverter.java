@@ -1,19 +1,14 @@
 package com.yallanow.analyticsservice.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yallanow.analyticsservice.models.User;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Component
 public class UserConverter {
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
 
     public Map<String, Object> convertUserToRecombeeMap(User user) {
         Map<String, Object> map = new HashMap<>();
@@ -27,7 +22,7 @@ public class UserConverter {
                 .orElseThrow(() -> new IllegalArgumentException("Missing 'userId' in user data")));
     }
 
-    public User getUserFromPubsubMessage(Map<String, Object> map) throws IOException {
+    public User getUserFromPubsubMessage(Map<String, Object> map) {
 
         String userId = String.valueOf(Optional.ofNullable(map.get("userId"))
                 .orElseThrow(() -> new IllegalArgumentException("Missing 'userId' in data")));

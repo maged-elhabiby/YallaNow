@@ -40,6 +40,7 @@ public class ItemMessageHandler {
 
         String payload = new String((byte[]) message.getPayload());
         try {
+            @SuppressWarnings("unchecked")
             Map<String, Object> messageMap = objectMapper.readValue(payload, Map.class);
             String operationType = MessageHelper.getOperationType(messageMap);
             Map<String, Object> dataMap = MessageHelper.getData(messageMap);

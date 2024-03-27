@@ -31,6 +31,8 @@ public class Item {
         this.imageUrl = imageUrl;
     }
 
+    // Getters and setters for all fields
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -38,8 +40,6 @@ public class Item {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    // Getters and setters for all fields
 
     public String getItemId() {
         return itemId;

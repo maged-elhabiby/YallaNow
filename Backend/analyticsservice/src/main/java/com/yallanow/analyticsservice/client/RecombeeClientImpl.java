@@ -45,16 +45,6 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     }
 
     @Override
-    public Map<String, Object> getItem(String itemId) throws RecombeeClientException {
-        try {
-            return client.send(new GetItemValues(itemId));
-        } catch (ApiException e) {
-            handleGenericApiException(e);
-        }
-        return null;
-    }
-
-    @Override
     public void addUser(String userId, Map<String, Object> userProperties) throws RecombeeClientException {
         sendRequest(new SetUserValues(userId, userProperties)
                 .setCascadeCreate(true));
@@ -70,16 +60,6 @@ public class RecombeeClientImpl implements RecombeeClientInterface {
     @Override
     public void deleteUser(String userId) throws RecombeeClientException {
         sendRequest(new DeleteUser(userId));
-    }
-
-    @Override
-    public Map<String, Object> getUser(String userId) throws RecombeeClientException {
-        try {
-            return client.send(new GetUserValues(userId));
-        } catch (ApiException e) {
-            handleGenericApiException(e);
-        }
-        return null;
     }
 
     @Override
