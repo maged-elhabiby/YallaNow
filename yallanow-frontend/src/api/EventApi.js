@@ -1,37 +1,43 @@
 import eventService from "./eventService";
-
-import imageService from "./imageService"
+import imageService from "./imageService";
 
 const EventApi = {
-
     createEvent: async (eventData) => {
-
         const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
-        
-        const eventImageUrl = imageData.imageUrl;
         eventData.imageId = imageData.id;
-        const requestData = EventApi.formatEventForEventService(eventData);
+        const eventImageUrl = imageData.imageUrl;
 
+        const requestData = EventApi.formatEventForEventService(eventData);
         const rawEvent = await eventService.createEvent(requestData);
-        const formattedEvent = EventApi.formatEventForEventService(rawEvent);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
         formattedEvent.eventImageUrl = eventImageUrl;
 
         return formattedEvent;
     },
-    
+
     updateEvent: async (eventData) => {
-        const rawEvent = eventService.updateEvent(eventData);
-        const formattedEvent = EventApi.formatEventForEventService(rawEvent);
-        formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.eventId);
-    
+        let eventImageUrl = null;
+        if (eventData.imageBase64) {
+            const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
+            eventData.imageId = imageData.id;
+            eventImageUrl = imageData.imageUrl;
+        } else {
+            eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
+        }
+
+        const requestData = EventApi.formatEventForEventService(eventData);
+        const rawEvent = await eventService.updateEvent(requestData);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
+        formattedEvent.eventImageUrl = eventImageUrl;
+
         return formattedEvent;
     },
 
     getEvent: async (eventId) => {
-        const rawEvent = await eventService.getEventById(eventId);
-        const formattedEvent = EventApi.formatEventForEventService(rawEvent);
+        const rawEvent = await eventService.getEvent(eventId);
+        const formattedEvent = EventApi.formatEventFromEventService(rawEvent);
         formattedEvent.eventImageUrl = await imageService.getImageUrlById(formattedEvent.imageId);
-        
+
         return formattedEvent;
     },
 
@@ -42,7 +48,7 @@ const EventApi = {
             formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
             return formattedEvent;
         }));
-    
+
         return eventsWithImages;
     },
 
@@ -55,34 +61,30 @@ const EventApi = {
     },
 
     getUserRsvpdEvents: async (userId) => {
-        const response = await eventService.getRsvpdEvents(userId);
-        const eventsWithImages = await Promise.all(response.map(async (data) => {
-            const formattedEvent = EventApi.formatEventFromEventService(data.event);
-            formattedEvent.eventImageUrl = await imageService.getImageUrlById(data.event.imageId);
+        const rawEvents = await eventService.getUserRsvpdEvents(userId);
+        const eventsWithImages = await Promise.all(rawEvents.map(async (event) => {
+            const formattedEvent = EventApi.formatEventFromEventService(event);
+            formattedEvent.eventImageUrl = await imageService.getImageUrlById(event.imageId);
             return formattedEvent;
         }));
-    
+
         return eventsWithImages;
     },
 
     unRsvpUserFromEvent: async (userId, eventId) => {
-        return eventService.unRsvpUserFromEvent(userId, eventId);
+        return await eventService.unRsvpUserFromEvent(userId, eventId);
     },
 
     isUserRsvpdToEvent: async (userId, eventId) => {
-        return eventService.isUserRsvpdToEvent(userId, eventId);
+        return await eventService.isUserRsvpdToEvent(userId, eventId);
     },
 
     rsvpUserToEvent: async (userId, eventId) => {
-        return eventService.rsvpUserToEvent(userId, eventId);
+        return await eventService.rsvpUserToEvent(userId, eventId);
     },
 
-    updateRsvpStatus: async (eventId, status) => {
-        return eventService.updateRsvpStatus(eventId, status);
-    },
-
-    getImageUrlById: (imageId) => {
-        return imageService.getImageUrlById(imageId);
+    updateRsvpStatus: async (userId, eventId, status) => {
+        return await eventService.updateRsvpStatus(userId, eventId, status);
     },
 
     formatEventForEventService: (data) => {
@@ -90,46 +92,33 @@ const EventApi = {
             eventID: data.eventId,
             groupID: data.groupId,
             imageID: data.imageId,
-
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
-            location: {
-                street: data.eventLocaitonStreet,
-                city: data.eventLocationCity,
-                province: data.eventLocaitonProvince,
-                country: data.eventLocaitonCountry
-            },
+            location: data.location,
             eventStartTime: data.eventStartTime,
             eventEndTime: data.eventEndTime,
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
-            
-        }
-
+        };
     },
 
     formatEventFromEventService: (data) => {
         return {
-            eventId: data.eventId,
-            eventAttendeeCount: data.count,
-            eventCapacity: data.capacity,
-            eventDescription: data.eventDescription,
-            eventEndTime: data.eventEndTime,
-            eventImageId: data.imageId,
-            eventLocationCity: data.address.street,
-            eventLocationCountry: data.address.city,
-            eventLocationProvince: data.address.province,
-            eventLocationStreet: data.address.street,
-            eventStartTime: data.eventStartTime,
-            eventStatus: data.status,
+            eventId: data.eventID,
+            groupId: data.groupID,
+            imageId: data.imageID,
             eventTitle: data.eventTitle,
-            groupId: data.groupId,
+            eventDescription: data.eventDescription,
+            location: data.location,
+            eventStartTime: data.eventStartTime,
+            eventEndTime: data.eventEndTime,
+            eventStatus: data.status,
+            eventCapacity: data.capacity,
+            eventAttendeeCount: data.count,
             eventImageUrl: null,
-            imageId: data.imageId
-        }
+        };
     },
-    
-}
+};
 
 export default EventApi;
