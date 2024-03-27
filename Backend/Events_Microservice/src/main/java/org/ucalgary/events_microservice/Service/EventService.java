@@ -112,9 +112,13 @@ public class EventService {
      * @return A list of all events associated with the specified group.
      */
     @Transactional
-    public ArrayList<EventsEntity> getEventsByGroup(int groupID) {
+    public ArrayList<EventsEntity> getEventsByGroup(int groupID) throws EntityNotFoundException{
         Optional<ArrayList<EventsEntity>> optionalEvents = eventRepository.findEventsByGroupId(groupID); // Check if there are any events in a certain group
-        return optionalEvents.orElse(null);
+        if (optionalEvents.isPresent()) {
+            return optionalEvents.get();
+        }else{
+            throw new EntityNotFoundException("No events found for the group");
+        }
     }
 
     /**

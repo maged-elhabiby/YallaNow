@@ -43,6 +43,8 @@ public class EventsController {
             return (ResponseEntity<?>) ResponseEntity.status(403);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -97,8 +99,12 @@ public class EventsController {
      */
     @GetMapping("/GetGroupEvents/{groupId}")
     public ResponseEntity<?> retrieveEventsByGroup(@PathVariable int groupId) {
-        ArrayList<EventsEntity> events = eventService.getEventsByGroup(groupId); // getEventsByGroup(groupId);
-        return ResponseEntity.ok(events);
+        try{
+            ArrayList<EventsEntity> events = eventService.getEventsByGroup(groupId); // getEventsByGroup(groupId);
+            return ResponseEntity.ok(events);
+        }catch(EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
