@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
+
 import java.util.Map;
 import java.util.Random;
 
-import static com.yallanow.analyticsservice.factories.EventMessageFactory.generateEventMessage;
 
 @SpringBootTest(classes = {AnalyticsServiceApplication.class, PubSubTestConfig.class})
 public class PubSubItemTest {

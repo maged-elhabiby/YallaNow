@@ -33,11 +33,5 @@ public class PubSubUserTest {
         }
         Thread.sleep(5000);
 
-        /*
-        Map<String, Object> deleteMessage = generateUserMessage("DELETE", userId);
-        String deleteJson = objectMapper.writeValueAsString(deleteMessage);
-        System.out.println(deleteJson);
-        messagingGateway.sendToPubsub(deleteJson);
-        */
     }
 }
