@@ -47,20 +47,21 @@ const ProfilePage = () => {
       console.error("Error updating profile:", error);
     }
   };
+  const displayNameInitial = currentUser?.displayName?.charAt(0).toUpperCase();
 
   return (
     <div className="container mt-20 mx-auto p-6">
         <div className="md:flex md:items-center md:justify-between md:space-x-5">
             <div className="flex items-start space-x-5">
                 <div className="flex-shrink-0">
-                <div className="relative">
-                    <img
-                    className="h-16 w-16 rounded-full"
-                    src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                    alt=""
-                    />
-                    <span className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-                </div>
+                <div className="relative h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-xl">
+                {/* Conditionally render profile image or initial */}
+                {currentUser.photoURL ? (
+                  <img className="rounded-full" src={currentUser.photoURL} alt="Profile" />
+                ) : (
+                  <span>{displayNameInitial}</span>
+                )}
+              </div>
                 </div>
                 {/*
                 Use vertical padding to simulate center alignment when both lines of text are one line,
