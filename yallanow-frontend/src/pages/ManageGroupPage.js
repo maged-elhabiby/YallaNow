@@ -19,7 +19,23 @@ function ManageGroupPage() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="mt-20 px-4 sm:px-6 lg:px-8">
+      <div className="md:flex md:items-center md:justify-between">
+      <div className="min-w-0 flex-1">
+        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+          Manage Group
+        </h2>
+      </div>
+      <div className="mt-4 flex md:ml-4 md:mt-0">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Go Back
+        </button>
+      </div>
+    </div>
       <h1 className="text-xl font-semibold text-gray-900">{groupData.groupName}</h1>
       <p className="mt-1 text-sm text-gray-600">Manage your group members and their roles.</p>
       <div className="mt-4">
@@ -67,12 +83,6 @@ function ManageGroupPage() {
           </div>
         </div>
       </div>
-      <button
-        onClick={() => navigate(-1)}
-        className="mt-4 rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700"
-      >
-        Go Back
-      </button>
     </div>
   );
 }
