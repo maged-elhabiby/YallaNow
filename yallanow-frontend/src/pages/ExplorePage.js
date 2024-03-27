@@ -52,10 +52,18 @@ const ExplorePage = () => {
 
 
   return (
-    <div className="mt-20">
-
+    <div >
+    <div className="mt-20 px-6 py-10 sm:py-10 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="text-base font-semibold leading-7 text-pink-600">Welcome to Your Next Adventure</p>
+        <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Explore Events Near You</h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+        Discover local events that match your passions or create your own with our easy-to-use tools. From cultural festivals to local meetups, explore new experiences that bring you joy and enrich your life.
+        </p>
+      </div>
+    </div>
       <div className="container mx-auto py-8 px-4">
-        <h2 className="text-4xl font-semibold mb-6">Explore Events</h2>
+        <h2 className="text-4xl font-semibold mb-6">Upcoming Events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {events.map((event) => (
             <EventCard key={event.eventId} event={event} recommId={homepageRecommId} />

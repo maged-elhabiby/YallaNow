@@ -41,13 +41,6 @@ import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {
 
-  const handleKeyPress = (event) => {
-    // Check if the "Enter" key was pressed
-    if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent the default action
-      handleSubmit(event); // Call your submit handler directly
-    }
-  };
 
   const navigate = useNavigate();
 
@@ -58,7 +51,7 @@ const SignInPage = () => {
   const handleGoogleSignIn = async () => {
     if (await googleSignIn() === true) {
       console.log("Login successful");
-      navigate('/');
+      navigate('/explore');
     } else {
       console.log("Login failed");
     
@@ -82,7 +75,7 @@ const SignInPage = () => {
 
       if (await Login(loginData) === true) {
         console.log("Login successful");
-        navigate('/');
+        navigate('/explore');
       } else {
         console.log("Login failed");
         alert("Login failed");
@@ -96,11 +89,11 @@ const SignInPage = () => {
       <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
+            className="mx-auto h-20 w-auto"
+            src="https://storage.googleapis.com/tmp-bucket-json-data/Logo.svg"
+            alt="YallaNow"
           />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
         </div>
