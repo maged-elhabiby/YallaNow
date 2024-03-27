@@ -17,7 +17,8 @@ def verify():
 
         uid = decoded_token['uid']
         email = decoded_token['email']
-        name = decoded_token['displayName']
+        print(decoded_token)
+        name = decoded_token['name']
         respnse = {'uid': uid, 'email': email, 'name': name}
         return jsonify(respnse), 200
     except Exception as e:
