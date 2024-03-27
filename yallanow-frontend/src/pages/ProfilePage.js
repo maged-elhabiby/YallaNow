@@ -54,7 +54,7 @@ const ProfilePage = () => {
         <div className="md:flex md:items-center md:justify-between md:space-x-5">
             <div className="flex items-start space-x-5">
                 <div className="flex-shrink-0">
-                <div className="relative h-16 w-16 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-xl">
+                <div className="relative h-16 w-16 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-xl">
                 {/* Conditionally render profile image or initial */}
                 {currentUser.photoURL ? (
                   <img className="rounded-full" src={currentUser.photoURL} alt="Profile" />
@@ -82,7 +82,7 @@ const ProfilePage = () => {
                 </button>
                 <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={handleSignOut}
+                className="inline-flex items-center justify-center rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600" onClick={handleSignOut}
                 >
                 Sign Out
                 </button>
