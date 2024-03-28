@@ -60,28 +60,6 @@ public class PubEvent {
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
     public final String getImageUrl() {return imageUrl;}
-    
-    /**
-     * Extracts the image link from the response string.
-     * @param responseString
-     * @return
-     */
-    private String extractImageLink(String responseString) {
-        // Find the index of "imageLink" in the response string
-        int startIndex = responseString.indexOf("\"imageLink\":\"");
-        if (startIndex == -1) {
-            return null; // Image link not found
-        }
-    
-        // Extract the substring containing the imageLink
-        startIndex += "\"imageLink\":\"".length();
-        int endIndex = responseString.indexOf("\"", startIndex);
-        if (endIndex == -1) {
-            return null; // Image link not properly formatted
-        }
-    
-        return responseString.substring(startIndex, endIndex);
-    }
 
     /**
      * Validates the input for the event.
