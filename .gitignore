@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/backend/testauth
+/node_modules/
