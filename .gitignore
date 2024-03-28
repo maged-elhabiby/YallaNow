@@ -1,4 +1,4 @@
-node_modules/
+
 package-lock.json
 package.json
 
@@ -37,3 +37,5 @@ build/
 .vscode/
 
 application.properties
+node_modules/
+testauth/
