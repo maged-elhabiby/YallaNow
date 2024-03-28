@@ -3,9 +3,81 @@ import './login.css';
 import { Dropdown } from 'flowbite-react';
 import Typography from '@mui/material/Typography';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword , getIdToken} from "firebase/auth";
+import{getDatabase, ref, set} from "firebase/database";
+
 function LoginForm() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ name: '', email: '', password: '', acceptedTerms: false });
+  const apifirebase = process.env.FIREBASE_API
+  console.log(apifirebase);
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFU_zSpZWKznKiEiNqrNwsi-8JIr5XfhQ",
+    authDomain: "yallanow12.firebaseapp.com",
+    projectId: "yallanow12",
+    storageBucket: "yallanow12.appspot.com",
+    messagingSenderId: "463351798443",
+    appId: "1:463351798443:web:dc83ad7b3ebbf1e88f75ee",
+    measurementId: "G-77DNY9TMVN"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth();
+  const database = getDatabase();
+
+  const Register = async (signup) => {
+    console.log("we are in register");
+    const { email, password } = signup;
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        console.log(userCredential);
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+
+      console.log("we are exiting register")
+  }
+
+
+  const Login = async (login) => {
+    console.log("we are in login");
+    const { email, password } = login;
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      console.log(userCredential)
+      const user = userCredential.user;
+      const idToken =  getIdToken(user);
+      console.log(idToken);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+    console.log("we are exiting login");
+  }
+
+
+
+
+
+
 
   const handleLoginClick = () => {
     document.querySelector(".wrapper").classList.add("active");
@@ -15,47 +87,32 @@ function LoginForm() {
     document.querySelector(".wrapper").classList.remove("active");
   };
 
-    const handleLoginSubmit = async (e) => { // HANDLE API CALL HERE FOR LOGIN
-        e.preventDefault();
-        
-        try {
-          const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(loginData),
-          });
-          console.log('LOGIN DATA');
-          console.log(loginData);
+  const handleLoginSubmit = async (e) => { // HANDLE API CALL HERE FOR LOGIN
+    e.preventDefault();
 
-          const data = await response.json();
-          
-          console.log(data);
-        } catch (error) {
-          console.error('Login error:', error);
-        }
-      };
+    try {
+      console.log('LOGIN DATA');
+      console.log(loginData);
+      await Login(loginData);
+
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+  const handleSignupSubmit = async (e) => { // HANDLE API CALL HERE FOR SIGNUP
+    e.preventDefault();
+
+    try {
       
-      const handleSignupSubmit = async (e) => { // HANDLE API CALL HERE FOR SIGNUP
-        e.preventDefault();
-      
-        try {
-          const response = await fetch('/signup', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(signupData), 
-          });
-          console.log('SIGNUP DATA');
-          console.log(signupData);
-          const data = await response.json();
-          console.log(data);
-        } catch (error) {
-          console.error('Signup error:', error);
-        }
-      };
+      console.log('SIGNUP DATA');
+      console.log(signupData);
+     
+      await Register(signupData);
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
+  };
 
   const handleLoginInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,7 +150,7 @@ function LoginForm() {
           <Dropdown.Item>Settings</Dropdown.Item>
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Item>Sign out</Dropdown.Item>
-        </Dropdown> 
+        </Dropdown>
       </div>
 
       <section className="container2">

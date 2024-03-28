@@ -1,0 +1,197 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-service
+  labels:
+    app: my-app
+    service: events-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: events-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: events-service
+    spec:
+      containers:
+        - name: events-service
+          image: events-service:latest
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: groups-service
+  labels:
+    app: my-app
+    service: groups-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: groups-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: groups-service
+    spec:
+      containers:
+        - name: groups-service
+          image: groups-service:latest
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: images-service
+  labels:
+    app: my-app
+    service: images-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: images-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: images-service
+    spec:
+      containers:
+        - name: images-service
+          image: images-service:latest
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: SPRING_DATASOURCE_PASSWORD
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-service
+  labels:
+    app: my-app
+    service: feed-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: feed-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: feed-service
+    spec:
+      containers:
+        - name: feed-service
+          image: feed-service:latest
+          env:
+            - name: RECOMBEE_DATABASE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_DATABASE_ID
+            - name: RECOMBEE_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_REGION
+            - name: RECOMBEE_SECRET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_SECRET_TOKEN
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  labels:
+    app: my-app
+    service: analytics-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: analytics-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: analytics-service:latest
+            env:
+            - name: RECOMBEE_DATABASE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_DATABASE_ID
+            - name: RECOMBEE_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_REGION
+            - name: RECOMBEE_SECRET_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: recombee-credentials
+                  key: RECOMBEE_SECRET_TOKEN
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: my-app
+    service: auth-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: auth-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: auth-service:latest

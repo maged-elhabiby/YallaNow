@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-01/schema#",
+  "title": "User",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "gender": {
+      "type": "string",
+      "enum": ["male", "female", "other", null],
+      "default": null
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "required": ["userId", "email"]
+}
