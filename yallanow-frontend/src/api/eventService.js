@@ -6,9 +6,6 @@ const eventService = {
         const imageData = await imageService.uploadImage(eventData.imageBase64);
         eventData.imageURL = imageData.id;
         const eventImageUrl = imageData.imageUrl;
-        console.log('imageData:', imageData);
-        console.log('eventImageUrl:', eventImageUrl);
-        console.log('imageId:', eventData.imageId);
         const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.createEvent(requestData);
         const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
@@ -19,13 +16,8 @@ const eventService = {
 
     updateEvent: async (eventData) => {
         let eventImageUrl = null;
-        if (eventData.imageBase64) {
-            const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
-            eventData.imageId = imageData.id;
-            eventImageUrl = imageData.imageUrl;
-        } else {
-            eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
-        }
+        const imageData = await imageService.uploadImage(eventData.imageBase64);
+        eventImageUrl = imageData.imageUrl;
 
         const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.updateEvent(requestData);
