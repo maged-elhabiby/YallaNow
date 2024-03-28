@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new com.example.testauth2.MyInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**");
     }
 
 

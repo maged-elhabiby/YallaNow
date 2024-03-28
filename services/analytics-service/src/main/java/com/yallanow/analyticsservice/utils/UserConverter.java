@@ -20,7 +20,7 @@ public class UserConverter {
      * @param user the User object to be converted
      * @return a map containing the converted user data
      */
-    public Map<String, Object> convertUserToRecombeeMap(com.yallanow.analyticsservice.models.User user) {
+    public Map<String, Object> convertUserToRecombeeMap(User user) {
         Map<String, Object> map = new HashMap<>();
         map.put("email", user.getEmail());
 
@@ -39,63 +39,7 @@ public class UserConverter {
                 .orElseThrow(() -> new IllegalArgumentException("Missing 'userId' in user data")));
     }
 
-    /**
-     * Represents a user.
-     */
-    private class User {
-        private String userId;
-        private String email;
 
-        /**
-         * Constructs a new User object with the specified user ID and email.
-         *
-         * @param userId the user ID
-         * @param email the email address
-         */
-        public User(String userId, String email) {
-            this.userId = userId;
-            this.email = email;
-        }
-
-        /**
-         * Gets the user ID.
-         *
-         * @return the user ID
-         */
-        public String getUserId() {
-            return userId;
-        }
-
-        /**
-         * Sets the user ID.
-         *
-         * @param userId the user ID to set
-         */
-        public void setUserId(String userId) {
-            this.userId = userId;
-        }
-
-        /**
-         * Gets the email address.
-         *
-         * @return the email address
-         */
-        public String getEmail() {
-            return email;
-        }
-
-        /**
-         * Sets the email address.
-         *
-         * @param email the email address to set
-         */
-        public void setEmail(String email) {
-            this.email = email;
-        }
-        
-        // Add any additional methods or properties here
-    }
-    
     public User getUserFromPubsubMessage(Map<String, Object> map) {
 
         String userId = String.valueOf(Optional.ofNullable(map.get("userId"))
