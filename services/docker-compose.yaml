@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  events-service:
+    build:
+      context: ./events-service
+      dockerfile: Dockerfile
+    image: events-service:latest
+    ports:
+      - "8081:8080"
+
+  groups-service:
+    build:
+      context: ./groups-service
+      dockerfile: Dockerfile
+    image: groups-service:latest
+    ports:
+      - "8082:8080"
+
+  images-service:
+    build:
+      context: ./images-service
+      dockerfile: Dockerfile
+    image: images-service:latest
+    ports:
+      - "8083:8080"
+
+  feed-service:
+    build:
+      context: ./feed-service
+      dockerfile: Dockerfile
+    image: feed-service:latest
+    ports:
+      - "8084:8080"
+
+  analytics-service:
+    build:
+      context: ./analytics-service
+      dockerfile: Dockerfile
+    image: analytics-service:latest
+    ports:
+      - "8085:8080"
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    ports:
+      - "8085:8080"

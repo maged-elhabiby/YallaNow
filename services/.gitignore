@@ -1,4 +1,4 @@
-
+node_modules/
 package-lock.json
 package.json
 
@@ -36,8 +36,4 @@ build/
 ### VS Code ###
 .vscode/
 
-application.properties
-node_modules/
-testauth/
-/backend/testauth
-/node_modules/
+secrets.yaml
