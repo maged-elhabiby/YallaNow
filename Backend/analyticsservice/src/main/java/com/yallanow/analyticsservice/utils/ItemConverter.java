@@ -11,9 +11,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The ItemConverter class is responsible for converting Item objects to a map representation
+ * and vice versa. It provides methods to convert an Item object to a map and extract an Item
+ * object from a map.
+ */
 @Component
 public class ItemConverter {
 
+/**
+ * Converts an Item object to a Map object in order to be used for Recombee API.
+ * 
+ * @param item the Item object to be converted
+ * @return a Map object containing the converted item properties
+ */
     public Map<String, Object> convertItemToRecombeeMap(Item item) {
         Map<String, Object> map = new HashMap<>();
         map.put("groupId", item.getGroupId());
@@ -35,11 +46,22 @@ public class ItemConverter {
         return map;
     }
 
+/**
+ * Retrieves the ID from the given PubSub message map.
+ *
+ * @param map the map containing the PubSub message data
+ * @return the ID extracted from the map
+ * @throws IllegalArgumentException if the 'eventId' key is missing in the map
+ */
     public String getIdFromPubSubMessage(Map<String, Object> map) {
         return String.valueOf(Optional.ofNullable(map.get("eventId"))
                 .orElseThrow(() -> new IllegalArgumentException("Missing 'eventId' in event data")));
     }
 
+/**
+ * Represents an item with event details. 
+ * Collect the item details from the PubSub message map.
+ */
     public Item getItemFromPubsubMessage(Map<String, Object> map) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
