@@ -19,7 +19,6 @@ import org.ucalgary.events_microservice.Service.*;
 import org.junit.jupiter.api.*;
 
 import jakarta.persistence.EntityNotFoundException;
-import junit.framework.Assert;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

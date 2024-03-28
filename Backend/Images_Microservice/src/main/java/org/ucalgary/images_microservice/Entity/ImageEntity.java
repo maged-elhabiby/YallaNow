@@ -23,7 +23,7 @@ public class ImageEntity {
     private String imageLink;
 
     // constructors
-    protected ImageEntity() {}
+    public ImageEntity() {}
 
     public ImageEntity(String imageLink)throws IllegalArgumentException {
         if(imageLink == null || imageLink.isEmpty()) {
