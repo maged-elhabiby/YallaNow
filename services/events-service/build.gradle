@@ -20,7 +20,6 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
     set('springCloudGcpVersion', "5.0.2")
     set('springCloudVersion', "2023.0.0")
-    
 }
 
 dependencies {
