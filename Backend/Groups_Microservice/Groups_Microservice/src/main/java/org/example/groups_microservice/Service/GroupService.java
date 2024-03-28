@@ -4,13 +4,11 @@ import jakarta.transaction.Transactional;
 import org.example.groups_microservice.DTO.EventDTO;
 import org.example.groups_microservice.DTO.GroupDTO;
 import org.example.groups_microservice.DTO.GroupMemberDTO;
+import org.example.groups_microservice.DTO.UserRole;
 import org.example.groups_microservice.Entity.EventEntity;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
-import org.example.groups_microservice.Exceptions.EventNotFoundException;
-import org.example.groups_microservice.Exceptions.GroupAlreadyExistsException;
-import org.example.groups_microservice.Exceptions.GroupNotFoundException;
-import org.example.groups_microservice.Exceptions.MemberNotFoundException;
+import org.example.groups_microservice.Exceptions.*;
 import org.example.groups_microservice.Repository.GroupRepository;
 import org.example.groups_microservice.Service.GroupPubSub;
 
@@ -109,7 +107,7 @@ public class GroupService {
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(dto.getRole());
         groupMemberEntity.setGroup(groupEntity);
-        groupMemberEntity.setUserID(dto.getGroupMemberID());
+        groupMemberEntity.setUserID(dto.getUserID());
         groupMemberEntity.setGroupMemberID(dto.getGroupMemberID());
         groupMemberEntity.setUserName(dto.getUserName());
         return groupMemberEntity;
@@ -146,11 +144,19 @@ public class GroupService {
      * @throws GroupNotFoundException if the group does not exist or is invalid
      */
     @Transactional
-    public GroupEntity updateGroup(int groupID, GroupDTO groupDTO) throws GroupNotFoundException {
+    public GroupEntity updateGroup(int groupID, GroupDTO groupDTO,String userID, String username) throws GroupNotFoundException, NotAuthorizationException{
         GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
 
+        // Check if the user is authorized to update the group through the group member role and user ID
+        GroupMemberEntity groupMemberEntity =  groupEntity.getGroupMembers().stream()
+                .filter(groupMember -> groupMember.getUserID().equals(userID))
+                .filter(groupMember -> groupMember.getRole().equals(UserRole.ADMIN))
+                .findFirst()
+                .orElseThrow(() -> new NotAuthorizationException("User:"+ username + "ID:"+ userID + " is not authorized to update the group"));
+
         // Update simple fields
+        System.out.println("userrrrr"+ userID+ username);
         groupEntity.setGroupName(groupDTO.getGroupName());
         groupEntity.setIsPrivate(groupDTO.getIsPrivate());
 
@@ -191,7 +197,7 @@ public class GroupService {
 
     }
 
-    public List<GroupEntity> getGroupsByUserID(Integer userID) {
+    public List<GroupEntity> getGroupsByUserID(String userID) {
         return groupRepository.findAllByGroupMembersUserID(userID);
     }
 }

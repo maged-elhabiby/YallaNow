@@ -16,7 +16,7 @@ public class GroupMemberEntity {
     private Integer groupMemberID;
 
     @Column(name = "user_id")
-    private Integer userID;
+    private String userID;
 
 
     @Enumerated(EnumType.STRING)
@@ -36,7 +36,7 @@ public class GroupMemberEntity {
     public GroupMemberEntity() {
     }
 
-    public GroupMemberEntity(Integer groupMemberID,Integer userID, UserRole role,String username, GroupEntity group) {
+    public GroupMemberEntity(Integer groupMemberID,String userID, UserRole role,String username, GroupEntity group) {
         this.userID = userID;
         this.groupMemberID = groupMemberID;
         this.role = role;
@@ -46,11 +46,11 @@ public class GroupMemberEntity {
 
     // Getters and Setters
 
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
