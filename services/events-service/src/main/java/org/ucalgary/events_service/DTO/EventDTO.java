@@ -14,7 +14,7 @@ public class EventDTO {
     private EventStatus status;
     private int count;
     private int capacity;
-    private int imageID;
+    private String imageURL;
     
     // Constructors
     public EventDTO(){}
@@ -22,7 +22,7 @@ public class EventDTO {
     public EventDTO(int eventID, int groupID, 
                     String eventTitle, String eventDescription, 
                     AddressDTO location, LocalDateTime eventStartTime, LocalDateTime eventEndTime,
-                    EventStatus status, int count, int capacity, int imageID) {
+                    EventStatus status, int count, int capacity, String imageURL) {
         validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.eventID = eventID;
         this.groupID = groupID;
@@ -34,14 +34,14 @@ public class EventDTO {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
-        this.imageID = imageID;
+        this.imageURL = imageURL;
     }
 
     public EventDTO(int groupID, String eventTitle, 
                     String eventDescription, AddressDTO location, 
                     LocalDateTime eventStartTime,
                     LocalDateTime eventEndTime,EventStatus status,
-                    int count, int capacity, int imageID) {
+                    int count, int capacity, String imageURL) {
         validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -52,7 +52,7 @@ public class EventDTO {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
-        this.imageID = imageID;
+        this.imageURL = imageURL;
     }
 
     // Getters
@@ -67,7 +67,7 @@ public class EventDTO {
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
     public final int getAddressID() {return location.getAddressID();}
-    public final int getImageID() {return imageID;}
+    public final String getImageURL() {return imageURL;}
 
     // Setters
     public void setEventID(final int eventID) {this.eventID = eventID;}
@@ -80,7 +80,7 @@ public class EventDTO {
     public void setStatus(final EventStatus status) {this.status = status;}
     public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
-    public void setImageID(final int imageID) {this.imageID = imageID;}
+    public void setImageURL(final String imageURL) {this.imageURL = imageURL;}
     
     /**
      * Validates the input for the event.
