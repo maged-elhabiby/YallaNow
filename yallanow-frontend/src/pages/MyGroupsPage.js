@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
 import groupService from '../api/groupService';
 import { useAuth } from '../AuthContext';
+
 function MyGroupsPage() {
     const [groups, setGroups] = useState([]);
     const { currentUser } = useAuth();
