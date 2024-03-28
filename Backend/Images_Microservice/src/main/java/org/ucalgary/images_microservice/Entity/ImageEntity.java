@@ -23,13 +23,19 @@ public class ImageEntity {
     private String imageLink;
 
     // constructors
-    protected ImageEntity() {}
+    public ImageEntity() {}
 
-    public ImageEntity(String imageLink) {
+    public ImageEntity(String imageLink)throws IllegalArgumentException {
+        if(imageLink == null || imageLink.isEmpty()) {
+            throw new IllegalArgumentException("Image link cannot be null or empty");
+        }
         this.imageLink = imageLink;
     }
 
-    public ImageEntity(int imageId, String imageLink) {
+    public ImageEntity(int imageId, String imageLink)throws IllegalArgumentException {
+        if (imageLink == null || imageLink.isEmpty()) {
+            throw new IllegalArgumentException("Image link cannot be null or empty");
+        }
         this.imageId = imageId;
         this.imageLink = imageLink;
     }
