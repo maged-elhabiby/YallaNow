@@ -52,7 +52,7 @@ public class GroupMemberService {
      * @throws MemberNotFoundException if the group does not exist or the member is invalid
      */
     @Transactional
-    public void removeGroupMember(Integer groupID, Integer userID) throws  MemberNotFoundException {
+    public void removeGroupMember(Integer groupID, String userID) throws  MemberNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
         GroupPubSub.publishGroupMember(groupMemberEntity, "DELETE");
@@ -84,7 +84,7 @@ public class GroupMemberService {
      * @return the group member entity
      * @throws MemberNotFoundException if the member does not exist
      */
-    public GroupMemberEntity getGroupMember(Integer groupID, Integer userID) throws MemberNotFoundException {
+    public GroupMemberEntity getGroupMember(Integer groupID, String userID) throws MemberNotFoundException {
         return groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
     }
@@ -99,7 +99,7 @@ public class GroupMemberService {
      * @throws MemberNotFoundException if the member does not exist
      */
     @Transactional
-    public GroupMemberEntity updateGroupMember(Integer groupID, Integer userID, GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
+    public GroupMemberEntity updateGroupMember(Integer groupID, String userID, GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
 
         GroupEntity group = groupRepository.findById(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
@@ -124,24 +124,25 @@ public class GroupMemberService {
      * @throws  MemberNotFoundException if the group does not exist or the member does not exist
      */
     @Transactional
-    public void deleteGroupMember(Integer groupID, Integer userID) throws MemberNotFoundException {
+    public void deleteGroupMember(Integer groupID, String userID) throws MemberNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
 
         groupMemberRepository.delete(groupMemberEntity);
     }
-
     @Transactional
     public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
-        Map<Integer, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
+        Map<String, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
                 .filter(member -> member.getUserID() != null)
                 .collect(Collectors.toMap(GroupMemberEntity::getUserID, member -> member));
+
         for (GroupMemberDTO dto : groupMembers) {
             if (dto.getUserID() != null) {
                 GroupMemberEntity existingMember = existingMembersById.get(dto.getUserID());
                 // If the member exists, update the role
                 if (existingMember != null) {
                     mapDTOToEntity(dto, existingMember);
+                    groupMemberRepository.save(existingMember);
                 } else {
                     // If the member does not exist, create a new member
                     GroupMemberEntity newMember = new GroupMemberEntity();
@@ -149,12 +150,11 @@ public class GroupMemberService {
                     newMember.setGroup(groupEntity);
                     groupEntity.getGroupMembers().add(newMember);
                     groupEntity.setMemberCount(groupEntity.getGroupMembers().size());
-
+                    groupMemberRepository.save(newMember);
                 }
             }
-            groupRepository.save(groupEntity);
         }
-
+        groupRepository.save(groupEntity);
     }
     private void mapDTOToEntity(GroupMemberDTO dto, GroupMemberEntity entity) {
         entity.setGroupMemberID(dto.getGroupMemberID());
@@ -165,7 +165,7 @@ public class GroupMemberService {
 
     }
     @Transactional
-    public List<GroupMemberEntity> getGroupsByUserID(Integer userID) {
+    public List<GroupMemberEntity> getGroupsByUserID(String userID) {
         return groupMemberRepository.findAllGroupByUserID(userID);
     }
 }
