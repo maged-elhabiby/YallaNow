@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
+
+import groupMemberService from '../api/groupMemeberService.js'; 
 
 function ManageGroupPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [groupData, setGroupData] = useState(location.state.groupData || {}); // Updated to maintain group data in state
+  const [groupMembers, setGroupMembers] = useState([]);
 
-  const groupData = location.state.groupData; 
-  // Function to handle role update
-  const handleRoleUpdate = (userId, newRole) => {
-    console.log(`Update role for user ${userId} to ${newRole}`);
-    // Implement role update logic here
+  useEffect(() => {
+    const fetchGroupMembers = async () => {
+      try {
+        const members = await groupMemberService.getGroupMembers(groupData.id);
+        setGroupMembers(members);
+      } catch (error) {
+        console.error('Error fetching group members:', error);
+      }
+    };
+
+    fetchGroupMembers();
+  }, [groupData.id]);
+
+  const handleRoleUpdate = async (userId, newRole) => {
+    try {
+      await groupMemberService.updateGroupMember(groupData.id, userId, { role: newRole });
+      // Refresh the group members list after updating
+      const updatedMembers = await groupMemberService.getGroupMembers(groupData.id);
+      setGroupMembers(updatedMembers);
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
   };
 
-  // Function to handle user removal
-  const handleRemoveUser = (userId) => {
-    console.log(`Remove user ${userId} from group`);
-    // Implement removal logic here, ensuring at least one admin remains
+  const handleRemoveUser = async (userId) => {
+    try {
+      await groupMemberService.removeGroupMember(groupData.id, userId);
+      // Refresh the group members list after removal
+      const updatedMembers = await groupMemberService.getGroupMembers(groupData.id);
+      setGroupMembers(updatedMembers);
+    } catch (error) {
+      console.error('Error removing user from group:', error);
+    }
   };
-
   return (
     <div className="mt-20 px-4 sm:px-6 lg:px-8">
       <div className="md:flex md:items-center md:justify-between">

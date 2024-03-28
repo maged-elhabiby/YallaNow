@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import getMockRecommendations from '../data/readRecommendationData';
+import groupService from '../api/groupService'
+import eventService from '../api/eventService';
 
 const GroupDetailsPage = () => {
     const { groupId } = useParams(); // Assuming 'group-id' from your route
@@ -16,35 +18,23 @@ const GroupDetailsPage = () => {
     };
     
     useEffect(() => {
-        // Simulate fetching group details based on groupId
-        // In a real app, you'd fetch this data from a backend service
         const fetchGroupDetails = async () => {
-            // This is mock data; replace it with a fetch call to your backend
-            const mockData = {
-                groupID: 1,
-                groupName: "Astrophysics Enthusiasts",
-                isPrivate: true,
-                groupMembers: [
-                    { name:"Mike",userID: 2, role: "ADMIN" },
-                    { name:"Mike",userID: 3, role: "MEMBER" },
-                ],
-                events: [
-                    { eventID: 101, eventName: "Black Hole Mysteries" },
-                    { eventID: 102, eventName: "The Expanding Universe" },
-                ],
-            };
-            if (parseInt(groupId) === mockData.groupID) {
-                setGroupDetails(mockData);
+            try {
+                const details = await groupService.getGroup(groupId);
+                setGroupDetails(details);
+
+                // Optionally, fetch the events for the group
+                const groupEvents = await eventService.getEventsForGroup(groupId);
+                setEvents(groupEvents);
+            } catch (error) {
+                console.error("Error fetching group details:", error);
+                // Handle error (e.g., display an error message)
             }
         };
 
-        fetchGroupDetails()
+        fetchGroupDetails();
     }, [groupId]);
     
-    useEffect(() => {
-        const formattedEvents = getMockRecommendations();
-        setEvents(formattedEvents.recommendations);
-    }, []);
     if (!groupDetails) {
         return <div>Loading...</div>;
     }

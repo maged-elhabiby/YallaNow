@@ -2,18 +2,28 @@
 import React, { useState, useEffect } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
-
-
+import groupService from '../api/groupService';
+import { useAuth } from '../AuthContext';
 function MyGroupsPage() {
     const [groups, setGroups] = useState([]);
+    const { currentUser } = useAuth();
+    const userId = currentUser?.uid;
     useEffect(() => {
-        // Fetch the list of groups. This is a mock and should be replaced with a real fetch request.
-        const mockGroups = [
-          { id: 1, name: 'Astrophysics Enthusiasts',numberOfPeople: 150, },
-          { id: 2, name: 'Quantum Computing Circle',numberOfPeople: 190, },
-        ];
-        setGroups(mockGroups);
-      }, []);
+      const fetchUserGroups = async () => {
+        try {
+          // This assumes your getGroups method fetches all groups a user is part of.
+          // You may need to adjust this if your backend requires a user ID or other parameters.
+          const fetchedGroups = await groupService.getGroupByUserID(userId);
+          setGroups(fetchedGroups);
+        } catch (error) {
+          console.error('Error fetching groups:', error);
+          // Optionally, update the state or UI to inform the user about the error.
+        }
+      };
+    
+      fetchUserGroups();
+    }, []);
+    
 
     return (
       <div className="px-6 py-24 sm:py-32 lg:px-8">

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import groupService from '../api/groupService';
+import { useAuth } from '../AuthContext';
 
 function generateRandomId(length = 8) {
     return [...Array(length)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
@@ -7,31 +9,33 @@ function generateRandomId(length = 8) {
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState('');
-  const groupId = "1";
   const [isPrivate, setIsPrivate] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const currentUserId = "yourCurrentUserId";
+    // Assuming "yourCurrentUserId" is obtained from your auth context or a similar state management solution
+    const userId = currentUser?.uid;
 
-    // Here, you'll handle the group creation logic
-    console.log({
-      groupId,
-      groupName,
+    const groupData = {
+      name: groupName,
       isPrivate,
       members: [{
-        userId: currentUserId,
+        userId: userId,
         role: "ADMIN"
       }]
+    };
 
-    });
-    setTimeout(() => {
-        // alert(`Group "${groupName}" created with ID: ${groupId}`);
-        // Navigate to the group's detail page
-        navigate(`/group/${groupId}`);
-      }, 500);  
-};
+    try {
+      const newGroup = await groupService.createGroup(groupData);
+      console.log('Group created successfully', newGroup);
+      navigate(`/group/${newGroup.id}`); // Assuming the backend returns the new group's id
+    } catch (error) {
+      console.error('Error creating group:', error);
+      // Optionally, display an error message to the user
+    }
+  };
 
 
   return (

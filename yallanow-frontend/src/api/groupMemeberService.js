@@ -48,15 +48,7 @@ const groupMemberService = {
             throw error;
         }
     },
-    getGroupsByUserID: async (userID) => {
-        try {
-            const response = await axios.get(`${baseUrl}members/user/${userID}`);
-            return response.data;
-        } catch (error) {
-            console.error(`Error getting groups for user ${userID}:`, error);
-            throw error;
-        }
-    },
+    
 };
 
 export default groupMemberService;
