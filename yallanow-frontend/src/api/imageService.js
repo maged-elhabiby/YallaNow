@@ -1,13 +1,25 @@
-
-
 import axios from 'axios';
-
 const baseUrl = 'http://localhost:8082/microservice/images/';
+const cloudinaryCloudName = 'dt8r2amry';
+const cloudinaryUploadPreset = 'yallaNow';
 
 const imageService = {
-    uploadImageByBase64: async (base64Image) => {
+
+    uploadImage: async (base64Image) => {
         try {
-            const response = await axios.post(baseUrl + 'UploadImage', { base64Image });
+            const formData = new FormData();
+            formData.append('file', base64Image);
+            formData.append('upload_preset', cloudinaryUploadPreset);
+
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+
+            const cloudinary = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, formData, config);
+            const response = await axios.post(baseUrl + 'AddImage', { imageLink: cloudinary.data.secure_url });
+
             return response.data;
         } catch (error) {
             console.error('Error uploading image:', error);
