@@ -2,7 +2,7 @@
 
 YallaNow aims to create a scalable, robust social networking platform focusing on group interactions, event management, and enhanced user engagement through personalized content. It seeks to address the need for a cohesive online community where users can effortlessly organize, discover, and participate in events that match their interests, while fostering connections through groups. 
 
-To run the frontend of this project first navigate to ./yallanow-frontend
+To run the project first navigate to ./yallanow-frontend
 
 ```bash
 cd ./yallanow-frontend
@@ -20,4 +20,4 @@ After all of the required packages are installed run
 npm run start
 ```
 
-to start the frontend.
+to start the project.
