@@ -21,11 +21,6 @@ spec:
         - name: events-service
           image: events-service:latest
           env:
-            - name: SPRING_INSTANCE_CONNECTION_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: SPRING_INSTANCE_CONNECTION_NAME
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -59,11 +54,6 @@ spec:
         - name: groups-service
           image: groups-service:latest
           env:
-            - name: SPRING_INSTANCE_CONNECTION_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: SPRING_INSTANCE_CONNECTION_NAME
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -97,11 +87,6 @@ spec:
         - name: images-service
           image: images-service:latest
           env:
-            - name: SPRING_INSTANCE_CONNECTION_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-credentials
-                  key: SPRING_INSTANCE_CONNECTION_NAME
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -188,3 +173,25 @@ spec:
                 secretKeyRef:
                   name: recombee-credentials
                   key: RECOMBEE_SECRET_TOKEN
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: my-app
+    service: auth-service
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+      service: auth-service
+  template:
+    metadata:
+      labels:
+        app: my-app
+        service: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: auth-service:latest
