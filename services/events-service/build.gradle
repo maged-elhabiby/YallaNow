@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+group = 'ucalgary'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudGcpVersion', "5.0.2")
+    set('springCloudVersion', "2023.0.0")
+    
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.integration:spring-integration-core'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.h2database:h2'
+
+    implementation 'com.google.cloud.sql:postgres-socket-factory:1.4.0'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub:2.0.10'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.jmock:jmock:2.12.0'
+    testImplementation 'org.jmock:jmock-junit4:2.12.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
+    }
+}
+
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+    inputs.dir snippetsDir
+    dependsOn test
+}
