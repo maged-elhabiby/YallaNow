@@ -81,7 +81,7 @@ public class GroupsController {
     @PostMapping
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO groupDTO) throws GroupAlreadyExistsException {
         GroupEntity groupEntity = groupService.createGroup(groupDTO);
-        publishGroupByMember(groupEntity, "UPDATE");
+        publishGroupByMember(groupEntity, "ADD");
         return ResponseEntity.ok(convertToDto(groupEntity));
     }
 

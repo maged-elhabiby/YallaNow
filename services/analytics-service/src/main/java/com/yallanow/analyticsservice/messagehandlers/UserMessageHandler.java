@@ -23,6 +23,13 @@ public class UserMessageHandler {
     private final ObjectMapper objectMapper;
     private final UserConverter userConverter;
 
+    /**
+     * Constructs a new UserMessageHandler with the specified dependencies.
+     *
+     * @param userService    the UserService instance to be used for handling user-related operations
+     * @param objectMapper  the ObjectMapper instance to be used for JSON serialization and deserialization
+     * @param userConverter the UserConverter instance to be used for converting User objects
+     */
     @Autowired
     public UserMessageHandler(UserService userService, ObjectMapper objectMapper, UserConverter userConverter) {
         this.userService = userService;
@@ -30,6 +37,13 @@ public class UserMessageHandler {
         this.userConverter = userConverter;
     }
 
+    /**
+     * Handles the incoming message from the user input channel.
+     * This method processes the message and performs the corresponding operation based on the operation type.
+     *
+     * @param message The incoming message to be handled.
+     * @throws IllegalArgumentException if the message does not contain an AcknowledgeablePubsubMessage.
+     */
     @ServiceActivator(inputChannel = "userInputChannel")
     public void handleMessage(Message<?> message) {
         BasicAcknowledgeablePubsubMessage originalMessage = message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);

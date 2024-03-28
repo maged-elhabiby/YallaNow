@@ -15,12 +15,22 @@ public class UserServiceImpl implements UserService {
     private final RecombeeClientInterface recombeeClient;
     private final UserConverter userConverter;
 
+    /**
+     * This class implements the UserService interface and provides the implementation
+     * for managing user-related operations.
+     */
     @Autowired
     public UserServiceImpl(RecombeeClientInterface recombeeClient, UserConverter userConverter) {
         this.recombeeClient = recombeeClient;
         this.userConverter = userConverter;
     }
 
+    /**
+     * Adds a user to the system.
+     *
+     * @param user the user to be added
+     * @throws UserServiceException if there is an error adding the user
+     */
     @Override
     public void addUser(User user) throws UserServiceException {
         try {
@@ -31,6 +41,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+        * Updates a user in the Recombee service.
+        *
+        * @param user the user object containing the updated information
+        * @throws UserServiceException if there is an error updating the user in Recombee
+        */
     @Override
     public void updateUser(User user) throws UserServiceException {
         try {
@@ -39,8 +55,13 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException("Error updating user in Recombee: " + e.getMessage(), e);
         }
     }
-
-    // Change to soft deletes
+    
+    /**
+     * Deletes a user from the analytics service.
+     *
+     * @param userId the ID of the user to be deleted
+     * @throws UserServiceException if there is an error deleting the user
+     */
     @Override
     public void deleteUser(String userId) throws UserServiceException {
         try {

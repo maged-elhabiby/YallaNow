@@ -24,6 +24,13 @@ public class ItemMessageHandler {
     private final ObjectMapper objectMapper;
     private final ItemConverter itemConverter;
 
+    /**
+     * Constructs a new ItemMessageHandler with the specified dependencies.
+     *
+     * @param itemService    the ItemService used for handling item-related operations
+     * @param objectMapper  the ObjectMapper used for JSON serialization and deserialization
+     * @param itemConverter the ItemConverter used for converting items between different formats
+     */
     @Autowired
     public ItemMessageHandler(ItemService itemService, ObjectMapper objectMapper, ItemConverter itemConverter) {
         this.itemService = itemService;
@@ -31,6 +38,12 @@ public class ItemMessageHandler {
         this.itemConverter = itemConverter;
     }
 
+    /**
+     * Handles the incoming message from the event input channel.
+     *
+     * @param message The incoming message to be handled.
+     * @throws IllegalArgumentException if the message does not contain an AcknowledgeablePubsubMessage.
+     */
     @ServiceActivator(inputChannel = "eventInputChannel")
     public void handleMessage(Message<?> message) {
         BasicAcknowledgeablePubsubMessage originalMessage = message.getHeaders().get(GcpPubSubHeaders.ORIGINAL_MESSAGE, BasicAcknowledgeablePubsubMessage.class);

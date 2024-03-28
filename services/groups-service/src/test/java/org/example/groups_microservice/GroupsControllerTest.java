@@ -82,6 +82,11 @@ public class GroupsControllerTest {
     public void testDeleteGroup() throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException, NotAuthorizationException {
         // Arrange
         int groupID = 1;
+        GroupEntity groupEntity = new GroupEntity();
+        groupEntity.setGroupID(groupID);
+        groupEntity.setGroupName("Test Group");
+
+        when(groupService.getGroup(groupID)).thenReturn(groupEntity);
 
         // Act
         ResponseEntity<Void> response = groupsController.deleteGroup(groupID, "1");

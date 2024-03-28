@@ -12,6 +12,12 @@ public class RecombeeItemSchemaSetupRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemMessageHandler.class);
 
+    /**
+     * The entry point of the application.
+     * Starts the Spring Boot application context and sets up item properties in Recombee.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         // Start the Spring Boot application context
         ConfigurableApplicationContext context = SpringApplication.run(AnalyticsServiceApplication.class, args);

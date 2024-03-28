@@ -156,7 +156,6 @@ public class GroupService {
                 .orElseThrow(() -> new NotAuthorizationException("User:"+ username + "ID:"+ userID + " is not authorized to update the group"));
 
         // Update simple fields
-        System.out.println("userrrrr"+ userID+ username);
         groupEntity.setGroupName(groupDTO.getGroupName());
         groupEntity.setIsPrivate(groupDTO.getIsPrivate());
 

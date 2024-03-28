@@ -11,8 +11,9 @@ import java.util.Properties;
 public class MailConfiguration {
 
     /**
-     * Configures the JavaMailSender bean.
-     * @return The JavaMailSender bean.
+     * Creates and configures a JavaMailSender instance.
+     * 
+     * @return the configured JavaMailSender instance
      */
     @Bean
     public JavaMailSender getJavaMailSender() {
