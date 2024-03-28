@@ -31,8 +31,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.h2database:h2'
-
-    implementation 'com.google.cloud.sql:postgres-socket-factory:1.4.0'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    // implementation 'com.google.cloud.sql:postgres-socket-factory:1.4.0'
     implementation 'com.google.cloud:spring-cloud-gcp-starter-pubsub:2.0.10'
     implementation 'com.google.cloud:spring-cloud-gcp-starter'
 

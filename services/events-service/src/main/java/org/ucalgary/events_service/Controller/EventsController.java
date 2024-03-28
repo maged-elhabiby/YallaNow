@@ -1,5 +1,6 @@
 package org.ucalgary.events_service.Controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.ucalgary.events_service.Service.AddressService;
 import org.ucalgary.events_service.Service.EventService;
@@ -40,7 +41,7 @@ public class EventsController {
             eventsPubService.publishEvents(events, "ADD");
             return ResponseEntity.ok(events);
         }catch(AccessException e){
-            return (ResponseEntity<?>) ResponseEntity.status(403);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e){
@@ -61,7 +62,7 @@ public class EventsController {
             eventsPubService.publishEvents(events, "UPDATE");
             return ResponseEntity.ok(events);
         }catch(AccessException e){
-            return (ResponseEntity<?>) ResponseEntity.status(403);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -127,7 +128,7 @@ public class EventsController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (AccessException e) {
-            return (ResponseEntity<?>) ResponseEntity.status(403);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 }

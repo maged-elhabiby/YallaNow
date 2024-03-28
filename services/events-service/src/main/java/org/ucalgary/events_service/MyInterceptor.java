@@ -41,7 +41,7 @@ public class MyInterceptor implements HandlerInterceptor {
                 AuthResponse responseBody = objectMapper.readValue(authResponse.getBody(), AuthResponse.class);
                 email = responseBody.getEmail();
                 id = responseBody.getUid();
-                name = "John Doe";
+                name = responseBody.getName();
                 request.setAttribute("Email", email);
                 request.setAttribute("Id", id);
                 request.setAttribute("Name", name);
@@ -63,7 +63,6 @@ public class MyInterceptor implements HandlerInterceptor {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            System.out.println(headerName + ": " + request.getHeader(headerName));
             headers.add(headerName, request.getHeader(headerName));
         }
         return headers;
@@ -75,10 +74,19 @@ public class MyInterceptor implements HandlerInterceptor {
 class AuthResponse {
     private String email;
     private String uid;
+    private String name;
 
     // getters and setters
     public String getEmail() {
         return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
