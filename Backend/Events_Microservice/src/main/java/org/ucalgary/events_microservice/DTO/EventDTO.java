@@ -23,7 +23,7 @@ public class EventDTO {
                     String eventTitle, String eventDescription, 
                     AddressDTO location, LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                     EventStatus status, int count, int capacity, int imageID) {
-        validateConstructor(eventStartTime, eventEndTime, count, capacity, location.getAddressID(), groupID);
+        validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.eventID = eventID;
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -42,7 +42,7 @@ public class EventDTO {
                     LocalDateTime eventStartTime,
                     LocalDateTime eventEndTime,EventStatus status,
                     int count, int capacity, int imageID) {
-        validateConstructor(eventStartTime, eventEndTime, count, capacity, location.getAddressID(), groupID);
+        validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.groupID = groupID;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
@@ -88,10 +88,9 @@ public class EventDTO {
      * @param end
      * @param count
      * @param capacity
-     * @param locationId
      * @param groupId
      */
-    private void validateConstructor(LocalDateTime start, LocalDateTime end, int count, int capacity, Integer locationId, Integer groupId){
+    private void validateConstructor(LocalDateTime start, LocalDateTime end, int count, int capacity, Integer groupId, AddressDTO location){
         if(start.isAfter(end)){
             throw new IllegalArgumentException("Event start time cannot be after event end time");
         } if(count > capacity){

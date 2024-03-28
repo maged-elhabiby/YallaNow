@@ -10,7 +10,6 @@ import org.ucalgary.events_microservice.DTO.*;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
-import org.ucalgary.events_microservice.Entity.ParticipantEntity;
 import org.ucalgary.events_microservice.Repository.AddressRepository;
 import org.ucalgary.events_microservice.Repository.EventRepository;
 import org.ucalgary.events_microservice.Repository.GroupUserRespository;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +35,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("serviceTest")
-public class eventsTest {
+public class EventsTest {
     @Mock
     private EventRepository eventRepository;
     @InjectMocks
@@ -329,8 +327,178 @@ public class eventsTest {
     }
 
     // ********************************************************************************************************************
+    
+    @Nested
+    @DisplayName("EventDTO Tests")
+    class EventDTOTests {
 
-   
+        @Test
+        @DisplayName("Test EventDTO Constructor")
+        void testEventDTOConstructor() {
+            // Create test data
+            int eventID = 1;
+            int groupID = 1;
+            String eventTitle = "Test Event";
+            String eventDescription = "Description";
+            AddressDTO location = new AddressDTO("Street", "City", "Province", "Postal Code", "Country");
+            LocalDateTime eventStartTime = LocalDateTime.now();
+            LocalDateTime eventEndTime = LocalDateTime.now().plusHours(1);
+            EventStatus status = EventStatus.Scheduled;
+            int count = 0;
+            int capacity = 100;
+            int imageID = 1;
+
+            // Create EventDTO object using constructor
+            EventDTO eventDTO = new EventDTO(eventID, groupID, eventTitle, eventDescription,
+                    location, eventStartTime, eventEndTime, status, count, capacity, imageID);
+            eventDTO.setLocation(location);
+
+            // Assertions
+            Assertions.assertNotNull(eventDTO);
+            Assertions.assertEquals(eventID, eventDTO.getEventID());
+            Assertions.assertEquals(groupID, eventDTO.getGroupID());
+            Assertions.assertEquals(eventTitle, eventDTO.getEventTitle());
+            Assertions.assertEquals(eventDescription, eventDTO.getEventDescription());
+            Assertions.assertEquals(location, eventDTO.getLocation());
+            Assertions.assertEquals(eventStartTime, eventDTO.getEventStartTime());
+            Assertions.assertEquals(eventEndTime, eventDTO.getEventEndTime());
+            Assertions.assertEquals(status, eventDTO.getStatus());
+            Assertions.assertEquals(count, eventDTO.getCount());
+            Assertions.assertEquals(capacity, eventDTO.getCapacity());
+            Assertions.assertEquals(imageID, eventDTO.getImageID());
+        }
+
+        @Test
+        @DisplayName("Test EventDTO Setters and Getters")
+        void testEventDTOSettersAndGetters() {
+            // Create EventDTO object
+            EventDTO eventDTO = new EventDTO();
+
+            // Set values using setters
+            eventDTO.setEventID(1);
+            eventDTO.setGroupID(1);
+            eventDTO.setEventTitle("Test Event");
+            eventDTO.setEventDescription("Description");
+            AddressDTO location = new AddressDTO(1, "Street", "City", "Province", "Postal Code", "Country");
+            eventDTO.setLocation(location);
+            LocalDateTime eventStartTime = LocalDateTime.now();
+            LocalDateTime eventEndTime = LocalDateTime.now().plusHours(1);
+            eventDTO.setEventStartTime(eventStartTime);
+            eventDTO.setEventEndTime(eventEndTime);
+            eventDTO.setStatus(EventStatus.Scheduled);
+            eventDTO.setCount(0);
+            eventDTO.setCapacity(100);
+            eventDTO.setImageID(1);
+
+            // Assertions using getters
+            Assertions.assertEquals(1, eventDTO.getEventID());
+            Assertions.assertEquals(1, eventDTO.getGroupID());
+            Assertions.assertEquals("Test Event", eventDTO.getEventTitle());
+            Assertions.assertEquals("Description", eventDTO.getEventDescription());
+            Assertions.assertEquals(location, eventDTO.getLocation());
+            Assertions.assertEquals(eventStartTime, eventDTO.getEventStartTime());
+            Assertions.assertEquals(eventEndTime, eventDTO.getEventEndTime());
+            Assertions.assertEquals(EventStatus.Scheduled, eventDTO.getStatus());
+            Assertions.assertEquals(0, eventDTO.getCount());
+            Assertions.assertEquals(100, eventDTO.getCapacity());
+            Assertions.assertEquals(1, eventDTO.getImageID());
+        }
+    }
+
+     // ********************************************************************************************************************
+
+    @Nested
+    @DisplayName("EventsEntity Tests")
+    class EventsEntityTests {
+
+        @Test
+        @DisplayName("Test EventsEntity Constructor")
+        void testEventsEntityConstructor() {
+            // Create test data
+            int eventId = 1;
+            int groupId = 1;
+            String eventTitle = "Test Event";
+            String eventDescription = "Description";
+            int locationId = 1;
+            LocalDateTime eventStartTime = LocalDateTime.now();
+            LocalDateTime eventEndTime = LocalDateTime.now().plusHours(1);
+            EventStatus status = EventStatus.Scheduled;
+            int count = 0;
+            int capacity = 100;
+            int imageId = 1;
+
+            // Create EventsEntity object using constructor
+            EventsEntity eventsEntity = new EventsEntity(eventId, groupId, eventTitle, eventDescription,
+                    locationId, eventStartTime, eventEndTime, status, count, capacity, imageId);
+
+            // Assertions
+            Assertions.assertNotNull(eventsEntity);
+            Assertions.assertEquals(eventId, eventsEntity.getEventId());
+            Assertions.assertEquals(groupId, eventsEntity.getGroupId());
+            Assertions.assertEquals(eventTitle, eventsEntity.getEventTitle());
+            Assertions.assertEquals(eventDescription, eventsEntity.getEventDescription());
+            Assertions.assertEquals(locationId, eventsEntity.getLocationId());
+            Assertions.assertEquals(eventStartTime, eventsEntity.getEventStartTime());
+            Assertions.assertEquals(eventEndTime, eventsEntity.getEventEndTime());
+            Assertions.assertEquals(status, eventsEntity.getStatus());
+            Assertions.assertEquals(count, eventsEntity.getCount());
+            Assertions.assertEquals(capacity, eventsEntity.getCapacity());
+            Assertions.assertEquals(imageId, eventsEntity.getImageId());
+        }
+
+        @Test
+        @DisplayName("Test EventsEntity Setters and Getters")
+        void testEventsEntitySettersAndGetters() {
+            // Create EventsEntity object
+            EventsEntity eventsEntity = new EventsEntity();
+
+            // Set values using setters
+            eventsEntity.setEventId(1);
+            eventsEntity.setGroupId(1);
+            eventsEntity.setEventTitle("Test Event");
+            eventsEntity.setEventDescription("Description");
+            eventsEntity.setLocationId(1);
+            LocalDateTime eventStartTime = LocalDateTime.now();
+            LocalDateTime eventEndTime = LocalDateTime.now().plusHours(1);
+            eventsEntity.setEventStartTime(eventStartTime);
+            eventsEntity.setEventEndTime(eventEndTime);
+            eventsEntity.setStatus(EventStatus.Scheduled);
+            eventsEntity.setCount(0);
+            eventsEntity.setCapacity(100);
+            eventsEntity.setImageId(1);
+
+            // Assertions using getters
+            Assertions.assertEquals(1, eventsEntity.getEventId());
+            Assertions.assertEquals(1, eventsEntity.getGroupId());
+            Assertions.assertEquals("Test Event", eventsEntity.getEventTitle());
+            Assertions.assertEquals("Description", eventsEntity.getEventDescription());
+            Assertions.assertEquals(1, eventsEntity.getLocationId());
+            Assertions.assertEquals(eventStartTime, eventsEntity.getEventStartTime());
+            Assertions.assertEquals(eventEndTime, eventsEntity.getEventEndTime());
+            Assertions.assertEquals(EventStatus.Scheduled, eventsEntity.getStatus());
+            Assertions.assertEquals(0, eventsEntity.getCount());
+            Assertions.assertEquals(100, eventsEntity.getCapacity());
+            Assertions.assertEquals(1, eventsEntity.getImageId());
+        }
+
+        @Test
+        @DisplayName("Test EventsEntity Validation")
+        void testEventsEntityValidation() {
+            // Create EventsEntity object
+            EventsEntity eventsEntity = new EventsEntity();
+
+            // Set invalid values
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setEventTitle(""));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setEventDescription(""));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setLocationId(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setEventStartTime(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setEventEndTime(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setStatus(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setCount(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setCapacity(null));
+            Assertions.assertThrows(IllegalArgumentException.class, () -> eventsEntity.setCount(101)); // count > capacity
+        }
+    }
 
     // Helper methods to create test data
     private EventDTO createValidEventDTO() {

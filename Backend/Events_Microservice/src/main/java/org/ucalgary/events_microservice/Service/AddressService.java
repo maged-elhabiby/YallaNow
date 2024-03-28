@@ -77,7 +77,7 @@ public class AddressService {
      * @param event The event DTO containing address information.
      * @throws IllegalArgumentException if the address is invalid.
      */
-    public void checkAddress(EventDTO event)throws IllegalArgumentException{
+    private void checkAddress(EventDTO event)throws IllegalArgumentException{
         if(event.getLocation() == null){
             throw new IllegalArgumentException("You have to have an address");
         }

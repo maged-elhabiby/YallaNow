@@ -2,14 +2,17 @@ package org.ucalgary.events_microservice.ServiceTest;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.ucalgary.events_microservice.DTO.*;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
 import org.ucalgary.events_microservice.Entity.ParticipantEntity;
 import org.ucalgary.events_microservice.Repository.EventRepository;
+import org.ucalgary.events_microservice.Repository.GroupUserRespository;
 import org.ucalgary.events_microservice.Repository.ParticipantRepository;
 import org.ucalgary.events_microservice.Service.*;
 
@@ -230,7 +233,7 @@ public class ParticipantServiceTest {
 
     private EventsEntity createExistingEvent() {
         EventsEntity existingEvent = new EventsEntity();
-        AddressEntity address = new AddressEntity(1, "Street", "City",
+        new AddressEntity(1, "Street", "City",
                 "Province", "T2M 4W7", "Country");
 
         // Initialize existingEvent with valid data
@@ -246,6 +249,203 @@ public class ParticipantServiceTest {
         existingEvent.setCapacity(100);
         existingEvent.setImageId(1);
         return existingEvent;
+    }
+
+    @Nested
+    @DisplayName("ParticipantDTO Tests")
+    class ParticipantDTOTests {
+
+        @Test
+        @DisplayName("Test ParticipantDTO Constructor")
+        void testParticipantDTOConstructor() {
+            // Create test data
+            int participantID = 1;
+            String userid = "testUser";
+            int eventid = 1;
+            ParticipantStatus status = ParticipantStatus.Maybe;
+
+            // Create ParticipantDTO object using constructor
+            ParticipantDTO participantDTO = new ParticipantDTO(participantID, userid, eventid, status);
+
+            // Assertions
+            Assertions.assertNotNull(participantDTO);
+            Assertions.assertEquals(participantID, participantDTO.getParticipantID());
+            Assertions.assertEquals(userid, participantDTO.getUserid());
+            Assertions.assertEquals(eventid, participantDTO.getEventid());
+            Assertions.assertEquals(status, participantDTO.getParticipantStatus());
+        }
+
+        @Test
+        @DisplayName("Test ParticipantDTO Setters and Getters")
+        void testParticipantDTOSettersAndGetters() {
+            // Create ParticipantDTO object
+            ParticipantDTO participantDTO = new ParticipantDTO();
+
+            // Set values using setters
+            participantDTO.setParticipantID(1);
+            participantDTO.setUserid("testUser");
+            participantDTO.setEventid(1);
+            participantDTO.setParticipantStatus(ParticipantStatus.Attending);
+
+            // Assertions using getters
+            Assertions.assertEquals(1, participantDTO.getParticipantID());
+            Assertions.assertEquals("testUser", participantDTO.getUserid());
+            Assertions.assertEquals(1, participantDTO.getEventid());
+            Assertions.assertEquals(ParticipantStatus.Attending, participantDTO.getParticipantStatus());
+        }
+    }
+
+    @Nested
+    @DisplayName("ParticipantEntity Tests")
+    class ParticipantEntityTests {
+
+        @Test
+        @DisplayName("Test ParticipantEntity Constructor")
+        void testParticipantEntityConstructor() {
+            // Create mock EventsEntity
+            EventsEntity mockEvent = Mockito.mock(EventsEntity.class);
+
+            // Create test data
+            String userId = "testUser";
+            ParticipantStatus status = ParticipantStatus.Attending;
+
+            // Create ParticipantEntity object using constructor
+            ParticipantEntity participantEntity = new ParticipantEntity(userId, status, mockEvent);
+
+            // Assertions
+            Assertions.assertNotNull(participantEntity);
+            Assertions.assertEquals(userId, participantEntity.getUserId());
+            Assertions.assertEquals(status, participantEntity.getParticipantStatus());
+            Assertions.assertEquals(mockEvent, participantEntity.getEvent());
+        }
+
+        @Test
+        @DisplayName("Test ParticipantEntity Setters and Getters")
+        void testParticipantEntitySettersAndGetters() {
+            // Create ParticipantEntity object
+            ParticipantEntity participantEntity = new ParticipantEntity();
+
+            // Create mock EventsEntity
+            EventsEntity mockEvent = Mockito.mock(EventsEntity.class);
+
+            // Set values using setters
+            participantEntity.setParticipantId(1);
+            participantEntity.setUserId("testUser");
+            participantEntity.setParticipantStatus(ParticipantStatus.Maybe);
+            participantEntity.setEvent(mockEvent);
+
+            // Assertions using getters
+            Assertions.assertEquals(1, participantEntity.getParticipantId());
+            Assertions.assertEquals("testUser", participantEntity.getUserId());
+            Assertions.assertEquals(ParticipantStatus.Maybe, participantEntity.getParticipantStatus());
+            Assertions.assertEquals(mockEvent, participantEntity.getEvent());
+        }
+    }
+
+    @Nested
+    @DisplayName("GroupUsersService Tests")
+    class GroupUsersServiceTests {
+
+        @Test
+        @DisplayName("Test addGroupUser Method")
+        void testAddGroupUser() {
+            // Create mock GroupUserRepository
+            GroupUserRespository mockRepository = Mockito.mock(GroupUserRespository.class);
+
+            // Create test data
+            Integer groupId = 1;
+            String userId = "testUser";
+            String role = "member";
+
+            // Create GroupUsersService object using constructor injection
+            GroupUsersService groupUsersService = new GroupUsersService(mockRepository);
+
+            // Mock the behavior of the repository
+            Mockito.when(mockRepository.save(Mockito.any(GroupUsersEntity.class))).thenReturn(new GroupUsersEntity(groupId, userId, role));
+
+            // Call the method and get the result
+            GroupUsersEntity result = groupUsersService.addGroupUser(groupId, userId, role);
+
+            // Assertions
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(groupId, result.getGroupId());
+            Assertions.assertEquals(userId, result.getUserId());
+            Assertions.assertEquals(role, result.getRole());
+        }
+
+        @Test
+        @DisplayName("Test getGroupUser Method")
+        void testGetGroupUser() {
+            // Create mock GroupUserRepository
+            GroupUserRespository mockRepository = Mockito.mock(GroupUserRespository.class);
+
+            // Create test data
+            Integer groupId = 1;
+            String userId = "testUser";
+
+            // Create GroupUsersService object using constructor injection
+            GroupUsersService groupUsersService = new GroupUsersService(mockRepository);
+
+            // Mock the behavior of the repository
+            Mockito.when(mockRepository.findByGroupIdAndUserId(groupId, userId)).thenReturn(Optional.of(new GroupUsersEntity(groupId, userId, "member")));
+
+            // Call the method and get the result
+            Optional<GroupUsersEntity> result = groupUsersService.getGroupUser(groupId, userId);
+
+            // Assertions
+            Assertions.assertTrue(result.isPresent());
+            Assertions.assertEquals(groupId, result.get().getGroupId());
+            Assertions.assertEquals(userId, result.get().getUserId());
+        }
+
+        @Test
+        @DisplayName("Test removeGroupUser Method")
+        void testRemoveGroupUser() {
+            // Create mock GroupUserRepository
+            GroupUserRespository mockRepository = Mockito.mock(GroupUserRespository.class);
+
+            // Create test data
+            Integer groupId = 1;
+            String userId = "testUser";
+
+            // Create GroupUsersService object using constructor injection
+            GroupUsersService groupUsersService = new GroupUsersService(mockRepository);
+
+            // Mock the behavior of the repository
+            Mockito.when(mockRepository.findByGroupIdAndUserId(groupId, userId)).thenReturn(Optional.of(new GroupUsersEntity(groupId, userId, "member")));
+
+            // Call the method
+            groupUsersService.removeGroupUser(groupId, userId);
+
+            // Verify that delete method of repository is called
+            Mockito.verify(mockRepository, Mockito.times(1)).delete(Mockito.any(GroupUsersEntity.class));
+        }
+
+        @Test
+        @DisplayName("Test updateGroupUserRole Method")
+        void testUpdateGroupUserRole() {
+            // Create mock GroupUserRepository
+            GroupUserRespository mockRepository = Mockito.mock(GroupUserRespository.class);
+
+            // Create test data
+            Integer groupId = 1;
+            String userId = "testUser";
+            String newRole = "admin";
+
+            // Create GroupUsersService object using constructor injection
+            GroupUsersService groupUsersService = new GroupUsersService(mockRepository);
+
+            // Mock the behavior of the repository
+            GroupUsersEntity groupUser = new GroupUsersEntity(groupId, userId, "MEMBER");
+            Mockito.when(mockRepository.findByGroupIdAndUserId(groupId, userId)).thenReturn(Optional.of(groupUser));
+            Mockito.when(mockRepository.save(groupUser)).thenReturn(groupUser);
+
+            // Call the method
+            groupUsersService.updateGroupUserRole(groupId, userId, newRole);
+
+            // Assertions
+            Assertions.assertEquals(newRole, groupUser.getRole());
+        }
     }
     
 }
