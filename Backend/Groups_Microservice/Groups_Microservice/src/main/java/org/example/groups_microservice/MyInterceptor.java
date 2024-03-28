@@ -1,4 +1,4 @@
-package com.example.testauth2;
+package org.example.groups_microservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
