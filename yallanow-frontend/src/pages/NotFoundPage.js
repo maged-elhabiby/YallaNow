@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Defines a component for displaying a custom 404 Not Found page
 const NotFoundPage = () => {
   const navigate = useNavigate();
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import feedService from '../api/feedService';
+import { useAuth } from '../AuthContext';
 
 const SearchPage = () => {
   const [events, setEvents] = useState([]);
@@ -9,14 +10,16 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('query');
+  const { currentUser } = useAuth();
+  const userId = currentUser?.uid;
 
   const searchEvents = async () => {
     if (!searchQuery) return;
 
     setLoading(true);
     try {
-      const userId = 'your-user-id'; // Replace with actual user ID
-      const count = 20; // Number of events to fetch initially
+      const userId = userId; 
+      const count = 20;
       const data = await feedService.searchEvents(userId, count, searchQuery);
       setEvents(data.recommendations ?? []);
       setRecommId(data.recommId);

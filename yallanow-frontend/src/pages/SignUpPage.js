@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import { Register, googleSignIn } from '../firebase-config';
 import { useNavigate  } from 'react-router-dom';
 const SignUpPage = () => {
+  // Hook for navigation
   const navigate = useNavigate();
+  
+  // State for managing sign-up messages
   const [loginMessage, setLoginMessage] = useState({ text: '', isError: false });
 
+  // Handles sign-up with Google
   const handleGoogleSignUp = async () => {
       if (await googleSignIn() === true) {
         console.log("signup successful");
@@ -13,37 +17,33 @@ const SignUpPage = () => {
       } else {
         console.log("signup failed");
   };
-}
-
+  }
+  
+  // Handles form submission for regular sign-up
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
 
     // Extract user data from the form
     const formData = new FormData(event.target);
     const userData = {
       name: formData.get('name'),
       email: formData.get('email'),
-      password: formData.get('password'), // Note: In a real application, handle passwords securely!
+      password: formData.get('password'), 
       passwordConfirmation: formData.get('password-confirmation'),
     };
 
     console.log('User sign-up data:', userData);
+
+    // Attempt to register the user with provided data
     if(await Register(userData) === true){
       console.log("Register successful");
       navigate('/explore');
     } else {
       console.log("Register failed");
       setLoginMessage({ text: 'Sign up failed. Account Already Exist, Please SignIn or Choose a Diffrent Email.', isError: true });
-
     }
-    
-
-    
-
-    // Here, you can add the logic to send this data to your backend for account creation
-    // For example:
-    // await axios.post('https://your-backend-url.com/signup', userData);
   };
+
   return (
     <>
       <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
