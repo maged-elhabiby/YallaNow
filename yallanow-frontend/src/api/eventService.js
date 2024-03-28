@@ -3,10 +3,12 @@ import imageService from "./imageService";
 
 const eventService = {
     createEvent: async (eventData) => {
-        const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
-        eventData.imageId = imageData.id;
+        const imageData = await imageService.uploadImage(eventData.imageBase64);
+        eventData.imageURL = imageData.id;
         const eventImageUrl = imageData.imageUrl;
-
+        console.log('imageData:', imageData);
+        console.log('eventImageUrl:', eventImageUrl);
+        console.log('imageId:', eventData.imageId);
         const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.createEvent(requestData);
         const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
@@ -91,7 +93,6 @@ const eventService = {
         return {
             eventID: data.eventId,
             groupID: data.groupId,
-            imageID: data.imageId,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: data.location,
@@ -100,6 +101,7 @@ const eventService = {
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
+            imageURL: data.eventImageUrl,
         };
     },
 
@@ -107,7 +109,6 @@ const eventService = {
         return {
             eventId: data.eventID,
             groupId: data.groupID,
-            imageId: data.imageID,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: data.location,
