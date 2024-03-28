@@ -1,6 +1,5 @@
 package org.ucalgary.imagesService.Controller;
 
-import org.ucalgary.imagesService.DTO.ImageBase64DTO;
 import org.ucalgary.imagesService.DTO.ImageDTO;
 import org.ucalgary.imagesService.Entity.ImageEntity;
 import org.ucalgary.imagesService.Service.ImageService;
@@ -41,22 +40,6 @@ public class ImageController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    /**
-     * Add an image to the database
-     * @param imageBase64DTO
-     * @return ResponseEntity<ImageEntity>
-     */
-    @PostMapping("/UploadImage")
-    public ResponseEntity<?> uploadImage(@RequestBody ImageBase64DTO imageBase64DTO) throws IOException {
-        try{
-            ImageEntity image = imageService.uploadImage(imageBase64DTO); // Add image to the database
-            return ResponseEntity.ok(image);
-        }catch (IOException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
 
     /**
      * Get an image from the database
