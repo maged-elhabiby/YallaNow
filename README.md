@@ -1,8 +1,8 @@
 # YallaNow
 
 YallaNow aims to create a scalable, robust social networking platform focusing on group interactions, event management, and enhanced user engagement through personalized content. It seeks to address the need for a cohesive online community where users can effortlessly organize, discover, and participate in events that match their interests, while fostering connections through groups. 
-## Coding Language and Framworks Used
 
+## Coding Language and Framworks Used
 
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="30" alt="react logo"  />
