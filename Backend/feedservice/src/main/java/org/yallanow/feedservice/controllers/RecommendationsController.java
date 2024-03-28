@@ -17,11 +17,21 @@ public class RecommendationsController {
 
     private final RecommendationService recommendationService;
 
+    /**
+     * The RecommendationsController class is responsible for handling HTTP requests related to recommendations.
+     * It acts as a controller for the recommendation service.
+     */
     @Autowired
     public RecommendationsController(RecommendationServiceImpl recommendationService) {
         this.recommendationService = recommendationService;
     }
 
+    /**
+     * Retrieves recommendations based on the provided request.
+     * 
+     * @param request the recommendation request containing the necessary information.
+     * @return a ResponseEntity containing the recommendation response.
+     */
     @PostMapping
     public ResponseEntity<?> getRecommendations(@RequestBody RecommendationRequest request) {
         try {

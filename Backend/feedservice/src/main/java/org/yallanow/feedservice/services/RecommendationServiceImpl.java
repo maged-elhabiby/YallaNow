@@ -18,6 +18,10 @@ import java.io.IOException;
 
 import static org.yallanow.feedservice.utils.RecombeeUtil.convertToRecommendationResponse;
 
+/**
+ * This class implements the RecommendationService interface and provides the implementation for various recommendation types.
+ * It interacts with the RecombeeClientInterface to retrieve recommendations from the Recombee service.
+ */
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
@@ -31,6 +35,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         this.recommendationConfig = ConfigLoader.loadConfig("recommendation-config.json");
     }
 
+    /**
+     * Getter that sorts the enum values of the recommendation types.
+     */
     @Override
     public RecommendationResponse getRecommendations(RecommendationRequest request) throws RecommendationException {
         return switch (request.getRecommendationType()) {
@@ -46,6 +53,14 @@ public class RecommendationServiceImpl implements RecommendationService {
         };
     }
 
+
+    /**
+     * recommend items to a user based on the provided request.
+     * @param request the recommendation request containing the necessary information.
+     * @return a RecommendationResponse containing the recommended items.
+     * @throws RecommendationException if an error occurs while getting the recommendations.
+     * @throws RecombeeClientException if an error occurs while communicating with Recombee.
+     */
     @Override
     public RecommendationResponse recommendItemsToUser(RecommendationRequest request) throws RecommendationException {
         validateScenario("ItemsToUser", request);
@@ -76,6 +91,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
 
+    /**
+     * Not implemented.
+     */
     @Override
     public RecommendationResponse recommendItemsToItem(RecommendationRequest request) throws RecommendationException {
         validateScenario("ItemsToItem", request);
@@ -83,6 +101,13 @@ public class RecommendationServiceImpl implements RecommendationService {
         throw new RecommendationException("Not implemented", 501);
     }
 
+    /**
+     * reccomending the next items to a user based on the provided request.
+     * @param request the recommendation request containing the necessary information.
+     * @return a RecommendationResponse containing the recommended items.
+     * @throws RecommendationException if an error occurs while getting the recommendations.
+     * @throws RecombeeClientException if an error occurs while communicating with Recombee.
+     */
     @Override
     public RecommendationResponse recommendNextItems(RecommendationRequest request) throws RecommendationException {
         if (request.getCount() <= 0) {
@@ -106,6 +131,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
     }
 
+    /**
+     * Not implemented yet.
+     */
     @Override
     public RecommendationResponse recommendItemSegmentsToUser(RecommendationRequest request) throws RecommendationException {
         validateScenario("ItemSegmentsToUser", request);
@@ -113,6 +141,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         throw new RecommendationException("Not implemented", 501);
     }
 
+    /**
+     * Not implemented yet.
+     */
     @Override
     public RecommendationResponse recommendItemSegmentsToItem(RecommendationRequest request) throws RecommendationException {
         validateScenario("ItemSegmentsToItem", request);
@@ -120,6 +151,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         throw new RecommendationException("Not implemented", 501);
     }
 
+    /**
+     * Not implemented yet.
+     */
     @Override
     public RecommendationResponse recommendUsersToUser(RecommendationRequest request) throws RecommendationException {
         validateScenario("UsersToUser", request);
@@ -127,6 +161,13 @@ public class RecommendationServiceImpl implements RecommendationService {
         throw new RecommendationException("Not implemented", 501);
     }
 
+    /**
+     * Searching for items based on the provided request.
+     * @param request the recommendation request containing the necessary information.
+     * @return a RecommendationResponse containing the recommended items.
+     * @throws RecommendationException if an error occurs while getting the recommendations.
+     * @throws RecombeeClientException if an error occurs while communicating with Recombee.
+     */
     @Override
     public RecommendationResponse searchItems(RecommendationRequest request) throws RecommendationException {
         validateScenario("SearchItems", request);
@@ -151,6 +192,9 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
     }
 
+    /**
+     * Not implemented yet.
+     */
     @Override
     public RecommendationResponse searchItemSegments(RecommendationRequest request) throws RecommendationException {
         validateScenario("SearchItemSegments", request);
@@ -159,11 +203,23 @@ public class RecommendationServiceImpl implements RecommendationService {
         throw new RecommendationException("Not implemented", 501);
     }
 
+    /**
+     * helper method to validate the scenario for the recommendation type.
+     * @param recommendationType
+     * @param request
+     * @throws RecommendationException
+     */
     private void validateScenario(String recommendationType, RecommendationRequest request) throws RecommendationException {
         if (!recommendationConfig.getRecommendationScenarios().get(recommendationType).contains(request.getScenario())) {
             throw new RecommendationException("Invalid scenario for recommendation type " + recommendationType, 422);
         }
     }
+
+    /**
+     * helper method to validate the search request.
+     * @param request
+     * @throws RecommendationException
+     */
     private void validateSearchRequest(RecommendationRequest request) throws RecommendationException {
         if (request.getCount() <= 0) {
             throw new RecommendationException("Unprocessable entity: count must be greater than 0.", 422);
