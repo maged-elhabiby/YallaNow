@@ -4,12 +4,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.expression.AccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.ucalgary.events_microservice.DTO.AddressDTO;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 import org.ucalgary.events_microservice.DTO.EventStatus;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
 import org.ucalgary.events_microservice.Repository.AddressRepository;
 import org.ucalgary.events_microservice.Repository.EventRepository;
 import org.ucalgary.events_microservice.Service.AddressService;
@@ -29,10 +31,11 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("serviceTest")
 public class ServiceTest {
     @Mock
     private EventRepository eventRepository;
@@ -43,7 +46,7 @@ public class ServiceTest {
     @InjectMocks
     private EventService eventService;
 
-    @InjectMocks
+    @Mock
     private GroupUsersService groupUsersService;
 
     @InjectMocks
@@ -60,7 +63,7 @@ public class ServiceTest {
     class CreateEventTests {
 
         @Test
-        void testCreateEvent() {
+        void testCreateEvent() throws AccessException {
             MockitoAnnotations.openMocks(this);
 
             // Mock the behavior of addressService.createAddress
@@ -72,6 +75,8 @@ public class ServiceTest {
             EventsEntity mockEvent = new EventsEntity(1, 1, "Event Title", "Event Description", mockAddress.getAddressId(),
                     event.getEventStartTime(), event.getEventEndTime(), EventStatus.Scheduled, 0, 100, 1);
 
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
             when(eventRepository.save(any(EventsEntity.class))).thenReturn(mockEvent);
 
             // Test the createEvent method
@@ -92,6 +97,53 @@ public class ServiceTest {
             // Act and Assert
             assertThrows(IllegalArgumentException.class, () -> eventService.createEvent(eventDTO, addressEntity, "1"));
         }
+
+        @Test
+        @DisplayName("Fail to create event with invalid address")
+        void testCreateEventWithPastEventStartTime() {
+            MockitoAnnotations.openMocks(this);
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
+            EventDTO event = createValidEventDTO();
+            event.setEventStartTime(LocalDateTime.now().minusHours(1)); // Set past event start time
+
+            AddressEntity address = new AddressEntity(1, "Street", "City", "Province", "PostalCode", "Country");
+
+            // Test that IllegalArgumentException is thrown
+            assertThrows(IllegalArgumentException.class, () -> eventService.createEvent(event, address, "1"));
+        }
+
+        @Test
+        @DisplayName("Fail to create event with invalid permissions")
+        void testCreateEventWithInvalidPermissions() {
+            MockitoAnnotations.openMocks(this);
+
+            EventDTO event = createValidEventDTO();
+            AddressEntity address = new AddressEntity(1, "Street", "City", "Province", "PostalCode", "Country");
+
+            // Mock the behavior of groupUsersService.getGroupUser to return a non-ADMIN role
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "MEMBER")));
+
+            // Test that AccessException is thrown
+            assertThrows(AccessException.class, () -> eventService.createEvent(event, address, "1"));
+        }
+
+        @Test
+        @DisplayName("Fail to create event with non-existing group user")
+        void testCreateEventWithNonExistingGroupUser() {
+            MockitoAnnotations.openMocks(this);
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "4", "ADMIN")));
+            EventDTO event = createValidEventDTO();
+            AddressEntity address = new AddressEntity(1, "Street", "City", "Province", "PostalCode", "Country");
+
+            // Mock the behavior of groupUsersService.getGroupUser to return empty Optional
+            when(groupUsersService.getGroupUser(anyInt(), anyString())).thenReturn(Optional.empty());
+
+            // Test that EntityNotFoundException is thrown
+            assertThrows(AccessException.class, () -> eventService.createEvent(event, address, "1"));
+        }
     }
 
     // ********************************************************************************************************************
@@ -102,7 +154,7 @@ public class ServiceTest {
 
         @Test
         @DisplayName("Update existing event")
-        void testUpdateExistingEvent() {
+        void testUpdateExistingEvent() throws AccessException {
             // Arrange
             EventDTO updatedEventDTO = createValidEventDTO();
             EventsEntity existingEvent = createExistingEvent();
@@ -111,7 +163,8 @@ public class ServiceTest {
             // Mock the behavior of eventRepository
             when(eventRepository.save(existingEvent)).thenReturn(existingEvent);
             when(eventRepository.findEventByEventId(updatedEventDTO.getEventID())).thenReturn(Optional.of(existingEvent));
-
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
             // Act
             EventsEntity updatedEvent = eventService.updateEvent(updatedEventDTO, updatedAddressEntity, "1");
 
@@ -122,55 +175,47 @@ public class ServiceTest {
 
 
         @Test
-        @DisplayName("Fail to update non-existing event")
-        void testFailUpdateNonExistingEvent() {
-            // Mock the behavior of eventRepository to return Optional.empty() when searching for any event ID
-            when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.empty());
+        void testUpdateEventWithInvalidEventID() {
+            MockitoAnnotations.openMocks(this);
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
+            EventDTO updatedEvent = createValidEventDTO();
+            AddressEntity newAddress = new AddressEntity(1, "New Street", "New City", "New Province", "New PostalCode", "New Country");
 
-            // Act and Assert: Expect IllegalStateException to be thrown when trying to update a non-existing event
-            assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity(), "1"));
+            // Mock the behavior of eventRepository.findById to return empty Optional
+            when(eventRepository.findById(1)).thenReturn(Optional.empty());
 
+            // Test that EntityNotFoundException is thrown
+            assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(updatedEvent, newAddress, "1"));
         }
 
+        @Test
+        void testUpdateEventWithPastEventStartTime() {
+            MockitoAnnotations.openMocks(this);
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));            EventDTO updatedEvent = createValidEventDTO();
+            updatedEvent.setEventStartTime(LocalDateTime.now().minusHours(1)); // Set past event start time
+            AddressEntity newAddress = new AddressEntity(1, "New Street", "New City", "New Province", "New PostalCode", "New Country");
+
+            // Test that IllegalArgumentException is thrown
+            assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(updatedEvent, newAddress, "1"));
+        }
+
+        @Test
+        void testUpdateEventWithInvalidPermissions() {
+            MockitoAnnotations.openMocks(this);
+
+            EventDTO updatedEvent = createValidEventDTO();
+            AddressEntity newAddress = new AddressEntity(1, "New Street", "New City", "New Province", "New PostalCode", "New Country");
+
+            // Mock the behavior of groupUsersService.getGroupUser to return a non-ADMIN role
+            when(groupUsersService.getGroupUser(anyInt(), anyString()))
+                    .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "MEMBER")));
+
+            // Test that AccessException is thrown
+            assertThrows(AccessException.class, () -> eventService.updateEvent(updatedEvent, newAddress, "1"));
+        }
     }
-
-    @Test
-    @DisplayName("Fail to update event with invalid data")
-    void testUpdateInvalidEvent() {
-        // Arrange
-        EventDTO invalidEventDTO = createInvalidEventDTO();
-        EventsEntity existingEvent = createExistingEvent();
-        when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.of(existingEvent));
-
-        // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity(), "1"));
-    }
-
-    @Test
-    @DisplayName("Fail to update event due to AddressService failure")
-    void testUpdateEventAddressServiceFailure() {
-        // Arrange
-        EventDTO validEventDTO = createValidEventDTO();
-        EventsEntity existingEvent = createExistingEvent();
-        when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.of(existingEvent));
-        when(addressService.updateAddress(validEventDTO)).thenThrow(IllegalStateException.class);
-
-        // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(createInvalidEventDTO(), new AddressEntity(), "1"));
-    }
-
-    @Test
-    @DisplayName("Create new event when updating non-existing event with invalid data")
-    void testUpdateNonExistingEventInvalidData() {
-        // Arrange
-        EventDTO invalidEventDTO = createInvalidEventDTO();
-        when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.empty());
-
-        // Act and Assert
-        assertThrows(IllegalArgumentException.class, () -> eventService.updateEvent(invalidEventDTO, new AddressEntity(), "1"));
-        verify(eventRepository, never()).save(any());
-    }
-
 
 
     // ********************************************************************************************************************
@@ -261,11 +306,12 @@ public class ServiceTest {
         @Test
         @DisplayName("Fail to delete non-existing event")
         void testFailDeleteNonExistingEvent() {
+            EventsEntity fakeEvent = new EventsEntity();
             // Arrange
             when(eventRepository.findEventByEventId(anyInt())).thenReturn(Optional.empty());
 
             // Act and Assert
-            assertThrows(EntityNotFoundException.class, () -> eventService.deleteEvent(1));
+            assertThrows(AccessException.class, () -> eventService.deleteEvent(fakeEvent, "1"));
         }
     }
 
@@ -288,8 +334,8 @@ public class ServiceTest {
         event.setEventTitle("Event Title");
         event.setEventDescription("Event Description");
         event.setLocation(address);
-        event.setEventStartTime(LocalDateTime.now());
-        event.setEventEndTime(LocalDateTime.now().plusHours(1));
+        event.setEventStartTime(LocalDateTime.now().plusHours(1));
+        event.setEventEndTime(LocalDateTime.now().plusHours(2));
         event.setStatus(EventStatus.Scheduled);
         event.setCount(0);
         event.setCapacity(100);
