@@ -9,8 +9,12 @@ services:
     ports:
       - "8081:8080"
     environment:
-      - SPRING_DATASOURCE_USERNAME="postgres"
-      - SPRING_DATASOURCE_PASSWORD="[Xi|~'r_SKE6E/qx"
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+    volumes:
+      - ./secret:/app/resources
+
 
   groups-service:
     build:
@@ -20,8 +24,11 @@ services:
     ports:
       - "8082:8080"
     environment:
-      - SPRING_DATASOURCE_USERNAME="postgres"
-      - SPRING_DATASOURCE_PASSWORD="[Xi|~'r_SKE6E/qx"
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+    volumes:
+      - ./secret:/app/resources
 
   images-service:
     build:
@@ -31,8 +38,12 @@ services:
     ports:
       - "8083:8080"
     environment:
-      - SPRING_DATASOURCE_USERNAME="postgres"
-      - SPRING_DATASOURCE_PASSWORD="[Xi|~'r_SKE6E/qx"
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+      - CLOUDINARY_URL=cloudinary://533577523476422:kfeLf7-oZ1ZVWu0D3Gfj0LX3gzU@dt8r2amry
+    volumes:
+      - ./secret:/app/resources
 
   feed-service:
     build:
@@ -42,9 +53,9 @@ services:
     ports:
       - "8084:8080"
     environment:
-      - RECOMBEE_DATABASE_ID="yallanow-dev"
-      - RECOMBEE_REGION="CA_EAST"
-      - RECOMBEE_SECRET_TOKEN="tXOjueLWXwvcznqGNMDBV5a1mb9sFK79OgkyythBRCZ1ykLUdQxffOxwD7hNrprN="
+      - RECOMBEE_DATABASE_ID=yallanow-dev
+      - RECOMBEE_REGION=CA_EAST
+      - RECOMBEE_SECRET_TOKEN=tXOjueLWXwvcznqGNMDBV5a1mb9sFK79OgkyythBRCZ1ykLUdQxffOxwD7hNrprN=
 
   analytics-service:
     build:
@@ -54,9 +65,12 @@ services:
     ports:
       - "8085:8080"
     environment:
-      - RECOMBEE_DATABASE_ID="yallanow-dev"
-      - RECOMBEE_REGION="CA_EAST"
-      - RECOMBEE_SECRET_TOKEN="tXOjueLWXwvcznqGNMDBV5a1mb9sFK79OgkyythBRCZ1ykLUdQxffOxwD7hNrprN="
+      - RECOMBEE_DATABASE_ID=yallanow-dev
+      - RECOMBEE_REGION=CA_EAST
+      - RECOMBEE_SECRET_TOKEN=tXOjueLWXwvcznqGNMDBV5a1mb9sFK79OgkyythBRCZ1ykLUdQxffOxwD7hNrprN=
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+    volumes:
+      - ./secret:/app/resources
 
   auth-service:
     build:

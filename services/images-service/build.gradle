@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.google.cloud.sql:postgres-socket-factory:1.4.0'
     implementation 'com.google.cloud:spring-cloud-gcp-starter-storage'
     implementation 'com.google.cloud:spring-cloud-gcp-starter'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-sql-postgresql:5.1.0'
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -41,7 +42,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
