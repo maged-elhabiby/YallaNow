@@ -47,4 +47,4 @@ services:
       dockerfile: Dockerfile
     image: auth-service:latest
     ports:
-      - "8085:8080"
+      - "5001:5001"
