@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-load-balancer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: nginx-load-balancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    app: my-app
+    service: auth-service
+spec:
+  ports:
+    - port: 5001
+      targetPort: 8080
+  selector:
+    app: my-app
+    service: auth-service

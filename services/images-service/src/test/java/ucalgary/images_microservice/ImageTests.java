@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.ucalgary.images_microservice.DTO.ImageBase64DTO;
-import org.ucalgary.images_microservice.DTO.ImageDTO;
-import org.ucalgary.images_microservice.Entity.ImageEntity;
-import org.ucalgary.images_microservice.Repository.ImageRepository;
-import org.ucalgary.images_microservice.Service.ImageService;
+import org.ucalgary.imagesService.DTO.ImageBase64DTO;
+import org.ucalgary.imagesService.DTO.ImageDTO;
+import org.ucalgary.imagesService.Entity.ImageEntity;
+import org.ucalgary.imagesService.Repository.ImageRepository;
+import org.ucalgary.imagesService.Service.ImageService;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

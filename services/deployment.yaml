@@ -20,6 +20,9 @@ spec:
       containers:
         - name: events-service
           image: events-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
@@ -53,6 +56,9 @@ spec:
       containers:
         - name: groups-service
           image: groups-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
@@ -86,6 +92,9 @@ spec:
       containers:
         - name: images-service
           image: images-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           env:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
@@ -119,6 +128,9 @@ spec:
       containers:
         - name: feed-service
           image: feed-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
           env:
             - name: RECOMBEE_DATABASE_ID
               valueFrom:
@@ -157,7 +169,10 @@ spec:
       containers:
         - name: analytics-service
           image: analytics-service:latest
-            env:
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
             - name: RECOMBEE_DATABASE_ID
               valueFrom:
                 secretKeyRef:
@@ -195,3 +210,34 @@ spec:
       containers:
         - name: auth-service
           image: auth-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5001
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-load-balancer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-load-balancer
+  template:
+    metadata:
+      labels:
+        app: nginx-load-balancer
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
