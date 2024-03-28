@@ -1,20 +1,11 @@
 package org.ucalgary.imagesService.Service;
 
-import com.cloudinary.*;
-
-import com.cloudinary.utils.ObjectUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.ucalgary.imagesService.Repository.ImageRepository;
 import org.ucalgary.imagesService.Entity.ImageEntity;
-import org.ucalgary.imagesService.DTO.ImageBase64DTO;
 import org.ucalgary.imagesService.DTO.ImageDTO;
-
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.Map;
 import java.util.regex.Pattern;
-
 import java.util.regex.Matcher;
 import java.util.Optional;
 
@@ -25,12 +16,10 @@ import java.util.Optional;
 public class ImageService {
     private static final String LINK_REGEX = "^(http(s)?://)?([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?$";
     private final ImageRepository imageRepository;
-    private final Cloudinary cloudinary;
 
 
-    public ImageService(ImageRepository imageRepository, Cloudinary cloudinary) {
+    public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
-        this.cloudinary = cloudinary;
     }
 
     /**
@@ -46,22 +35,6 @@ public class ImageService {
 
         ImageEntity image = new ImageEntity(imageDTO.getImageLink()); // Create an ImageEntity
         return imageRepository.save(image); // Save the ImageEntity to the database
-    }
-
-    /**
-     * Uploads an image to the database
-     * @param base64Image
-     * @return ImageEntity
-     * @throws IOException
-     */
-    public ImageEntity uploadImage(ImageBase64DTO base64Image) throws IOException {
-        // Upload image to Cloudinary
-        Map<?, ?> uploadResult = cloudinary.uploader().upload("data:image/jpeg;base64," + base64Image.getBase64Image(), ObjectUtils.emptyMap());
-        String imageUrl = (String) uploadResult.get("url");
-
-        // Create ImageEntity and save to database
-        ImageEntity imageEntity = new ImageEntity(imageUrl);
-        return imageRepository.save(imageEntity);
     }
 
     /**

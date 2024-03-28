@@ -21,8 +21,6 @@ ext {
 }
 
 dependencies {
-    implementation 'com.cloudinary:cloudinary-http44:1.36.0'
-    implementation 'com.cloudinary:cloudinary-taglib:1.36.0'
     implementation 'io.github.cdimascio:dotenv-java:2.2.4'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
