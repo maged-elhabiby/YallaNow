@@ -29,6 +29,7 @@ public class ParticipantDTO {
     public final  int getEventid() {return eventid;}
     public final ParticipantStatus getParticipantStatus() {return ParticipantStatus;}
 
+    public void setParticipantID(final int participantID) {this.participantID = participantID;}
     public void setUserid(final String userid) {this.userid = userid;}
     public void setEventid(final int eventid) {this.eventid = eventid;}
     public void setParticipantStatus(final ParticipantStatus ParticipantStatus) {this.ParticipantStatus = ParticipantStatus;}

@@ -40,7 +40,7 @@ public class EventService {
     @Transactional
     public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) throws AccessException, IllegalArgumentException {
         checkEvent(event, userID); // Check if the event is valid       
-
+        
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
                                                 event.getEventTitle(), 
@@ -68,15 +68,15 @@ public class EventService {
     @Transactional
     public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress, String userID) 
                             throws AccessException, IllegalArgumentException{
-                                
+                              
+        checkEvent(updatedEvent, userID); // Check if the event is valid
+        
         EventsEntity oldEvent;
         try {
             oldEvent = getEvent(updatedEvent.getEventID()); // Check if the event exists
         } catch (EntityNotFoundException e) {
             return createEvent(updatedEvent, new AddressEntity(), userID); // If the event does not exist, create it
         }
-
-        checkEvent(updatedEvent, userID); // Check if the event is valid
 
         oldEvent.setGroupId(updatedEvent.getGroupID());
         oldEvent.setEventTitle(updatedEvent.getEventTitle());

@@ -1,12 +1,10 @@
 package org.ucalgary.events_microservice.Service;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
 import org.ucalgary.events_microservice.Repository.GroupUserRespository;
-
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
+import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class GroupUsersService {

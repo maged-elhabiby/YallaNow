@@ -42,22 +42,18 @@ public class ParticipantService {
      * @throws IllegalArgumentException if the participant already exists.
      */
     @Transactional
-    public ParticipantEntity addParticipantToEvent(ParticipantDTO user)throws IllegalArgumentException, EntityNotFoundException {
+    public ParticipantEntity addParticipantToEvent(ParticipantDTO user, String email, String name, EventsEntity event)throws IllegalArgumentException, EntityNotFoundException {
         Optional<ParticipantEntity> checkDup = participantRepository.findByUserIdAndEvent_EventId(user.getUserid(), user.getEventid());
         if (checkDup.isPresent()) {
-            return updateParticipant(user);
+            return updateParticipant(user, email, name, event);
         }
-
-        // Retrieve the event
-        EventsEntity event = eventRepository.findById(user.getEventid())
-                .orElseThrow(() -> new EntityNotFoundException("Event with ID " + user.getEventid() + " not found"));
 
         // Create a new participant entity and associate it with the event
         ParticipantEntity participant = new ParticipantEntity(user.getUserid(),
                                                             user.getParticipantStatus(), 
                                                             event);
 
-        updateEventCount(event, user.getParticipantStatus());
+        updateEventCount(event, user.getParticipantStatus(), email, name);
 
         return participantRepository.save(participant);
     }
@@ -126,7 +122,7 @@ public class ParticipantService {
      * @throws IllegalArgumentException if the participant does not exist.
      */
     @Transactional
-    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant)throws IllegalArgumentException {
+    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant, String email, String name, EventsEntity event)throws IllegalArgumentException {
         Optional<ParticipantEntity> optionalParticipant = participantRepository.findByUserIdAndEvent_EventId(
                 oldParticipant.getUserid(),
                 oldParticipant.getEventid()
@@ -135,12 +131,12 @@ public class ParticipantService {
         return optionalParticipant.map(participant -> {
             // Update event count based on participant status changes
             ParticipantStatus newStatus = oldParticipant.getParticipantStatus();
-            updateEventCount(participant.getEvent(), participant.getParticipantStatus(), newStatus);
+            updateEventCount(event, participant.getParticipantStatus(), newStatus, email, name);
 
             // Update participant fields
             participant.setParticipantStatus(newStatus);
             return participantRepository.save(participant);
-        }).orElseGet(() -> addParticipantToEvent(oldParticipant));
+        }).orElseGet(() -> addParticipantToEvent(oldParticipant, email, name, event));
     }
 
 
@@ -166,7 +162,7 @@ public class ParticipantService {
      * @param newStatus The new status of the participant.
      * @throws IllegalStateException if the event has reached its capacity.
      */
-    private void updateEventCount(EventsEntity event, ParticipantStatus newStatus)throws IllegalArgumentException{
+    private void updateEventCount(EventsEntity event, ParticipantStatus newStatus, String email, String name)throws IllegalArgumentException{
         if(newStatus != ParticipantStatus.NotAttending){
             event.setCount(event.getCount() + 1);
             // Check if the event has reached its capacity
@@ -174,7 +170,7 @@ public class ParticipantService {
                 throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
             }
             eventRepository.save(event);
-            mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
+            mailSenderService.sendMessage(event, name, email,newStatus);
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
                 eventsPubService.publishEvents(event, "UPDATE");
             }
@@ -188,7 +184,8 @@ public class ParticipantService {
      * @param newStatus The new status of the participant.
      * @throws IllegalStateException if the event has reached its capacity.
      */
-    private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus) throws IllegalArgumentException {
+    private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus, 
+                                                    String email, String name) throws IllegalArgumentException {
         if (newStatus != oldStatus) { // If the status has changed
 
             // If the new status is not attending and the old status is attending or maybe then decrease count
@@ -215,7 +212,7 @@ public class ParticipantService {
                 }
             }
             eventRepository.save(event); // Save the updated event
-            mailSenderService.sendMessage(event, "symasc","a.h.b.draco1@gmail.com",newStatus);
+            mailSenderService.sendMessage(event, name, email,newStatus);
 
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
                 eventsPubService.publishEvents(event, "UPDATE");

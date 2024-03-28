@@ -1,28 +1,22 @@
 package org.ucalgary.events_microservice.Service;
 
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.cloud.pubsub.v1.Subscriber;
-import com.google.common.util.concurrent.MoreExecutors;
+import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.DTO.PubEvent;
 import com.google.pubsub.v1.TopicName;
+import com.google.pubsub.v1.PubsubMessage;
+import com.google.pubsub.v1.ProjectSubscriptionName;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
+import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.cloud.pubsub.v1.Publisher;
-import com.google.pubsub.v1.ProjectSubscriptionName;
-import com.google.pubsub.v1.PubsubMessage;
-import org.ucalgary.events_microservice.DTO.PubEvent;
-import org.ucalgary.events_microservice.Entity.EventsEntity;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.google.protobuf.ByteString;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 import java.io.IOException;
-
-import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -95,7 +89,7 @@ public class EventsPubService {
 
                 switch (operationType) {
                     case "ADD":{
-                        GroupUsersEntity member = groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
+                        groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
                         break;
                     }case "DELETE":{
                         groupUsersService.removeGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText());

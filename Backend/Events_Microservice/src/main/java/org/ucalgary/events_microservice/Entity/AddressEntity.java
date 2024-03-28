@@ -38,6 +38,7 @@ public class AddressEntity {
     }
 
     public AddressEntity(Integer addressId, String street, String city, String province, String postalCode, String country) {
+        validateAddress(street, city, province, postalCode, country);
         this.addressId = addressId;
         this.street = street;
         this.city = city;
@@ -64,5 +65,31 @@ public class AddressEntity {
     @Override
     public String toString() {
         return String.format("%s, %s, %s, %s, %s", street, city, province, postalCode, country);
+    }
+
+    /**
+     * Validates the address fields.
+     * @param street
+     * @param city
+     * @param province
+     * @param postalCode
+     * @param country
+     */
+    private void validateAddress(String street, String city, String province, String postalCode, String country) {
+        if (street == null || street.isEmpty()) {
+            throw new IllegalArgumentException("Street cannot be empty");
+        }
+        if (city == null || city.isEmpty()) {
+            throw new IllegalArgumentException("City cannot be empty");
+        }
+        if (province == null || province.isEmpty()) {
+            throw new IllegalArgumentException("Province cannot be empty");
+        }
+        if (postalCode == null || postalCode.isEmpty()) {
+            throw new IllegalArgumentException("Postal code cannot be empty");
+        }
+        if (country == null || country.isEmpty()) {
+            throw new IllegalArgumentException("Country cannot be empty");
+        }
     }
 }

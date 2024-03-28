@@ -71,7 +71,7 @@ public class EventsEntity {
                         LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                         EventStatus status, Integer count, Integer capacity, Integer imageId) {
         
-        validateInput(eventTitle, eventDescription, eventStartTime, eventEndTime, status, count, capacity);
+        validateInput(groupId, eventTitle, eventDescription, locationId, eventStartTime, eventEndTime, status, count, capacity);
         this.eventId = eventId;
         this.groupId = groupId;
         this.eventTitle = eventTitle;
@@ -112,33 +112,33 @@ public class EventsEntity {
     public void setAddress(AddressEntity address) {this.address = address;}
     public void setImageId(Integer imageId) {this.imageId = imageId;}
 
-    private void validateInput(String eventTitle, String eventDescription, 
-                            LocalDateTime eventStartTime, LocalDateTime eventEndTime, 
+    private void validateInput(Integer groupId, String eventTitle, String eventDescription, 
+                            Integer locationId, LocalDateTime eventStartTime, LocalDateTime eventEndTime, 
                             EventStatus status, Integer count, Integer capacity) throws IllegalArgumentException{
-        if (eventTitle == null || eventTitle.isEmpty()) {
+        if(groupId == null){
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }else if (eventTitle == null || eventTitle.isEmpty()) {
             throw new IllegalArgumentException("Event title cannot be empty.");
         }else if (eventDescription == null || eventDescription.isEmpty()) {
             throw new IllegalArgumentException("Event description cannot be empty.");
+        }else if(locationId == null){
+            throw new IllegalArgumentException("Location ID cannot be null");
         }else if (eventStartTime == null) {
             throw new IllegalArgumentException("Event start time cannot be empty.");
         }else if (eventEndTime == null) {
             throw new IllegalArgumentException("Event end time cannot be empty.");
+        }else if(eventStartTime.isAfter(eventEndTime)){
+            throw new IllegalArgumentException("Event start time cannot be after event end time");
+        }else if(eventStartTime.isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Event start time cannot be before current time");
         }else if (status == null) {
             throw new IllegalArgumentException("Event status cannot be empty.");
         }else if (count == null) {
             throw new IllegalArgumentException("Event count cannot be empty.");
         }else if (capacity == null) {
             throw new IllegalArgumentException("Event capacity cannot be empty.");
-        }else if(locationId == null){
-            throw new IllegalArgumentException("Location ID cannot be null");
-        }else if(groupId == null){
-            throw new IllegalArgumentException("Group ID cannot be null");
         }else if(count > capacity){
             throw new IllegalArgumentException("Count cannot be greater than capacity");
-        }else if(eventStartTime.isAfter(eventEndTime)){
-            throw new IllegalArgumentException("Event start time cannot be after event end time");
-        }else if(eventStartTime.isBefore(LocalDateTime.now())){
-            throw new IllegalArgumentException("Event start time cannot be before current time");
         }
     }
 }

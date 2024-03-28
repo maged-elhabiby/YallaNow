@@ -3,7 +3,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.ucalgary.events_microservice.DTO.EventDTO;
 import org.ucalgary.events_microservice.DTO.ParticipantDTO;
+import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.Entity.ParticipantEntity;
+import org.ucalgary.events_microservice.Service.EventService;
 import org.ucalgary.events_microservice.Service.ParticipantService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -24,9 +26,11 @@ import java.util.Map;
 public class ParticipantController {
 
     private final ParticipantService participantService;
+    private final EventService eventService;
 
-    public ParticipantController(ParticipantService ParticipantService) {
+    public ParticipantController(ParticipantService ParticipantService, EventService eventService) {
         this.participantService = ParticipantService;
+        this.eventService = eventService;
     }
 
 
@@ -36,10 +40,12 @@ public class ParticipantController {
      * @return Response Entity with the object of the participant added
      */
     @PostMapping("/AddParticipant")
-    public ResponseEntity<?> addParticipant(@RequestBody ParticipantDTO participant, @RequestAttribute("Id") String userId) {
+    public ResponseEntity<?> addParticipant(@RequestBody ParticipantDTO participant, @RequestAttribute("Id") String userId, 
+                                            @RequestAttribute("Email") String email, @RequestAttribute("Name") String name){
         try{
             participant.setUserid(userId);
-            ParticipantEntity participants = participantService.addParticipantToEvent(participant);
+            EventsEntity event = eventService.getEvent(participant.getEventid());
+            ParticipantEntity participants = participantService.addParticipantToEvent(participant, email, name, event);
             return ResponseEntity.ok(participants); // make return 200
         }catch(IllegalArgumentException e){
             return (ResponseEntity<?>) ResponseEntity.status(422);
@@ -96,9 +102,12 @@ public class ParticipantController {
      * @return Response Entity with the object of the participant updated
      */
     @PostMapping("/UpdateParticipant")
-    public ResponseEntity<?> updateParticipant(@RequestBody ParticipantDTO participant) {
+    public ResponseEntity<?> updateParticipant(@RequestBody ParticipantDTO participant, @RequestAttribute("Id") String userId,
+        @RequestAttribute("Email") String email, @RequestAttribute("Name") String name) {
         try{
-            ParticipantEntity participants = participantService.updateParticipant(participant);
+            participant.setUserid(userId);
+            EventsEntity event = eventService.getEvent(participant.getEventid());
+            ParticipantEntity participants = participantService.updateParticipant(participant, email, name, event);
             return ResponseEntity.ok(participants);
         }catch(IllegalArgumentException e){
             return (ResponseEntity<?>) ResponseEntity.status(422);

@@ -6,17 +6,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.expression.AccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.ucalgary.events_microservice.DTO.AddressDTO;
-import org.ucalgary.events_microservice.DTO.EventDTO;
-import org.ucalgary.events_microservice.DTO.EventStatus;
+import org.ucalgary.events_microservice.DTO.*;
 import org.ucalgary.events_microservice.Entity.AddressEntity;
 import org.ucalgary.events_microservice.Entity.EventsEntity;
 import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
+import org.ucalgary.events_microservice.Entity.ParticipantEntity;
 import org.ucalgary.events_microservice.Repository.AddressRepository;
 import org.ucalgary.events_microservice.Repository.EventRepository;
-import org.ucalgary.events_microservice.Service.AddressService;
-import org.ucalgary.events_microservice.Service.EventService;
-import org.ucalgary.events_microservice.Service.GroupUsersService;
+import org.ucalgary.events_microservice.Repository.GroupUserRespository;
+import org.ucalgary.events_microservice.Repository.ParticipantRepository;
+import org.ucalgary.events_microservice.Service.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.*;
@@ -28,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -36,21 +37,33 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("serviceTest")
-public class ServiceTest {
+public class eventsTest {
     @Mock
     private EventRepository eventRepository;
-
-    @Mock
-    private AddressRepository addressRepository;
-
     @InjectMocks
     private EventService eventService;
 
     @Mock
-    private GroupUsersService groupUsersService;
-
+    private AddressRepository addressRepository;
     @InjectMocks
     private AddressService addressService;
+
+    @Mock
+    private ParticipantRepository participantRepository;
+
+    @InjectMocks
+    private ParticipantService participantService;
+    @Mock
+    private GroupUserRespository groupUserRespository;
+    @InjectMocks
+    private GroupUsersService groupUsersService;
+
+
+    @Mock
+    private EventsPubService eventsPubService;
+
+    @Mock
+    private MailSenderService mailSenderService;
 
     @BeforeEach
     void setUp() {
@@ -316,6 +329,8 @@ public class ServiceTest {
     }
 
     // ********************************************************************************************************************
+
+   
 
     // Helper methods to create test data
     private EventDTO createValidEventDTO() {
