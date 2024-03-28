@@ -41,18 +41,7 @@ public class PubEvent {
         this.status = event.getStatus().toString();
         this.count = event.getCount();
         this.capacity = event.getCapacity();
-        try {
-            String responseString = restTemplate.getForObject(
-                "http://localhost:8081/microservice/images/GetImage/" + event.getImageId(),
-                String.class
-            );
-    
-            // Extract imageLink from the response string
-            String imageLink = extractImageLink(responseString);
-            this.imageUrl = imageLink;
-        } catch (Exception e) {
-            this.imageUrl = null;
-        }
+        this.imageUrl = event.getImageId().toString();
     }
 
     // Getters and setters
