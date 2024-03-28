@@ -52,8 +52,8 @@ const GroupDetailsPage = () => {
         navigate(`/create-event/${groupId}`); // Adjust the path as necessary
     };
     return (
-        <div className="container mx-auto p-4">
-            <div className="px-6 py-24 sm:py-32 lg:px-8">
+        <div className="container mx-auto py-10">
+            <div className="px-6 py-20 sm:py-10 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
                     <p className="text-base font-semibold leading-7 text-pink-600">Welcome to</p>
                     <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">{groupDetails.groupName}</h2>
