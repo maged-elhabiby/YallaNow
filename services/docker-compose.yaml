@@ -11,7 +11,8 @@ services:
     environment:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/google-credentials.json
+      - AUTH_URL=http://auth:5001/auth
     volumes:
       - ./secret:/app/resources
 
@@ -26,22 +27,8 @@ services:
     environment:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
-    volumes:
-      - ./secret:/app/resources
-
-  images-service:
-    build:
-      context: ./images-service
-      dockerfile: Dockerfile
-    image: us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/images-service:latest
-    ports:
-      - "8083:8080"
-    environment:
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=[Xi|~'r_SKE6E/qx
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
-      - CLOUDINARY_URL=cloudinary://533577523476422:kfeLf7-oZ1ZVWu0D3Gfj0LX3gzU@dt8r2amry
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/google-credentials.json
+      - AUTH_URL=http://auth:5001/auth
     volumes:
       - ./secret:/app/resources
 
@@ -68,7 +55,7 @@ services:
       - RECOMBEE_DATABASE_ID=yallanow-dev
       - RECOMBEE_REGION=CA_EAST
       - RECOMBEE_SECRET_TOKEN=tXOjueLWXwvcznqGNMDBV5a1mb9sFK79OgkyythBRCZ1ykLUdQxffOxwD7hNrprN=
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/yallanow-413400-32268eb74b33.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/resources/google-credentials.json
     volumes:
       - ./secret:/app/resources
 

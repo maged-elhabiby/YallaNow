@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+  namespace: "default"
+  labels:
+    app: "groups"
+type: Opaque
+data:
+  SPRING_DATASOURCE_USERNAME: cG9zdGdyZXM=
+  SPRING_DATASOURCE_PASSWORD: MnhAWF97MFN7LnBaK0dPOQ==
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "groups"
+  namespace: "default"
+  labels:
+    app: "groups"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "groups"
+  template:
+    metadata:
+      labels:
+        app: "groups"
+    spec:
+      containers:
+      - name: "groups-sha256-1"
+        image: "us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/groups-service:latest"
+        env:
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: SPRING_DATASOURCE_USERNAME
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: SPRING_DATASOURCE_PASSWORD
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/google/google-credentials.json
+          - name: AUTH_URL
+            value: "http://auth:5001/auth"
+        volumeMounts:
+          - name: google-credentials
+            mountPath: /var/secrets/google
+            readOnly: true
+      volumes:
+        - name: google-credentials
+          secret:
+            secretName: google-credentials
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "groups-hpa-oqd9"
+  namespace: "default"
+  labels:
+    app: "groups"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "groups"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: groups
+  namespace: default
+spec:
+  selector:
+    app: groups
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

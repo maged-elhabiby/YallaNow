@@ -1,6 +1,5 @@
 package org.ucalgary.events_service.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.ucalgary.events_service.DTO.EventDTO;
 import org.ucalgary.events_service.DTO.ParticipantDTO;
 import org.ucalgary.events_service.Entity.EventsEntity;
@@ -10,19 +9,14 @@ import org.ucalgary.events_service.Service.ParticipantService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/microservice/events")
+@CrossOrigin
+@RequestMapping("/events")
 public class ParticipantController {
 
     private final ParticipantService participantService;

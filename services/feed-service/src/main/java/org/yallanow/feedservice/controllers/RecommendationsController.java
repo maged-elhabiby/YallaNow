@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.yallanow.feedservice.services.RecommendationServiceImpl;
 
 @RestController
-@RequestMapping("/recommendations")
 @CrossOrigin
+@RequestMapping("/feed/recommendations")
 public class RecommendationsController {
 
     private final RecommendationService recommendationService;

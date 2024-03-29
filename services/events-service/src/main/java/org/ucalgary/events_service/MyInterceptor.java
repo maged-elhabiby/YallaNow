@@ -3,20 +3,25 @@ package org.ucalgary.events_service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.http.*;
-
+import org.springframework.http.HttpHeaders;
 
 import java.util.Enumeration;
 
+//@Component
 public class MyInterceptor implements HandlerInterceptor {
 
     public String email;
     public String id;
     public String name;
 
+    // @Value("${auth.url}")
+    private String authUrl = "http://auth:5001/auth";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws Exception {
@@ -27,7 +32,7 @@ public class MyInterceptor implements HandlerInterceptor {
             System.out.println("Executing pre-request logic...");
 
             RestTemplate restTemplate = new RestTemplate();
-            String authUrl = "http://localhost:5001/auth";
+            
 
             // Extract headers from the incoming request
             HttpHeaders headers = extractHeaders(request);

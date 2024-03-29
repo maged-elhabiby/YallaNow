@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/microservice/events")
+@CrossOrigin
+@RequestMapping("/events")
 public class EventsController {
     private final EventService eventService;
     private final EventsPubService eventsPubService;

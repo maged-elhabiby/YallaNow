@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 import static org.example.groups_microservice.Service.GroupPubSub.*;
 
-
 @RestController
-@RequestMapping("/microservice/groups")
+@CrossOrigin
+@RequestMapping("/groups")
 public class GroupsController {
     private final GroupService groupService;
 

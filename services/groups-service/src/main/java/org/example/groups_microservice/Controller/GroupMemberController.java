@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/microservice/groups/{groupID}/members")
+@CrossOrigin
+@RequestMapping("/groups/{groupID}/members")
 public class GroupMemberController {
     final GroupMemberService groupMemberService;
     @Autowired
