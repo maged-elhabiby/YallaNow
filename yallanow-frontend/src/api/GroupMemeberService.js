@@ -1,16 +1,26 @@
 import axios from 'axios';
 import config from '../config/config';
-import { getAuth } from "firebase/auth";
+import { getAuth,getIdToken  } from "firebase/auth";
 
 class GroupMemberService {
     constructor() {
-        axios.defaults.headers.common["Authorization"] = getAuth.currentUser?.accessToken;
+        this.auth = getAuth();
         this.baseUrl = config.groupsBaseUrl;
+    }
+    async fetchIdToken() {
+        const user = this.auth.currentUser;
+        if (!user) throw new Error("No authenticated user found");
+        return getIdToken(user);
     }
 
     async getGroupMembers(groupID) {
         try {
-            const response = await axios.get(`${this.baseUrl}${groupID}/members`);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(`${this.baseUrl}${groupID}/members`, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error('Error communicating with server.');
@@ -19,7 +29,12 @@ class GroupMemberService {
 
     async addGroupMember(groupID, memberData) {
         try {
-            const response = await axios.post(`${this.baseUrl}${groupID}/members`, memberData);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.post(`${this.baseUrl}${groupID}/members`, memberData, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error('Error communicating with server.');
@@ -28,7 +43,12 @@ class GroupMemberService {
 
     async removeGroupMember(groupID, userID) {
         try {
-            const response = await axios.delete(`${this.baseUrl}${groupID}/members/${userID}`);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.delete(`${this.baseUrl}${groupID}/members/${userID}`, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             return this.handleResponse(response, true);
         } catch (error) {
             throw new Error('Error communicating with server.');
@@ -37,7 +57,12 @@ class GroupMemberService {
 
     async getGroupMember(groupID, userID) {
         try {
-            const response = await axios.get(`${this.baseUrl}${groupID}/members/${userID}`);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(`${this.baseUrl}${groupID}/members/${userID}`, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error('Error communicating with server.');
@@ -46,7 +71,12 @@ class GroupMemberService {
 
     async updateGroupMember(groupID, userID, memberData) {
         try {
-            const response = await axios.put(`${this.baseUrl}${groupID}/members/${userID}`, memberData);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.put(`${this.baseUrl}${groupID}/members/${userID}`, memberData, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error('Error communicating with server.');
