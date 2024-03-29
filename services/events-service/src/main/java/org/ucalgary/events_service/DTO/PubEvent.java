@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.DTO;
+package org.ucalgary.events_service.DTO;
 
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;

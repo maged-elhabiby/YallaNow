@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.DTO;
+package org.ucalgary.events_service.DTO;
 
 import java.time.LocalDateTime;
 

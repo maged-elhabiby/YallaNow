@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.ServiceTest;
+package org.ucalgary.events_service.ServiceTest;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
