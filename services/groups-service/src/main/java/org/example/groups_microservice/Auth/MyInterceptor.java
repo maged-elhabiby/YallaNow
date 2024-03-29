@@ -29,6 +29,9 @@ public class MyInterceptor implements HandlerInterceptor {
         if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
+        if (request.getMethod().equals("GET") && request.getRequestURI().equals("/groups/health")){
+            return true;
+        }
 
         try {
             HttpHeaders headers = extractHeaders(request);

@@ -31,6 +31,9 @@ public class MyInterceptor implements HandlerInterceptor {
         if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
+        if (request.getMethod().equals("GET") && request.getRequestURI().equals("/events/health")){
+            return true;
+        }
 
         try {
             HttpHeaders headers = extractHeaders(request);

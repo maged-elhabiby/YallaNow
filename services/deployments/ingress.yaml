@@ -10,21 +10,21 @@ spec:
   rules:
   - http:
       paths:
-      - path: /events
+      - path: /events/*
         pathType: ImplementationSpecific
         backend:
           service:
             name: events
             port:
               number: 80
-      - path: /groups
+      - path: /groups/*
         pathType: ImplementationSpecific
         backend:
           service:
             name: groups
             port:
               number: 80
-      - path: /feed
+      - path: /feed/*
         pathType: ImplementationSpecific
         backend:
           service:
