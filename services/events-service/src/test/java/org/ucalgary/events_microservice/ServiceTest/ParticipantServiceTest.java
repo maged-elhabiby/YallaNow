@@ -246,7 +246,7 @@ public class ParticipantServiceTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageId(1);
+        existingEvent.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
         return existingEvent;
     }
 

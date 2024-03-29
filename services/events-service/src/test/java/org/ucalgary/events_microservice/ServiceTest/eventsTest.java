@@ -84,7 +84,7 @@ public class EventsTest {
 
             AddressEntity mockAddress = new AddressEntity(1, "Street", "City", "Province", "PostalCode", "Country");
             EventsEntity mockEvent = new EventsEntity(1, 1, "Event Title", "Event Description", mockAddress.getAddressId(),
-                    event.getEventStartTime(), event.getEventEndTime(), EventStatus.Scheduled, 0, 100, 1);
+                    event.getEventStartTime(), event.getEventEndTime(), EventStatus.Scheduled, 0, 100, event.getImageUrl());
 
             when(groupUsersService.getGroupUser(anyInt(), anyString()))
                     .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
@@ -346,11 +346,11 @@ public class EventsTest {
             EventStatus status = EventStatus.Scheduled;
             int count = 0;
             int capacity = 100;
-            int imageID = 1;
+            String imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE";
 
             // Create EventDTO object using constructor
             EventDTO eventDTO = new EventDTO(eventID, groupID, eventTitle, eventDescription,
-                    location, eventStartTime, eventEndTime, status, count, capacity, imageID);
+                    location, eventStartTime, eventEndTime, status, count, capacity, imageUrl);
             eventDTO.setLocation(location);
 
             // Assertions
@@ -365,7 +365,7 @@ public class EventsTest {
             Assertions.assertEquals(status, eventDTO.getStatus());
             Assertions.assertEquals(count, eventDTO.getCount());
             Assertions.assertEquals(capacity, eventDTO.getCapacity());
-            Assertions.assertEquals(imageID, eventDTO.getImageID());
+            Assertions.assertEquals(imageUrl, eventDTO.getImageUrl());
         }
 
         @Test
@@ -388,7 +388,7 @@ public class EventsTest {
             eventDTO.setStatus(EventStatus.Scheduled);
             eventDTO.setCount(0);
             eventDTO.setCapacity(100);
-            eventDTO.setImageID(1);
+            eventDTO.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
 
             // Assertions using getters
             Assertions.assertEquals(1, eventDTO.getEventID());
@@ -401,7 +401,7 @@ public class EventsTest {
             Assertions.assertEquals(EventStatus.Scheduled, eventDTO.getStatus());
             Assertions.assertEquals(0, eventDTO.getCount());
             Assertions.assertEquals(100, eventDTO.getCapacity());
-            Assertions.assertEquals(1, eventDTO.getImageID());
+            Assertions.assertEquals(1, eventDTO.getImageUrl());
         }
     }
 
@@ -425,11 +425,11 @@ public class EventsTest {
             EventStatus status = EventStatus.Scheduled;
             int count = 0;
             int capacity = 100;
-            int imageId = 1;
+            String imageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE";
 
             // Create EventsEntity object using constructor
             EventsEntity eventsEntity = new EventsEntity(eventId, groupId, eventTitle, eventDescription,
-                    locationId, eventStartTime, eventEndTime, status, count, capacity, imageId);
+                    locationId, eventStartTime, eventEndTime, status, count, capacity, imageUrl);
 
             // Assertions
             Assertions.assertNotNull(eventsEntity);
@@ -443,7 +443,7 @@ public class EventsTest {
             Assertions.assertEquals(status, eventsEntity.getStatus());
             Assertions.assertEquals(count, eventsEntity.getCount());
             Assertions.assertEquals(capacity, eventsEntity.getCapacity());
-            Assertions.assertEquals(imageId, eventsEntity.getImageId());
+            Assertions.assertEquals(imageUrl, eventsEntity.getImageUrl());
         }
 
         @Test
@@ -465,7 +465,7 @@ public class EventsTest {
             eventsEntity.setStatus(EventStatus.Scheduled);
             eventsEntity.setCount(0);
             eventsEntity.setCapacity(100);
-            eventsEntity.setImageId(1);
+            eventsEntity.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
 
             // Assertions using getters
             Assertions.assertEquals(1, eventsEntity.getEventId());
@@ -478,7 +478,7 @@ public class EventsTest {
             Assertions.assertEquals(EventStatus.Scheduled, eventsEntity.getStatus());
             Assertions.assertEquals(0, eventsEntity.getCount());
             Assertions.assertEquals(100, eventsEntity.getCapacity());
-            Assertions.assertEquals(1, eventsEntity.getImageId());
+            Assertions.assertEquals(1, eventsEntity.getImageUrl());
         }
 
         @Test
@@ -522,7 +522,7 @@ public class EventsTest {
         event.setStatus(EventStatus.Scheduled);
         event.setCount(0);
         event.setCapacity(100);
-        event.setImageID(1);
+        event.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
         return event;
     }
 
@@ -563,7 +563,7 @@ public class EventsTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageId(1);
+        existingEvent.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
         return existingEvent;
     }
 
@@ -590,7 +590,7 @@ public class EventsTest {
             event.setStatus(EventStatus.Scheduled);
             event.setCount(0);
             event.setCapacity(100);
-            event.setImageId(i);
+            event.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
             eventsList.add(event);
         }
         return eventsList;
