@@ -130,6 +130,12 @@ public class GroupMemberService {
 
         groupMemberRepository.delete(groupMemberEntity);
     }
+
+    /**
+     * updateGroupMembers method is used to update the members of a group.
+     * @param groupEntity - the group entity
+     * @param groupMembers - the list of group member DTOs
+     */
     @Transactional
     public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
         Map<String, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
@@ -156,6 +162,12 @@ public class GroupMemberService {
         }
         groupRepository.save(groupEntity);
     }
+
+    /**
+     * mapDTOToEntity method is used to map a group member DTO to a group member entity.
+     * @param dto - the group member DTO
+     * @param entity - the group member entity
+     */
     private void mapDTOToEntity(GroupMemberDTO dto, GroupMemberEntity entity) {
         entity.setGroupMemberID(dto.getGroupMemberID());
         entity.setRole(dto.getRole());
@@ -164,6 +176,12 @@ public class GroupMemberService {
 
 
     }
+
+    /**
+     * getGroupsByUserID method is used to retrieve all groups by a user ID.
+     * @param userID - the ID of the user
+     * @return a list of group member entities
+     */
     @Transactional
     public List<GroupMemberEntity> getGroupsByUserID(String userID) {
         return groupMemberRepository.findAllGroupByUserID(userID);

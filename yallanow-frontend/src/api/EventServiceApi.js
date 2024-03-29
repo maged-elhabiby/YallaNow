@@ -1,16 +1,27 @@
 import axios from "axios";
 import config from "../config/config";
+import { getAuth,getIdToken  } from "firebase/auth";
 
 class EventServiceApi {
     constructor() {
-        axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
         this.baseUrl = config.eventsBaseUrl;
+        this.auth = getAuth();
+    }
+    
+    async fetchIdToken() {
+        const user = this.auth.currentUser;
+        if (!user) throw new Error("No authenticated user found");
+        return getIdToken(user);
     }
 
     async createEvent(eventRequest) {
         try {
+            const idToken = await this.fetchIdToken();
             const response = await axios.post(this.baseUrl + "/AddEvent", eventRequest, {
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": idToken
+            },    
             });
             this.handleResponse(response);
         } catch (error) {
@@ -20,9 +31,13 @@ class EventServiceApi {
 
     async updateEvent(eventRequest) {
         try {
+            const idToken = await this.fetchIdToken();
             const response = await axios.post(this.baseUrl + "/UpdateEvent", eventRequest, {
-                headers: { "Content-Type": "application/json" },
-            });
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": idToken
+                },    
+                });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -31,7 +46,12 @@ class EventServiceApi {
 
     async getEvent(eventId) {
         try {
-            const response = await axios.get(this.baseUrl + "/GetEvent/" + eventId);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(this.baseUrl + "/GetEvent/" + eventId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -40,7 +60,12 @@ class EventServiceApi {
 
     async getEventsForGroup(groupId) {
         try {
-            const response = await axios.get(this.baseUrl + "/GetGroupEvents/" + groupId);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(this.baseUrl + "/GetGroupEvents/" + groupId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -49,7 +74,12 @@ class EventServiceApi {
 
     async deleteEvent(eventId) {
         try {
-            const response = await axios.delete(this.baseUrl + "/DeleteEvent/" + eventId);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.delete(this.baseUrl + "/DeleteEvent/" + eventId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -58,7 +88,12 @@ class EventServiceApi {
 
     async getRsvpdUsersForEvent(eventId) {
         try {
-            const response = await axios.get(this.baseUrl + "/GetAllEventParticipants/" + eventId);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(this.baseUrl + "/GetAllEventParticipants/" + eventId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -67,7 +102,13 @@ class EventServiceApi {
 
     async getUserRsvpdEvents(currentUser) {
         try {
-            const response = await axios.get(this.baseUrl + "/GetAllUserEvents");
+            const idToken = await this.fetchIdToken();
+            console.log(idToken);
+            const response = await axios.get(this.baseUrl + "/GetAllUserEvents", {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -76,7 +117,14 @@ class EventServiceApi {
 
     async unRsvpUserFromEvent(userId, eventId) {
         try {
+            const idToken = await this.fetchIdToken();
+            
             const response = await axios.delete(this.baseUrl + "/DeleteParticipant/" + eventId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            }, 
+            {
                 data: { userId: userId },
             });
             this.handleResponse(response, true);
@@ -87,7 +135,12 @@ class EventServiceApi {
 
     async isUserRsvpdToEvent(userId, eventId) {
         try {
-            const response = await axios.get(this.baseUrl + "/GetParticipantStatus/" + eventId);
+            const idToken = await this.fetchIdToken();
+            const response = await axios.get(this.baseUrl + "/GetParticipantStatus/" + eventId, {
+                headers: { 
+                    "Authorization": idToken
+            },    
+            });
             this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -96,13 +149,17 @@ class EventServiceApi {
 
     async rsvpUserToEvent(userId, eventId) {
         try {
+            const idToken = await this.fetchIdToken();
             const request = {
                 userId: userId,
                 eventId: eventId,
                 participantStatus: "Attending",
             };
             const response = await axios.post(this.baseUrl + "/AddParticipant", request, {
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": idToken
+            },
             });
             this.handleResponse(response, true);
         } catch (error) {
@@ -112,13 +169,17 @@ class EventServiceApi {
 
     async updateRsvpStatus(userId, eventId, status) {
         try {
+            const idToken = await this.fetchIdToken();
             const request = {
                 userId: userId,
                 eventId: eventId,
                 participantStatus: status,
             };
-            const response = await axios.post(this.baseUrl + "/UpdateParticipant", request, {
-                headers: { "Content-Type": "application/json" },
+            const response = await axios.post(this.baseUrl + "/UpdateParticipant", request,{
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": idToken
+            },
             });
             this.handleResponse(response, true);
         } catch (error) {

@@ -75,13 +75,23 @@ public class GroupService {
         return groupRepository.save(groupEntity);
     }
 
+    /**
+     * linkEventToGroup method is used to link an event to a group.
+     * @param groupEntity - the group entity
+     * @param eventDTO - the event DTO
+     */
     private void linkEventToGroup(GroupEntity groupEntity, EventDTO eventDTO) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setGlobalEventID(eventDTO.getGlobalEventID());
         eventEntity.setGroup(groupEntity);
         groupEntity.getEvents().add(eventEntity);
     }
-
+    /**
+     * LinkGroupMemberToGroup method is used to link a group member to a group.
+     *
+     * @param groupEntity - the group entity
+     * @param groupMemberDTO - the group member DTO
+     */
     private void LinkGroupMemberToGroup(GroupEntity groupEntity, GroupMemberDTO groupMemberDTO) {
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(groupMemberDTO.getRole());
@@ -93,7 +103,12 @@ public class GroupService {
         groupEntity.setMemberCount(groupEntity.getGroupMembers().size());
 
     }
-
+    /**
+     * convertToGroupEntity method is used to convert a group DTO to a group entity.
+     *
+     * @param dto - the group DTO to be converted
+     * @return the group entity
+     */
     private EventEntity convertToEventEntity(EventDTO dto, GroupEntity groupEntity) {
         EventEntity eventEntity = new EventEntity();
         eventEntity.setGlobalEventID(dto.getGlobalEventID());
@@ -101,6 +116,12 @@ public class GroupService {
         eventEntity.setGroup(groupEntity);
         return eventEntity;
     }
+    /**
+     * convertToGroupMemberEntity method is used to convert a group member DTO to a group member entity.
+     *
+     * @param dto - the group member DTO
+     * @return the group member entity
+     */
 
     private GroupMemberEntity convertToGroupMemberEntity(GroupMemberDTO dto, GroupEntity groupEntity) {
 

@@ -1,6 +1,5 @@
 import EventServiceApi from "./EventServiceApi";
 
-
 class EventService {
 
     async createEvent(eventData) {
