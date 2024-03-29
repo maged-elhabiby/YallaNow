@@ -133,6 +133,8 @@ public class GroupsController {
 
     /**
      * get groups that a user is part of through userID without showing group members or events
+     * @param userID - the ID of the user
+     * @return the groups that the user is part of
      */
     @GetMapping("/user/{userID}")
     public ResponseEntity<List<GroupDTO>> getGroupsByUserID(@PathVariable String userID) {
@@ -155,6 +157,11 @@ public class GroupsController {
         return ResponseEntity.ok(groupDTOS);
 
     }
+    /**
+     * convertToDtoWithNoMembersOrEvents method is used to convert a group entity to a group DTO without members or events.
+     * @param groupEntity - the group entity
+     * @return the group DTO
+     */
     private GroupDTO convertToDtoWithNoMembersOrEvents(GroupEntity groupEntity) {
         GroupDTO dto = new GroupDTO();
         dto.setGroupID(groupEntity.getGroupID());
