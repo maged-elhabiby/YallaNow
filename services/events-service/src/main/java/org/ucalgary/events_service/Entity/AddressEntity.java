@@ -37,7 +37,7 @@ public class AddressEntity {
     public AddressEntity() {
     }
 
-    public AddressEntity(Integer addressId, String street, String city, String province, String postalCode, String country) {
+    public AddressEntity(Integer addressId, String street, String city, String province, String postalCode, String country)throws IllegalArgumentException {
         validateAddress(street, city, province, postalCode, country);
         this.addressId = addressId;
         this.street = street;
@@ -75,7 +75,7 @@ public class AddressEntity {
      * @param postalCode
      * @param country
      */
-    private void validateAddress(String street, String city, String province, String postalCode, String country) {
+    private void validateAddress(String street, String city, String province, String postalCode, String country)throws IllegalArgumentException {
         if (street == null || street.isEmpty()) {
             throw new IllegalArgumentException("Street cannot be empty");
         }

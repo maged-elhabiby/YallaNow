@@ -25,7 +25,7 @@ public class PubEvent {
     // Constructors
     public PubEvent() {}
 
-    public PubEvent(EventsEntity event, RestTemplate restTemplate) {
+    public PubEvent(EventsEntity event, RestTemplate restTemplate)throws IllegalArgumentException {
         ValidateInput(event);
         this.eventID = event.getEventId();
         this.groupID = event.getGroupId();

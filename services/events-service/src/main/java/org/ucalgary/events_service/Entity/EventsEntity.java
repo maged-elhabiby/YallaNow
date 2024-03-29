@@ -69,7 +69,7 @@ public class EventsEntity {
                         String eventTitle, String eventDescription, 
                         Integer locationId,
                         LocalDateTime eventStartTime, LocalDateTime eventEndTime,
-                        EventStatus status, Integer count, Integer capacity, String imageUrl) {
+                        EventStatus status, Integer count, Integer capacity, String imageUrl)throws IllegalArgumentException {
         
         validateInput(groupId, eventTitle, eventDescription, locationId, eventStartTime, eventEndTime, status, count, capacity);
         this.eventId = eventId;

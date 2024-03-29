@@ -13,7 +13,7 @@ public class AddressDTO {
     // Constructors
     public AddressDTO() {}
 
-    public AddressDTO(String street, String city, String province, String postalCode ,String country) {
+    public AddressDTO(String street, String city, String province, String postalCode ,String country)throws IllegalArgumentException {
         validateInput(street, city, province, postalCode, country);
         this.street = street;
         this.city = city;
@@ -22,7 +22,8 @@ public class AddressDTO {
         this.country = country;
     }
 
-    public AddressDTO(int addressID, String street, String city, String province, String postalCode, String country) {
+    public AddressDTO(int addressID, String street, String city, String province, 
+                    String postalCode, String country) throws IllegalArgumentException {
         validateInput(street, city, province, postalCode, country);
         this.addressID = addressID;
         this.street = street;
@@ -61,7 +62,7 @@ public class AddressDTO {
      * @param postalCode
      * @param country
      */
-    private void validateInput(String street, String city, String province, String postalCode, String country){
+    private void validateInput(String street, String city, String province, String postalCode, String country) throws IllegalArgumentException{
         if (street == null || street.isEmpty()) {
             throw new IllegalArgumentException("Street cannot be null or empty");
         }

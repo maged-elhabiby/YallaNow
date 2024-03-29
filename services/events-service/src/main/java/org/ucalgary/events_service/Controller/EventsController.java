@@ -46,6 +46,8 @@ public class EventsController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -64,6 +66,10 @@ public class EventsController {
         }catch(AccessException e){
             return (ResponseEntity<?>) ResponseEntity.status(403);
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        } catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         
@@ -90,6 +96,8 @@ public class EventsController {
             return ResponseEntity.ok(events);
         }catch( EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -105,6 +113,8 @@ public class EventsController {
             return ResponseEntity.ok(events);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -129,6 +139,8 @@ public class EventsController {
             return ResponseEntity.notFound().build();
         } catch (AccessException e) {
             return (ResponseEntity<?>) ResponseEntity.status(403);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

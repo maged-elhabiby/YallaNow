@@ -45,8 +45,10 @@ public class ParticipantController {
             return (ResponseEntity<?>) ResponseEntity.status(422);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
+    }  
 
     /**
      * Get all events for a participant
@@ -60,6 +62,8 @@ public class ParticipantController {
             return ResponseEntity.ok(participants);
         }catch(EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -87,6 +91,8 @@ public class ParticipantController {
             return ResponseEntity.ok(status);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -107,6 +113,8 @@ public class ParticipantController {
             return (ResponseEntity<?>) ResponseEntity.status(422);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -123,6 +131,8 @@ public class ParticipantController {
             return (ResponseEntity<?>) ResponseEntity.ok();
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
        
     }

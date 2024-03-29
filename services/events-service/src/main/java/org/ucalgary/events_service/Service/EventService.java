@@ -126,7 +126,7 @@ public class EventService {
      * @return A list of all events associated with the specified user.
      */
     @Transactional 
-    public List<EventsEntity> getAllAvailableEvents() {
+    public List<EventsEntity> getAllAvailableEvents()throws EntityNotFoundException {
         List<EventsEntity> events = eventRepository.findAll();
 
         events.removeIf(event -> event.getEventEndTime().isEqual(LocalDateTime.now()) ||

@@ -27,7 +27,7 @@ public class GroupUsersEntity {
 
     public GroupUsersEntity() {}
 
-    public GroupUsersEntity(Integer groupId, String userId, String role) {
+    public GroupUsersEntity(Integer groupId, String userId, String role)throws IllegalArgumentException {
         ValidateInput(groupId, userId, role);
         this.groupId = groupId;
         this.userId = userId;

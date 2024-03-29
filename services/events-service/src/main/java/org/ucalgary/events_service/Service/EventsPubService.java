@@ -56,7 +56,7 @@ public class EventsPubService {
      * @param event The event entity to publish.
      * @param Operation The operation type to publish.
      */
-    public void publishEvents(EventsEntity event, String Operation) {
+    public void publishEvents(EventsEntity event, String Operation)throws RuntimeException {
         try {
             PubEvent publishEvent = new PubEvent(event, restTemplate);
             String jsonMessage = objectMapper.writeValueAsString(publishEvent);
@@ -77,7 +77,7 @@ public class EventsPubService {
      * @throws IOException if the subscriber cannot be initialized.
      */
     @PostConstruct
-    public void subscribeGroups() throws IOException {
+    public void subscribeGroups() throws IOException, RuntimeException{
         ProjectSubscriptionName subscriptionName =
                 ProjectSubscriptionName.of("yallanow-413400", "group-sub");
 
