@@ -8,7 +8,7 @@ import { useAuth } from './AuthContext'; // Ensure this path is correct
 const ProtectedRoute = ({ children }) => {
     const { currentUser,initializing  } = useAuth();
     console.log("ProtectedRoute - Current user:", currentUser);
-   
+    console.log("ProtectedRoute - Current user:", currentUser.accessToken);
     if (initializing) {
         return <div>Loading...</div>; // Or a more sophisticated loader/spinner
     }

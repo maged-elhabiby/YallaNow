@@ -1,7 +1,11 @@
 import axios from "axios";
-const baseUrl = "http://34.74.88.104/events";
+import { useAuth } from '../AuthContext';
+const baseUrl = "http://34.120.232.193//events";
 
-const eventServiceApi = {
+
+const eventServiceApi =  {
+
+    
   createEvent: async (eventRequest) => {
     try {
         const response = await axios.post(baseUrl + "/AddEvent", eventRequest, {
@@ -112,11 +116,14 @@ getRsvpdUsersForEvent: async (eventId) => {
     }
 },
 
-  getUserRsvpdEvents: async (userId) => {
+  getUserRsvpdEvents: async (currentUser) => {
     try {
+        console.log(currentUser?.accessToken)
         const response = await axios.get(baseUrl + "/GetAllUserEvents", {
+            
             headers: {
-                "Id": userId
+                "Id": currentUser?.uid,
+                "Authorization": currentUser?.accessToken
             }
         });
 

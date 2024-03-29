@@ -8,12 +8,13 @@ const MyEventsPage = () => {
     const [events, setEvents] = useState([]);
     const { currentUser } = useAuth();
     const userId = currentUser?.uid;
+    const tok = String(currentUser?.accessToken);
     const [errorMessage, setErrorMessage] = useState('');
    
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const fetchedEvents = await eventService.getUserRsvpdEvents(userId);
+                const fetchedEvents = await eventService.getUserRsvpdEvents(currentUser);
                 if (fetchedEvents.length === 0) {
                     setErrorMessage('No Available Events'); // Set a default message for no events
                 } else {

@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = 'http://34.73.135.128/feed/recommendations';
+const baseUrl = 'http://34.120.232.193/feed/recommendations';
 
 const feedService = {
 

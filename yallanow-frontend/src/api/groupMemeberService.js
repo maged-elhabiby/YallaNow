@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl =   'http://35.231.253.49/groups';
+const baseUrl =   'http://34.120.232.193/groups';
 
 const groupMemberService = {
     getGroupMembers: async (groupID) => {
