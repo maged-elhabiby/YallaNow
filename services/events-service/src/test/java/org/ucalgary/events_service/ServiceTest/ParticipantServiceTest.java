@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.ServiceTest;
+package org.ucalgary.events_service.ServiceTest;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -6,15 +6,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.ucalgary.events_microservice.DTO.*;
-import org.ucalgary.events_microservice.Entity.AddressEntity;
-import org.ucalgary.events_microservice.Entity.EventsEntity;
-import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
-import org.ucalgary.events_microservice.Entity.ParticipantEntity;
-import org.ucalgary.events_microservice.Repository.EventRepository;
-import org.ucalgary.events_microservice.Repository.GroupUserRespository;
-import org.ucalgary.events_microservice.Repository.ParticipantRepository;
-import org.ucalgary.events_microservice.Service.*;
+import org.ucalgary.events_service.DTO.*;
+import org.ucalgary.events_service.Entity.AddressEntity;
+import org.ucalgary.events_service.Entity.EventsEntity;
+import org.ucalgary.events_service.Entity.GroupUsersEntity;
+import org.ucalgary.events_service.Entity.ParticipantEntity;
+import org.ucalgary.events_service.Repository.EventRepository;
+import org.ucalgary.events_service.Repository.GroupUserRespository;
+import org.ucalgary.events_service.Repository.ParticipantRepository;
+import org.ucalgary.events_service.Service.*;
 
 import org.junit.jupiter.api.*;
 
@@ -246,7 +246,7 @@ public class ParticipantServiceTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageId(1);
+        existingEvent.setImageUrl("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2Fabstract-wallpaper--824510644269909459%2F&psig=AOvVaw2Z_abLgZUYsYWc9g4-TJUu&ust=1711770796319000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjvpKPJmIUDFQAAAAAdAAAAABAE");
         return existingEvent;
     }
 

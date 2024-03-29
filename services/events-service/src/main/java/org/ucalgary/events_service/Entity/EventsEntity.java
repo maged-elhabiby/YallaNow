@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.Entity;
+package org.ucalgary.events_service.Entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
