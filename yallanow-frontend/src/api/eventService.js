@@ -3,7 +3,7 @@ import imageService from "./imageService";
 
 const eventService = {
     createEvent: async (eventData) => {
-        const imageData = await imageService.uploadImage(eventData.imageBase64);
+        const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
         eventData.imageId = imageData.id;
         const eventImageUrl = imageData.imageUrl;
 
@@ -18,8 +18,11 @@ const eventService = {
     updateEvent: async (eventData) => {
         let eventImageUrl = null;
         if (eventData.imageBase64) {
-            const imageData = await imageService.uploadImage(eventData.imageBase64);
+            const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
+            eventData.imageId = imageData.id;
             eventImageUrl = imageData.imageUrl;
+        } else {
+            eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
         }
 
         const requestData = eventServiceApi.formatEventForEventService(eventData);
@@ -97,7 +100,6 @@ const eventService = {
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
-            imageURL: data.eventImageUrl,
         };
     },
 

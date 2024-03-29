@@ -1,0 +1,67 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "auth"
+  namespace: "default"
+  labels:
+    app: "auth"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "auth"
+  template:
+    metadata:
+      labels:
+        app: "auth"
+    spec:
+      containers:
+      - name: "auth-sha256-1"
+        image: "us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/auth-service:latest"
+        env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /var/secrets/google/google-credentials.json
+        volumeMounts:
+          - name: google-credentials
+            mountPath: /var/secrets/google
+            readOnly: true
+      volumes:
+        - name: google-credentials
+          secret:
+            secretName: google-credentials
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "auth-hpa-oqd9"
+  namespace: "default"
+  labels:
+    app: "auth"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "auth"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      target:
+        type: "Utilization"
+        averageUtilization: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth
+  namespace: default
+spec:
+  selector:
+    app: auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: LoadBalancer

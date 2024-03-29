@@ -20,11 +20,11 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
     set('springCloudGcpVersion', "5.0.2")
     set('springCloudVersion', "2023.0.0")
-    
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.integration:spring-integration-core'

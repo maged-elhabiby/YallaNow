@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: default
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /events
+        pathType: Prefix
+        backend:
+          service:
+            name: events
+            port:
+              number: 80
+      - path: /groups
+        pathType: Prefix
+        backend:
+          service:
+            name: groups
+            port:
+              number: 80
+      - path: /feed
+        pathType: Prefix
+        backend:
+          service:
+            name: feed
+            port:
+              number: 80

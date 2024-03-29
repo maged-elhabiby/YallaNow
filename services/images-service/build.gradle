@@ -21,8 +21,6 @@ ext {
 }
 
 dependencies {
-    implementation 'com.cloudinary:cloudinary-http44:1.36.0'
-    implementation 'com.cloudinary:cloudinary-taglib:1.36.0'
     implementation 'io.github.cdimascio:dotenv-java:2.2.4'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -31,6 +29,7 @@ dependencies {
     implementation 'com.google.cloud.sql:postgres-socket-factory:1.4.0'
     implementation 'com.google.cloud:spring-cloud-gcp-starter-storage'
     implementation 'com.google.cloud:spring-cloud-gcp-starter'
+    implementation 'com.google.cloud:spring-cloud-gcp-starter-sql-postgresql:5.1.0'
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -41,7 +40,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
