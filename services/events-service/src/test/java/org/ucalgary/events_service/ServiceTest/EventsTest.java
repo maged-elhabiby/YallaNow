@@ -6,15 +6,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.expression.AccessException;
 import org.springframework.test.context.ActiveProfiles;
-import org.ucalgary.events_microservice.DTO.*;
-import org.ucalgary.events_microservice.Entity.AddressEntity;
-import org.ucalgary.events_microservice.Entity.EventsEntity;
-import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
-import org.ucalgary.events_microservice.Repository.AddressRepository;
-import org.ucalgary.events_microservice.Repository.EventRepository;
-import org.ucalgary.events_microservice.Repository.GroupUserRespository;
-import org.ucalgary.events_microservice.Repository.ParticipantRepository;
-import org.ucalgary.events_microservice.Service.*;
+import org.ucalgary.events_service.DTO.*;
+import org.ucalgary.events_service.Entity.AddressEntity;
+import org.ucalgary.events_service.Entity.EventsEntity;
+import org.ucalgary.events_service.Entity.GroupUsersEntity;
+import org.ucalgary.events_service.Repository.AddressRepository;
+import org.ucalgary.events_service.Repository.EventRepository;
+import org.ucalgary.events_service.Repository.GroupUserRespository;
+import org.ucalgary.events_service.Repository.ParticipantRepository;
+import org.ucalgary.events_service.Service.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.*;
@@ -84,7 +84,7 @@ public class EventsTest {
 
             AddressEntity mockAddress = new AddressEntity(1, "Street", "City", "Province", "PostalCode", "Country");
             EventsEntity mockEvent = new EventsEntity(1, 1, "Event Title", "Event Description", mockAddress.getAddressId(),
-                    event.getEventStartTime(), event.getEventEndTime(), EventStatus.Scheduled, 0, 100, 1);
+                    event.getEventStartTime(), event.getEventEndTime(), EventStatus.Scheduled, 0, 100, "https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
 
             when(groupUsersService.getGroupUser(anyInt(), anyString()))
                     .thenReturn(Optional.of(new GroupUsersEntity(1, "1", "ADMIN")));
@@ -346,11 +346,11 @@ public class EventsTest {
             EventStatus status = EventStatus.Scheduled;
             int count = 0;
             int capacity = 100;
-            int imageID = 1;
+            String imageUrl = "https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png";
 
             // Create EventDTO object using constructor
             EventDTO eventDTO = new EventDTO(eventID, groupID, eventTitle, eventDescription,
-                    location, eventStartTime, eventEndTime, status, count, capacity, imageID);
+                    location, eventStartTime, eventEndTime, status, count, capacity, imageUrl);
             eventDTO.setLocation(location);
 
             // Assertions
@@ -365,7 +365,7 @@ public class EventsTest {
             Assertions.assertEquals(status, eventDTO.getStatus());
             Assertions.assertEquals(count, eventDTO.getCount());
             Assertions.assertEquals(capacity, eventDTO.getCapacity());
-            Assertions.assertEquals(imageID, eventDTO.getImageID());
+            Assertions.assertEquals(imageUrl, eventDTO.getImageUrl());
         }
 
         @Test
@@ -388,7 +388,7 @@ public class EventsTest {
             eventDTO.setStatus(EventStatus.Scheduled);
             eventDTO.setCount(0);
             eventDTO.setCapacity(100);
-            eventDTO.setImageID(1);
+            eventDTO.setImageUrl("https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
 
             // Assertions using getters
             Assertions.assertEquals(1, eventDTO.getEventID());
@@ -401,7 +401,7 @@ public class EventsTest {
             Assertions.assertEquals(EventStatus.Scheduled, eventDTO.getStatus());
             Assertions.assertEquals(0, eventDTO.getCount());
             Assertions.assertEquals(100, eventDTO.getCapacity());
-            Assertions.assertEquals(1, eventDTO.getImageID());
+            Assertions.assertEquals(1, eventDTO.getImageUrl());
         }
     }
 
@@ -425,11 +425,11 @@ public class EventsTest {
             EventStatus status = EventStatus.Scheduled;
             int count = 0;
             int capacity = 100;
-            int imageId = 1;
+            String imageUrl = "https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png";
 
             // Create EventsEntity object using constructor
             EventsEntity eventsEntity = new EventsEntity(eventId, groupId, eventTitle, eventDescription,
-                    locationId, eventStartTime, eventEndTime, status, count, capacity, imageId);
+                    locationId, eventStartTime, eventEndTime, status, count, capacity, imageUrl);
 
             // Assertions
             Assertions.assertNotNull(eventsEntity);
@@ -443,7 +443,7 @@ public class EventsTest {
             Assertions.assertEquals(status, eventsEntity.getStatus());
             Assertions.assertEquals(count, eventsEntity.getCount());
             Assertions.assertEquals(capacity, eventsEntity.getCapacity());
-            Assertions.assertEquals(imageId, eventsEntity.getImageId());
+            Assertions.assertEquals(imageUrl, eventsEntity.getImageUrl());
         }
 
         @Test
@@ -465,7 +465,7 @@ public class EventsTest {
             eventsEntity.setStatus(EventStatus.Scheduled);
             eventsEntity.setCount(0);
             eventsEntity.setCapacity(100);
-            eventsEntity.setImageId(1);
+            eventsEntity.setImageUrl("https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
 
             // Assertions using getters
             Assertions.assertEquals(1, eventsEntity.getEventId());
@@ -478,7 +478,7 @@ public class EventsTest {
             Assertions.assertEquals(EventStatus.Scheduled, eventsEntity.getStatus());
             Assertions.assertEquals(0, eventsEntity.getCount());
             Assertions.assertEquals(100, eventsEntity.getCapacity());
-            Assertions.assertEquals(1, eventsEntity.getImageId());
+            Assertions.assertEquals(1, eventsEntity.getImageUrl());
         }
 
         @Test
@@ -522,7 +522,7 @@ public class EventsTest {
         event.setStatus(EventStatus.Scheduled);
         event.setCount(0);
         event.setCapacity(100);
-        event.setImageID(1);
+        event.setImageUrl("https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
         return event;
     }
 
@@ -563,7 +563,7 @@ public class EventsTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageId(1);
+        existingEvent.setImageUrl("https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
         return existingEvent;
     }
 
@@ -590,7 +590,7 @@ public class EventsTest {
             event.setStatus(EventStatus.Scheduled);
             event.setCount(0);
             event.setCapacity(100);
-            event.setImageId(i);
+            event.setImageUrl("https://seeklogo.com/images/B/big-chungus-quagmire-logo-AA0574F1D6-seeklogo.com.png");
             eventsList.add(event);
         }
         return eventsList;

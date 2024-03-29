@@ -42,14 +42,7 @@ public class PubEvent {
         this.count = event.getCount();
         this.capacity = event.getCapacity();
         try {
-            String responseString = restTemplate.getForObject(
-                "http://localhost:8081/microservice/images/GetImage/" + event.getImageId(),
-                String.class
-            );
-    
-            // Extract imageLink from the response string
-            String imageLink = extractImageLink(responseString);
-            this.imageUrl = imageLink;
+            this.imageUrl = event.getImageUrl();
         } catch (Exception e) {
             this.imageUrl = null;
         }
@@ -71,28 +64,6 @@ public class PubEvent {
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
     public final String getImageUrl() {return imageUrl;}
-    
-    /**
-     * Extracts the image link from the response string.
-     * @param responseString
-     * @return
-     */
-    private String extractImageLink(String responseString) {
-        // Find the index of "imageLink" in the response string
-        int startIndex = responseString.indexOf("\"imageLink\":\"");
-        if (startIndex == -1) {
-            return null; // Image link not found
-        }
-    
-        // Extract the substring containing the imageLink
-        startIndex += "\"imageLink\":\"".length();
-        int endIndex = responseString.indexOf("\"", startIndex);
-        if (endIndex == -1) {
-            return null; // Image link not properly formatted
-        }
-    
-        return responseString.substring(startIndex, endIndex);
-    }
 
     /**
      * Validates the input for the event.
