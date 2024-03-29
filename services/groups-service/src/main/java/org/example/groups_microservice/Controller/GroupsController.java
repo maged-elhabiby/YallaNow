@@ -27,6 +27,10 @@ public class GroupsController {
         this.groupService = groupService;
     }
 
+    /**
+     * getGroups method is used to retrieve all groups.
+     * @return a list of group entities
+     */
     @GetMapping
     public ResponseEntity<List<GroupDTO>> getGroups() {
         // get all groups
@@ -155,6 +159,11 @@ public class GroupsController {
         return ResponseEntity.ok(groupDTOS);
 
     }
+    /**
+     * convertToDtoWithNoMembersOrEvents method is used to convert a group entity to a group DTO without showing group members or events.
+     * @param groupEntity - the group entity to be converted
+     * @return the group DTO
+     */
     private GroupDTO convertToDtoWithNoMembersOrEvents(GroupEntity groupEntity) {
         GroupDTO dto = new GroupDTO();
         dto.setGroupID(groupEntity.getGroupID());

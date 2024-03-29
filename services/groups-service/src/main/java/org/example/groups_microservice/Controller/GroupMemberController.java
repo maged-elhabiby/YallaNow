@@ -40,7 +40,11 @@ public class GroupMemberController {
         return ResponseEntity.ok(groupMemberDTOs);
     }
 
-
+    /**
+     * convertToDto method is used to convert a group member entity to a group member DTO.
+     * @param groupMemberEntity - the group member entity
+     * @return the group member DTO
+     */
     private GroupMemberDTO convertToDto(GroupMemberEntity groupMemberEntity) {
         GroupMemberDTO dto = new GroupMemberDTO();
         dto.setRole(groupMemberEntity.getRole());

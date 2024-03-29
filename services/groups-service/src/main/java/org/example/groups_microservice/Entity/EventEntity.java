@@ -24,11 +24,7 @@ public class EventEntity {
     @JoinColumn(name = "group_id", nullable = true) // Ensures the foreign key relation
     private GroupEntity group;
 
-    // add group name from group entity to store the group name
 
-
-
-    // uses group name from group entity to store the group name
 
 
     public EventEntity() {
