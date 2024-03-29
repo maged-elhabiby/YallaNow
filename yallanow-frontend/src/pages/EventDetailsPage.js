@@ -2,27 +2,51 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import eventService from '../api/eventService';
 import recombeeInteractions from '../api/recomebeeInteractions';
+import { useAuth } from '../AuthContext';
+
 
 const EventDetailsPage = () => {
-  const userId = 10001;
+  const { currentUser } = useAuth();
+  const userId = currentUser?.uid;
   const { state } = useLocation();
-  const { event, recommId } = state;
+  const [recommId, setRecommId] = useState(state.recommId);
+
   const [rsvpStatus, setRsvpStatus] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const [event, setEvent] = useState(state.event || {});
 
   useEffect(() => {
-    const fetchRsvpStatus = async () => {
-        try {
-            const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
-            setRsvpStatus(status);
-        } catch (error) {
-            setErrorMessage(error.message);
-        }
-    };
+    if (!event.eventId && state.eventId) {
+      // If event details are not in state but eventId is, fetch event details
+      fetchEventDetails(state.eventId);
+    }
+    checkRsvpStatus();
+    // Record detail view with Recombee
+    if (event.eventId && recommId) {
+      recombeeInteractions.addDetailViewInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
+    }
+  }, [event.eventId, recommId]);
 
-    fetchRsvpStatus();
-}, [event.eventId]);
+  const fetchEventDetails = async (eventId) => {
+    try {
+      const fetchedEvent = await eventService.getEvent(eventId);
+      setEvent(fetchedEvent);
+    } catch (error) {
+      setErrorMessage('Failed to fetch event details.');
+    }
+  };
+
+  const checkRsvpStatus = async () => {
+    if (event.eventId) {
+      try {
+        const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
+        setRsvpStatus(status);
+      } catch (error) {
+        setErrorMessage('Failed to check RSVP status.');
+      }
+    }
+  };
 
 const handleRsvpClick = async () => {
   try {

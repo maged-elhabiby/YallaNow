@@ -1,4 +1,4 @@
-package org.ucalgary.events_service.Service;
+package org.ucalgary.events_microservice.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
-import org.ucalgary.events_service.Repository.EventRepository;
-import org.ucalgary.events_service.Entity.AddressEntity;
-import org.ucalgary.events_service.Entity.EventsEntity;
-import org.ucalgary.events_service.Entity.GroupUsersEntity;
-import org.ucalgary.events_service.DTO.EventStatus;
-import org.ucalgary.events_service.DTO.EventDTO;
+import org.ucalgary.events_microservice.Repository.EventRepository;
+import org.ucalgary.events_microservice.Entity.AddressEntity;
+import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
+import org.ucalgary.events_microservice.DTO.EventStatus;
+import org.ucalgary.events_microservice.DTO.EventDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -51,7 +51,7 @@ public class EventService {
                                                 event.getStatus(), 
                                                 event.getCount(),
                                                 event.getCapacity(),
-                                                event.getImageURL());
+                                                event.getImageUrl());
         newEvent.setAddress(address);
         return eventRepository.save(newEvent); // Add the Event to the DataBase
     }
@@ -87,7 +87,7 @@ public class EventService {
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
-        oldEvent.setImageURL(updatedEvent.getImageURL());
+        oldEvent.setImageUrl(updatedEvent.getImageUrl());
         return eventRepository.save(oldEvent); // Update the Event in the DataBase
     }
 

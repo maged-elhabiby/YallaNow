@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 // Import icons from Heroicons for visual elements in form inputs
-import { CalendarIcon, LocationMarkerIcon, UsersIcon } from '@heroicons/react/solid';
 import { PhotoIcon } from '@heroicons/react/24/solid'
+import eventService from '../api/eventService'; // Adjust the path as needed
 
 
 const CreateEventPage = () => {
@@ -48,22 +48,25 @@ const CreateEventPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here, you would handle form submission, such as sending data to your backend or Firebase.
+  
     const finalFormData = {
       ...formData,
-      eventImageBase64: imageBase64,
+      imageBase64: imageBase64, // Assuming your backend expects the image in base64 format
+      // Include other event details as needed
     };
-
+  
     try {
-      // Send the data to your backend
-      console.log(finalFormData);
-      console.log('Event created successfully');
-       // Navigate back to the previous page or a specific route after form submission.
+      // Call createEvent method from your eventService
+      const createdEvent = await eventService.createEvent(finalFormData);
+      console.log('Event created successfully', createdEvent);
+      // Navigate to a confirmation page or back to the group/events page as appropriate
+      navigate('/some-confirmation-page-or-back-to-events');
     } catch (error) {
       console.error('Error creating event:', error);
+      // Update state or UI to show error message
     }
   };
+  
 
   const triggerFileInput = () => {
     document.getElementById('image-upload').click();

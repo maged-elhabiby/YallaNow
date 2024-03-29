@@ -1,4 +1,4 @@
-package org.ucalgary.events_service.ServiceTest;
+package org.ucalgary.events_microservice.ServiceTest;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -6,15 +6,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.ucalgary.events_service.DTO.*;
-import org.ucalgary.events_service.Entity.AddressEntity;
-import org.ucalgary.events_service.Entity.EventsEntity;
-import org.ucalgary.events_service.Entity.GroupUsersEntity;
-import org.ucalgary.events_service.Entity.ParticipantEntity;
-import org.ucalgary.events_service.Repository.EventRepository;
-import org.ucalgary.events_service.Repository.GroupUserRespository;
-import org.ucalgary.events_service.Repository.ParticipantRepository;
-import org.ucalgary.events_service.Service.*;
+import org.ucalgary.events_microservice.DTO.*;
+import org.ucalgary.events_microservice.Entity.AddressEntity;
+import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
+import org.ucalgary.events_microservice.Entity.ParticipantEntity;
+import org.ucalgary.events_microservice.Repository.EventRepository;
+import org.ucalgary.events_microservice.Repository.GroupUserRespository;
+import org.ucalgary.events_microservice.Repository.ParticipantRepository;
+import org.ucalgary.events_microservice.Service.*;
 
 import org.junit.jupiter.api.*;
 
@@ -246,7 +246,7 @@ public class ParticipantServiceTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageURL("https://purepng.com/public/uploads/large/big-chungus-jkg.png");
+        existingEvent.setImageId(1);
         return existingEvent;
     }
 

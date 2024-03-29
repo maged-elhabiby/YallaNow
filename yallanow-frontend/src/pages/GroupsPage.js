@@ -2,18 +2,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
+import groupService from '../api/groupService'; 
 
 const GroupPage = () => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    // Fetch the list of groups. This is a mock and should be replaced with a real fetch request.
-    const mockGroups = [
-      { id: 1, name: 'Astrophysics Enthusiasts',numberOfPeople: 150, },
-      { id: 2, name: 'Quantum Computing Circle',numberOfPeople: 190, },
-    ];
-    setGroups(mockGroups);
+    const fetchGroups = async () => {
+      try {
+        const fetchedGroups = await groupService.getGroups();
+        console.log(fetchedGroups); // Log the fetched groups
+
+        setGroups(fetchedGroups);
+        console.log('Works')
+      } catch (error) {
+        console.error('Error fetching groups:', error);
+        console.log('Fail')
+        // Optionally, update state or UI to inform the user about the error
+      }
+    };
+  
+    fetchGroups();
   }, []);
+  
+  console.log(groups)
 
   return (
     <div>
@@ -37,7 +49,7 @@ const GroupPage = () => {
       </div>
       <div className="flex flex-wrap justify-center gap-4">
         {groups.map(group => (
-          <GroupCard key={group.id} group={group} />
+          <GroupCard key={group.groupID} group={group} />
         ))}
       </div>
     </div>

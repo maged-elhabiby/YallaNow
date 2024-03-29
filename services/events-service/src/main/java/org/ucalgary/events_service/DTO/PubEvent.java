@@ -1,8 +1,8 @@
-package org.ucalgary.events_service.DTO;
+package org.ucalgary.events_microservice.DTO;
 
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
-import org.ucalgary.events_service.Entity.EventsEntity;
+import org.ucalgary.events_microservice.Entity.EventsEntity;
 
 public class PubEvent {
     // Attributes
@@ -41,7 +41,18 @@ public class PubEvent {
         this.status = event.getStatus().toString();
         this.count = event.getCount();
         this.capacity = event.getCapacity();
-        this.imageUrl = event.getImageURL();
+        try {
+            String responseString = restTemplate.getForObject(
+                "http://localhost:8081/microservice/images/GetImage/" + event.getImageId(),
+                String.class
+            );
+    
+            // Extract imageLink from the response string
+            String imageLink = extractImageLink(responseString);
+            this.imageUrl = imageLink;
+        } catch (Exception e) {
+            this.imageUrl = null;
+        }
     }
 
     // Getters and setters
@@ -60,6 +71,28 @@ public class PubEvent {
     public final int getCount() {return count;}
     public final int getCapacity() {return capacity;}
     public final String getImageUrl() {return imageUrl;}
+    
+    /**
+     * Extracts the image link from the response string.
+     * @param responseString
+     * @return
+     */
+    private String extractImageLink(String responseString) {
+        // Find the index of "imageLink" in the response string
+        int startIndex = responseString.indexOf("\"imageLink\":\"");
+        if (startIndex == -1) {
+            return null; // Image link not found
+        }
+    
+        // Extract the substring containing the imageLink
+        startIndex += "\"imageLink\":\"".length();
+        int endIndex = responseString.indexOf("\"", startIndex);
+        if (endIndex == -1) {
+            return null; // Image link not properly formatted
+        }
+    
+        return responseString.substring(startIndex, endIndex);
+    }
 
     /**
      * Validates the input for the event.

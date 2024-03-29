@@ -7,18 +7,18 @@ const GroupCard = ({ group }) => {
 
   // Function to handle click on the card
   const handleClick = () => {
-    navigate(`/group/${group.id}`);
+    navigate(`/group/${group.groupID}`);
   };
-
+  console.log(group);
   return (
     <div
       className="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer m-4"
       onClick={handleClick}
     >
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{group.name}</div>
+        <div className="font-bold text-xl mb-2">{group.groupName}</div>
         <p className="text-gray-700 text-base">
-          Members: {group.numberOfPeople}
+          Members: {group.memberCount}
         </p>
         <p className="text-gray-700 text-base">
           Status: {group.isPrivate ? 'Private' : 'Public'}

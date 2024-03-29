@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8080/microservice/groups/';
+const baseUrl = 'http://35.231.253.49/groups';
 
 const groupService = {
     createGroup: async (groupData) => {
@@ -15,7 +15,14 @@ const groupService = {
     getGroups: async () => {
         try {
             const response = await axios.get(baseUrl);
-            return response.data;
+            if (response.status === 200) {
+                return response.data;
+            } else if (response.status === 404) {
+                throw new Error("Event not found");
+            } else {
+                throw new Error("Error fetching event");
+            }
+
         } catch (error) {
             console.error('Error getting groups:', error);
             throw error;
@@ -23,7 +30,7 @@ const groupService = {
     },
     getGroup: async (groupID) => {
         try {
-            const response = await axios.get(`${baseUrl}${groupID}`);
+            const response = await axios.get(`${baseUrl}/${groupID}`);
             return response.data;
         } catch (error) {
             console.error(`Error getting group with ID ${groupID}:`, error);
@@ -32,7 +39,7 @@ const groupService = {
     },
     updateGroup: async (groupID, groupData) => {
         try {
-            const response = await axios.put(`${baseUrl}${groupID}`, groupData);
+            const response = await axios.put(`${baseUrl}/${groupID}`, groupData);
             return response.data;
         } catch (error) {
             console.error(`Error updating group with ID ${groupID}:`, error);
@@ -41,13 +48,22 @@ const groupService = {
     },
     deleteGroup: async (groupID) => {
         try {
-            const response = await axios.delete(`${baseUrl}${groupID}`);
+            const response = await axios.delete(`${baseUrl}/${groupID}`);
             return response.status;
         } catch (error) {
             console.error(`Error deleting group with ID ${groupID}:`, error);
             throw error;
         }
     },
+    getGroupByUserID: async (userID) => {
+        try {
+            const response = await axios.get(`${baseUrl}/user/${userID}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error getting groups for user ${userID}:`, error);
+            throw error;
+        }
+    }
 };
 
 export default groupService;
