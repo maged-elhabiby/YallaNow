@@ -3,10 +3,9 @@ import imageService from "./imageService";
 
 const eventService = {
     createEvent: async (eventData) => {
-        const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
-        eventData.imageId = imageData.id;
+        const imageData = await imageService.uploadImage(eventData.imageBase64);
+        eventData.imageURL = imageData.id;
         const eventImageUrl = imageData.imageUrl;
-
         const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.createEvent(requestData);
         const formattedEvent = eventServiceApi.formatEventFromEventService(rawEvent);
@@ -17,13 +16,8 @@ const eventService = {
 
     updateEvent: async (eventData) => {
         let eventImageUrl = null;
-        if (eventData.imageBase64) {
-            const imageData = await imageService.uploadImageByBase64(eventData.imageBase64);
-            eventData.imageId = imageData.id;
-            eventImageUrl = imageData.imageUrl;
-        } else {
-            eventImageUrl = await imageService.getImageUrlById(eventData.imageId);
-        }
+        const imageData = await imageService.uploadImage(eventData.imageBase64);
+        eventImageUrl = imageData.imageUrl;
 
         const requestData = eventServiceApi.formatEventForEventService(eventData);
         const rawEvent = await eventServiceApi.updateEvent(requestData);
@@ -91,7 +85,6 @@ const eventService = {
         return {
             eventID: data.eventId,
             groupID: data.groupId,
-            imageID: data.imageId,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: data.location,
@@ -100,6 +93,7 @@ const eventService = {
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
+            imageURL: data.eventImageUrl,
         };
     },
 
@@ -107,7 +101,6 @@ const eventService = {
         return {
             eventId: data.eventID,
             groupId: data.groupID,
-            imageId: data.imageID,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: data.location,

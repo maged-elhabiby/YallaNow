@@ -50,8 +50,8 @@ public class EventsEntity {
     private Integer count;
     @Column(name = "capacity")
     private Integer capacity;
-    @Column(name = "image_id")
-    private Integer imageId;
+    @Column(name = "image_url")
+    private String imageURL;
 
     // Relationships
     @OneToOne(fetch = FetchType.LAZY)
@@ -69,7 +69,7 @@ public class EventsEntity {
                         String eventTitle, String eventDescription, 
                         Integer locationId,
                         LocalDateTime eventStartTime, LocalDateTime eventEndTime,
-                        EventStatus status, Integer count, Integer capacity, Integer imageId) {
+                        EventStatus status, Integer count, Integer capacity, String imageURL) {
         
         validateInput(groupId, eventTitle, eventDescription, locationId, eventStartTime, eventEndTime, status, count, capacity);
         this.eventId = eventId;
@@ -82,7 +82,7 @@ public class EventsEntity {
         this.status = status;
         this.count = count;
         this.capacity = capacity;
-        this.imageId = imageId;
+        this.imageURL = imageURL;
     }
 
     // Getters and setters
@@ -96,7 +96,7 @@ public class EventsEntity {
     public EventStatus getStatus() {return status;}
     public Integer getCount() {return count;}
     public Integer getCapacity() {return capacity;}
-    public Integer getImageId() {return imageId;}
+    public String getImageURL() {return imageURL;}
     public AddressEntity getAddress() {return address;}
 
     public void setEventId(Integer eventId) {this.eventId = eventId;}
@@ -110,7 +110,7 @@ public class EventsEntity {
     public void setCount(Integer count) {this.count = count;}
     public void setCapacity(Integer capacity) {this.capacity = capacity;}
     public void setAddress(AddressEntity address) {this.address = address;}
-    public void setImageId(Integer imageId) {this.imageId = imageId;}
+    public void setImageURL(String imageURL) {this.imageURL = imageURL;}
 
     private void validateInput(Integer groupId, String eventTitle, String eventDescription, 
                             Integer locationId, LocalDateTime eventStartTime, LocalDateTime eventEndTime, 

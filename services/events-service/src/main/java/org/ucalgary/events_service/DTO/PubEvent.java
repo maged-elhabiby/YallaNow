@@ -41,7 +41,7 @@ public class PubEvent {
         this.status = event.getStatus().toString();
         this.count = event.getCount();
         this.capacity = event.getCapacity();
-        this.imageUrl = event.getImageId().toString();
+        this.imageUrl = event.getImageURL();
     }
 
     // Getters and setters

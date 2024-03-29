@@ -51,7 +51,7 @@ public class EventService {
                                                 event.getStatus(), 
                                                 event.getCount(),
                                                 event.getCapacity(),
-                                                event.getImageID());
+                                                event.getImageURL());
         newEvent.setAddress(address);
         return eventRepository.save(newEvent); // Add the Event to the DataBase
     }
@@ -87,7 +87,7 @@ public class EventService {
         oldEvent.setStatus(updatedEvent.getStatus());
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
-        oldEvent.setImageId(updatedEvent.getImageID());
+        oldEvent.setImageURL(updatedEvent.getImageURL());
         return eventRepository.save(oldEvent); // Update the Event in the DataBase
     }
 

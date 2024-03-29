@@ -1,11 +1,11 @@
+import axios from 'axios';
 const baseUrl = 'http://localhost:8082/microservice/images/';
-const axios = require('axios');
 const cloudinaryCloudName = 'dt8r2amry';
 const cloudinaryUploadPreset = 'yallaNow';
 
 const imageService = {
 
-    uploadImageByBase64: async (base64Image) => {
+    uploadImage: async (base64Image) => {
         try {
             const formData = new FormData();
             formData.append('file', base64Image);

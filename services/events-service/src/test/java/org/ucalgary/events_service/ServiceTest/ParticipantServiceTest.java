@@ -246,7 +246,7 @@ public class ParticipantServiceTest {
         existingEvent.setStatus(EventStatus.Scheduled);
         existingEvent.setCount(0);
         existingEvent.setCapacity(100);
-        existingEvent.setImageId(1);
+        existingEvent.setImageURL("https://purepng.com/public/uploads/large/big-chungus-jkg.png");
         return existingEvent;
     }
 
