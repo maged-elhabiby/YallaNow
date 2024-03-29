@@ -2,7 +2,7 @@ package org.ucalgary.events_service.DTO;
 
 import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
-import org.ucalgary.events_microservice.Entity.EventsEntity;
+import org.ucalgary.events_service.Entity.EventsEntity;
 
 public class PubEvent {
     // Attributes

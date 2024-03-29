@@ -2,7 +2,7 @@ package org.ucalgary.events_service.Entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.ucalgary.events_microservice.DTO.EventStatus;
+import org.ucalgary.events_service.DTO.EventStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;

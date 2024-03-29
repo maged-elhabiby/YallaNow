@@ -1,4 +1,4 @@
-package org.ucalgary.events_microservice.Service;
+package org.ucalgary.events_service.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
-import org.ucalgary.events_microservice.Repository.EventRepository;
-import org.ucalgary.events_microservice.Entity.AddressEntity;
-import org.ucalgary.events_microservice.Entity.EventsEntity;
-import org.ucalgary.events_microservice.Entity.GroupUsersEntity;
-import org.ucalgary.events_microservice.DTO.EventStatus;
-import org.ucalgary.events_microservice.DTO.EventDTO;
+import org.ucalgary.events_service.Repository.EventRepository;
+import org.ucalgary.events_service.Entity.AddressEntity;
+import org.ucalgary.events_service.Entity.EventsEntity;
+import org.ucalgary.events_service.Entity.GroupUsersEntity;
+import org.ucalgary.events_service.DTO.EventStatus;
+import org.ucalgary.events_service.DTO.EventDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
