@@ -1,28 +1,31 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-ingress
+  name: gxlb-ingress
   namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "true"
 spec:
   rules:
   - http:
       paths:
-      - path: /events
-        pathType: Prefix
+      - path: /events/*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: events
             port:
               number: 80
-      - path: /groups
-        pathType: Prefix
+      - path: /groups/*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: groups
             port:
               number: 80
-      - path: /feed
-        pathType: Prefix
+      - path: /feed/*
+        pathType: ImplementationSpecific
         backend:
           service:
             name: feed
