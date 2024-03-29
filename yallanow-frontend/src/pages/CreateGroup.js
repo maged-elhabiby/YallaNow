@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import groupService from '../api/groupService';
+import GroupService from '../api/GroupService';
 import { useAuth } from '../AuthContext';
 
 function generateRandomId(length = 8) {
@@ -31,7 +31,7 @@ const CreateGroup = () => {
     };
 
     try {
-      const newGroup = await groupService.createGroup(groupData);
+      const newGroup = await GroupService.createGroup(groupData);
       console.log('Group created successfully', newGroup);
       navigate(`/group/${newGroup.groupID}`);
     } catch (error) {

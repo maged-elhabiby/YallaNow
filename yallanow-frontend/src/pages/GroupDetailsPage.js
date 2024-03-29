@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
-import groupService from '../api/groupService'
-import eventService from '../api/EventService';
+import GroupService from '../api/GroupService'
+import EventService from '../api/EventService';
 import { useAuth } from '../AuthContext';
 
 const GroupDetailsPage = () => {
@@ -18,9 +18,9 @@ const GroupDetailsPage = () => {
     useEffect(() => {
         const fetchGroupDetails = async () => {
             try {
-                const details = await groupService.getGroup(groupId);
+                const details = await GroupService.getGroup(groupId);
                 setGroupDetails(details);
-                const groupEvents = await eventService.getEventsForGroup(groupId);
+                const groupEvents = await EventService.getEventsForGroup(groupId);
                 setEvents(groupEvents);
             } catch (error) {
                 console.error("Error fetching group details:", error);

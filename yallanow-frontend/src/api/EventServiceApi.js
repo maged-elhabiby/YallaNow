@@ -3,7 +3,6 @@ import config from "../config/config";
 
 class EventServiceApi {
     constructor() {
-        console.log("EventServiceApi: ", localStorage.getItem("idToken"));
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
         this.baseUrl = config.eventsBaseUrl;
     }
@@ -128,18 +127,29 @@ class EventServiceApi {
     }
 
     handleResponse(response, isBoolean = false) {
-        if (response.status === 200) {
-            return isBoolean ? true : response.data;
-        } else if (response.status === 403) {
-            throw new Error("Access denied.");
-        } else if (response.status === 404) {
-            throw new Error("Resource not found.");
-        } else if (response.status === 400) {
-            throw new Error("Bad request: " + response.data);
-        } else if (response.status === 422) {
-            throw new Error("Maximum capacity reached.");
-        } else {
-            throw new Error("Error processing request.");
+        if (isBoolean) {
+            switch (response.status) {
+                case 200:
+                    return true;
+                case 404:
+                    return false;
+                default:
+                    throw new Error(response.data?.message || "Error processing request.");
+            }
+        }
+        switch (response.status) {
+            case 200:
+                return response.data;
+            case 400:
+                throw new Error(response.data?.message || "Bad request.");
+            case 403:
+                throw new Error("Access denied.");
+            case 404:
+                throw new Error("Resource not found.");
+            case 422:
+                throw new Error(response.data?.message || "Maximum capacity reached.");
+            default:
+                throw new Error("Error processing request.");
         }
     }
 }

@@ -3,6 +3,7 @@ import config from "../config/config";
 
 class GroupService {
     constructor() {
+        axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
         this.baseUrl = config.groupsBaseUrl;
     }
 
@@ -61,14 +62,22 @@ class GroupService {
     }
 
     handleResponse(response, isStatus = false) {
-        if (response.status === 200) {
-            return isStatus ? response.status : response.data;
-        } else if (response.status === 404) {
-            throw new Error("Resource not found.");
-        } else {
-            throw new Error("Error processing request.");
+        switch (response.status) {
+            case 200:
+                return isStatus ? response.status : response.data;
+            case 400:
+                throw new Error("Bad request: " + response.data);
+            case 403:
+                throw new Error("Access denied.");
+            case 404:
+                throw new Error("Resource not found.");
+            case 422:
+                throw new Error("Maximum capacity reached.");
+            default:
+                throw new Error("Error processing request.");
         }
     }
+
 }
 
 export default new GroupService();

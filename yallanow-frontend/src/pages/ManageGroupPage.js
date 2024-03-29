@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 
-import groupMemberService from '../api/groupMemeberService.js'; 
+import GroupMemberService from '../api/GroupMemeberService.js';
 
 function ManageGroupPage() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function ManageGroupPage() {
   useEffect(() => {
     const fetchGroupMembers = async () => {
       try {
-        const members = await groupMemberService.getGroupMembers(groupData.id);
+        const members = await GroupMemberService.getGroupMembers(groupData.id);
         setGroupMembers(members);
       } catch (error) {
         console.error('Error fetching group members:', error);
@@ -24,9 +24,9 @@ function ManageGroupPage() {
 
   const handleRoleUpdate = async (userId, newRole) => {
     try {
-      await groupMemberService.updateGroupMember(groupData.id, userId, { role: newRole });
+      await GroupMemberService.updateGroupMember(groupData.id, userId, { role: newRole });
       // Refresh the group members list after updating
-      const updatedMembers = await groupMemberService.getGroupMembers(groupData.id);
+      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.id);
       setGroupMembers(updatedMembers);
     } catch (error) {
       console.error('Error updating user role:', error);
@@ -35,9 +35,9 @@ function ManageGroupPage() {
 
   const handleRemoveUser = async (userId) => {
     try {
-      await groupMemberService.removeGroupMember(groupData.id, userId);
+      await GroupMemberService.removeGroupMember(groupData.id, userId);
       // Refresh the group members list after removal
-      const updatedMembers = await groupMemberService.getGroupMembers(groupData.id);
+      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.id);
       setGroupMembers(updatedMembers);
     } catch (error) {
       console.error('Error removing user from group:', error);

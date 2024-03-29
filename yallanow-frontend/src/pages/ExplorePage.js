@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
-import feedService from '../api/feedService';
+import FeedService from '../api/FeedService';
 import {  auth } from '../config/firebase-config';
 
 const ExplorePage = () => {
@@ -20,7 +20,7 @@ const ExplorePage = () => {
     setLoading(true);
     try {
 
-      const data = await feedService.getHomepageEvents(userId, initialiEventsCount);
+      const data = await FeedService.getHomepageEvents(userId, initialiEventsCount);
       setEvents(data.recommendations ?? []);
       setHomepageRecommId(data.recommId);
     } catch (error) {
@@ -36,7 +36,7 @@ const ExplorePage = () => {
     try {
       console.log('Loading more events...');
       const count = 20; // Number of additional events to fetch
-      const data = await feedService.getNextEvents(count, homepageRecommId);
+      const data = await FeedService.getNextEvents(count, homepageRecommId);
       setEvents((prevEvents) => [...prevEvents, ...data.recommendations]);
       setHomepageRecommId(data.recommId);
     } catch (error) {

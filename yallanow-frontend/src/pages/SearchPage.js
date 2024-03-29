@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import EventCard from '../components/EventCard';
-import feedService from '../api/feedService';
+import FeedService from '../api/FeedService';
 import { useAuth } from '../AuthContext';
 
 const SearchPage = () => {
@@ -20,7 +20,7 @@ const SearchPage = () => {
     try {
       const userId = userId; 
       const count = 20;
-      const data = await feedService.searchEvents(userId, count, searchQuery);
+      const data = await FeedService.searchEvents(userId, count, searchQuery);
       setEvents(data.recommendations ?? []);
       setRecommId(data.recommId);
     } catch (error) {

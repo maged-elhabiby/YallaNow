@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import eventService from '../api/EventService';
-import recombeeInteractions from '../api/recomebeeInteractions';
+import RecombeeInteractions from '../api/RecomebeeInteractions';
 import { useAuth } from '../AuthContext';
 
 
@@ -24,46 +24,58 @@ const EventDetailsPage = () => {
     checkRsvpStatus();
     // Record detail view with Recombee
     if (event.eventId && recommId) {
-      recombeeInteractions.addDetailViewInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
+      RecombeeInteractions.addDetailViewInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
     }
   }, [event.eventId, recommId]);
 
-  const fetchEventDetails = async (eventId) => {
-    try {
-      const fetchedEvent = await eventService.getEvent(eventId);
-      setEvent(fetchedEvent);
-    } catch (error) {
-      setErrorMessage('Failed to fetch event details.');
-    }
-  };
+    const fetchEventDetails = (eventId) => {
+        eventService.getEvent(eventId)
+            .then((fetchedEvent) => {
+                setEvent(fetchedEvent);
+            })
+            .catch((error) => {
+                setErrorMessage(error.message || 'Failed to fetch event details.');
+            });
+    };
 
-  const checkRsvpStatus = async () => {
-    if (event.eventId) {
-      try {
-        const status = await eventService.isUserRsvpdToEvent(userId, event.eventId);
-        setRsvpStatus(status);
-      } catch (error) {
-        setErrorMessage('Failed to check RSVP status.');
-      }
-    }
-  };
+    const checkRsvpStatus = () => {
+        if (event.eventId) {
+            eventService.isUserRsvpdToEvent(userId, event.eventId)
+                .then((status) => {
+                    setRsvpStatus(status);
+                })
+                .catch((error) => {
+                    setErrorMessage(error.message || 'Failed to check RSVP status.');
+                });
+        }
+    };
 
-const handleRsvpClick = async () => {
-  try {
-      if (rsvpStatus) {
-          await eventService.unRsvpUserFromEvent(userId, event.eventId);
-          setRsvpStatus(false);
-          alert('Successfully un-RSVP\'d');
-      } else {
-          await eventService.rsvpUserToEvent(userId, event.eventId);
-          setRsvpStatus(true);
-          alert('Successfully RSVP\'d');
-          recombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
-      }
-  } catch (error) {
-      alert(error.message);
-  }
-};
+    const handleRsvpClick = async () => {
+        try {
+            if (rsvpStatus) {
+                const success = await eventService.unRsvpUserFromEvent(userId, event.eventId);
+                if (success) {
+                    setRsvpStatus(false);
+                    alert('Successfully un-RSVP\'d');
+                } else {
+                    alert('Failed to un-RSVP. Please try again.');
+                }
+            } else {
+                const success = await eventService.rsvpUserToEvent(userId, event.eventId);
+                if (success) {
+                    setRsvpStatus(true);
+                    alert('Successfully RSVP\'d');
+                    RecombeeInteractions.addPurchaseInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
+                } else {
+                    alert('Failed to RSVP. Please try again.');
+                }
+            }
+        } catch (error) {
+            alert('An error occurred while processing your RSVP. Please try again.');
+            console.error('Error in RSVP process:', error);
+        }
+    };
+
 
   const handleVisitGroup = () => {
     navigate(`/group/${event.groupId}`);
@@ -71,7 +83,7 @@ const handleRsvpClick = async () => {
 
   // Send recombee detail view when this page is loaded.
   useEffect(() => {
-      recombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
+      RecombeeInteractions.addDetailViewInteraction(userId, event.eventId, recommId);
   }, [event, recommId]);
 
   const formattedStartDate = event.eventStartTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });

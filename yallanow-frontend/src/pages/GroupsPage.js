@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
-import groupService from '../api/groupService'; 
+import GroupService from '../api/GroupService';
 
 const GroupPage = () => {
   const [groups, setGroups] = useState([]);
@@ -10,7 +10,7 @@ const GroupPage = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const fetchedGroups = await groupService.getGroups();
+        const fetchedGroups = await GroupService.getGroups();
         console.log(fetchedGroups); // Log the fetched groups
 
         setGroups(fetchedGroups);

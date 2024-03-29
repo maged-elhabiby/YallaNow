@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
-import groupService from '../api/groupService';
+import GroupService from '../api/GroupService';
 import { useAuth } from '../AuthContext';
 
 function MyGroupsPage() {
@@ -12,7 +12,7 @@ function MyGroupsPage() {
     useEffect(() => {
       const fetchUserGroups = async () => {
         try {
-          const fetchedGroups = await groupService.getGroupByUserID(userId);
+          const fetchedGroups = await GroupService.getGroupByUserID(userId);
           setGroups(fetchedGroups);
         } catch (error) {
           console.error('Error fetching groups:', error);

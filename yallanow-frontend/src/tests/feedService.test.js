@@ -1,4 +1,4 @@
-const feedService = require('../api/feedService');
+const feedService = require('../api/FeedService');
 
 describe('feedService', () => {
     const userId = '10251';

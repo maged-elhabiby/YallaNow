@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import MyCalendar from '../components/MyCalendar';
 import EventsFeed from '../components/EventsFeed';
-import eventService from '../api/EventService';
+import EventService from '../api/EventService';
 import { useAuth } from '../AuthContext';
 
 const MyEventsPage = () => {
     const [events, setEvents] = useState([]);
     const { currentUser } = useAuth();
     const userId = currentUser?.uid;
-    const tok = String(currentUser?.accessToken);
     const [errorMessage, setErrorMessage] = useState('');
-   
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const fetchedEvents = await eventService.getUserRsvpdEvents(currentUser);
+                const fetchedEvents = await EventService.getUserRsvpdEvents(currentUser);
                 if (fetchedEvents.length === 0) {
                     setErrorMessage('No Available Events'); // Set a default message for no events
                 } else {
@@ -32,7 +31,6 @@ const MyEventsPage = () => {
 
         fetchEvents();
     }, [userId]);
-
 
     const eventsForCalendar = events.map(event => ({
         ...event,
@@ -67,6 +65,5 @@ const MyEventsPage = () => {
         </div>
     );
 };
-
 
 export default MyEventsPage;

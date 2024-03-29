@@ -16,7 +16,7 @@ const SignUpPage = () => {
         navigate('/explore');
       } else {
         console.log("signup failed");
-  };
+      }
   }
   
   // Handles form submission for regular sign-up

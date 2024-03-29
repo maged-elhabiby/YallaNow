@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 // Import icons from Heroicons for visual elements in form inputs
 import { PhotoIcon } from '@heroicons/react/24/solid'
-import eventService from '../api/EventService'; // Adjust the path as needed
+import EventService from '../api/EventService'; // Adjust the path as needed
 
 
 const CreateEventPage = () => {
@@ -57,7 +57,7 @@ const CreateEventPage = () => {
   
     try {
       // Call createEvent method from your eventService
-      const createdEvent = await eventService.createEvent(finalFormData);
+      const createdEvent = await EventService.createEvent(finalFormData);
       console.log('Event created successfully', createdEvent);
       // Navigate to a confirmation page or back to the group/events page as appropriate
       navigate('/some-confirmation-page-or-back-to-events');
