@@ -1,23 +1,25 @@
-package org.example.groups_microservice;
+package org.example.groups_microservice.Config;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
+import org.example.groups_microservice.Auth.MyInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    //@Override
-    //public void addInterceptors(InterceptorRegistry registry) {
-    //    registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**");
-    // }
+    private final MyInterceptor myInterceptor;
 
+    @Autowired
+    public WebConfig(MyInterceptor myInterceptor) {
+        this.myInterceptor = myInterceptor;
+    }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(myInterceptor).addPathPatterns("/**");
+    }
 }

@@ -43,8 +43,8 @@ spec:
                 key: SPRING_DATASOURCE_PASSWORD
           - name: GOOGLE_APPLICATION_CREDENTIALS
             value: /var/secrets/google/google-credentials.json
-          - name: AUTH_URL
-            value: "http://auth:5001/auth"
+          - name: AUTH_DNS
+            value: "http://auth.default.svc.cluster.local/auth"
         volumeMounts:
           - name: google-credentials
             mountPath: /var/secrets/google

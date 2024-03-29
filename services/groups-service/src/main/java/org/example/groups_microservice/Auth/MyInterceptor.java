@@ -1,112 +1,88 @@
-package org.example.groups_microservice;
+package org.example.groups_microservice.Auth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.example.groups_microservice.Config.AuthConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.http.*;
 
-import org.springframework.http.HttpHeaders;
-
-import java.util.Enumeration;
-import java.util.Map;
+import java.util.Collections;
 
 @Component
 public class MyInterceptor implements HandlerInterceptor {
 
-    public String email;
-    public String id;
-    public String name;
+    private final AuthConfig authConfig;
 
-    @Value("${auth.url}")
-    private String authUrl;
+    @Autowired
+    public MyInterceptor(AuthConfig authConfig) {
+        this.authConfig = authConfig;
+    }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws Exception {
-        if (request.getMethod().equals("OPTIONS")) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
+
         try {
-            System.out.println("Executing pre-request logic...");
-
-            RestTemplate restTemplate = new RestTemplate();
-
-
-            // Extract headers from the incoming request
             HttpHeaders headers = extractHeaders(request);
-
-            // Send a GET request to the auth server with extracted headers
-            ResponseEntity<String> authResponse = restTemplate.exchange(authUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
-
+            ResponseEntity<AuthResponse> authResponse = new RestTemplate().exchange(
+                    authConfig.getAuthDns(),
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    AuthResponse.class
+            );
 
             if (authResponse.getStatusCode().is2xxSuccessful()) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                AuthResponse responseBody = objectMapper.readValue(authResponse.getBody(), AuthResponse.class);
-                email = responseBody.getEmail();
-                id = responseBody.getUid();
-                name = responseBody.getName();
-                request.setAttribute("Email", email);
-                request.setAttribute("Id", id);
-                request.setAttribute("Name", name);
+                AuthResponse responseBody = authResponse.getBody();
+                if (responseBody != null) {
+                    request.setAttribute("Email", responseBody.getEmail());
+                    request.setAttribute("Id", responseBody.getUid());
+                    request.setAttribute("Name", "John Doe");
+                }
                 return true;
             } else {
-                response.setStatus(401);
-
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(401);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
     }
 
     private HttpHeaders extractHeaders(HttpServletRequest request) {
         HttpHeaders headers = new HttpHeaders();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            System.out.println(headerName + ": " + request.getHeader(headerName));
-            headers.add(headerName, request.getHeader(headerName));
-        }
+        Collections.list(request.getHeaderNames())
+                .forEach(headerName -> headers.add(headerName, request.getHeader(headerName)));
         return headers;
     }
 
+    private static class AuthResponse {
+        private String email;
+        private String uid;
 
-}
+        public String getEmail() {
+            return email;
+        }
 
-class AuthResponse {
-    private String email;
-    private String uid;
-    private String name;
+        public void setEmail(String email) {
+            this.email = email;
+        }
 
-    // getters and setters
-    public String getEmail() {
-        return email;
-    }
+        public String getUid() {
+            return uid;
+        }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setId(String uid) {
-        this.uid = uid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        public void setUid(String uid) {
+            this.uid = uid;
+        }
     }
 }

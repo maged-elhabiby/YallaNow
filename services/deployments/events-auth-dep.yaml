@@ -4,7 +4,7 @@ metadata:
   name: db-credentials
   namespace: "default"
   labels:
-    app: "groups"
+    app: "events-auth"
 type: Opaque
 data:
   SPRING_DATASOURCE_USERNAME: cG9zdGdyZXM=
@@ -13,23 +13,23 @@ data:
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "groups"
+  name: "events-auth"
   namespace: "default"
   labels:
-    app: "groups"
+    app: "events-auth"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: "groups"
+      app: "events-auth"
   template:
     metadata:
       labels:
-        app: "groups"
+        app: "events-auth"
     spec:
       containers:
-      - name: "groups-sha256-1"
-        image: "us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/groups-service:latest"
+      - name: "events-auth-sha256-1"
+        image: "us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/events-service:latest"
         env:
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
@@ -57,14 +57,14 @@ spec:
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
 metadata:
-  name: "groups-hpa-oqd9"
+  name: "events-auth-hpa-oqd9"
   namespace: "default"
   labels:
-    app: "groups"
+    app: "events-auth"
 spec:
   scaleTargetRef:
     kind: "Deployment"
-    name: "groups"
+    name: "events-auth"
     apiVersion: "apps/v1"
   minReplicas: 1
   maxReplicas: 3
@@ -79,11 +79,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: groups
+  name: events-auth
   namespace: default
 spec:
   selector:
-    app: groups
+    app: events-auth
   ports:
     - protocol: TCP
       port: 80
