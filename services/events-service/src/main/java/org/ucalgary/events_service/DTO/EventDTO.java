@@ -23,7 +23,6 @@ public class EventDTO {
                     String eventTitle, String eventDescription, 
                     AddressDTO location, LocalDateTime eventStartTime, LocalDateTime eventEndTime,
                     EventStatus status, int count, int capacity, String imageUrl) {
-        validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.eventID = eventID;
         this.groupID = groupID;
         this.eventTitle = eventTitle;
@@ -42,7 +41,6 @@ public class EventDTO {
                     LocalDateTime eventStartTime,
                     LocalDateTime eventEndTime,EventStatus status,
                     int count, int capacity, String imageUrl) {
-        validateConstructor(eventStartTime, eventEndTime, count, capacity, groupID, location);
         this.groupID = groupID;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
@@ -81,24 +79,4 @@ public class EventDTO {
     public void setCount(final int count) {this.count = count;}
     public void setCapacity(final int capacity) {this.capacity = capacity;}
     public void setImageUrl(final String imageUrl) {this.imageUrl = imageUrl;}
-    
-    /**
-     * Validates the input for the event.
-     * @param start
-     * @param end
-     * @param count
-     * @param capacity
-     * @param groupId
-     */
-    private void validateConstructor(LocalDateTime start, LocalDateTime end, int count, int capacity, Integer groupId, AddressDTO location){
-        if(start.isAfter(end)){
-            throw new IllegalArgumentException("Event start time cannot be after event end time");
-        } if(count > capacity){
-            throw new IllegalArgumentException("Count cannot be greater than capacity");
-        }if(groupId == null){
-            throw new IllegalArgumentException("Event must be part of a group");
-        }if(location == null){
-            throw new IllegalArgumentException("You must have an address");
-        }
-    }
 }
