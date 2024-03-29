@@ -1,9 +1,10 @@
 import axios from 'axios';
 import config from '../config/config';
+import { getAuth } from "firebase/auth";
 
 class GroupMemberService {
     constructor() {
-        axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
+        axios.defaults.headers.common["Authorization"] = getAuth.currentUser?.accessToken;
         this.baseUrl = config.groupsBaseUrl;
     }
 

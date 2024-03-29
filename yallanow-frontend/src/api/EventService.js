@@ -1,5 +1,4 @@
 import EventServiceApi from "./EventServiceApi";
-import ImageService from "./imageService";
 
 class EventService {
 
