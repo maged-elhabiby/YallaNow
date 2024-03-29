@@ -3,6 +3,7 @@ import config from "../config/config";
 
 class EventServiceApi {
     constructor() {
+        console.log("EventServiceApi: ", localStorage.getItem("idToken"));
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
         this.baseUrl = config.eventsBaseUrl;
     }

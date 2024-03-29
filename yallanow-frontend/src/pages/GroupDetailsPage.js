@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import groupService from '../api/groupService'
-import eventService from '../api/eventService';
+import eventService from '../api/EventService';
 import { useAuth } from '../AuthContext';
 
 const GroupDetailsPage = () => {

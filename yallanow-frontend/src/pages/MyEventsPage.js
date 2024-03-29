@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MyCalendar from '../components/MyCalendar';
 import EventsFeed from '../components/EventsFeed';
-import eventService from '../api/eventService';
+import eventService from '../api/EventService';
 import { useAuth } from '../AuthContext';
 
 const MyEventsPage = () => {

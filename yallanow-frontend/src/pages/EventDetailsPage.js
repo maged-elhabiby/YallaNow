@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import eventService from '../api/eventService';
+import eventService from '../api/EventService';
 import recombeeInteractions from '../api/recomebeeInteractions';
 import { useAuth } from '../AuthContext';
 
