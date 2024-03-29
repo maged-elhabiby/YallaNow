@@ -34,11 +34,9 @@ const GroupDetailsPage = () => {
         return <div>Loading...</div>;
     }
     const handleManageGroup = () => {
-        // Check if the current user is an admin before navigating
         if (isAdmin) {
             navigate(`/manage-group/${groupId}`);
         } else {
-            // Optionally handle the case where the user is not an admin
             alert("You do not have permission to manage this group.");
         }
     };
@@ -51,8 +49,8 @@ const GroupDetailsPage = () => {
         }
     };
 
-    const isAdmin = groupDetails.groupMembers.some(member => member.userID === currentUser?.id && member.role === 'ADMIN');
-    const isMember = groupDetails.groupMembers.some(member => member.userID === currentUser?.id);
+    const isAdmin = groupDetails.groupMembers.some(member => member.userID === currentUser?.uid && member.role === 'ADMIN');
+    const isMember = groupDetails.groupMembers.some(member => member.userID === currentUser?.uid);
 
     return (
     <div className="container mx-auto py-10">
@@ -64,6 +62,7 @@ const GroupDetailsPage = () => {
             </div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Conditional rendering based on user role and if user is a member */}
+                <div className="flex justify-center mt-4">
                 {isAdmin && (
                     <button
                         onClick={handleManageGroup}
@@ -75,11 +74,19 @@ const GroupDetailsPage = () => {
                 {isMember && (
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="mt-4 mr-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
+                        className="ml-2 mt-4 mr-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
                     >
                         View Members
                     </button>
                 )}
+                <button
+                        className="mt-4 mr-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
+                        onClick={handleCreateEvent}
+                    >
+                        Create Event
+                </button>
+                </div>
+
                 {isModalOpen && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md">
@@ -100,14 +107,7 @@ const GroupDetailsPage = () => {
                         </div>
                     </div>
                 )}
-                <div className="flex justify-center mt-4">
-                    <button
-                        className="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
-                        onClick={handleCreateEvent}
-                    >
-                        Create Event
-                    </button>
-                </div>
+
             </div>
         </div>
         <div className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">

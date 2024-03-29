@@ -17,23 +17,25 @@ const CreateGroup = () => {
     e.preventDefault();
     // Assuming "yourCurrentUserId" is obtained from your auth context or a similar state management solution
     const userId = currentUser?.uid;
+    const userName = currentUser?.displayName || 'Anonymous'; // Fallback to 'Anonymous' or handle appropriately
 
     const groupData = {
-      name: groupName,
+      groupName, 
       isPrivate,
-      members: [{
-        userId: userId,
+      groupMembers: [{
+        userID: userId,
+        userName: userName, 
         role: "ADMIN"
-      }]
+      }],
+      events: [] 
     };
 
     try {
       const newGroup = await groupService.createGroup(groupData);
       console.log('Group created successfully', newGroup);
-      navigate(`/group/${newGroup.id}`); // Assuming the backend returns the new group's id
+      navigate(`/group/${newGroup.groupID}`);
     } catch (error) {
       console.error('Error creating group:', error);
-      // Optionally, display an error message to the user
     }
   };
 
