@@ -24,9 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*");
     }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myInterceptor).addPathPatterns("/**");
-    }
+    //@Override
+   // public void addInterceptors(InterceptorRegistry registry) {
+   //     registry.addInterceptor(myInterceptor).addPathPatterns("/**");
+   //}
 }
