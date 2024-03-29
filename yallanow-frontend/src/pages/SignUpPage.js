@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Register, googleSignIn } from '../config/firebase-config';
+import { register, googleSignIn } from '../config/firebase-config';
 import { useNavigate  } from 'react-router-dom';
 const SignUpPage = () => {
   // Hook for navigation
@@ -35,7 +35,7 @@ const SignUpPage = () => {
     console.log('User sign-up data:', userData);
 
     // Attempt to register the user with provided data
-    if(await Register(userData) === true){
+    if(await register(userData) === true){
       console.log("Register successful");
       navigate('/explore');
     } else {

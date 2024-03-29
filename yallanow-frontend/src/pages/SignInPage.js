@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, logoutfirebase, googleSignIn } from '../config/firebase-config';
+import { login, googleSignIn } from '../config/firebase-config';
 import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {
@@ -40,7 +40,7 @@ const SignInPage = () => {
       console.log("Email:", email, "Password:", password);
       const loginData = { "email": email, "password": password};
 
-      if (await Login(loginData) === true) {
+      if (await login(loginData) === true) {
         console.log("Login successful");
         navigate('/explore');
       } else {
