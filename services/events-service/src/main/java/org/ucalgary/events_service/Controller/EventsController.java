@@ -34,11 +34,13 @@ public class EventsController {
      * @return Response Entity with the object of the event added
      */
     @PostMapping("/AddEvent")
-    public ResponseEntity<?> addEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
+    public ResponseEntity<?> addEvent(@RequestBody EventDTO event) {
+    //public ResponseEntity<?> addEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
         try{
+            // The request Attributes has to be commented out because it will fail to read it.
             // Because Auth is disabled, the request attributes is empty. So have to manually set them for testing
             // Here we are setting userId manually.
-            userId="1";
+            String userId = "1";
             AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
             EventsEntity events = eventService.createEvent(event, address, userId); // createEvent(event);
             eventsPubService.publishEvents(events, "ADD");
