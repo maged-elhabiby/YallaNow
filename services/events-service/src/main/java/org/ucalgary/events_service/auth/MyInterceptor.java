@@ -3,25 +3,24 @@ package org.ucalgary.events_service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.http.*;
 import org.springframework.http.HttpHeaders;
+import org.ucalgary.events_service.Configuration.AuthConfig;
 
 import java.util.Enumeration;
 
-//@Component
+@Component
 public class MyInterceptor implements HandlerInterceptor {
 
     public String email;
     public String id;
     public String name;
-
-    // @Value("${auth.url}")
-    private String authUrl = "http://auth:5001/auth";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws Exception {
@@ -30,6 +29,7 @@ public class MyInterceptor implements HandlerInterceptor {
         }
         try {
             System.out.println("Executing pre-request logic...");
+            System.out.println(authConfig.getAuthDns());
 
             RestTemplate restTemplate = new RestTemplate();
             
@@ -38,7 +38,7 @@ public class MyInterceptor implements HandlerInterceptor {
             HttpHeaders headers = extractHeaders(request);
 
             // Send a GET request to the auth server with extracted headers
-            ResponseEntity<String> authResponse = restTemplate.exchange(authUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            ResponseEntity<String> authResponse = restTemplate.exchange(authConfig.getAuthDns(), HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
 
             if (authResponse.getStatusCode().is2xxSuccessful()) {
