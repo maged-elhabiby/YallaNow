@@ -1,12 +1,13 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8082/microservice/events/";
+const baseUrl = "http://34.74.88.104/events";
 
 const eventServiceApi = {
   createEvent: async (eventRequest) => {
     try {
-        const response = await axios.post(baseUrl + "AddEvent", eventRequest, {
+        const response = await axios.post(baseUrl + "/AddEvent", eventRequest, {
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('idToken')
             },
         });
 
@@ -26,9 +27,10 @@ const eventServiceApi = {
 
 updateEvent: async (eventRequest) => {
     try {
-        const response = await axios.post(baseUrl + "UpdateEvent", eventRequest, {
+        const response = await axios.post(baseUrl + "/UpdateEvent", eventRequest, {
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": localStorage.getItem('idToken')
             },
         });
 
@@ -48,7 +50,7 @@ updateEvent: async (eventRequest) => {
 
 getEvent: async (eventId) => {
     try {
-        const response = await axios.get(baseUrl + "GetEvent/" + eventId);
+        const response = await axios.get(baseUrl + "/GetEvent/" + eventId);
 
         if (response.status === 200) {
             return response.data;
@@ -64,7 +66,7 @@ getEvent: async (eventId) => {
 
 getEventsForGroup: async (groupId) => {
     try {
-        const response = await axios.get(baseUrl + "GetGroupEvents/" + groupId);
+        const response = await axios.get(baseUrl + "/GetGroupEvents/" + groupId);
 
         if (response.status === 200) {
             return response.data;
@@ -80,7 +82,7 @@ getEventsForGroup: async (groupId) => {
 
 deleteEvent: async (eventId) => {
     try {
-        const response = await axios.delete(baseUrl + "DeleteEvent/" + eventId);
+        const response = await axios.delete(baseUrl + "/DeleteEvent/" + eventId);
 
         if (response.status === 200) {
             return response.data;
@@ -98,7 +100,7 @@ deleteEvent: async (eventId) => {
 
 getRsvpdUsersForEvent: async (eventId) => {
     try {
-        const response = await axios.get(baseUrl + "GetAllEventParticipants/" + eventId);
+        const response = await axios.get(baseUrl + "/GetAllEventParticipants/" + eventId);
 
         if (response.status === 200) {
             return response.data;
@@ -112,7 +114,7 @@ getRsvpdUsersForEvent: async (eventId) => {
 
   getUserRsvpdEvents: async (userId) => {
     try {
-        const response = await axios.get(baseUrl + "GetAllUserEvents", {
+        const response = await axios.get(baseUrl + "/GetAllUserEvents", {
             headers: {
                 "Id": userId
             }
@@ -133,7 +135,7 @@ getRsvpdUsersForEvent: async (eventId) => {
 
 unRsvpUserFromEvent: async (userId, eventId) => {
   try {
-      const response = await axios.delete(baseUrl + "DeleteParticipant/" + eventId, {
+      const response = await axios.delete(baseUrl + "/DeleteParticipant/" + eventId, {
           data: { userId: userId }
       });
 
@@ -152,7 +154,7 @@ unRsvpUserFromEvent: async (userId, eventId) => {
 
 isUserRsvpdToEvent: async (userId, eventId) => {
   try {
-      const response = await axios.get(baseUrl + "GetParticipantStatus/" + eventId);
+      const response = await axios.get(baseUrl + "/GetParticipantStatus/" + eventId);
 
       if (response.status === 200) {
           console.log(`RSVP status for user ${userId} in event ${eventId}:`, response.data);
@@ -176,7 +178,7 @@ isUserRsvpdToEvent: async (userId, eventId) => {
     };
 
       try {
-          const response = await axios.post(baseUrl + "AddParticipant", request, {
+          const response = await axios.post(baseUrl + "/AddParticipant", request, {
               headers: {
                   "Content-Type": "application/json",
               },
@@ -205,7 +207,7 @@ isUserRsvpdToEvent: async (userId, eventId) => {
     };
 
     try {
-        const response = await axios.post(baseUrl + "UpdateParticipant", request, {
+        const response = await axios.post(baseUrl + "/UpdateParticipant", request, {
             headers: {
                 "Content-Type": "application/json",
             },

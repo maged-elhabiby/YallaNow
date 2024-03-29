@@ -8,16 +8,30 @@ const MyEventsPage = () => {
     const [events, setEvents] = useState([]);
     const { currentUser } = useAuth();
     const userId = currentUser?.uid;
-
+    const [errorMessage, setErrorMessage] = useState('');
+   
     useEffect(() => {
         const fetchEvents = async () => {
-            // Replace this with the actual method to fetch user's RSVP'd events or another relevant method
-            const fetchedEvents = await eventService.getUserRsvpdEvents(userId);
-            setEvents(fetchedEvents);
+            try {
+                const fetchedEvents = await eventService.getUserRsvpdEvents(userId);
+                if (fetchedEvents.length === 0) {
+                    setErrorMessage('No Available Events'); // Set a default message for no events
+                } else {
+                    setEvents(fetchedEvents);
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    setErrorMessage('No Available Events');
+                } else {
+                    setErrorMessage('Error fetching events');
+                }
+                console.error("Error fetching user's RSVP'd events:", error);
+            }
         };
 
         fetchEvents();
-    }, []);
+    }, [userId]);
+
 
     const eventsForCalendar = events.map(event => ({
         ...event,
@@ -34,14 +48,24 @@ const MyEventsPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-1">
                     <h1 className="mt-2 mb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">Your Events:</h1>
-                    <EventsFeed events={events} />
+                    {errorMessage ? (
+                        <p className="text-xl text-red-500">{errorMessage}</p>
+                    ) : (
+                        <EventsFeed events={events} />
+                    )}
                 </div>
                 <div className="lg:col-span-2">
+                    {/* Calendar always shown but with conditional content based on events availability */}
                     <MyCalendar events={eventsForCalendar} />
+                    {/* Optionally, display the error message or a "no events" message above or below the calendar */}
+                    {errorMessage && (
+                        <p className="text-center text-xl text-red-500 mt-4">{errorMessage}</p>
+                    )}
                 </div>
             </div>
         </div>
     );
 };
+
 
 export default MyEventsPage;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8080/microservice/groups/';
+const baseUrl =   'http://35.231.253.49/groups';
 
 const groupMemberService = {
     getGroupMembers: async (groupID) => {

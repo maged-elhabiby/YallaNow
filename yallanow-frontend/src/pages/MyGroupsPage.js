@@ -8,16 +8,14 @@ function MyGroupsPage() {
     const [groups, setGroups] = useState([]);
     const { currentUser } = useAuth();
     const userId = currentUser?.uid;
+
     useEffect(() => {
       const fetchUserGroups = async () => {
         try {
-          // This assumes your getGroups method fetches all groups a user is part of.
-          // You may need to adjust this if your backend requires a user ID or other parameters.
           const fetchedGroups = await groupService.getGroupByUserID(userId);
           setGroups(fetchedGroups);
         } catch (error) {
           console.error('Error fetching groups:', error);
-          // Optionally, update the state or UI to inform the user about the error.
         }
       };
     

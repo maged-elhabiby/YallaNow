@@ -11,9 +11,13 @@ const GroupPage = () => {
     const fetchGroups = async () => {
       try {
         const fetchedGroups = await groupService.getGroups();
+        console.log(fetchedGroups); // Log the fetched groups
+
         setGroups(fetchedGroups);
+        console.log('Works')
       } catch (error) {
         console.error('Error fetching groups:', error);
+        console.log('Fail')
         // Optionally, update state or UI to inform the user about the error
       }
     };
@@ -21,6 +25,7 @@ const GroupPage = () => {
     fetchGroups();
   }, []);
   
+  console.log(groups)
 
   return (
     <div>
@@ -44,7 +49,7 @@ const GroupPage = () => {
       </div>
       <div className="flex flex-wrap justify-center gap-4">
         {groups.map(group => (
-          <GroupCard key={group.id} group={group} />
+          <GroupCard key={group.groupID} group={group} />
         ))}
       </div>
     </div>
