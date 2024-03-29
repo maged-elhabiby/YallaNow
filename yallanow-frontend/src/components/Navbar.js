@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { logoutfirebase, auth } from '../firebase-config';
+import { logoutfirebase, auth } from '../config/firebase-config';
 import { useAuth } from '../AuthContext';
 
 function classNames(...classes) {

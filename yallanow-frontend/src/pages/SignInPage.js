@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Login, logoutfirebase, googleSignIn } from '../firebase-config';
+import { Login, logoutfirebase, googleSignIn } from '../config/firebase-config';
 import ForgotPassword from './ForgotPassword';
 
 const SignInPage = () => {

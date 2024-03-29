@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
 import feedService from '../api/feedService';
-import {  auth } from '../firebase-config';
+import {  auth } from '../config/firebase-config';
 
 const ExplorePage = () => {
   console.log("Rendering ExplorePage");

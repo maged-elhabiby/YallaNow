@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext'; // Adjust the path as per your structure
-import { logoutfirebase, auth } from '../firebase-config'; // Adjust the path as per your structure
+import { logoutfirebase, auth } from '../config/firebase-config'; // Adjust the path as per your structure
 import { signOut, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-import {resetPassword} from '../firebase-config';
+import {resetPassword} from '../config/firebase-config';
 
 const ProfilePage = () => {
   const { currentUser } = useAuth(); // Use the context

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {resetPassword} from '../firebase-config';
+import {resetPassword} from '../config/firebase-config';
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');

@@ -1,239 +1,146 @@
 import axios from "axios";
-import { useAuth } from '../AuthContext';
-const baseUrl = "http://34.120.232.193//events";
+import config from "../config/config";
 
+class EventServiceApi {
+    constructor() {
+        axios.defaults.headers.common["Authorization"] = localStorage.getItem("idToken");
+        this.baseUrl = config.eventsBaseUrl;
+    }
 
-const eventServiceApi =  {
+    async createEvent(eventRequest) {
+        try {
+            const response = await axios.post(this.baseUrl + "/AddEvent", eventRequest, {
+                headers: { "Content-Type": "application/json" },
+            });
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
 
-    
-  createEvent: async (eventRequest) => {
-    try {
-        const response = await axios.post(baseUrl + "/AddEvent", eventRequest, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem('idToken')
-            },
-        });
+    async updateEvent(eventRequest) {
+        try {
+            const response = await axios.post(this.baseUrl + "/UpdateEvent", eventRequest, {
+                headers: { "Content-Type": "application/json" },
+            });
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
 
+    async getEvent(eventId) {
+        try {
+            const response = await axios.get(this.baseUrl + "/GetEvent/" + eventId);
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async getEventsForGroup(groupId) {
+        try {
+            const response = await axios.get(this.baseUrl + "/GetGroupEvents/" + groupId);
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async deleteEvent(eventId) {
+        try {
+            const response = await axios.delete(this.baseUrl + "/DeleteEvent/" + eventId);
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async getRsvpdUsersForEvent(eventId) {
+        try {
+            const response = await axios.get(this.baseUrl + "/GetAllEventParticipants/" + eventId);
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async getUserRsvpdEvents(currentUser) {
+        try {
+            const response = await axios.get(this.baseUrl + "/GetAllUserEvents");
+            this.handleResponse(response);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async unRsvpUserFromEvent(userId, eventId) {
+        try {
+            const response = await axios.delete(this.baseUrl + "/DeleteParticipant/" + eventId, {
+                data: { userId: userId },
+            });
+            this.handleResponse(response, true);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async isUserRsvpdToEvent(userId, eventId) {
+        try {
+            const response = await axios.get(this.baseUrl + "/GetParticipantStatus/" + eventId);
+            this.handleResponse(response, true);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async rsvpUserToEvent(userId, eventId) {
+        try {
+            const request = {
+                userId: userId,
+                eventId: eventId,
+                participantStatus: "Attending",
+            };
+            const response = await axios.post(this.baseUrl + "/AddParticipant", request, {
+                headers: { "Content-Type": "application/json" },
+            });
+            this.handleResponse(response, true);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    async updateRsvpStatus(userId, eventId, status) {
+        try {
+            const request = {
+                userId: userId,
+                eventId: eventId,
+                participantStatus: status,
+            };
+            const response = await axios.post(this.baseUrl + "/UpdateParticipant", request, {
+                headers: { "Content-Type": "application/json" },
+            });
+            this.handleResponse(response, true);
+        } catch (error) {
+            throw new Error("Error communicating with server.");
+        }
+    }
+
+    handleResponse(response, isBoolean = false) {
         if (response.status === 200) {
-            return response.data;
+            return isBoolean ? true : response.data;
         } else if (response.status === 403) {
-            throw new Error("Access denied");
+            throw new Error("Access denied.");
+        } else if (response.status === 404) {
+            throw new Error("Resource not found.");
         } else if (response.status === 400) {
             throw new Error("Bad request: " + response.data);
-        } else {
-            throw new Error("Error creating event");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-updateEvent: async (eventRequest) => {
-    try {
-        const response = await axios.post(baseUrl + "/UpdateEvent", eventRequest, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": localStorage.getItem('idToken')
-            },
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else if (response.status === 403) {
-            throw new Error("Access denied");
-        } else if (response.status === 400) {
-            throw new Error("Bad request: " + response.data);
-        } else {
-            throw new Error("Error updating event");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-getEvent: async (eventId) => {
-    try {
-        const response = await axios.get(baseUrl + "/GetEvent/" + eventId);
-
-        if (response.status === 200) {
-            return response.data;
-        } else if (response.status === 404) {
-            throw new Error("Event not found");
-        } else {
-            throw new Error("Error fetching event");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-getEventsForGroup: async (groupId) => {
-    try {
-        const response = await axios.get(baseUrl + "/GetGroupEvents/" + groupId);
-
-        if (response.status === 200) {
-            return response.data;
-        } else if (response.status === 404) {
-            throw new Error("Events for group not found");
-        } else {
-            throw new Error("Error fetching events for group");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-deleteEvent: async (eventId) => {
-    try {
-        const response = await axios.delete(baseUrl + "/DeleteEvent/" + eventId);
-
-        if (response.status === 200) {
-            return response.data;
-        } else if (response.status === 403) {
-            throw new Error("Access denied");
-        } else if (response.status === 404) {
-            throw new Error("Event not found");
-        } else {
-            throw new Error("Error deleting event");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-getRsvpdUsersForEvent: async (eventId) => {
-    try {
-        const response = await axios.get(baseUrl + "/GetAllEventParticipants/" + eventId);
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error("Error fetching RSVP'd users for event");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-  getUserRsvpdEvents: async (currentUser) => {
-    try {
-        console.log(currentUser?.accessToken)
-        const response = await axios.get(baseUrl + "/GetAllUserEvents", {
-            
-            headers: {
-                "Id": currentUser?.uid,
-                "Authorization": currentUser?.accessToken
-            }
-        });
-
-        if (response.status === 200) {
-            return response.data || [];
-        } else if (response.status === 404) {
-            throw new Error("User not found");
-        } else {
-            throw new Error("Error fetching user's RSVP'd events");
-        }
-    } catch (error) {
-        throw error;
-    }
-},
-
-
-unRsvpUserFromEvent: async (userId, eventId) => {
-  try {
-      const response = await axios.delete(baseUrl + "/DeleteParticipant/" + eventId, {
-          data: { userId: userId }
-      });
-
-      if (response.status === 200) {
-          console.log("Participant successfully removed");
-          return true;
-      } else if (response.status === 404) {
-          throw new Error("Participant not found");
-      } else {
-          throw new Error("Error removing participant from event");
-      }
-  } catch (error) {
-      throw error;
-  }
-},
-
-isUserRsvpdToEvent: async (userId, eventId) => {
-  try {
-      const response = await axios.get(baseUrl + "/GetParticipantStatus/" + eventId);
-
-      if (response.status === 200) {
-          console.log(`RSVP status for user ${userId} in event ${eventId}:`, response.data);
-          return true;
-      } else if (response.status === 404) {
-          throw new Error("Member is not registered in event");
-      } else {
-          throw new Error("Error fetching RSVP status");
-      }
-  } catch (error) {
-      throw error;
-  }
-},
-
-  // Add participant to event
-  rsvpUserToEvent: async (userId, eventId) => {
-    const request = {
-        userId: userId,
-        eventId: eventId,
-        participantStatus: "Attending",
-    };
-
-      try {
-          const response = await axios.post(baseUrl + "/AddParticipant", request, {
-              headers: {
-                  "Content-Type": "application/json",
-              },
-          });
-
-          if (response.status === 200) {
-              console.log("Participant added successfully");
-              return true;
-          } else if (response.status === 422) {
-              throw new Error("Maximum capacity reached.");
-          } else if (response.status === 404) {
-              throw new Error("Event not found");
-          } else {
-              throw new Error("Error adding participant to event");
-          }
-      } catch (error) {
-          throw error;
-      }
-  },
-
-  updateRsvpStatus: async (userId, eventId, status) => {
-    const request = {
-        userId: userId,
-        eventId: eventId,
-        participantStatus: status,
-    };
-
-    try {
-        const response = await axios.post(baseUrl + "/UpdateParticipant", request, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (response.status === 200) {
-            console.log("Participant status updated successfully");
-            return true;
         } else if (response.status === 422) {
             throw new Error("Maximum capacity reached.");
-        } else if (response.status === 404) {
-            throw new Error("Participant not found");
         } else {
-            throw new Error("Error updating participant status");
+            throw new Error("Error processing request.");
         }
-    } catch (error) {
-        throw error;
     }
-},
-};
+}
 
-export default eventServiceApi;
+export default new EventServiceApi();
