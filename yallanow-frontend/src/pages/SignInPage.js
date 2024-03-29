@@ -1,10 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-
-// import {Register, Login, logout, resetPassword} from '../firebase-config';
-//import { useAuth } from '../AuthContext.js';
 import { useNavigate } from 'react-router-dom';
-
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -12,42 +8,16 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Login, logoutfirebase, googleSignIn } from '../firebase-config';
 import ForgotPassword from './ForgotPassword';
 
-
-// function postData() {
-//   const url = `http://127.0.0.1:8080/api/test`;
-//   const data = { /* Your data object */ };
-
-//   axios.post(url, data, {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       "Authorization": localStorage.getItem('idToken')    #######################IMPORTANT FOR AUTHENTICATION#######################
-//       // Add any additional headers here if needed
-//     }
-//   })
-//     .then(response => {
-//       // Handle the response data
-//       console.log(response.data);
-//     })
-//     .catch(error => {
-//       // Handle errors here
-//       console.error('There was a problem with your axios request:', error);
-//     });
-//   }
-
-
-
-
-
-
 const SignInPage = () => {
-
-
   const navigate = useNavigate();
+  const [loginMessage, setLoginMessage] = useState({ text: '', isError: false });
 
+  // Handles Forgot Password
   const handleForgotPassword = () => {
     navigate('/forgotpassword');
   };
 
+  //Handles Google SignIn
   const handleGoogleSignIn = async () => {
     if (await googleSignIn() === true) {
       console.log("Login successful");
@@ -58,9 +28,6 @@ const SignInPage = () => {
     }
   };
   
-  const [loginMessage, setLoginMessage] = useState({ text: '', isError: false });
-
-
     // Handler for form submission
     const handleSubmit = async (event) => {
       event.preventDefault(); // Prevent default form submission
@@ -69,7 +36,6 @@ const SignInPage = () => {
       const email = event.target.email.value;
       const password = event.target.password.value;
       
-
       // Log email and password to the console
       console.log("Email:", email, "Password:", password);
       const loginData = { "email": email, "password": password};
@@ -81,9 +47,8 @@ const SignInPage = () => {
         console.log("Login failed");
         setLoginMessage({ text: 'Login failed. Invalid email or password.', isError: true });
       }
-
-      // Here, you can also add your sign-in logic with email and password
     };
+
   return (
     <>
 

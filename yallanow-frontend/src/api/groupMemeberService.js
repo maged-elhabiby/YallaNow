@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8080/microservice/groups/';
+const baseUrl =   'http://35.231.253.49/groups';
 
 const groupMemberService = {
     getGroupMembers: async (groupID) => {
@@ -48,15 +48,7 @@ const groupMemberService = {
             throw error;
         }
     },
-    getGroupsByUserID: async (userID) => {
-        try {
-            const response = await axios.get(`${baseUrl}members/user/${userID}`);
-            return response.data;
-        } catch (error) {
-            console.error(`Error getting groups for user ${userID}:`, error);
-            throw error;
-        }
-    },
+    
 };
 
 export default groupMemberService;
