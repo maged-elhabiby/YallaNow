@@ -1,11 +1,12 @@
 import EventServiceApi from "./EventServiceApi";
-import ImageService from "./imageService";
+
 
 class EventService {
 
     async createEvent(eventData) {
-
+        eventData.eventImageUrl = "https://storage.googleapis.com/tmp-bucket-json-data/500x500.jpg"
         const requestData = this.formatEventForEventService(eventData);
+        console.log(requestData);
         const rawEvent = await EventServiceApi.createEvent(requestData);
         return this.formatEventFromEventService(rawEvent);
     }
@@ -56,18 +57,26 @@ class EventService {
     }
 
     formatEventForEventService(data) {
+
         return {
             eventID: data.eventId,
             groupID: data.groupId,
-            imageID: data.imageId,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
-            location: data.location,
+            location: {
+                street: data.eventLocationStreet,
+                city: data.eventLocationCity,
+                province: data.eventLocationProvince,
+                country: data.eventLocationCountry,
+                postalCode: data.eventLocationPostalCode,
+            },
             eventStartTime: data.eventStartTime,
             eventEndTime: data.eventEndTime,
             status: data.eventStatus,
             capacity: data.eventCapacity,
             count: data.eventAttendeeCount,
+
+            imageUrl: data.imageUrl,
         };
     }
 
@@ -75,10 +84,15 @@ class EventService {
         return {
             eventId: data.eventID,
             groupId: data.groupID,
-            imageId: data.imageID,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
-            location: data.location,
+
+            eventLocationStreet: data.location.street,
+            eventLocationCity: data.location.city,
+            eventLocationProvince: data.location.province,
+            eventLocationCountry:data.location.country,
+            eventLocationPostalCode: data.location.postalCode,
+
             eventStartTime: data.eventStartTime,
             eventEndTime: data.eventEndTime,
             eventStatus: data.status,
