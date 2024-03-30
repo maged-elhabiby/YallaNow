@@ -5,6 +5,7 @@ import org.example.groups_microservice.Controller.GroupMemberController;
 import org.example.groups_microservice.DTO.GroupDTO;
 import org.example.groups_microservice.DTO.GroupMemberDTO;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
+import org.example.groups_microservice.Exceptions.MemberAlreadyInGroupException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Service.GroupMemberService;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
@@ -77,7 +78,7 @@ public class GroupMemberControllerTest {
     }
 
     @Test
-    public void testAddGroupMember() throws GroupNotFoundException {
+    public void testAddGroupMember() throws GroupNotFoundException, MemberAlreadyInGroupException {
         // Arrange
         int groupID = 1;
         String userID = "1";
