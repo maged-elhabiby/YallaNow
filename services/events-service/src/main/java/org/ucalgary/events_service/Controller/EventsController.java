@@ -42,7 +42,7 @@ public class EventsController {
             eventsPubService.publishEvents(events, "ADD");
             return ResponseEntity.ok(events);
         }catch(AccessException e){
-            return (ResponseEntity<?>) ResponseEntity.status(403);
+            return (ResponseEntity<?>) ResponseEntity.status(403).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e){
@@ -63,7 +63,7 @@ public class EventsController {
             eventsPubService.publishEvents(events, "UPDATE");
             return ResponseEntity.ok(events);
         }catch(AccessException e){
-            return (ResponseEntity<?>) ResponseEntity.status(403);
+            return (ResponseEntity<?>) ResponseEntity.status(403).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -18,7 +18,7 @@ const GroupDetailsPage = () => {
     const groupMembers = {
         userID: currentUser?.uid,
         userName: currentUser?.displayName, 
-        role: "MEMBER"
+        role: "USER"
     };
 
     const fetchGroupDetails = async () => {

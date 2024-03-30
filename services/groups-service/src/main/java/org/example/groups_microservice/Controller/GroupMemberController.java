@@ -66,6 +66,7 @@ public class GroupMemberController {
     @PostMapping
     public ResponseEntity<GroupMemberDTO> addGroupMember(@PathVariable int groupID, @RequestBody GroupMemberDTO groupMemberDTO) throws GroupNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberService.addGroupMember(groupID, groupMemberDTO);
+        GroupPubSub.publishGroupMember(groupMemberEntity, "ADD");
         return ResponseEntity.ok(convertToDto(groupMemberEntity));
     }
 
@@ -109,7 +110,7 @@ public class GroupMemberController {
     @PutMapping("/{userID}")
     public ResponseEntity<GroupMemberDTO> updateGroupMember(@PathVariable Integer groupID, @PathVariable String userID, @RequestBody GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
         GroupMemberEntity groupMemberEntity = groupMemberService.updateGroupMember(groupID, userID, groupMemberDTO);
-        GroupPubSub.publishGroupMember(groupMemberEntity, "ADD");
+        GroupPubSub.publishGroupMember(groupMemberEntity, "UPDATE");
         return ResponseEntity.ok(convertToDto(groupMemberEntity));
     }
 
