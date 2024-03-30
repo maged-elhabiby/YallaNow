@@ -24,8 +24,8 @@ const CreateEventPage = () => {
     eventEndTime: '',
     eventCapacity: 1,
     eventStatus: "Scheduled",
-    groupId: 1,
-    eventUrl: "dumb",
+    groupId: groupFromState,
+    eventImageUrl: "dumb",
     eventAttendeeCount: 1,
   });
 
