@@ -15,6 +15,12 @@ const GroupDetailsPage = () => {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
 
+    const groupMembers = {
+        userID: currentUser?.uid,
+        userName: currentUser?.displayName, 
+        role: "MEMBER"
+    };
+
     const fetchGroupDetails = async () => {
             try {
                 const details = await GroupService.getGroup(groupId);
@@ -43,7 +49,7 @@ const GroupDetailsPage = () => {
     const handleJoinGroup = async () => {
         try {
             // Assuming there's a method in GroupService to join a group
-            await groupMemeberService.addGroupMember(groupId, currentUser);
+            await groupMemeberService.addGroupMember(groupId, groupMembers);
             alert('Successfully joined the group!');
             // Refresh group details to reflect the new membership
             fetchGroupDetails();
