@@ -1,6 +1,6 @@
 // GroupDetailsPage.js
 import React, { useEffect, useState } from 'react';
-import { useParams,useNavigate, Link  } from 'react-router-dom';
+import { useParams,useNavigate} from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import GroupService from '../api/GroupService';
 import EventService from '../api/EventService';
