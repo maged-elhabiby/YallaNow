@@ -41,7 +41,7 @@ public class ParticipantEntity {
     public ParticipantEntity() {
     }
 
-    public ParticipantEntity(String userId, ParticipantStatus participantStatus, EventsEntity event) {
+    public ParticipantEntity(String userId, ParticipantStatus participantStatus, EventsEntity event)throws IllegalArgumentException {
         ValidateInput(event, userId, participantStatus);
         this.userId = userId;
         this.participantStatus = participantStatus;

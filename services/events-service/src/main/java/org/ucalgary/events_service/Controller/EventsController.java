@@ -36,7 +36,7 @@ public class EventsController {
     @PostMapping("/AddEvent")
     public ResponseEntity<?> addEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
         try{
-            userId = "1";
+            eventService.checkEvent(event, userId);
             AddressEntity address = addressService.createAddress(event); // Add the Address to the DataBase
             EventsEntity events = eventService.createEvent(event, address, userId); // createEvent(event);
             eventsPubService.publishEvents(events, "ADD");
@@ -47,6 +47,8 @@ public class EventsController {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -58,6 +60,7 @@ public class EventsController {
     @PostMapping("/UpdateEvent")
     public ResponseEntity<?> updateEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
         try{
+            eventService.checkEvent(event, userId); // Check if the event is valid
             AddressEntity newAddress = addressService.updateAddress(event); // Update the Address in the DataBase
             EventsEntity events = eventService.updateEvent(event, newAddress, userId); // updateEvent(event);
             eventsPubService.publishEvents(events, "UPDATE");
@@ -65,6 +68,10 @@ public class EventsController {
         }catch(AccessException e){
             return (ResponseEntity<?>) ResponseEntity.status(403).body(e.getMessage());
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        } catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         
@@ -91,6 +98,8 @@ public class EventsController {
             return ResponseEntity.ok(events);
         }catch( EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -106,6 +115,8 @@ public class EventsController {
             return ResponseEntity.ok(events);
         }catch(EntityNotFoundException e){
             return ResponseEntity.notFound().build();
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -130,6 +141,8 @@ public class EventsController {
             return ResponseEntity.notFound().build();
         } catch (AccessException e) {
             return (ResponseEntity<?>) ResponseEntity.status(403);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
