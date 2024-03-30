@@ -8,26 +8,47 @@ metadata:
     kubernetes.io/ingress.allow-http: "true"
 spec:
   rules:
-  - http:
-      paths:
-      - path: /events/*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: events
-            port:
-              number: 80
-      - path: /groups/*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: groups
-            port:
-              number: 80
-      - path: /feed/*
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: feed
-            port:
-              number: 80
+    - http:
+        paths:
+          - path: /events
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: events
+                port:
+                  number: 80
+          - path: /events/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: events
+                port:
+                  number: 80
+          - path: /groups
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: groups
+                port:
+                  number: 80
+          - path: /groups/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: groups
+                port:
+                  number: 80
+          - path: /feed
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: feed
+                port:
+                  number: 80
+          - path: /feed/*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: feed
+                port:
+                  number: 80
