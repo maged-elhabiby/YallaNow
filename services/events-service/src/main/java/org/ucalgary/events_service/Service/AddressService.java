@@ -7,14 +7,15 @@ import org.ucalgary.events_service.Repository.AddressRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Service class for managing AddressEntity objects.
  * This class provides methods to create, update, and delete address entities.
  */
 @Service
 public class AddressService {
-
+    private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
     private final AddressRepository addressRepository;
 
     public AddressService(AddressRepository addressRepository) {
@@ -28,16 +29,19 @@ public class AddressService {
      * @throws IllegalArgumentException if the address is invalid.
      */
     @Transactional
-    public AddressEntity createAddress(EventDTO event)throws IllegalArgumentException{
+    public AddressEntity createAddress(EventDTO event) throws IllegalArgumentException {
         checkAddress(event);
         AddressEntity newAddress = new AddressEntity(event.getAddressID(),
-                                                     event.getLocation().getStreet(),
-                                                     event.getLocation().getCity(),
-                                                     event.getLocation().getProvince(),
-                                                     event.getLocation().getPostalCode(),
-                                                     event.getLocation().getCountry());
-        return addressRepository.save(newAddress);
+                event.getLocation().getStreet(),
+                event.getLocation().getCity(),
+                event.getLocation().getProvince(),
+                event.getLocation().getPostalCode(),
+                event.getLocation().getCountry());
+        AddressEntity savedAddress = addressRepository.save(newAddress);
+        logger.info("Created new address with ID: {}", savedAddress.getAddressId());
+        return savedAddress;
     }
+
 
     /**
      * Updates an existing address entity based on the provided event DTO.
@@ -46,16 +50,17 @@ public class AddressService {
      * @return The updated or newly created address entity.
      * @throws IllegalArgumentException if the address is invalid.
      */
-    @Transactional
-    public AddressEntity updateAddress(EventDTO event)throws IllegalArgumentException{
+    public AddressEntity updateAddress(EventDTO event) throws IllegalArgumentException {
         checkAddress(event);
         AddressEntity updatedAddress = new AddressEntity(event.getAddressID(),
-                                                          event.getLocation().getStreet(),
-                                                          event.getLocation().getCity(),
-                                                          event.getLocation().getProvince(),
-                                                          event.getLocation().getPostalCode(),
-                                                          event.getLocation().getCountry());
-        return addressRepository.save(updatedAddress);
+                event.getLocation().getStreet(),
+                event.getLocation().getCity(),
+                event.getLocation().getProvince(),
+                event.getLocation().getPostalCode(),
+                event.getLocation().getCountry());
+        AddressEntity savedAddress = addressRepository.save(updatedAddress);
+        logger.info("Updated address with ID: {}", savedAddress.getAddressId());
+        return savedAddress;
     }
 
     /**
@@ -64,10 +69,12 @@ public class AddressService {
      * @throws EntityNotFoundException if the address does not exist.
      */
     @Transactional
-    public void deleteAddress(int addressID)throws EntityNotFoundException{
+    public void deleteAddress(int addressID) throws EntityNotFoundException {
         if (addressRepository.existsById(addressID)) {
             addressRepository.deleteById(addressID);
+            logger.info("Deleted address with ID: {}", addressID);
         } else {
+            logger.error("Address not found with ID: {}", addressID);
             throw new EntityNotFoundException("Address not found with id: " + addressID);
         }
     }
@@ -77,7 +84,9 @@ public class AddressService {
      * @param event The event DTO containing address information.
      * @throws IllegalArgumentException if the address is invalid.
      */
-    private void checkAddress(EventDTO event)throws IllegalArgumentException{
+    private void checkAddress(EventDTO event) throws IllegalArgumentException {
+        logger.info("Checking validity of address for event with ID: {}", event.getEventID());
+
         if(event.getLocation() == null){
             throw new IllegalArgumentException("You have to have an address");
         }
@@ -96,5 +105,6 @@ public class AddressService {
         if (event.getLocation().getCountry() == null || event.getLocation().getCountry().isEmpty()) {
             throw new IllegalArgumentException("Country is required");
         }
+        logger.info("Address is valid for event with ID: {}", event.getEventID());
     }
 }
