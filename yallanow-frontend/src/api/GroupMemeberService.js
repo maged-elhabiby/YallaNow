@@ -43,14 +43,19 @@ class GroupMemberService {
 
     async removeGroupMember(groupID, userID) {
         try {
+            console.log("before syc")
             const idToken = await this.fetchIdToken();
             const response = await axios.delete(`${this.baseUrl}/${groupID}/members/${userID}`, {
                 headers: { 
                     "Authorization": idToken
             },    
             });
+            
+            console.log("success")
             return this.handleResponse(response, true);
+            
         } catch (error) {
+            console.error('Server response:', error.response);
             throw new Error('Error communicating with server.');
         }
     }
