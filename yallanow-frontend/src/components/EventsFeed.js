@@ -1,4 +1,7 @@
-// EventsFeed.js
+/*
+EventsFeed.js
+EventsFeed component that displays a list of EventCard components.
+*/
 import React from 'react';
 import EventCard from '../components/EventCard';
 

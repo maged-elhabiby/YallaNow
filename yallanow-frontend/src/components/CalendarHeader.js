@@ -1,4 +1,8 @@
-// CalendarHeader.js
+
+/*
+ CalendarHeader.js
+ CalendarHeader component is a functional component that displays the calendar header
+*/
 import React from 'react';
 import '../index.css';
 

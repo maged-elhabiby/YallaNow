@@ -18,11 +18,9 @@ const EventDetailsPage = () => {
 
   useEffect(() => {
     if (!event.eventId && state.eventId) {
-      // If event details are not in state but eventId is, fetch event details
       fetchEventDetails(state.eventId);
     }
     checkRsvpStatus();
-    // Record detail view with Recombee
     if (event.eventId && recommId) {
       RecombeeInteractions.addDetailViewInteraction(userId.toString(), event.eventId.toString(), recommId.toString());
     }

@@ -1,3 +1,7 @@
+/*
+Navbar.js
+Navbar component that displays the navigation bar.
+*/
 import React from 'react';
 import { Fragment, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';

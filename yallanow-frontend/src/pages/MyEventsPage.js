@@ -15,7 +15,7 @@ const MyEventsPage = () => {
             try {
                 const fetchedEvents = await EventService.getUserRsvpdEvents(currentUser);
                 if (fetchedEvents.length === 0) {
-                    setErrorMessage('No Available Events'); // Set a default message for no events
+                    setErrorMessage('No Available Events'); 
                 } else {
                     setEvents(fetchedEvents);
                 }

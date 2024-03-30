@@ -61,3 +61,31 @@ npm run start
 ```
 
 to start the project.
+
+Here are screenshots of the project:
+
+Login Page:
+![image](./diagrams/Login.png)
+
+Event Page:
+![image](./diagrams/Events.png)
+
+Calendar Page:
+![image](./diagrams/Calendar.png)
+
+Create Event Page:
+![image](./diagrams/CreateEvent.png)
+
+Group Page:
+![image](./diagrams/GroupsCenter.png)
+
+Joined Group Page:
+![image](./diagrams/community.png)
+
+Manage Group Page:
+![image](./diagrams/ManageGroups.png)
+
+User Profile Page:
+![image](./diagrams/Profile.png)
+
+

@@ -3,17 +3,20 @@ import config from "../config/config";
 import { getAuth,getIdToken  } from "firebase/auth";
 
 class EventServiceApi {
+    // Base URL for API calls, loaded from config and Initialize Firebase Auth
     constructor() {
         this.baseUrl = config.eventsBaseUrl;
         this.auth = getAuth();
     }
     
+    // Fetches an ID token for the current user, throws error if not authenticated
     async fetchIdToken() {
         const user = this.auth.currentUser;
         if (!user) throw new Error("No authenticated user found");
         return getIdToken(user);
     }
 
+    // Creates an event with provided data, handling authentication and response
     async createEvent(eventRequest) {
         try {
             const idToken = await this.fetchIdToken();
@@ -29,6 +32,7 @@ class EventServiceApi {
         }
     }
 
+    // Updates an existing event with new data, handling authentication and response
     async updateEvent(eventRequest) {
         try {
             const idToken = await this.fetchIdToken();
@@ -44,6 +48,7 @@ class EventServiceApi {
         }
     }
 
+    // Retrieves a single event by ID, handling authentication and response
     async getEvent(eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -58,6 +63,7 @@ class EventServiceApi {
         }
     }
 
+    // Fetches all events for a specific group, handling authentication and response
     async getEventsForGroup(groupId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -72,6 +78,7 @@ class EventServiceApi {
         }
     }
 
+    // Deletes an event by ID, handling authentication and response
     async deleteEvent(eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -86,6 +93,7 @@ class EventServiceApi {
         }
     }
 
+    // Retrieves all RSVP'd users for a specific event, handling authentication and response
     async getRsvpdUsersForEvent(eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -100,6 +108,7 @@ class EventServiceApi {
         }
     }
 
+    // Fetches all events a specific user has RSVP'd to, handling authentication and response
     async getUserRsvpdEvents(currentUser) {
         try {
             const idToken = await this.fetchIdToken();
@@ -115,6 +124,7 @@ class EventServiceApi {
         }
     }
 
+    // UnRSVPs a user from an event, handling authentication and specific user data
     async unRsvpUserFromEvent(userId, eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -133,6 +143,7 @@ class EventServiceApi {
         }
     }
 
+    // Checks if a user has RSVP'd to an event, handling authentication and response
     async isUserRsvpdToEvent(userId, eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -147,6 +158,7 @@ class EventServiceApi {
         }
     }
 
+    // RSVPs a user to an event, handling user data and authentication
     async rsvpUserToEvent(userId, eventId) {
         try {
             const idToken = await this.fetchIdToken();
@@ -167,6 +179,7 @@ class EventServiceApi {
         }
     }
 
+    //  Updates the RSVP status of a user for an event, handling user data and authentication
     async updateRsvpStatus(userId, eventId, status) {
         try {
             const idToken = await this.fetchIdToken();
@@ -187,6 +200,7 @@ class EventServiceApi {
         }
     }
 
+    //  General method to handle API response, throws errors or returns data based on response status
     handleResponse(response, isBoolean = false) {
         if (isBoolean) {
             switch (response.status) {

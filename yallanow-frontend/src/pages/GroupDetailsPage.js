@@ -49,10 +49,8 @@ const GroupDetailsPage = () => {
 
     const handleJoinGroup = async () => {
         try {
-            // Assuming there's a method in GroupService to join a group
             await groupMemeberService.addGroupMember(groupId, groupMembers);
             alert('Successfully joined the group!');
-            // Refresh group details to reflect the new membership
             fetchGroupDetails();
         } catch (error) {
             console.error('Error joining group:', error);
@@ -62,7 +60,7 @@ const GroupDetailsPage = () => {
     
     const handleCreateEvent = () => {
         if (!currentUser) {
-            navigate('/login'); // Redirect to login if user is not logged in
+            navigate('/login'); 
         } else {
             navigate(`/create-event/${groupId}`);
         }
