@@ -40,6 +40,8 @@ YallaNow aims to create a scalable, robust social networking platform focusing o
  
 </div>
 
+## Link to web site
+https://yallanow.netlify.app/
 
 ## How to run the project
 To run the project first navigate to ./yallanow-frontend
