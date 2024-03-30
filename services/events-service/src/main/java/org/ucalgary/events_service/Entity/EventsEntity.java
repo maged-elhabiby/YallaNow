@@ -1,7 +1,11 @@
 package org.ucalgary.events_service.Entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ucalgary.events_service.DTO.EventStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,6 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import org.ucalgary.events_service.Service.EventService;
 
 /**
  * EventsEntity, Used to Create and Store EventsEntity Objects in MySQL Database
@@ -26,6 +31,8 @@ import jakarta.persistence.Table;
 @Table(name = "event_table")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class EventsEntity {
+
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
 
     // Attributes
     @Id
@@ -60,7 +67,23 @@ public class EventsEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParticipantEntity> participants;
-    
+
+    public void addParticipant(ParticipantEntity participant) {
+        if (this.participants == null) {
+            this.participants = new ArrayList<>();
+        }
+        this.participants.add(participant);
+        participant.setEvent(this);
+        logger.info("Added participant {} to event {}", participant.getUserId(), this.getEventId());
+    }
+
+    public void removeParticipant(ParticipantEntity participant) {
+        if (this.participants != null && this.participants.remove(participant)) {
+            participant.setEvent(null);
+            logger.info("Removed participant {} from event {}", participant.getUserId(), this.getEventId());
+        }
+    }
+
     // Constructors
     public EventsEntity() {
     }

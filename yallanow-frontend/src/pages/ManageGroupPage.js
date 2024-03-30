@@ -12,7 +12,8 @@ function ManageGroupPage() {
   useEffect(() => {
     const fetchGroupMembers = async () => {
       try {
-        const members = await GroupMemberService.getGroupMembers(groupData.id);
+        console.log(groupData.groupID)
+        const members = await GroupMemberService.getGroupMembers(groupData.groupID);
         setGroupMembers(members);
       } catch (error) {
         console.error('Error fetching group members:', error);
@@ -24,9 +25,11 @@ function ManageGroupPage() {
 
   const handleRoleUpdate = async (userId, newRole) => {
     try {
-      await GroupMemberService.updateGroupMember(groupData.id, userId, { role: newRole });
+      await GroupMemberService.updateGroupMember(groupData.groupID, userId, { role: newRole });
       // Refresh the group members list after updating
-      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.id);
+      console.log(groupData.groupID)
+      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.groupID);
+      
       setGroupMembers(updatedMembers);
     } catch (error) {
       console.error('Error updating user role:', error);
@@ -35,9 +38,10 @@ function ManageGroupPage() {
 
   const handleRemoveUser = async (userId) => {
     try {
-      await GroupMemberService.removeGroupMember(groupData.id, userId);
+      await GroupMemberService.removeGroupMember(groupData.groupID, userId);
       // Refresh the group members list after removal
-      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.id);
+      console.log("success")
+      const updatedMembers = await GroupMemberService.getGroupMembers(groupData.groupID);
       setGroupMembers(updatedMembers);
     } catch (error) {
       console.error('Error removing user from group:', error);
