@@ -15,9 +15,8 @@ const CreateGroup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Assuming "yourCurrentUserId" is obtained from your auth context or a similar state management solution
     const userId = currentUser?.uid;
-    const userName = currentUser?.displayName || 'Anonymous'; // Fallback to 'Anonymous' or handle appropriately
+    const userName = currentUser?.displayName || 'Anonymous'; 
 
     const groupData = {
       groupName, 

@@ -11,14 +11,13 @@ const GroupPage = () => {
     const fetchGroups = async () => {
       try {
         const fetchedGroups = await GroupService.getGroups();
-        console.log(fetchedGroups); // Log the fetched groups
+        console.log(fetchedGroups); 
 
         setGroups(fetchedGroups);
         console.log('Works')
       } catch (error) {
         console.error('Error fetching groups:', error);
         console.log('Fail')
-        // Optionally, update state or UI to inform the user about the error
       }
     };
   

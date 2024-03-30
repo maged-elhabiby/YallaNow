@@ -18,16 +18,12 @@ const MyCalendar = ({ events, onEventClick }) => {
     const Anavigate = useNavigate();
 
     useEffect(() => {
-        // Move title update logic into a separate function
         const updateTitle = () => {
             if (calendarRef.current) {
                 const calendarApi = calendarRef.current.getApi();
                 setTitle(calendarApi.view.title);
             }
         };
-
-        // Add an event listener for when the calendar API is ready
-        // and use it to set the initial title
         if (calendarRef.current) {
             updateTitle();
         }
@@ -46,7 +42,7 @@ const MyCalendar = ({ events, onEventClick }) => {
             const calendarApi = calendarRef.current.getApi();
             if (typeof calendarApi[action] === 'function') {
                 calendarApi[action]();
-                setTitle(calendarApi.view.title); // This line updates the title after navigation
+                setTitle(calendarApi.view.title);
             } else {
                 console.error(`The method ${action} does not exist on the calendarApi object.`);
             }
