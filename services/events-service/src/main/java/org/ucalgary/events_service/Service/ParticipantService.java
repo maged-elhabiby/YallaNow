@@ -9,6 +9,7 @@ import org.ucalgary.events_service.DTO.ParticipantStatus;
 import org.ucalgary.events_service.Entity.EventsEntity;
 import org.ucalgary.events_service.DTO.ParticipantDTO;
 import org.ucalgary.events_service.DTO.EventDTO;
+import org.ucalgary.events_service.DTO.EventStatus;
 import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
@@ -169,6 +170,9 @@ public class ParticipantService {
             if (event.getCapacity() != null && event.getCount() > event.getCapacity()) {
                 throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
             }
+            if(event.getStatus() == EventStatus.Cancelled){ // If the event is cancelled, do not add the participant
+                throw new IllegalStateException("Event is cancelled. Cannot add participant.");
+            }
             eventRepository.save(event);
             mailSenderService.sendMessage(event, name, email,newStatus);
             if(event.getCapacity().equals(event.getCount())){ // in the case where after adding the user, the event is full make it not available for publishing
@@ -187,6 +191,9 @@ public class ParticipantService {
     private void updateEventCount(EventsEntity event, ParticipantStatus oldStatus, ParticipantStatus newStatus, 
                                                     String email, String name) throws IllegalArgumentException {
         if (newStatus != oldStatus) { // If the status has changed
+            if(event.getStatus() == EventStatus.Cancelled){ // If the event is cancelled, do not add the participant
+                throw new IllegalStateException("Event is cancelled. Cannot add participant.");
+            }
 
             // If the new status is not attending and the old status is attending or maybe then decrease count
             if (newStatus == ParticipantStatus.NotAttending &&  
@@ -210,6 +217,7 @@ public class ParticipantService {
                 if(event.getCapacity() != null && event.getCount() > event.getCapacity()){ // Check if the event has reached its capacity
                     throw new IllegalStateException("Event has reached its capacity. Cannot add more participants.");
                 }
+                
             }
             eventRepository.save(event); // Save the updated event
             mailSenderService.sendMessage(event, name, email,newStatus);
