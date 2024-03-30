@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
-import GroupService from '../api/GroupService'
+import GroupService from '../api/GroupService';
 import EventService from '../api/EventService';
+import groupMemeberService from '../api/GroupMemeberService';
 import { useAuth } from '../AuthContext';
 
 const GroupDetailsPage = () => {
@@ -14,9 +15,7 @@ const GroupDetailsPage = () => {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
 
-    
-    useEffect(() => {
-        const fetchGroupDetails = async () => {
+    const fetchGroupDetails = async () => {
             try {
                 const details = await GroupService.getGroup(groupId);
                 setGroupDetails(details);
@@ -25,8 +24,8 @@ const GroupDetailsPage = () => {
             } catch (error) {
                 console.error("Error fetching group details:", error);
             }
-        };
-
+    };
+    useEffect(() => {
         fetchGroupDetails();
     }, [groupId]);
 
@@ -40,6 +39,19 @@ const GroupDetailsPage = () => {
             alert("You do not have permission to manage this group.");
         }
     };
+
+    const handleJoinGroup = async () => {
+        try {
+            // Assuming there's a method in GroupService to join a group
+            await groupMemeberService.addGroupMember(groupId, currentUser);
+            alert('Successfully joined the group!');
+            // Refresh group details to reflect the new membership
+            fetchGroupDetails();
+        } catch (error) {
+            console.error('Error joining group:', error);
+            alert('Failed to join the group.');
+        }
+    };
     
     const handleCreateEvent = () => {
         if (!currentUser) {
@@ -51,7 +63,7 @@ const GroupDetailsPage = () => {
 
     const isAdmin = groupDetails.groupMembers.some(member => member.userID === currentUser?.uid && member.role === 'ADMIN');
     const isMember = groupDetails.groupMembers.some(member => member.userID === currentUser?.uid);
-
+    console.log(isMember,isAdmin,groupDetails.isPrivate)
     return (
     <div className="container mx-auto py-10">
         <div className="px-6 py-20 sm:py-10 lg:px-8">
@@ -79,12 +91,22 @@ const GroupDetailsPage = () => {
                         View Members
                     </button>
                 )}
+                {!groupDetails.isPrivate && !isMember && (
+                <button
+                    onClick={handleJoinGroup}
+                    className="mt-4 mr-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
+                >
+                    Join Group
+                </button>
+                )}
+                {isMember && (
                 <button
                         className="mt-4 mr-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition-colors"
                         onClick={handleCreateEvent}
                     >
                         Create Event
                 </button>
+                )}
                 </div>
 
                 {isModalOpen && (
