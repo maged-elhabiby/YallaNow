@@ -8,7 +8,7 @@ function ManageGroupPage() {
   const location = useLocation();
   const [groupData, setGroupData] = useState(location.state.groupData || {}); // Updated to maintain group data in state
   const [groupMembers, setGroupMembers] = useState([]);
-
+  console.log(groupData)
   useEffect(() => {
     const fetchGroupMembers = async () => {
       try {
@@ -20,7 +20,7 @@ function ManageGroupPage() {
     };
 
     fetchGroupMembers();
-  }, [groupData.id]);
+  }, [groupData.groupId]);
 
   const handleRoleUpdate = async (userId, newRole) => {
     try {
@@ -87,7 +87,6 @@ function ManageGroupPage() {
                 {groupData.groupMembers.map((member) => (
                   <tr key={member.userID}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{member.userName}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.email}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{member.role}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       {member.role !== 'ADMIN' || (member.role === 'ADMIN' && groupData.groupMembers.filter(m => m.role === 'ADMIN').length > 1) ? (
