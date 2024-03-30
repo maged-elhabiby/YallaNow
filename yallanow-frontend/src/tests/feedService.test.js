@@ -35,7 +35,7 @@ describe('feedService', () => {
     it('should get next events after personal events', async () => {
         const userId = 'test-user';
         const count = 10;
-
+        
         const personalEventsResponse = await feedService.getPersonalEvents(userId, count);
         expect(personalEventsResponse).toBeDefined();
         const recommId = personalEventsResponse.recommId;
@@ -49,5 +49,5 @@ describe('feedService', () => {
         const response = await feedService.searchEvents(userId, count, searchQuery);
         expect(response).toBeDefined();
     });
-
+    
 });

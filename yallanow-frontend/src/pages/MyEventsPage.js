@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import MyCalendar from '../components/MyCalendar';
 import EventsFeed from '../components/EventsFeed';
 import EventService from '../api/EventService';
-import {useAuth} from '../AuthContext';
+import { useAuth } from '../AuthContext';
 
 const MyEventsPage = () => {
     const [events, setEvents] = useState([]);
-    const {currentUser} = useAuth();
+    const { currentUser } = useAuth();
     const userId = currentUser?.uid;
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -15,7 +15,7 @@ const MyEventsPage = () => {
             try {
                 const fetchedEvents = await EventService.getUserRsvpdEvents(currentUser);
                 if (fetchedEvents.length === 0) {
-                    setErrorMessage('No Available Events');
+                    setErrorMessage('No Available Events'); 
                 } else {
                     setEvents(fetchedEvents);
                 }
@@ -30,7 +30,7 @@ const MyEventsPage = () => {
         };
 
         fetchEvents();
-    }, [userId, currentUser]);
+    }, [userId]);
 
     const eventsForCalendar = events.map(event => ({
         ...event,
@@ -46,17 +46,16 @@ const MyEventsPage = () => {
             <h1 className="text-3xl font-bold mb-4 mt-2">My Events</h1>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-1">
-                    <h1 className="mt-2 mb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">Your
-                        Events:</h1>
+                    <h1 className="mt-2 mb-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-4xl">Your Events:</h1>
                     {errorMessage ? (
                         <p className="text-xl text-red-500">{errorMessage}</p>
                     ) : (
-                        <EventsFeed events={events}/>
+                        <EventsFeed events={events} />
                     )}
                 </div>
                 <div className="lg:col-span-2">
                     {/* Calendar always shown but with conditional content based on events availability */}
-                    <MyCalendar events={eventsForCalendar}/>
+                    <MyCalendar events={eventsForCalendar} />
                     {errorMessage && (
                         <p className="text-center text-xl text-red-500 mt-4">{errorMessage}</p>
                     )}

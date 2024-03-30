@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../config/config";
-import {getAuth, getIdToken} from "firebase/auth";
+import { getAuth,getIdToken  } from "firebase/auth";
 
 class EventServiceApi {
     // Base URL for API calls, loaded from config and Initialize Firebase Auth
@@ -8,7 +8,7 @@ class EventServiceApi {
         this.baseUrl = config.eventsBaseUrl;
         this.auth = getAuth();
     }
-
+    
     // Fetches an ID token for the current user, throws error if not authenticated
     async fetchIdToken() {
         const user = this.auth.currentUser;
@@ -21,10 +21,10 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.post(this.baseUrl + "/AddEvent", eventRequest, {
-                headers: {
+                headers: { 
                     "Content-Type": "application/json",
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -37,11 +37,11 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.post(this.baseUrl + "/UpdateEvent", eventRequest, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": idToken
-                },
-            });
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": idToken
+                },    
+                });
             return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -53,9 +53,9 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(this.baseUrl + "/GetEvent/" + eventId, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -68,9 +68,9 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(this.baseUrl + "/GetGroupEvents/" + groupId, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -83,9 +83,9 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.delete(this.baseUrl + "/DeleteEvent/" + eventId, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -98,9 +98,9 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(this.baseUrl + "/GetAllEventParticipants/" + eventId, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -114,9 +114,9 @@ class EventServiceApi {
             const idToken = await this.fetchIdToken();
             console.log(idToken);
             const response = await axios.get(this.baseUrl + "/GetAllUserEvents", {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -128,15 +128,15 @@ class EventServiceApi {
     async unRsvpUserFromEvent(userId, eventId) {
         try {
             const idToken = await this.fetchIdToken();
-
+            
             const response = await axios.delete(this.baseUrl + "/DeleteParticipant/" + eventId, {
-                    headers: {
-                        "Authorization": idToken
-                    },
-                },
-                {
-                    data: {userId: userId},
-                });
+                headers: { 
+                    "Authorization": idToken
+            },    
+            }, 
+            {
+                data: { userId: userId },
+            });
             return this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
@@ -148,9 +148,9 @@ class EventServiceApi {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(this.baseUrl + "/GetParticipantStatus/" + eventId, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response, true);
         } catch (error) {
@@ -168,10 +168,10 @@ class EventServiceApi {
                 participantStatus: "Attending",
             };
             const response = await axios.post(this.baseUrl + "/AddParticipant", request, {
-                headers: {
+                headers: { 
                     "Content-Type": "application/json",
                     "Authorization": idToken
-                },
+            },
             });
             return this.handleResponse(response, true);
         } catch (error) {
@@ -188,11 +188,11 @@ class EventServiceApi {
                 eventId: eventId,
                 participantStatus: status,
             };
-            const response = await axios.post(this.baseUrl + "/UpdateParticipant", request, {
-                headers: {
+            const response = await axios.post(this.baseUrl + "/UpdateParticipant", request,{
+                headers: { 
                     "Content-Type": "application/json",
                     "Authorization": idToken
-                },
+            },
             });
             return this.handleResponse(response, true);
         } catch (error) {

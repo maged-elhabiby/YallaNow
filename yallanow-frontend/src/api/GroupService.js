@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../config/config";
-import {getAuth, getIdToken} from "firebase/auth";
+import { getAuth,getIdToken  } from "firebase/auth";
 
 class GroupService {
     constructor() {
@@ -14,15 +14,15 @@ class GroupService {
         if (!user) throw new Error("No authenticated user found");
         return getIdToken(user);
     }
-
+    
     // Creates a new group with the provided group data, handling authentication
     async createGroup(groupData) {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.post(this.baseUrl, groupData, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -35,9 +35,9 @@ class GroupService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(this.baseUrl, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -50,9 +50,9 @@ class GroupService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(`${this.baseUrl}/${groupID}`, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -65,9 +65,9 @@ class GroupService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.put(`${this.baseUrl}/${groupID}`, groupData, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -80,9 +80,9 @@ class GroupService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.delete(`${this.baseUrl}/${groupID}`, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response, true);
         } catch (error) {
@@ -95,9 +95,9 @@ class GroupService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(`${this.baseUrl}/user/${userID}`, {
-                headers: {
+                headers: { 
                     "Authorization": idToken
-                },
+            },    
             });
             return this.handleResponse(response);
         } catch (error) {

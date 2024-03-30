@@ -2,7 +2,7 @@
 MyCalendar.js
 MyCalendar component that displays a calendar with events.
 */
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -11,7 +11,7 @@ import listPlugin from '@fullcalendar/list';
 import CalendarHeader from './CalendarHeader';
 import '../index.css';
 
-const MyCalendar = ({events}) => {
+const MyCalendar = ({ events }) => {
     const calendarRef = useRef(null);
     const [title, setTitle] = useState('');
 
@@ -26,7 +26,7 @@ const MyCalendar = ({events}) => {
             updateTitle();
         }
     }, []);
-
+      
     const handleViewChange = (view) => {
         if (calendarRef.current) {
             const calendarApi = calendarRef.current.getApi();
@@ -46,6 +46,8 @@ const MyCalendar = ({events}) => {
             }
         }
     };
+    
+
 
 
     return (
