@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-// Import icons from Heroicons for visual elements in form inputs
 import { PhotoIcon } from '@heroicons/react/24/solid'
-import EventService from '../api/EventService'; // Adjust the path as needed
+import EventService from '../api/EventService';
 
 
 const CreateEventPage = () => {

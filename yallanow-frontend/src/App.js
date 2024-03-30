@@ -26,7 +26,7 @@ const App = () => {
   return (
     
       <div className="h-full">
-        {/* Assuming Navbar is always visible except on certain routes */}
+        {/*Navbar is always visible except on certain routes */}
         {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
         <Routes>

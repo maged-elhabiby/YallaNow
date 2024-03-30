@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../AuthContext';// Update this path to your AuthContext
+import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {

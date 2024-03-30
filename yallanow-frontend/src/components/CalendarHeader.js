@@ -8,11 +8,11 @@ import '../index.css';
 
 const CalendarHeader = ({ onPrev, onNext, onToday, title, onViewChange }) => {
     return (
-        <div className="calendar-header-container flex flex-col items-center mb-3"> {/* Increase bottom margin */}
-            <div className="mb-1"> {/* Adjust this value as needed to add space above the title */}
+        <div className="calendar-header-container flex flex-col items-center mb-3"> 
+            <div className="mb-1"> 
                 <span className="text-2xl font-semibold">{title}</span>
             </div>
-            <div className="flex justify-between w-full mt-1"> {/* Add space above buttons */}
+            <div className="flex justify-between w-full mt-1"> 
                 <div>
                     <button onClick={onPrev} className="calendar-header-button">Prev</button>
                     <button onClick={onToday} className="calendar-header-button today-button">Today</button>

@@ -10,12 +10,10 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import CalendarHeader from './CalendarHeader';
 import '../index.css';
-import { useNavigate  } from 'react-router-dom';
 
-const MyCalendar = ({ events, onEventClick }) => {
+const MyCalendar = ({ events }) => {
     const calendarRef = useRef(null);
     const [title, setTitle] = useState('');
-    const Anavigate = useNavigate();
 
     useEffect(() => {
         const updateTitle = () => {

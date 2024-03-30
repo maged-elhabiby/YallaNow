@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import { logoutFirebase } from "../config/firebase-config";
-import { signOut, updateProfile } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { updateProfile } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../config/firebase-config";
 
 const ProfilePage = () => {

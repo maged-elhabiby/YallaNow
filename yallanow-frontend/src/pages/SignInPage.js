@@ -1,12 +1,9 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { login, googleSignIn } from '../config/firebase-config';
-import ForgotPassword from './ForgotPassword';
+
 
 const SignInPage = () => {
   const navigate = useNavigate();
