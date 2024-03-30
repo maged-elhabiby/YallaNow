@@ -12,6 +12,7 @@ const CreateEventPage = () => {
   const groupFromState = location.state?.groupId;
 
   const [formData, setFormData] = useState({
+    eventId: 1,
     eventTitle: '',
     eventDescription: '',
     eventLocationStreet: '',
@@ -21,9 +22,11 @@ const CreateEventPage = () => {
     eventLocationPostalCode: '',
     eventStartTime: '',
     eventEndTime: '',
-    eventCapacity: '',
+    eventCapacity: 1,
     eventStatus: "Scheduled",
     groupId: 1,
+    eventUrl: "dumb",
+    eventAttendeeCount: 1,
   });
 
   const [imageBase64, setImageBase64] = useState('');

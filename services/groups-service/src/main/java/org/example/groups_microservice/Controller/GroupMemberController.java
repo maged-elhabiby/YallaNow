@@ -81,7 +81,7 @@ public class GroupMemberController {
     @DeleteMapping("/{userID}")
     public ResponseEntity<Void> removeGroupMember(@PathVariable Integer groupID, @PathVariable String userID) throws MemberNotFoundException {
         groupMemberService.removeGroupMember(groupID, userID);
-        GroupPubSub.publishGroupMember(new GroupMemberEntity(), "DELETE");
+
         return ResponseEntity.noContent().build();
     }
 

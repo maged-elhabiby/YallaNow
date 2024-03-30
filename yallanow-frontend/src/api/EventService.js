@@ -58,11 +58,13 @@ class EventService {
     formatEventForEventService(data) {
 
         return {
+
             eventID: data.eventId,
             groupID: data.groupId,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
             location: {
+                addressID: 1,
                 street: data.eventLocationStreet,
                 city: data.eventLocationCity,
                 province: data.eventLocationProvince,
@@ -72,8 +74,8 @@ class EventService {
             eventStartTime: data.eventStartTime,
             eventEndTime: data.eventEndTime,
             status: data.eventStatus,
-            capacity: data.eventCapacity,
-            count: data.eventAttendeeCount,
+            capacity: 1,
+            count: 1,
 
             imageUrl: data.imageUrl,
         };
