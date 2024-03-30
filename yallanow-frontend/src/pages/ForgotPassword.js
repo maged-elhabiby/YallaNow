@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {resetPassword} from '../config/firebase-config';
 
 function ForgotPassword() {
@@ -11,7 +11,7 @@ function ForgotPassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({ email })
+        console.log({email})
 
         try {
             await resetPassword(email);
@@ -30,12 +30,12 @@ function ForgotPassword() {
     return (
         <div className="mt-24 flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div style={{paddingBottom: '10px'}}>
-            <button onClick={handleBack} className="text-sm font-semibold text-pink-600 hover:text-pink-500">
-                  {'<'} Return to Sign In Page
-            </button>
+                <button onClick={handleBack} className="text-sm font-semibold text-pink-600 hover:text-pink-500">
+                    {'<'} Return to Sign In Page
+                </button>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <img
+                <img
                     className="mx-auto h-20 w-auto"
                     src="https://storage.googleapis.com/tmp-bucket-json-data/Logo.svg"
                     alt="YallaNow"

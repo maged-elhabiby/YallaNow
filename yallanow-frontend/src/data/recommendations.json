@@ -3,545 +3,545 @@
   "itemId": null,
   "recommId": "313e97ead8af7f728e793d290ed52450",
   "recommendations": [
-      {
-          "id": "856961960",
-          "properties": {
-              "eventAttendeeCount": 27,
-              "eventCapacity": 181,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "376",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Enchanting Expo",
-              "groupId": "-751729414"
-          }
-      },
-      {
-          "id": "-270348283",
-          "properties": {
-              "eventAttendeeCount": 63,
-              "eventCapacity": 97,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "895",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Stunning Expo",
-              "groupId": "25263318"
-          }
-      },
-      {
-          "id": "-1160123743",
-          "properties": {
-              "eventAttendeeCount": 3,
-              "eventCapacity": 67,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "544",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Concert",
-              "groupId": "-1863535886"
-          }
-      },
-      {
-          "id": "673060376",
-          "properties": {
-              "eventAttendeeCount": 97,
-              "eventCapacity": 14,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "404",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Super Long Event Title That Should Not Mess Up the Flow And Cause Gross Things To Happen. Honestly This Should Not Be Allowed.",
-              "groupId": "-832909568"
-          }
-      },
-      {
-          "id": "1519072172",
-          "properties": {
-              "eventAttendeeCount": 94,
-              "eventCapacity": 36,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "665",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Magnificent Concert",
-              "groupId": "-262942158"
-          }
-      },
-      {
-          "id": "-1301455740",
-          "properties": {
-              "eventAttendeeCount": 39,
-              "eventCapacity": 80,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "632",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Incredible Summit",
-              "groupId": "1819204922"
-          }
-      },
-      {
-          "id": "-9608777",
-          "properties": {
-              "eventAttendeeCount": 31,
-              "eventCapacity": 96,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "883",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Workshop",
-              "groupId": "-1440238016"
-          }
-      },
-      {
-          "id": "-937777363",
-          "properties": {
-              "eventAttendeeCount": 52,
-              "eventCapacity": 50,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "389",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Stunning Fair",
-              "groupId": "-853586927"
-          }
-      },
-      {
-          "id": "1925774524",
-          "properties": {
-              "eventAttendeeCount": 57,
-              "eventCapacity": 69,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "315",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Expo",
-              "groupId": "-893165553"
-          }
-      },
-      {
-          "id": "-1193948250",
-          "properties": {
-              "eventAttendeeCount": 78,
-              "eventCapacity": 15,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "376",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Fabulous Concert",
-              "groupId": "1281958885"
-          }
-      },
-      {
-          "id": "1220500960",
-          "properties": {
-              "eventAttendeeCount": 1,
-              "eventCapacity": 197,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "731",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Conference",
-              "groupId": "1961391672"
-          }
-      },
-      {
-          "id": "-282031550",
-          "properties": {
-              "eventAttendeeCount": 61,
-              "eventCapacity": 184,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "252",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Marvelous Summit",
-              "groupId": "2036668767"
-          }
-      },
-      {
-          "id": "-1151219292",
-          "properties": {
-              "eventAttendeeCount": 33,
-              "eventCapacity": 8,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "814",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Retreat",
-              "groupId": "-1838412673"
-          }
-      },
-      {
-          "id": "5053195",
-          "properties": {
-              "eventAttendeeCount": 21,
-              "eventCapacity": 121,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "286",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Stunning Concert",
-              "groupId": "-8481177"
-          }
-      },
-      {
-          "id": "-1376060660",
-          "properties": {
-              "eventAttendeeCount": 2,
-              "eventCapacity": 138,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "420",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Marvelous Retreat",
-              "groupId": "195988182"
-          }
-      },
-      {
-          "id": "986780403",
-          "properties": {
-              "eventAttendeeCount": 17,
-              "eventCapacity": 166,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "132",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Wonderful Symposium",
-              "groupId": "-1547047843"
-          }
-      },
-      {
-          "id": "1649367521",
-          "properties": {
-              "eventAttendeeCount": 47,
-              "eventCapacity": 9,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "504",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Amazing Summit",
-              "groupId": "1321732992"
-          }
-      },
-      {
-          "id": "1877774502",
-          "properties": {
-              "eventAttendeeCount": 66,
-              "eventCapacity": 102,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "271",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Enchanting Conference",
-              "groupId": "-482935172"
-          }
-      },
-      {
-          "id": "915977728",
-          "properties": {
-              "eventAttendeeCount": 27,
-              "eventCapacity": 128,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "575",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Gala",
-              "groupId": "554303515"
-          }
-      },
-      {
-          "id": "-680617564",
-          "properties": {
-              "eventAttendeeCount": 70,
-              "eventCapacity": 103,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "443",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Fabulous Festival",
-              "groupId": "1762385341"
-          }
-      },
-      {
-          "id": "249414470",
-          "properties": {
-              "eventAttendeeCount": 31,
-              "eventCapacity": 69,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "377",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Fabulous Summit",
-              "groupId": "1641862054"
-          }
-      },
-      {
-          "id": "-1868272586",
-          "properties": {
-              "eventAttendeeCount": 63,
-              "eventCapacity": 96,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "233",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Spectacular Retreat",
-              "groupId": "291376943"
-          }
-      },
-      {
-          "id": "-184943309",
-          "properties": {
-              "eventAttendeeCount": 2,
-              "eventCapacity": 144,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "925",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Enchanting Festival",
-              "groupId": "561471659"
-          }
-      },
-      {
-          "id": "-965373889",
-          "properties": {
-              "eventAttendeeCount": 5,
-              "eventCapacity": 114,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "492",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Breathtaking Festival",
-              "groupId": "2125020793"
-          }
-      },
-      {
-          "id": "-1498962863",
-          "properties": {
-              "eventAttendeeCount": 11,
-              "eventCapacity": 117,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "197",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Fabulous Fair",
-              "groupId": "1115202589"
-          }
-      },
-      {
-          "id": "-257519284",
-          "properties": {
-              "eventAttendeeCount": 55,
-              "eventCapacity": 104,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "158",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Stunning Gala",
-              "groupId": "-2038741609"
-          }
-      },
-      {
-          "id": "697428882",
-          "properties": {
-              "eventAttendeeCount": 40,
-              "eventCapacity": 65,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "640",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Marvelous Conference",
-              "groupId": "-715811068"
-          }
-      },
-      {
-          "id": "341282982",
-          "properties": {
-              "eventAttendeeCount": 14,
-              "eventCapacity": 58,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "218",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Amazing Concert",
-              "groupId": "-1496636030"
-          }
-      },
-      {
-          "id": "-98197104",
-          "properties": {
-              "eventAttendeeCount": 86,
-              "eventCapacity": 67,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "633",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Amazing Fair",
-              "groupId": "651927310"
-          }
-      },
-      {
-          "id": "582324908",
-          "properties": {
-              "eventAttendeeCount": 65,
-              "eventCapacity": 123,
-              "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
-              "eventEndTime": 1.711248087E9,
-              "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
-              "eventLocationCity": "Calgary",
-              "eventLocationCountry": "Canada",
-              "eventLocationProvince": "Alberta",
-              "eventLocationStreet": "610",
-              "eventStartTime": 1.711248087E9,
-              "eventStatus": "scheduled",
-              "eventTitle": "Stunning Workshop",
-              "groupId": "-424253672"
-          }
+    {
+      "id": "856961960",
+      "properties": {
+        "eventAttendeeCount": 27,
+        "eventCapacity": 181,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "376",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Enchanting Expo",
+        "groupId": "-751729414"
       }
+    },
+    {
+      "id": "-270348283",
+      "properties": {
+        "eventAttendeeCount": 63,
+        "eventCapacity": 97,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "895",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Stunning Expo",
+        "groupId": "25263318"
+      }
+    },
+    {
+      "id": "-1160123743",
+      "properties": {
+        "eventAttendeeCount": 3,
+        "eventCapacity": 67,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "544",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Concert",
+        "groupId": "-1863535886"
+      }
+    },
+    {
+      "id": "673060376",
+      "properties": {
+        "eventAttendeeCount": 97,
+        "eventCapacity": 14,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "404",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Super Long Event Title That Should Not Mess Up the Flow And Cause Gross Things To Happen. Honestly This Should Not Be Allowed.",
+        "groupId": "-832909568"
+      }
+    },
+    {
+      "id": "1519072172",
+      "properties": {
+        "eventAttendeeCount": 94,
+        "eventCapacity": 36,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "665",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Magnificent Concert",
+        "groupId": "-262942158"
+      }
+    },
+    {
+      "id": "-1301455740",
+      "properties": {
+        "eventAttendeeCount": 39,
+        "eventCapacity": 80,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "632",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Incredible Summit",
+        "groupId": "1819204922"
+      }
+    },
+    {
+      "id": "-9608777",
+      "properties": {
+        "eventAttendeeCount": 31,
+        "eventCapacity": 96,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "883",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Workshop",
+        "groupId": "-1440238016"
+      }
+    },
+    {
+      "id": "-937777363",
+      "properties": {
+        "eventAttendeeCount": 52,
+        "eventCapacity": 50,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "389",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Stunning Fair",
+        "groupId": "-853586927"
+      }
+    },
+    {
+      "id": "1925774524",
+      "properties": {
+        "eventAttendeeCount": 57,
+        "eventCapacity": 69,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "315",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Expo",
+        "groupId": "-893165553"
+      }
+    },
+    {
+      "id": "-1193948250",
+      "properties": {
+        "eventAttendeeCount": 78,
+        "eventCapacity": 15,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "376",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Fabulous Concert",
+        "groupId": "1281958885"
+      }
+    },
+    {
+      "id": "1220500960",
+      "properties": {
+        "eventAttendeeCount": 1,
+        "eventCapacity": 197,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "731",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Conference",
+        "groupId": "1961391672"
+      }
+    },
+    {
+      "id": "-282031550",
+      "properties": {
+        "eventAttendeeCount": 61,
+        "eventCapacity": 184,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "252",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Marvelous Summit",
+        "groupId": "2036668767"
+      }
+    },
+    {
+      "id": "-1151219292",
+      "properties": {
+        "eventAttendeeCount": 33,
+        "eventCapacity": 8,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "814",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Retreat",
+        "groupId": "-1838412673"
+      }
+    },
+    {
+      "id": "5053195",
+      "properties": {
+        "eventAttendeeCount": 21,
+        "eventCapacity": 121,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "286",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Stunning Concert",
+        "groupId": "-8481177"
+      }
+    },
+    {
+      "id": "-1376060660",
+      "properties": {
+        "eventAttendeeCount": 2,
+        "eventCapacity": 138,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "420",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Marvelous Retreat",
+        "groupId": "195988182"
+      }
+    },
+    {
+      "id": "986780403",
+      "properties": {
+        "eventAttendeeCount": 17,
+        "eventCapacity": 166,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "132",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Wonderful Symposium",
+        "groupId": "-1547047843"
+      }
+    },
+    {
+      "id": "1649367521",
+      "properties": {
+        "eventAttendeeCount": 47,
+        "eventCapacity": 9,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "504",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Amazing Summit",
+        "groupId": "1321732992"
+      }
+    },
+    {
+      "id": "1877774502",
+      "properties": {
+        "eventAttendeeCount": 66,
+        "eventCapacity": 102,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "271",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Enchanting Conference",
+        "groupId": "-482935172"
+      }
+    },
+    {
+      "id": "915977728",
+      "properties": {
+        "eventAttendeeCount": 27,
+        "eventCapacity": 128,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "575",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Gala",
+        "groupId": "554303515"
+      }
+    },
+    {
+      "id": "-680617564",
+      "properties": {
+        "eventAttendeeCount": 70,
+        "eventCapacity": 103,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "443",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Fabulous Festival",
+        "groupId": "1762385341"
+      }
+    },
+    {
+      "id": "249414470",
+      "properties": {
+        "eventAttendeeCount": 31,
+        "eventCapacity": 69,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "377",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Fabulous Summit",
+        "groupId": "1641862054"
+      }
+    },
+    {
+      "id": "-1868272586",
+      "properties": {
+        "eventAttendeeCount": 63,
+        "eventCapacity": 96,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "233",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Spectacular Retreat",
+        "groupId": "291376943"
+      }
+    },
+    {
+      "id": "-184943309",
+      "properties": {
+        "eventAttendeeCount": 2,
+        "eventCapacity": 144,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "925",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Enchanting Festival",
+        "groupId": "561471659"
+      }
+    },
+    {
+      "id": "-965373889",
+      "properties": {
+        "eventAttendeeCount": 5,
+        "eventCapacity": 114,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "492",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Breathtaking Festival",
+        "groupId": "2125020793"
+      }
+    },
+    {
+      "id": "-1498962863",
+      "properties": {
+        "eventAttendeeCount": 11,
+        "eventCapacity": 117,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "197",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Fabulous Fair",
+        "groupId": "1115202589"
+      }
+    },
+    {
+      "id": "-257519284",
+      "properties": {
+        "eventAttendeeCount": 55,
+        "eventCapacity": 104,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "158",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Stunning Gala",
+        "groupId": "-2038741609"
+      }
+    },
+    {
+      "id": "697428882",
+      "properties": {
+        "eventAttendeeCount": 40,
+        "eventCapacity": 65,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "640",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Marvelous Conference",
+        "groupId": "-715811068"
+      }
+    },
+    {
+      "id": "341282982",
+      "properties": {
+        "eventAttendeeCount": 14,
+        "eventCapacity": 58,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "218",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Amazing Concert",
+        "groupId": "-1496636030"
+      }
+    },
+    {
+      "id": "-98197104",
+      "properties": {
+        "eventAttendeeCount": 86,
+        "eventCapacity": 67,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "633",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Amazing Fair",
+        "groupId": "651927310"
+      }
+    },
+    {
+      "id": "582324908",
+      "properties": {
+        "eventAttendeeCount": 65,
+        "eventCapacity": 123,
+        "eventDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum congue metus eget nibh scelerisque accumsan. Mauris sagittis odio nec laoreet commodo. Nulla facilisi. Vivamus ultricies mi quis leo bibendum rhoncus. Proin rutrum dictum arcu sed facilisis. Sed posuere finibus sagittis. Nullam ipsum justo, vestibulum a augue rhoncus, volutpat finibus leo. Donec ullamcorper ultrices ligula, et ultricies lorem malesuada sed. Pellentesque commodo velit ac ipsum molestie, nec pretium libero feugiat. Donec vestibulum neque sit amet bibendum mattis.",
+        "eventEndTime": 1.711248087E9,
+        "eventImageUrl": "https://storage.googleapis.com/tmp-bucket-json-data/eventImage.png",
+        "eventLocationCity": "Calgary",
+        "eventLocationCountry": "Canada",
+        "eventLocationProvince": "Alberta",
+        "eventLocationStreet": "610",
+        "eventStartTime": 1.711248087E9,
+        "eventStatus": "scheduled",
+        "eventTitle": "Stunning Workshop",
+        "groupId": "-424253672"
+      }
+    }
   ]
 }

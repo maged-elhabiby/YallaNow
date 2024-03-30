@@ -11,7 +11,7 @@ class EventService {
         return this.formatEventFromEventService(rawEvent);
     }
 
-   // Updates an existing event by formatting and sending data, then formatting the response.
+    // Updates an existing event by formatting and sending data, then formatting the response.
     async updateEvent(eventData) {
         const requestData = this.formatEventForEventService(eventData);
         const rawEvent = await EventServiceApi.updateEvent(requestData);
@@ -93,8 +93,7 @@ class EventService {
             status: data.eventStatus,
             capacity: 1,
             count: 1,
-
-            imageUrl: data.imageUrl,
+            imageUrl: data.eventImageUrl,
         };
     }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../config/config';
-import { getAuth,getIdToken  } from "firebase/auth";
+import {getAuth, getIdToken} from "firebase/auth";
 
 class GroupMemberService {
     constructor() {
@@ -20,9 +20,9 @@ class GroupMemberService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(`${this.baseUrl}/${groupID}/members`, {
-                headers: { 
+                headers: {
                     "Authorization": idToken
-            },    
+                },
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -35,9 +35,9 @@ class GroupMemberService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.post(`${this.baseUrl}/${groupID}/members`, memberData, {
-                headers: { 
+                headers: {
                     "Authorization": idToken
-            },    
+                },
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -51,14 +51,14 @@ class GroupMemberService {
             console.log("before syc")
             const idToken = await this.fetchIdToken();
             const response = await axios.delete(`${this.baseUrl}/${groupID}/members/${userID}`, {
-                headers: { 
+                headers: {
                     "Authorization": idToken
-            },    
+                },
             });
-            
+
             console.log("success")
             return this.handleResponse(response, true);
-            
+
         } catch (error) {
             console.error('Server response:', error.response);
             throw new Error('Error communicating with server.');
@@ -70,9 +70,9 @@ class GroupMemberService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.get(`${this.baseUrl}/${groupID}/members/${userID}`, {
-                headers: { 
+                headers: {
                     "Authorization": idToken
-            },    
+                },
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -85,9 +85,9 @@ class GroupMemberService {
         try {
             const idToken = await this.fetchIdToken();
             const response = await axios.put(`${this.baseUrl}/${groupID}/members/${userID}`, memberData, {
-                headers: { 
+                headers: {
                     "Authorization": idToken
-            },    
+                },
             });
             return this.handleResponse(response);
         } catch (error) {
@@ -115,4 +115,5 @@ class GroupMemberService {
 
 
 }
+
 export default new GroupMemberService();
