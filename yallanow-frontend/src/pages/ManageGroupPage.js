@@ -6,7 +6,7 @@ import GroupMemberService from '../api/GroupMemeberService.js';
 function ManageGroupPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [groupData, setGroupData] = useState(location.state.groupData || {}); // Updated to maintain group data in state
+  const [groupData, setGroupData] = useState(location.state.groupData || {}); 
   const [groupMembers, setGroupMembers] = useState([]);
   console.log(groupData)
   useEffect(() => {
@@ -39,7 +39,6 @@ function ManageGroupPage() {
   const handleRemoveUser = async (userId) => {
     try {
       await GroupMemberService.removeGroupMember(groupData.groupID, userId);
-      // Refresh the group members list after removal
       console.log("success")
       const updatedMembers = await GroupMemberService.getGroupMembers(groupData.groupID);
       setGroupMembers(updatedMembers);

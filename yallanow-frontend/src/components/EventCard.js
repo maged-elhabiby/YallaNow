@@ -1,3 +1,7 @@
+/*
+EventCard.js
+Event card component that displays the event image, title, location, date, time, and description.
+*/
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

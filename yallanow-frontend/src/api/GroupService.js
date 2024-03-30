@@ -8,12 +8,14 @@ class GroupService {
         this.baseUrl = config.groupsBaseUrl;
     }
 
+    // Fetches Firebase ID token for the current user, required for authentication
     async fetchIdToken() {
         const user = this.auth.currentUser;
         if (!user) throw new Error("No authenticated user found");
         return getIdToken(user);
     }
-
+    
+    // Creates a new group with the provided group data, handling authentication
     async createGroup(groupData) {
         try {
             const idToken = await this.fetchIdToken();
@@ -28,6 +30,7 @@ class GroupService {
         }
     }
 
+    // Retrieves a list of all groups, handling authentication
     async getGroups() {
         try {
             const idToken = await this.fetchIdToken();
@@ -42,6 +45,7 @@ class GroupService {
         }
     }
 
+    // Retrieves details for a specific group by ID, handling authentication
     async getGroup(groupID) {
         try {
             const idToken = await this.fetchIdToken();
@@ -56,6 +60,7 @@ class GroupService {
         }
     }
 
+    // Updates details for a specific group by ID, handling authentication
     async updateGroup(groupID, groupData) {
         try {
             const idToken = await this.fetchIdToken();
@@ -70,6 +75,7 @@ class GroupService {
         }
     }
 
+    // Deletes a specific group by ID, handling authentication
     async deleteGroup(groupID) {
         try {
             const idToken = await this.fetchIdToken();
@@ -84,6 +90,7 @@ class GroupService {
         }
     }
 
+    // Retrieves groups associated with a specific user ID, handling authentication
     async getGroupByUserID(userID) {
         try {
             const idToken = await this.fetchIdToken();
@@ -98,6 +105,7 @@ class GroupService {
         }
     }
 
+    // Processes the server's response, parsing the response data or throwing errors
     handleResponse(response, isStatus = false) {
         switch (response.status) {
             case 200:

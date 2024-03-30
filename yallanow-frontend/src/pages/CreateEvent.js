@@ -37,8 +37,6 @@ const CreateEventPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -56,19 +54,15 @@ const CreateEventPage = () => {
   
     const finalFormData = {
       ...formData,
-      imageBase64: imageBase64, // Assuming your backend expects the image in base64 format
-      // Include other event details as needed
+      imageBase64: imageBase64, 
     };
   
     try {
-      // Call createEvent method from your eventService
       const createdEvent = await EventService.createEvent(finalFormData);
       console.log('Event created successfully', createdEvent);
-      // Navigate to a confirmation page or back to the group/events page as appropriate
       navigate('/some-confirmation-page-or-back-to-events');
     } catch (error) {
       console.error('Error creating event:', error);
-      // Update state or UI to show error message
     }
   };
   

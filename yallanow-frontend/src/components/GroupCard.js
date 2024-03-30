@@ -1,4 +1,7 @@
-// GroupCard.js
+/*
+GroupCard.js
+Group card component that displays the group name, member count, and status.
+*/
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

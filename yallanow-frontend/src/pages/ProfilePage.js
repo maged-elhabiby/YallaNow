@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAuth } from "../AuthContext"; // Adjust the path as per your structure
-import { logoutFirebase } from "../config/firebase-config"; // Adjust the path as per your structure
+import { useAuth } from "../AuthContext";
+import { logoutFirebase } from "../config/firebase-config";
 import { signOut, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { resetPassword } from "../config/firebase-config";
