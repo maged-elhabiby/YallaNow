@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
 import GroupCard from '../components/GroupCard';
 import GroupService from '../api/GroupService';
 import { useAuth } from '../AuthContext';

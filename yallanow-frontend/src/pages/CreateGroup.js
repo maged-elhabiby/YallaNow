@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import GroupService from '../api/GroupService';
 import { useAuth } from '../AuthContext';
 
-function generateRandomId(length = 8) {
-    return [...Array(length)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-  }
 
 const CreateGroup = () => {
   const [groupName, setGroupName] = useState('');

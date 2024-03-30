@@ -56,7 +56,6 @@ const MyEventsPage = () => {
                 <div className="lg:col-span-2">
                     {/* Calendar always shown but with conditional content based on events availability */}
                     <MyCalendar events={eventsForCalendar} />
-                    {/* Optionally, display the error message or a "no events" message above or below the calendar */}
                     {errorMessage && (
                         <p className="text-center text-xl text-red-500 mt-4">{errorMessage}</p>
                     )}
