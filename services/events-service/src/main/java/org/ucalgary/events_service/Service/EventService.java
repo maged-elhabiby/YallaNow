@@ -38,8 +38,7 @@ public class EventService {
      * @throws AccessException if the event is invalid.
      */
     @Transactional
-    public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) throws AccessException, IllegalArgumentException {
-        checkEvent(event, userID); // Check if the event is valid       
+    public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) throws AccessException, IllegalArgumentException {   
         
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
                                                 event.getGroupID(),
@@ -68,8 +67,6 @@ public class EventService {
     @Transactional
     public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress, String userID) 
                             throws AccessException, IllegalArgumentException{
-                              
-        checkEvent(updatedEvent, userID); // Check if the event is valid
         
         EventsEntity oldEvent;
         try {
