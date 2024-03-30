@@ -79,8 +79,13 @@ Create Event Page:
 Group Page:
 ![image](./diagrams/GroupsCenter.png)
 
+Joined Group Page:
+![image](./diagrams/community.png)
+
 Manage Group Page:
 ![image](./diagrams/ManageGroups.png)
 
 User Profile Page:
 ![image](./diagrams/Profile.png)
+
+
