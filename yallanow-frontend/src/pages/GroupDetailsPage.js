@@ -40,7 +40,8 @@ const GroupDetailsPage = () => {
     }
     const handleManageGroup = () => {
         if (isAdmin) {
-            navigate(`/manage-group/${groupId}`);
+            console.log(groupDetails)
+            navigate(`/manage-group/${groupId}`,{ state: { groupData: groupDetails } });
         } else {
             alert("You do not have permission to manage this group.");
         }
@@ -121,7 +122,7 @@ const GroupDetailsPage = () => {
                             <h2 className="mb-2 text-lg font-semibold text-gray-900">Members List</h2>
                             <ul>
                                 {groupDetails.groupMembers.map((member) => (
-                                    <li key={member.userID} className="border-b-2 py-4">User {member.userID} - {member.role}</li>
+                                    <li key={member.userID} className="border-b-2 py-4">{member.userName} - {member.role}</li>
                                 ))}
                             </ul>
                             <div className="text-right">
