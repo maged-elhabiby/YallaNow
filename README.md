@@ -39,7 +39,8 @@ YallaNow aims to create a scalable, robust social networking platform focusing o
    <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="40" height="40"/> </a>
  
 </div>
-
+##Link to web site
+https://yallanow.netlify.app/
 
 ## How to run the project
 To run the project first navigate to ./yallanow-frontend
