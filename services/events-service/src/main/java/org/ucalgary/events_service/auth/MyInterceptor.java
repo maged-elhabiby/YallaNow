@@ -53,12 +53,12 @@ public class MyInterceptor implements HandlerInterceptor {
                 }
                 return true;
             } else {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Changed from SC_FORBIDDEN to SC_UNAUTHORIZED
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // Changed from SC_FORBIDDEN to SC_UNAUTHORIZED
             return false;
         }
     }
