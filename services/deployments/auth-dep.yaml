@@ -20,15 +20,15 @@ spec:
         image: "us-central1-docker.pkg.dev/yallanow-413400/yallanow-services/auth-service:latest"
         env:
           - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: /var/secrets/google/google-credentials.json
+            value: /var/secrets/google/firebase-credentials.json
         volumeMounts:
-          - name: google-credentials
+          - name: firebase-credentials
             mountPath: /var/secrets/google
             readOnly: true
       volumes:
-        - name: google-credentials
+        - name: firebase-credentials
           secret:
-            secretName: google-credentials
+            secretName: firebase-credentials
 ---
 apiVersion: "autoscaling/v2"
 kind: "HorizontalPodAutoscaler"
