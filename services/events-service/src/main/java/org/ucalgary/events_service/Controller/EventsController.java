@@ -34,8 +34,7 @@ public class EventsController {
      * @return Response Entity with the object of the event added
      */
     @PostMapping("/AddEvent")
-    public ResponseEntity<?> addEvent(@RequestBody EventDTO event) {
-    //public ResponseEntity<?> addEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
+    public ResponseEntity<?> addEvent(@RequestBody EventDTO event, @RequestAttribute("Id") String userId) {
         try{
             // The request Attributes has to be commented out because it will fail to read it.
             // Because Auth is disabled, the request attributes is empty. So have to manually set them for testing
