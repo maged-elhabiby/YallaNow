@@ -4,20 +4,26 @@ const cloudinaryCloudName = 'dt8r2amry';
 const cloudinaryUploadPreset = 'yallaNow';
 
 const imageService = {
+    // Uploads an image to Cloudinary and then saves its URL to the local service
 
     uploadImage: async (base64Image) => {
         try {
+            // Prepare form data for Cloudinary
             const formData = new FormData();
             formData.append('file', base64Image);
             formData.append('upload_preset', cloudinaryUploadPreset);
 
+            // Configuration for multipart/form-data header
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             };
 
+            // Upload image to Cloudinary
             const cloudinary = await axios.post(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, formData, config);
+            
+            // Save uploaded image URL to local service
             const response = await axios.post(baseUrl + 'AddImage', { imageLink: cloudinary.data.secure_url });
 
             return response.data;
@@ -27,6 +33,7 @@ const imageService = {
         }
     },
 
+    // Retrieves the URL of an image by its ID from the local service
     getImageUrlById: async (imageId) => {
         try {
             const response = await axios.get(baseUrl + 'GetImage/' + imageId);
@@ -37,6 +44,7 @@ const imageService = {
         }
     },
 
+    // Updates the URL of an existing image in the local service
     updateImage: async (imageId, imageLink) => {
         try {
             const response = await axios.post(baseUrl + 'UpdateImage', { imageId, imageLink });
@@ -47,6 +55,7 @@ const imageService = {
         }
     },
 
+    // Deletes an image by its ID from the local service
     deleteImage: async (imageId) => {
         try {
             const response = await axios.get(baseUrl + 'DeleteImage/' + imageId);

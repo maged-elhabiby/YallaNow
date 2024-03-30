@@ -7,12 +7,15 @@ class GroupMemberService {
         this.auth = getAuth();
         this.baseUrl = config.groupsBaseUrl;
     }
+
+    // Fetches ID token for the current user, throws an error if user not authenticated
     async fetchIdToken() {
         const user = this.auth.currentUser;
         if (!user) throw new Error("No authenticated user found");
         return getIdToken(user);
     }
 
+    // Retrieves members of a specific group, handling authentication and response
     async getGroupMembers(groupID) {
         try {
             const idToken = await this.fetchIdToken();
@@ -27,6 +30,7 @@ class GroupMemberService {
         }
     }
 
+    // Adds a new member to a specific group, handling authentication and response
     async addGroupMember(groupID, memberData) {
         try {
             const idToken = await this.fetchIdToken();
@@ -41,6 +45,7 @@ class GroupMemberService {
         }
     }
 
+    // Removes a member from a specific group, handling authentication and logging
     async removeGroupMember(groupID, userID) {
         try {
             console.log("before syc")
@@ -60,6 +65,7 @@ class GroupMemberService {
         }
     }
 
+    // Retrieves information of a specific group member, handling authentication and response
     async getGroupMember(groupID, userID) {
         try {
             const idToken = await this.fetchIdToken();
@@ -74,6 +80,7 @@ class GroupMemberService {
         }
     }
 
+    // Updates information for a member of a specific group, handling authentication and response
     async updateGroupMember(groupID, userID, memberData) {
         try {
             const idToken = await this.fetchIdToken();
@@ -88,6 +95,7 @@ class GroupMemberService {
         }
     }
 
+    // Handles responses from the server, parsing the response and throwing errors as needed
     handleResponse(response) {
         switch (response.status) {
             case 200:
