@@ -16,13 +16,16 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Service class for managing ParticipantEntity objects.
  * This class provides methods to add, update, retrieve, and delete participants.
  */
 @Service
 public class ParticipantService {
+    private static final Logger logger = LoggerFactory.getLogger(ParticipantService.class);
+
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
     private final EventsPubService eventsPubService;
@@ -43,21 +46,20 @@ public class ParticipantService {
      * @throws IllegalArgumentException if the participant already exists.
      */
     @Transactional
-    public ParticipantEntity addParticipantToEvent(ParticipantDTO user, String email, String name, EventsEntity event)throws IllegalArgumentException, EntityNotFoundException {
+    public ParticipantEntity addParticipantToEvent(ParticipantDTO user, String email, String name, EventsEntity event) throws IllegalArgumentException, EntityNotFoundException {
         Optional<ParticipantEntity> checkDup = participantRepository.findByUserIdAndEvent_EventId(user.getUserid(), user.getEventid());
         if (checkDup.isPresent()) {
+            logger.info("Participant {} already exists for event {}. Updating participant.", user.getUserid(), user.getEventid());
             return updateParticipant(user, email, name, event);
         }
 
-        // Create a new participant entity and associate it with the event
-        ParticipantEntity participant = new ParticipantEntity(user.getUserid(),
-                                                            user.getParticipantStatus(), 
-                                                            event);
-
+        ParticipantEntity participant = new ParticipantEntity(user.getUserid(), user.getParticipantStatus(), event);
         updateEventCount(event, user.getParticipantStatus(), email, name);
-
-        return participantRepository.save(participant);
+        ParticipantEntity savedParticipant = participantRepository.save(participant);
+        logger.info("Added participant {} to event {}", savedParticipant.getUserId(), savedParticipant.getEvent().getEventId());
+        return savedParticipant;
     }
+
 
     /**
      * Retrieves the status of a participant for an event.
@@ -67,14 +69,19 @@ public class ParticipantService {
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public ParticipantStatus getParticipantStatus(String userId, int eventId) throws EntityNotFoundException{
+    public ParticipantStatus getParticipantStatus(String userId, int eventId) throws EntityNotFoundException {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userId, eventId);
         if (participant.isPresent()) {
+            logger.info("Retrieved status {} for participant {} in event {}", participant.get().getParticipantStatus(), userId, eventId);
             return participant.get().getParticipantStatus();
         } else {
+            logger.error("Participant not found for user {} in event {}", userId, eventId);
             throw new EntityNotFoundException("Participant not found");
         }
     }
+
+// Add similar logging statements to other methods as needed
+
 
     /**
      * Retrieves all events for a participant.
@@ -82,12 +89,14 @@ public class ParticipantService {
      * @return A list of event and status data for the participant.
      */
     @Transactional
-    public List<Map<String, Object>> getEventsForParticipant(String userId)throws EntityNotFoundException {
+    public List<Map<String, Object>> getEventsForParticipant(String userId) throws EntityNotFoundException {
         List<ParticipantEntity> participantEntities = participantRepository.findAllByUserId(userId);
         if (participantEntities.isEmpty()) {
+            logger.error("No events registered for user {}", userId);
             throw new EntityNotFoundException("No Events Registered");
         }
-        return participantEntities.stream().map(participant -> { // Map the participant entities to a list of event and status data
+        logger.info("Retrieved events for participant {}", userId);
+        return participantEntities.stream().map(participant -> {
             EventsEntity event = participant.getEvent();
             ParticipantStatus status = participant.getParticipantStatus();
             return Map.of("event", event, "status", status);
@@ -102,7 +111,9 @@ public class ParticipantService {
     @Transactional
     public ArrayList<ParticipantEntity> getAllEventParticipants(int eventID) {
         Optional<ArrayList<ParticipantEntity>> optionalParticipants = participantRepository.findAllByEvent_EventId(eventID);
-        return optionalParticipants.orElseGet(ArrayList::new);
+        ArrayList<ParticipantEntity> participants = optionalParticipants.orElseGet(ArrayList::new);
+        logger.info("Retrieved {} participants for event {}", participants.size(), eventID);
+        return participants;
     }
 
     /**
@@ -113,6 +124,7 @@ public class ParticipantService {
     @Transactional
     public List<Map<String, String>> getAllParticipantsForEvent(EventDTO event) {
         ArrayList<ParticipantEntity> participants = getAllEventParticipants(event.getEventID());
+        logger.info("Retrieved {} participants for event {}", participants.size(), event.getEventID());
         return participants.stream().map(participant -> Map.of(participant.getUserId(), participant.getParticipantStatus().toString())).collect(Collectors.toList());
     }
 
@@ -123,19 +135,13 @@ public class ParticipantService {
      * @throws IllegalArgumentException if the participant does not exist.
      */
     @Transactional
-    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant, String email, String name, EventsEntity event)throws IllegalArgumentException {
-        Optional<ParticipantEntity> optionalParticipant = participantRepository.findByUserIdAndEvent_EventId(
-                oldParticipant.getUserid(),
-                oldParticipant.getEventid()
-        );
-
+    public ParticipantEntity updateParticipant(ParticipantDTO oldParticipant, String email, String name, EventsEntity event) throws IllegalArgumentException {
+        Optional<ParticipantEntity> optionalParticipant = participantRepository.findByUserIdAndEvent_EventId(oldParticipant.getUserid(), oldParticipant.getEventid());
         return optionalParticipant.map(participant -> {
-            // Update event count based on participant status changes
             ParticipantStatus newStatus = oldParticipant.getParticipantStatus();
             updateEventCount(event, participant.getParticipantStatus(), newStatus, email, name);
-
-            // Update participant fields
             participant.setParticipantStatus(newStatus);
+            logger.info("Updated status of participant {} for event {} to {}", participant.getUserId(), participant.getEvent().getEventId(), newStatus);
             return participantRepository.save(participant);
         }).orElseGet(() -> addParticipantToEvent(oldParticipant, email, name, event));
     }
@@ -148,12 +154,17 @@ public class ParticipantService {
      * @throws EntityNotFoundException if the participant with the given user ID and event ID does not exist.
      */
     @Transactional
-    public void deleteParticipant(String userID, int eventID)throws EntityNotFoundException {
+    public void deleteParticipant(String userID, int eventID) throws EntityNotFoundException {
         Optional<ParticipantEntity> participant = participantRepository.findByUserIdAndEvent_EventId(userID, eventID);
-
         participant.ifPresentOrElse(
-                p -> participantRepository.deleteById(p.getParticipantId()),
-                () -> {throw new EntityNotFoundException("Event Particiapant not found");}
+                p -> {
+                    participantRepository.deleteById(p.getParticipantId());
+                    logger.info("Deleted participant {} from event {}", userID, eventID);
+                },
+                () -> {
+                    logger.error("Event participant not found for user {} and event {}", userID, eventID);
+                    throw new EntityNotFoundException("Event Particiapant not found");
+                }
         );
     }
 

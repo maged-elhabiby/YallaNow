@@ -11,6 +11,8 @@ import org.example.groups_microservice.Entity.GroupEntity;
 import org.example.groups_microservice.Exceptions.*;
 import org.example.groups_microservice.Repository.GroupRepository;
 import org.example.groups_microservice.Service.GroupPubSub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final EventService eventService;
     private final GroupMemberService groupMemberService;
+    private static final Logger logger = LoggerFactory.getLogger(GroupService.class);
 
 
 
@@ -48,6 +51,7 @@ public class GroupService {
      */
     @Transactional
     public GroupEntity createGroup(GroupDTO groupDTO) throws GroupAlreadyExistsException {
+        logger.info("Creating group with name: {}", groupDTO.getGroupName());
         groupRepository.findByGroupName(groupDTO.getGroupName())
                 .ifPresent(s -> {
                     try {
@@ -143,6 +147,7 @@ public class GroupService {
      */
     @Transactional
     public GroupEntity getGroup(Integer groupID) throws GroupNotFoundException {
+        logger.info("Getting group with ID: {}", groupID);
         return groupRepository.findGroupEntityByGroupID(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
     }
@@ -153,6 +158,7 @@ public class GroupService {
      */
     @Transactional
     public List<GroupEntity> getGroups() {
+        logger.info("Getting all groups");
         return groupRepository.findAll();
     }
 
@@ -166,6 +172,7 @@ public class GroupService {
      */
     @Transactional
     public GroupEntity updateGroup(int groupID, GroupDTO groupDTO,String userID, String username) throws GroupNotFoundException, NotAuthorizationException{
+        logger.info("Updating group with ID: {}", groupID);
         GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
 
@@ -203,21 +210,16 @@ public class GroupService {
      */
     @Transactional
     public void deleteGroup(Integer groupID) throws GroupNotFoundException, EventNotFoundException, MemberNotFoundException {
-
+        logger.info("Deleting group with ID: {}", groupID);
         GroupEntity groupEntity = groupRepository.findGroupEntityByGroupID(groupID)
              .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
-
         publishGroupByMember(groupEntity, "DELETE");
-
-
-
-
         groupRepository.delete(groupEntity);
-
 
     }
 
     public List<GroupEntity> getGroupsByUserID(String userID) {
+        logger.info("Getting all groups by user ID: {}", userID);
         return groupRepository.findAllByGroupMembersUserID(userID);
     }
 }

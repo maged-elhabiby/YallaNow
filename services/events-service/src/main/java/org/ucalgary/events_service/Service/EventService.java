@@ -15,7 +15,8 @@ import org.ucalgary.events_service.DTO.EventStatus;
 import org.ucalgary.events_service.DTO.EventDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Service class for managing EventsEntity objects.
  * This class provides methods to create, update, retrieve, and delete events.
@@ -23,6 +24,7 @@ import jakarta.transaction.Transactional;
 @Service
 public class EventService {
 
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
     private final EventRepository eventRepository;
     private final GroupUsersService groupUsersService;
 
@@ -38,21 +40,32 @@ public class EventService {
      * @throws AccessException if the event is invalid.
      */
     @Transactional
-    public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) throws AccessException, IllegalArgumentException {   
-        
+    public EventsEntity createEvent(EventDTO event, AddressEntity address, String userID) throws AccessException, IllegalArgumentException {
+        try {
+            EventsEntity newEvent = getEventsEntity(event, address);
+            EventsEntity savedEvent = eventRepository.save(newEvent); // Add the Event to the DataBase
+            logger.info("Created new event with ID: {}", savedEvent.getEventId());
+            return savedEvent;
+        } catch (Exception e) {
+            logger.error("Error creating event: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    private static EventsEntity getEventsEntity(EventDTO event, AddressEntity address) {
         EventsEntity newEvent = new EventsEntity(event.getEventID(),
-                                                event.getGroupID(),
-                                                event.getEventTitle(), 
-                                                event.getEventDescription(), 
-                                                address.getAddressId(),
-                                                event.getEventStartTime(),
-                                                event.getEventEndTime(),
-                                                event.getStatus(), 
-                                                event.getCount(),
-                                                event.getCapacity(),
-                                                event.getImageUrl());
+                event.getGroupID(),
+                event.getEventTitle(),
+                event.getEventDescription(),
+                address.getAddressId(),
+                event.getEventStartTime(),
+                event.getEventEndTime(),
+                event.getStatus(),
+                event.getCount(),
+                event.getCapacity(),
+                event.getImageUrl());
         newEvent.setAddress(address);
-        return eventRepository.save(newEvent); // Add the Event to the DataBase
+        return newEvent;
     }
 
     /**
@@ -65,14 +78,15 @@ public class EventService {
      * @throws EntityNotFoundException if the event does not exist.
      */
     @Transactional
-    public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress, String userID) 
-                            throws AccessException, IllegalArgumentException{
-        
+    public EventsEntity updateEvent(EventDTO updatedEvent, AddressEntity newAddress, String userID)
+            throws AccessException, IllegalArgumentException {
+        logger.info("Updating event with ID: {}", updatedEvent.getEventID());
         EventsEntity oldEvent;
         try {
             oldEvent = getEvent(updatedEvent.getEventID()); // Check if the event exists
         } catch (EntityNotFoundException e) {
-            return createEvent(updatedEvent, new AddressEntity(), userID); // If the event does not exist, create it
+            logger.info("Event with ID: {} does not exist, creating new event", updatedEvent.getEventID());
+            return createEvent(updatedEvent, newAddress, userID); // If the event does not exist, create it
         }
 
         oldEvent.setGroupId(updatedEvent.getGroupID());
@@ -85,7 +99,9 @@ public class EventService {
         oldEvent.setCount(updatedEvent.getCount());
         oldEvent.setCapacity(updatedEvent.getCapacity());
         oldEvent.setImageUrl(updatedEvent.getImageUrl());
-        return eventRepository.save(oldEvent); // Update the Event in the DataBase
+        EventsEntity updated = eventRepository.save(oldEvent); // Update the Event in the DataBase
+        logger.info("Updated event with ID: {}", updated.getEventId());
+        return updated;
     }
 
     /**
@@ -95,10 +111,13 @@ public class EventService {
      * @throws EntityNotFoundException if the event with the given ID does not exist.
      */
     public EventsEntity getEvent(int eventID) throws EntityNotFoundException {
+        logger.info("Retrieving event with ID: {}", eventID);
         Optional<EventsEntity> optionalEvent = eventRepository.findEventByEventId(eventID); // Check if the event exists
         if (optionalEvent.isPresent()) {
+            logger.info("Event with ID: {} found", eventID);
             return optionalEvent.get(); // Return the event
         } else {
+            logger.error("Event with ID: {} does not exist", eventID);
             throw new EntityNotFoundException("Event with ID " + eventID + " does not exist");
         }
     }
@@ -109,11 +128,14 @@ public class EventService {
      * @return A list of all events associated with the specified group.
      */
     @Transactional
-    public ArrayList<EventsEntity> getEventsByGroup(int groupID) throws EntityNotFoundException{
+    public ArrayList<EventsEntity> getEventsByGroup(int groupID) throws EntityNotFoundException {
+        logger.info("Retrieving events for group with ID: {}", groupID);
         Optional<ArrayList<EventsEntity>> optionalEvents = eventRepository.findEventsByGroupId(groupID); // Check if there are any events in a certain group
         if (optionalEvents.isPresent()) {
+            logger.info("Found {} events for group with ID: {}", optionalEvents.get().size(), groupID);
             return optionalEvents.get();
-        }else{
+        } else {
+            logger.error("No events found for group with ID: {}", groupID);
             throw new EntityNotFoundException("No events found for the group");
         }
     }
@@ -122,14 +144,16 @@ public class EventService {
      * Retrieves all events from the database that are associated with a specific user.
      * @return A list of all events associated with the specified user.
      */
-    @Transactional 
-    public List<EventsEntity> getAllAvailableEvents()throws EntityNotFoundException {
+    @Transactional
+    public List<EventsEntity> getAllAvailableEvents() throws EntityNotFoundException {
+        logger.info("Retrieving all available events");
         List<EventsEntity> events = eventRepository.findAll();
 
         events.removeIf(event -> event.getEventEndTime().isEqual(LocalDateTime.now()) ||
                         event.getCapacity().equals(event.getCount()) ||
                         event.getStatus() != EventStatus.Scheduled);
-        return events; // Return all Events that are Scheduled and that are not in the past.
+        logger.info("Found {} available events", events.size());
+        return events;
     }
 
     /**
@@ -138,14 +162,16 @@ public class EventService {
      * @throws AccessException if the user does not have permission to delete the event.
      */
     @Transactional
-    public void deleteEvent(EventsEntity event, String userId)throws AccessException, EntityNotFoundException {
+    public void deleteEvent(EventsEntity event, String userId) throws AccessException, EntityNotFoundException {
+        logger.info("Deleting event with ID: {}", event.getEventId());
         Optional<GroupUsersEntity> member = groupUsersService.getGroupUser(event.getGroupId(), userId);
-        if (!member.isPresent()) {
+        if (member.isEmpty()) {
             throw new AccessException("You are not a member of this group");
         } if(!member.get().getRole().equals("ADMIN")) {
             throw new AccessException("You do not have enough permissions");
         }
         eventRepository.delete(event);
+        logger.info("Deleted event with ID: {}", event.getEventId());
     }
 
     /**

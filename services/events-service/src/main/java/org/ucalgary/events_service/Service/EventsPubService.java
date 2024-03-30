@@ -1,5 +1,7 @@
 package org.ucalgary.events_service.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ucalgary.events_service.Entity.EventsEntity;
 import org.ucalgary.events_service.DTO.PubEvent;
 import com.google.pubsub.v1.TopicName;
@@ -27,8 +29,8 @@ import javax.annotation.PreDestroy;
  */
 @Service
 public class EventsPubService {
+    private static final Logger logger = LoggerFactory.getLogger(EventsPubService.class);
     private Publisher publisher;
-
     private Subscriber subscriber;
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
@@ -56,68 +58,77 @@ public class EventsPubService {
      * @param event The event entity to publish.
      * @param Operation The operation type to publish.
      */
-    public void publishEvents(EventsEntity event, String Operation)throws RuntimeException {
+    public void publishEvents(EventsEntity event, String Operation) throws RuntimeException {
         try {
             PubEvent publishEvent = new PubEvent(event, restTemplate);
             String jsonMessage = objectMapper.writeValueAsString(publishEvent);
             ByteString data = ByteString.copyFromUtf8(jsonMessage);
             PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                     .setData(data)
-                    .putAttributes("operationType",Operation)
+                    .putAttributes("operationType", Operation)
                     .build();
-        
+
             publisher.publish(pubsubMessage);
+            logger.info("Published event: {} with operation: {}", event.getEventId(), Operation);
         } catch (Exception e) {
+            logger.error("Error publishing event: {}", e.getMessage(), e);
             throw new RuntimeException("Error Publishing Events: " + e);
         }
     }
+
 
     /**
      * Subscribes to the Google Cloud Pub/Sub topic for group updates.
      * @throws IOException if the subscriber cannot be initialized.
      */
     @PostConstruct
-    public void subscribeGroups() throws IOException, RuntimeException{
+    public void subscribeGroups() throws IOException, RuntimeException {
         ProjectSubscriptionName subscriptionName =
                 ProjectSubscriptionName.of("yallanow-413400", "group-sub");
 
         MessageReceiver receiver = (PubsubMessage message, AckReplyConsumer consumer) -> {
             String jsonData = message.getData().toStringUtf8();
+            String operationType = message.getAttributesMap().get("operationType");
             try {
                 JsonNode groupMember = objectMapper.readTree(jsonData);
-                String operationType = message.getAttributesMap().get("operationType");
+                logger.info("Received message with operation: {}", operationType);
 
                 switch (operationType) {
-                    case "ADD":{
+                    case "ADD": {
                         groupUsersService.addGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
                         break;
-                    }case "DELETE":{
+                    }
+                    case "DELETE": {
                         groupUsersService.removeGroupUser(groupMember.get("groupId").asInt(), groupMember.get("userId").asText());
                         break;
-                    }case "UPDATE":{
+                    }
+                    case "UPDATE": {
                         groupUsersService.updateGroupUserRole(groupMember.get("groupId").asInt(), groupMember.get("userId").asText(), groupMember.get("role").asText());
                         break;
-                    }default:{
+                    }
+                    default: {
                         throw new RuntimeException("Invalid Operation Type");
                     }
                 }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }finally {
+            } catch (IOException e) {
+                logger.error("Error processing message: {}", e.getMessage(), e);
+            } finally {
                 consumer.ack();
+                logger.info("Acknowledged message with operation: {}", operationType);
             }
         };
 
         subscriber = Subscriber.newBuilder(subscriptionName, receiver).build();
-        subscriber.addListener( new Subscriber.Listener() {
-                public void failed(Subscriber.State from, Throwable failure) {
-                    System.err.println("Subscriber failed: " + failure);
-                }
-            },
-            MoreExecutors.directExecutor()
-        );
+        subscriber.addListener(new Subscriber.Listener() {
+            public void failed(Subscriber.State from, Throwable failure) {
+                   logger.error("Subscriber failed: {}", failure.getMessage(), failure);
+               }
+           },
+                MoreExecutors.directExecutor());
         subscriber.startAsync().awaitRunning();
+        logger.info("Subscriber for groups started");
     }
+
 
     /**
      * Shuts down the Google Cloud Pub/Sub subscriber.
