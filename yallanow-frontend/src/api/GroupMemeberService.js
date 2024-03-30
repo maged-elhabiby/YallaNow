@@ -16,7 +16,7 @@ class GroupMemberService {
     async getGroupMembers(groupID) {
         try {
             const idToken = await this.fetchIdToken();
-            const response = await axios.get(`${this.baseUrl}${groupID}/members`, {
+            const response = await axios.get(`${this.baseUrl}/${groupID}/members`, {
                 headers: { 
                     "Authorization": idToken
             },    
@@ -30,7 +30,7 @@ class GroupMemberService {
     async addGroupMember(groupID, memberData) {
         try {
             const idToken = await this.fetchIdToken();
-            const response = await axios.post(`${this.baseUrl}${groupID}/members`, memberData, {
+            const response = await axios.post(`${this.baseUrl}/${groupID}/members`, memberData, {
                 headers: { 
                     "Authorization": idToken
             },    
@@ -44,7 +44,7 @@ class GroupMemberService {
     async removeGroupMember(groupID, userID) {
         try {
             const idToken = await this.fetchIdToken();
-            const response = await axios.delete(`${this.baseUrl}${groupID}/members/${userID}`, {
+            const response = await axios.delete(`${this.baseUrl}/${groupID}/members/${userID}`, {
                 headers: { 
                     "Authorization": idToken
             },    
@@ -58,7 +58,7 @@ class GroupMemberService {
     async getGroupMember(groupID, userID) {
         try {
             const idToken = await this.fetchIdToken();
-            const response = await axios.get(`${this.baseUrl}${groupID}/members/${userID}`, {
+            const response = await axios.get(`${this.baseUrl}/${groupID}/members/${userID}`, {
                 headers: { 
                     "Authorization": idToken
             },    
@@ -72,7 +72,7 @@ class GroupMemberService {
     async updateGroupMember(groupID, userID, memberData) {
         try {
             const idToken = await this.fetchIdToken();
-            const response = await axios.put(`${this.baseUrl}${groupID}/members/${userID}`, memberData, {
+            const response = await axios.put(`${this.baseUrl}/${groupID}/members/${userID}`, memberData, {
                 headers: { 
                     "Authorization": idToken
             },    
