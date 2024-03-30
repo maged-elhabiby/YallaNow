@@ -4,7 +4,7 @@ import { useParams,useNavigate, Link  } from 'react-router-dom';
 import EventCard from '../components/EventCard';
 import GroupService from '../api/GroupService';
 import EventService from '../api/EventService';
-import groupMemeberService from '../api/GroupMemeberService';
+import GroupMemberService from '../api/GroupMemberService';
 import { useAuth } from '../AuthContext';
 
 const GroupDetailsPage = () => {
@@ -49,7 +49,7 @@ const GroupDetailsPage = () => {
 
     const handleJoinGroup = async () => {
         try {
-            await groupMemeberService.addGroupMember(groupId, groupMembers);
+            await GroupMemberService.addGroupMember(groupId, groupMembers);
             alert('Successfully joined the group!');
             fetchGroupDetails();
         } catch (error) {
@@ -62,7 +62,7 @@ const GroupDetailsPage = () => {
         if (!currentUser) {
             navigate('/login'); 
         } else {
-            navigate(`/create-event/${groupId}`);
+            navigate(`/groups/${groupId}/create-event`);
         }
     };
 

@@ -27,8 +27,13 @@ class EventService {
     // Fetches events for a specific group and formats each received event.
     async getEventsForGroup(groupId) {
         const rawEvents = await EventServiceApi.getEventsForGroup(groupId);
-        return rawEvents.map(async (event) => this.formatEventFromEventService(event));
+        console.log(rawEvents); // Check what rawEvents contains
+
+        return await Promise.all(rawEvents.map(async (event) => {
+            return this.formatEventFromEventService(event);
+        }));
     }
+
 
     // Deletes an event by its ID.
     async deleteEvent(eventId) {
@@ -95,26 +100,35 @@ class EventService {
 
     // Formats the event data received from the event service.
     formatEventFromEventService(data, imageUrl) {
+        const formatDateTime = (dateTimeArray) => {
+            // Assuming the array format is [year, month, day, hour, minute]
+            const [year, month, day, hour, minute] = dateTimeArray;
+            // Construct a Date object and format it to a readable string
+            return new Date(year, month - 1, day, hour, minute);
+
+        };
+
         return {
-            eventId: data.eventID,
-            groupId: data.groupID,
+            eventId: data.eventId,
+            groupId: data.groupId,
             eventTitle: data.eventTitle,
             eventDescription: data.eventDescription,
 
-            eventLocationStreet: data.location.street,
-            eventLocationCity: data.location.city,
-            eventLocationProvince: data.location.province,
-            eventLocationCountry:data.location.country,
-            eventLocationPostalCode: data.location.postalCode,
+            eventLocationStreet: data.address.street,
+            eventLocationCity: data.address.city,
+            eventLocationProvince: data.address.province,
+            eventLocationCountry: data.address.country,
+            eventLocationPostalCode: data.address.postalCode,
 
-            eventStartTime: data.eventStartTime,
-            eventEndTime: data.eventEndTime,
+            eventStartTime: formatDateTime(data.eventStartTime),
+            eventEndTime: formatDateTime(data.eventEndTime),
             eventStatus: data.status,
             eventCapacity: data.capacity,
             eventAttendeeCount: data.count,
             eventImageUrl: imageUrl,
         };
     }
+
 }
 
 export default new EventService();

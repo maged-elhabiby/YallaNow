@@ -10,7 +10,7 @@ const GroupCard = ({ group }) => {
 
   // Function to handle click on the card
   const handleClick = () => {
-    navigate(`/group/${group.groupID}`);
+    navigate(`/groups/${group.groupID}`);
   };
   console.log(group);
   return (

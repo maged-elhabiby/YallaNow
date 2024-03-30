@@ -26,7 +26,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -42,7 +42,7 @@ class EventServiceApi {
                         "Authorization": idToken
                 },    
                 });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -57,7 +57,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -72,7 +72,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -87,7 +87,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -102,7 +102,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -118,7 +118,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response);
+            return this.handleResponse(response);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -137,7 +137,7 @@ class EventServiceApi {
             {
                 data: { userId: userId },
             });
-            this.handleResponse(response, true);
+            return this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -152,7 +152,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },    
             });
-            this.handleResponse(response, true);
+            return this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -173,7 +173,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },
             });
-            this.handleResponse(response, true);
+            return this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }
@@ -194,7 +194,7 @@ class EventServiceApi {
                     "Authorization": idToken
             },
             });
-            this.handleResponse(response, true);
+            return this.handleResponse(response, true);
         } catch (error) {
             throw new Error("Error communicating with server.");
         }

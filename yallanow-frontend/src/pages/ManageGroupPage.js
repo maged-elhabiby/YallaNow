@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 
-import GroupMemberService from '../api/GroupMemeberService.js';
+import GroupMemberService from '../api/GroupMemberService.js';
 
 function ManageGroupPage() {
   const navigate = useNavigate();

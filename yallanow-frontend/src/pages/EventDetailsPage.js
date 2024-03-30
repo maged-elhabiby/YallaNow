@@ -76,7 +76,7 @@ const EventDetailsPage = () => {
 
 
   const handleVisitGroup = () => {
-    navigate(`/group/${event.groupId}`);
+    navigate(`/groups/${event.groupId}`);
   };
 
   // Send recombee detail view when this page is loaded.

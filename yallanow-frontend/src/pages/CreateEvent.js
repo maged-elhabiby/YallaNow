@@ -6,10 +6,9 @@ import EventService from '../api/EventService'; // Adjust the path as needed
 
 
 const CreateEventPage = () => {
-  const { groupId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const groupFromState = location.state?.groupId;
+  const { groupId } = useParams();
 
   const [formData, setFormData] = useState({
     eventId: 1,
@@ -24,7 +23,7 @@ const CreateEventPage = () => {
     eventEndTime: '',
     eventCapacity: 1,
     eventStatus: "Scheduled",
-    groupId: groupFromState,
+    groupId: groupId,
     eventImageUrl: "dumb",
     eventAttendeeCount: 1,
   });

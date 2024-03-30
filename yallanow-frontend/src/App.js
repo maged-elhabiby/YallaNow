@@ -39,12 +39,12 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/explore" element={<ProtectedRoute><ExplorePage /></ProtectedRoute>} />
           <Route path="/myevents" element={<ProtectedRoute><MyEventsPage /></ProtectedRoute>} />
-          <Route path="/event-details/:event-id" element={<ProtectedRoute><EventDetailsPage /></ProtectedRoute>} />
+          <Route path="/event-details/:eventId" element={<ProtectedRoute><EventDetailsPage /></ProtectedRoute>} />
           <Route path="/groups" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
-          <Route path="/group/:groupId" element={<ProtectedRoute><GroupDetailsPage /></ProtectedRoute>} />
+          <Route path="/groups/:groupId" element={<ProtectedRoute><GroupDetailsPage /></ProtectedRoute>} />
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
           <Route path="/create-group" element={<ProtectedRoute><CreateGroup/></ProtectedRoute>}/>
-          <Route path="/create-event/:event-id" element={<ProtectedRoute><CreateEvent/></ProtectedRoute>}/>
+          <Route path="/groups/:groupId/create-event" element={<ProtectedRoute><CreateEvent/></ProtectedRoute>}/>
           <Route path="/manage-group/:groupId" element={<ProtectedRoute><ManageGroupPage/></ProtectedRoute>}/>
           <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
           <Route path="/mygroups" element={<ProtectedRoute><MyGroupsPage/></ProtectedRoute>}/>
