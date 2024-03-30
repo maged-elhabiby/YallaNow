@@ -5,6 +5,7 @@ import org.example.groups_microservice.DTO.GroupMemberDTO;
 import org.example.groups_microservice.DTO.GroupDTO;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
+import org.example.groups_microservice.Exceptions.MemberAlreadyInGroupException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Service.GroupMemberService;
 import org.example.groups_microservice.Service.GroupPubSub;
@@ -64,7 +65,7 @@ public class GroupMemberController {
      * @throws GroupNotFoundException if the group does not exist or the member is invalid
      */
     @PostMapping
-    public ResponseEntity<GroupMemberDTO> addGroupMember(@PathVariable int groupID, @RequestBody GroupMemberDTO groupMemberDTO) throws GroupNotFoundException {
+    public ResponseEntity<GroupMemberDTO> addGroupMember(@PathVariable int groupID, @RequestBody GroupMemberDTO groupMemberDTO) throws GroupNotFoundException, MemberAlreadyInGroupException {
         GroupMemberEntity groupMemberEntity = groupMemberService.addGroupMember(groupID, groupMemberDTO);
         GroupPubSub.publishGroupMember(groupMemberEntity, "ADD");
         return ResponseEntity.ok(convertToDto(groupMemberEntity));

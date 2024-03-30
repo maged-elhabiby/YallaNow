@@ -5,6 +5,7 @@ import org.example.groups_microservice.DTO.GroupMemberDTO;
 import org.example.groups_microservice.Entity.GroupMemberEntity;
 import org.example.groups_microservice.Entity.GroupEntity;
 import org.example.groups_microservice.Exceptions.GroupNotFoundException;
+import org.example.groups_microservice.Exceptions.MemberAlreadyInGroupException;
 import org.example.groups_microservice.Exceptions.MemberNotFoundException;
 import org.example.groups_microservice.Repository.GroupRepository;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,12 @@ public class GroupMemberService {
      * @throws GroupNotFoundException if the group does not exist or the member is invalid
      */
     @Transactional
-    public GroupMemberEntity addGroupMember(int groupID, GroupMemberDTO groupMemberDTO) throws GroupNotFoundException {
+    public GroupMemberEntity addGroupMember(int groupID, GroupMemberDTO groupMemberDTO) throws GroupNotFoundException, MemberAlreadyInGroupException {
         GroupEntity groupEntity = groupRepository.findById(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
+        if (groupMemberRepository.findByUserIDAndGroupGroupID(groupMemberDTO.getUserID(), groupID).isPresent()) {
+            throw new MemberAlreadyInGroupException("Member already exists with ID: " + groupMemberDTO.getUserID() + " in group: " + groupID);
+        }
 
         GroupMemberEntity groupMemberEntity = new GroupMemberEntity();
         groupMemberEntity.setRole(groupMemberDTO.getRole());
