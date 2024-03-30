@@ -13,11 +13,14 @@ import org.example.groups_microservice.Repository.GroupMemberRepository;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class GroupMemberService {
     final GroupMemberRepository groupMemberRepository;
     final GroupRepository groupRepository;
+    private static final Logger logger = LoggerFactory.getLogger(GroupMemberService.class);
 
     public GroupMemberService(GroupMemberRepository groupMemberRepository, GroupRepository groupRepository) {
         this.groupMemberRepository = groupMemberRepository;
@@ -33,6 +36,7 @@ public class GroupMemberService {
      */
     @Transactional
     public GroupMemberEntity addGroupMember(int groupID, GroupMemberDTO groupMemberDTO) throws GroupNotFoundException, MemberAlreadyInGroupException {
+        logger.info("Adding member with ID: {} to group with ID: {}", groupMemberDTO.getUserID(), groupID);
         GroupEntity groupEntity = groupRepository.findById(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
         if (groupMemberRepository.findByUserIDAndGroupGroupID(groupMemberDTO.getUserID(), groupID).isPresent()) {
@@ -57,12 +61,10 @@ public class GroupMemberService {
      */
     @Transactional
     public void removeGroupMember(Integer groupID, String userID) throws  MemberNotFoundException {
+        logger.info("Removing member with ID: {} from group with ID: {}", userID, groupID);
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
         GroupPubSub.publishGroupMember(groupMemberEntity, "DELETE");
-
-
-
         groupMemberRepository.delete(groupMemberEntity);
     }
     /**
@@ -74,9 +76,9 @@ public class GroupMemberService {
      *
      */
     public List<GroupMemberEntity> getGroupMembers(Integer groupID) throws GroupNotFoundException {
+        logger.info("Getting all members of group with ID: {}", groupID);
         GroupEntity groupEntity = groupRepository.findById(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
-
         return groupMemberRepository.findAllByGroupGroupID(groupID);
     }
 
@@ -89,6 +91,7 @@ public class GroupMemberService {
      * @throws MemberNotFoundException if the member does not exist
      */
     public GroupMemberEntity getGroupMember(Integer groupID, String userID) throws MemberNotFoundException {
+        logger.info("Getting member with ID: {} from group with ID: {}", userID, groupID);
         return groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
     }
@@ -104,7 +107,7 @@ public class GroupMemberService {
      */
     @Transactional
     public GroupMemberEntity updateGroupMember(Integer groupID, String userID, GroupMemberDTO groupMemberDTO) throws MemberNotFoundException, GroupNotFoundException {
-
+        logger.info("Updating member with ID: {} in group with ID: {}", userID, groupID);
         GroupEntity group = groupRepository.findById(groupID)
                 .orElseThrow(() -> new GroupNotFoundException("Group does not exist with ID: " + groupID));
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
@@ -115,7 +118,6 @@ public class GroupMemberService {
         groupMemberEntity.setUserID(groupMemberDTO.getUserID());
         groupMemberEntity.setGroup(group);
         group.setMemberCount(group.getGroupMembers().size());
-
         groupRepository.save(group);
         return groupMemberRepository.save(groupMemberEntity);
 
@@ -129,9 +131,9 @@ public class GroupMemberService {
      */
     @Transactional
     public void deleteGroupMember(Integer groupID, String userID) throws MemberNotFoundException {
+        logger.info("Deleting member with ID: {} from group with ID: {}", userID, groupID);
         GroupMemberEntity groupMemberEntity = groupMemberRepository.findByUserIDAndGroupGroupID(userID, groupID)
                 .orElseThrow(() -> new MemberNotFoundException("Member does not exist with ID: " + userID + " in group: " + groupID));
-
         groupMemberRepository.delete(groupMemberEntity);
     }
 
@@ -142,6 +144,7 @@ public class GroupMemberService {
      */
     @Transactional
     public void updateGroupMembers(GroupEntity groupEntity, List<GroupMemberDTO> groupMembers) {
+        logger.info("Updating members of group with ID: {}", groupEntity.getGroupID());
         Map<String, GroupMemberEntity> existingMembersById = groupEntity.getGroupMembers().stream()
                 .filter(member -> member.getUserID() != null)
                 .collect(Collectors.toMap(GroupMemberEntity::getUserID, member -> member));
@@ -177,8 +180,6 @@ public class GroupMemberService {
         entity.setRole(dto.getRole());
         entity.setUserID(dto.getUserID());
         entity.setUserName(dto.getUserName());
-
-
     }
 
     /**
@@ -188,6 +189,7 @@ public class GroupMemberService {
      */
     @Transactional
     public List<GroupMemberEntity> getGroupsByUserID(String userID) {
+        logger.info("Getting all groups by user with ID: {}", userID);
         return groupMemberRepository.findAllGroupByUserID(userID);
     }
 }
